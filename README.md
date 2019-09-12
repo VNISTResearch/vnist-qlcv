@@ -17,6 +17,9 @@ npm install
 npm start
 
 ```
+# Tải template AdminLTE
+git clone https://github.com/ColorlibHQ/AdminLTE.git
+Thêm các thư mục: bower_components, dist, plugins vào thư mục public
 
 ### Author
 
