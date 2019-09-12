@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
-import EditorContent from './EditorContent/EditorContent';
 import MainHeader from '../MainHeader/MainHeader';
 import MainSideBar from '../MainSideBar/MainSideBar';
 import MainFooter from '../MainFooter/MainFooter';
+import Home from '../Home/Home';
 
-class Editor extends Component {
+class MainPage extends Component {
     render() {
         return (
             <div className="hold-transition skin-blue sidebar-mini">
                 <div className="wrapper">
                     <MainHeader />
                     <MainSideBar />
-                    <EditorContent />
+                    <Home/>
                     <MainFooter />
                 </div>
             </div>
@@ -19,4 +19,4 @@ class Editor extends Component {
     }
 }
 
-export default Editor;
+export default MainPage;
