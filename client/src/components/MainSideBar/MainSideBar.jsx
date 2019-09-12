@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 class MainSideBar extends Component {
     render() {
@@ -32,71 +33,28 @@ class MainSideBar extends Component {
                         <ul className="sidebar-menu" data-widget="tree">
                             <li className="header">MAIN NAVIGATION</li>
                             <li className="active treeview">
-                                <a href="#abc">
-                                    <i className="fa fa-dashboard" /> <span>Dashboard</span>
+                                <Link to="/">
+                                    <i className="fa fa-dashboard" /> <span>Home</span>
                                     <span className="pull-right-container">
                                         <i className="fa fa-angle-left pull-right" />
                                     </span>
-                                </a>
-                                <ul className="treeview-menu">
-                                    <li className="active"><a href="index.html"><i className="fa fa-circle-o" /> Dashboard v1</a></li>
-                                    <li><a href="index2.html"><i className="fa fa-circle-o" /> Dashboard v2</a></li>
-                                </ul>
-                            </li>
-                            <li className="treeview">
-                                <a href="#abc">
-                                    <i className="fa fa-files-o" />
-                                    <span>Layout Options</span>
-                                    <span className="pull-right-container">
-                                        <span className="label label-primary pull-right">4</span>
-                                    </span>
-                                </a>
-                                <ul className="treeview-menu">
-                                    <li><a href="pages/layout/top-nav.html"><i className="fa fa-circle-o" /> Top Navigation</a></li>
-                                    <li><a href="pages/layout/boxed.html"><i className="fa fa-circle-o" /> Boxed</a></li>
-                                    <li><a href="pages/layout/fixed.html"><i className="fa fa-circle-o" /> Fixed</a></li>
-                                    <li><a href="pages/layout/collapsed-sidebar.html"><i className="fa fa-circle-o" /> Collapsed Sidebar</a></li>
-                                </ul>
+                                </Link>
                             </li>
                             <li>
-                                <a href="pages/widgets.html">
-                                    <i className="fa fa-th" /> <span>Widgets</span>
-                                    <span className="pull-right-container">
-                                        <small className="label pull-right bg-green">new</small>
-                                    </span>
-                                </a>
-                            </li>
-                            <li className="treeview">
-                                <a href="#abc">
-                                    <i className="fa fa-pie-chart" />
-                                    <span>Charts</span>
+                                <Link to="/cocautochuc">
+                                    <i className="fa fa-th" /> <span>Cơ cấu tổ chức</span>
                                     <span className="pull-right-container">
                                         <i className="fa fa-angle-left pull-right" />
                                     </span>
-                                </a>
-                                <ul className="treeview-menu">
-                                    <li><a href="pages/charts/chartjs.html"><i className="fa fa-circle-o" /> ChartJS</a></li>
-                                    <li><a href="pages/charts/morris.html"><i className="fa fa-circle-o" /> Morris</a></li>
-                                    <li><a href="pages/charts/flot.html"><i className="fa fa-circle-o" /> Flot</a></li>
-                                    <li><a href="pages/charts/inline.html"><i className="fa fa-circle-o" /> Inline charts</a></li>
-                                </ul>
+                                </Link>
                             </li>
-                            <li className="treeview">
-                                <a href="#abc">
-                                    <i className="fa fa-laptop" />
-                                    <span>UI Elements</span>
+                            <li>
+                                <Link to="/editor">
+                                    <i className="fa fa-th" /> <span>Editor</span>
                                     <span className="pull-right-container">
                                         <i className="fa fa-angle-left pull-right" />
                                     </span>
-                                </a>
-                                <ul className="treeview-menu">
-                                    <li><a href="pages/UI/general.html"><i className="fa fa-circle-o" /> General</a></li>
-                                    <li><a href="pages/UI/icons.html"><i className="fa fa-circle-o" /> Icons</a></li>
-                                    <li><a href="pages/UI/buttons.html"><i className="fa fa-circle-o" /> Buttons</a></li>
-                                    <li><a href="pages/UI/sliders.html"><i className="fa fa-circle-o" /> Sliders</a></li>
-                                    <li><a href="pages/UI/timeline.html"><i className="fa fa-circle-o" /> Timeline</a></li>
-                                    <li><a href="pages/UI/modals.html"><i className="fa fa-circle-o" /> Modals</a></li>
-                                </ul>
+                                </Link>
                             </li>
                             <li className="treeview">
                                 <a href="#abc">
