@@ -14,7 +14,7 @@ class MainSideBar extends Component {
                                 <img src="dist/img/user2-160x160.jpg" className="img-circle" alt="User avatar"/>
                             </div>
                             <div className="pull-left info">
-                                <p>Alexander Pierce</p>
+                                <p>Huy BV</p>
                                 <a href="#abc"><i className="fa fa-circle text-success" /> Online</a>
                             </div>
                         </div>

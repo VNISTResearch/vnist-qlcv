@@ -7,7 +7,7 @@ import Home from '../Home/Home';
 class MainPage extends Component {
     render() {
         return (
-            <div className="hold-transition skin-blue sidebar-mini">
+            <div>
                 <div className="wrapper">
                     <MainHeader />
                     <MainSideBar />

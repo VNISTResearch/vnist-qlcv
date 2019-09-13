@@ -29,7 +29,7 @@
     <link rel="stylesheet" href="%PUBLIC_URL%/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
     <title>Quản lý công việc</title>
   </head>
-  <body >
+  <body class="hold-transition skin-blue sidebar-mini">
     <div id="root"></div>
     <!--
       This HTML file is a template.
@@ -41,11 +41,26 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <!-- jQuery 3 -->
+    <script src="%PUBLIC_URL%/bower_components/jquery/dist/jquery.min.js"></script>
     <!-- jQuery UI 1.11.4 -->
     <script type="text/babel" src="%PUBLIC_URL%/bower_components/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="%PUBLIC_URL%/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     <script>
       $.widget.bridge('uibutton', $.ui.button);
+    </script>
+    <!-- iCheck -->
+    <script src="%PUBLIC_URL%/plugins/iCheck/icheck.min.js"></script>
+    <script>
+      $(function () {
+        $('input').iCheck({
+          checkboxClass: 'icheckbox_square-blue',
+          radioClass: 'iradio_square-blue',
+          increaseArea: '20%' /* optional */
+        });
+      });
     </script>
     <!-- Morris.js charts -->
     <script src="%PUBLIC_URL%/bower_components/raphael/raphael.min.js"></script>
@@ -74,20 +89,5 @@
     <script src="%PUBLIC_URL%/dist/js/pages/dashboard.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="%PUBLIC_URL%/dist/js/demo.js"></script>
-    <!-- jQuery 3 -->
-    <script src="%PUBLIC_URL%/bower_components/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap 3.3.7 -->
-    <script src="%PUBLIC_URL%/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- iCheck -->
-    <script src="%PUBLIC_URL%/plugins/iCheck/icheck.min.js"></script>
-    <script>
-      $(function () {
-        $('input').iCheck({
-          checkboxClass: 'icheckbox_square-blue',
-          radioClass: 'iradio_square-blue',
-          increaseArea: '20%' /* optional */
-        });
-      });
-    </script>
   </body>
 </html>

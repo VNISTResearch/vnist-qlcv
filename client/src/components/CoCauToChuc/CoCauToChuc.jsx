@@ -7,7 +7,7 @@ import MainFooter from '../MainFooter/MainFooter';
 class CoCauToChuc extends Component {
     render() {
         return (
-            <div className="hold-transition skin-blue sidebar-mini">
+            <div>
                 <div className="wrapper">
                     <MainHeader />
                     <MainSideBar />
