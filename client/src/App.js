@@ -14,5 +14,9 @@ class App extends Component {
     );
   }
 }
-
-export default App;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    dulieu: state.email
+  }
+}
+export default connect(mapStateToProps)(App);

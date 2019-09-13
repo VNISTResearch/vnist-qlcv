@@ -1,6 +1,36 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 class Login extends Component {
+    constructor(props){
+        super(props);
+        this.handleSubmit = this.handleSubmit.bind(this);
+       }
+       async handleSubmit(event){
+        event.preventDefault();
+        await fetch('/api/users/login', {
+           method: 'post',
+           headers: {'Content-Type':'application/json'},
+           body: JSON.stringify({
+                'email': this.email.value,
+                'password': this.password.value
+           })
+        }).then(res => {
+            if (res.status === 200) {
+              this.props.history.push('/');
+            } else {
+              const error = new Error(res.error);
+              throw error;
+            }
+          })
+        .catch(function(res){ console.log(res) });
+
+      };
+      
+    useLoginStatusInStore = () => {
+        var { dispatch } = this.props;
+        dispatch({type:"UPDATE_ACCOUNT"})
+    }
     render() {
         return (
             <div className="hold-transition login-page" style={{ minHeight: '100vh' }}>
@@ -11,13 +41,13 @@ class Login extends Component {
                     {/* /.login-logo */}
                     <div className="login-box-body">
                         <p className="login-box-msg">Sign in to start your session</p>
-                        <form action="/index2.html" method="post">
+                        <form action="/api/users/login" method="post" onSubmit={this.handleSubmit}>
                             <div className="form-group has-feedback">
-                                <input type="email" className="form-control" placeholder="Email" />
+                                <input ref={(ref) => {this.email = ref}} name="email" type="email" className="form-control" placeholder="Email" />
                                 <span className="glyphicon glyphicon-envelope form-control-feedback" />
                             </div>
                             <div className="form-group has-feedback">
-                                <input type="password" className="form-control" placeholder="Password" />
+                                <input ref={(ref) => {this.password = ref}} name="password" type="password" className="form-control" placeholder="Password" />
                                 <span className="glyphicon glyphicon-lock form-control-feedback" />
                             </div>
                             <div className="row">
@@ -30,7 +60,7 @@ class Login extends Component {
                                 </div>
                                 {/* /.col */}
                                 <div className="col-xs-4">
-                                    <button type="submit" className="btn btn-primary btn-block btn-flat">Sign In</button>
+                                    <button onClick={() => this.useLoginStatusInStore()} type="submit" className="btn btn-primary btn-block btn-flat">Sign In</button>
                                 </div>
                                 {/* /.col */}
                             </div>
@@ -47,4 +77,9 @@ class Login extends Component {
     }
 }
 
-export default Login;
+const mapStateToProps = (state, ownProps) => {
+    return {
+        statusLogin: state.statusLogin
+    }
+}
+export default connect(mapStateToProps)(Login);
