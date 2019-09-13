@@ -202,14 +202,14 @@ class MainHeaderMenu extends Component {
                     <li className="dropdown user user-menu">
                         <a href="#abc" className="dropdown-toggle" data-toggle="dropdown">
                             <img src="dist/img/user2-160x160.jpg" className="user-image" alt="User Avatar" />
-                            <span className="hidden-xs">Alexander Pierce</span>
+                            <span className="hidden-xs">Huy BV </span>
                         </a>
                         <ul className="dropdown-menu">
                             {/* User image */}
                             <li className="user-header">
                                 <img src="dist/img/user2-160x160.jpg" className="img-circle" alt="User Avatar" />
                                 <p>
-                                    Alexander Pierce - Web Developer
+                                    HuyBV - Web Developer
           <small>Member since Nov. 2012</small>
                                 </p>
                             </li>

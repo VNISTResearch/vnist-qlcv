@@ -5,12 +5,14 @@ import CoCauToChuc from '../components/CoCauToChuc/CoCauToChuc';
 import Editor from '../components/Editor/Editor';
 import Login from '../components/Login/Login';
 import MainPage from '../components/MainPage/MainPage';
+import Register from '../components/Register/Register';
 
 class Routes extends Component {
     render() {
         return (
             <div>
                 <Route exact path="/login" component={Login} />
+                <Route exact path="/register" component={Register} />
                 <Route exact path="/" component={MainPage} />
                 <Route path="/cocautochuc" component={CoCauToChuc} />
                 <Route path="/editor" component={Editor} />
