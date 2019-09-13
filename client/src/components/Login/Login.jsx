@@ -37,7 +37,7 @@ class Login extends Component {
                         </form>
                         {/* /.social-auth-links */}
                         <a href="forfetpass.html">I forgot my password</a><br />
-                        <a href="register.html" className="text-center">Register a new membership</a>
+                        <a href="/register" className="text-center">Register a new membership</a>
                     </div>
                     {/* /.login-box-body */}
                 </div>
