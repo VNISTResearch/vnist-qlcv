@@ -39,3 +39,12 @@ app.use("/api/users", users);
 const port = process.env.PORT || 5000;
 
 app.listen(port, () => console.log(`Server up and running on port ${port} !`));
+
+// const Permission = require('./models/Permission');
+// Permission.find()
+//     .populate('id_group')
+//     .populate('id_role')
+//     .populate('id_permission')
+//     .exec(function(err, doc){
+//       console.log(doc);
+//     });
