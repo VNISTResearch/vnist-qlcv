@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from "react-router-dom";
-import { CoCauToChucPage, RegisterPage, EditorPage, LoginPage } from '../components/Page/CombineComponentPages';
-// import MainPage from '../components/MainPage/MainPage';
-
+import { Router as Router, Route } from "react-router-dom";
+import { PrivateRoute} from './ComebineRoutes';
+import { CoCauToChucPage, RegisterPage, EditorPage, LoginPage, DashBoardPage } from '../components/Page/CombineComponentPages';
 
 class Routes extends Component {
     render() {
         return (
             <div>
+                <PrivateRoute exact path="/" component={DashBoardPage} />
                 <Route exact path="/login" component={LoginPage} />
                 <Route exact path="/register" component={RegisterPage} />
-                <Route path="/cocautochuc" component={CoCauToChucPage} />
-                <Route path="/editor" component={EditorPage} />
+                <PrivateRoute path="/cocautochuc" component={CoCauToChucPage} />
+                <PrivateRoute path="/editor" component={EditorPage} />
             </div>
         );
     }

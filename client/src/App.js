@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Router as Router, Route } from "react-router-dom";
 import { connect } from 'react-redux';
 import { history } from '../src/helpers/History';
 import { alertActions } from './redux-actions/AlertActions';
-import { PrivateRoute, Routes } from './react-routes/ComebineRoutes';
-import {DashBoardPage} from './components/Page/CombineComponentPages';
+import { Routes } from './react-routes/ComebineRoutes';
 class App extends Component {
   constructor(props) {
     super(props);
@@ -17,15 +16,12 @@ class App extends Component {
 render() {
   const { alert } = this.props;
   return (
-    <div>
+    <Router history={history}>
       {alert.message &&
         <div className={`alert ${alert.type}`}>{alert.message}</div>
       }
-      <Router history={history}>
-        <PrivateRoute exact path="/" component={DashBoardPage} />
-        <Routes />
-      </Router>
-    </div>
+      <Routes/>
+    </Router>
   );
 }
 }

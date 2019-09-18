@@ -1,7 +1,7 @@
 // import config from 'config';
 import { authHeader } from '../helpers/AuthHeader';
 
-export const userContainer = {
+export const userService = {
     login,
     logout,
     register,

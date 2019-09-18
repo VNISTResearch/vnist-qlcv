@@ -1,7 +1,7 @@
 import { history } from "../helpers/History";
 import { userConstants } from "../redux-constants/UserConstants";
 import { alertActions } from "./AlertActions";
-import { userContainer } from "../service/UserContainer";
+import { userService } from "../service/UserService";
 export const userActions = {
     login,
     logout,
@@ -14,7 +14,7 @@ function login(email, password) {
     return dispatch => {
         dispatch(request({ email }));
 
-        userContainer.login(email, password)
+        userService.login(email, password)
             .then(
                 user => { 
                     dispatch(success(user));
@@ -33,7 +33,7 @@ function login(email, password) {
 }
 
 function logout() {
-    userContainer.logout();
+    userService.logout();
     return { type: userConstants.LOGOUT };
 }
 
@@ -41,7 +41,7 @@ function register(user) {
     return dispatch => {
         dispatch(request(user));
 
-        userContainer.register(user)
+        userService.register(user)
             .then(
                 user => { 
                     dispatch(success());
@@ -64,7 +64,7 @@ function getAll() {
     return dispatch => {
         dispatch(request());
 
-        userContainer.getAll()
+        userService.getAll()
             .then(
                 users => dispatch(success(users)),
                 error => dispatch(failure(error.toString()))
@@ -81,7 +81,7 @@ function _delete(id) {
     return dispatch => {
         dispatch(request(id));
 
-        userContainer.delete(id)
+        userService.delete(id)
             .then(
                 user => dispatch(success(id)),
                 error => dispatch(failure(id, error.toString()))
