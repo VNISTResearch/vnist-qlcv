@@ -8,6 +8,12 @@ const User = require("../../models/User");
 
 module.exports = function (req, res) {
     // Form validation
+    const Group = require('../../models/Group');
+    var user_group = Group.find().exec(function(err, groups){
+        return JSON.stringify(groups);
+    });
+
+    //console.log(result);
     const { errors, isValid } = validateLoginInput(req.body);
 
     // Check validation
@@ -19,7 +25,11 @@ module.exports = function (req, res) {
     const password = req.body.password;
 
     // Find user by email
-    User.findOne({ email }).then(user => {
+    User.findOne({ email })
+        .populate('id_group')
+        .populate('id_role')
+        .populate('id_permission')
+        .then(user => {
         // Check if user exists
         if (!user) {
         return res.status(404).json({ emailnotfound: "Email not found" });
@@ -45,7 +55,8 @@ module.exports = function (req, res) {
                     (err, token) => {
                         res.json({
                         success: true,
-                        token: "VNIST " + token
+                        token: "VNIST " + token,
+                        info: user
                         });
                     }
                 );
