@@ -20,7 +20,7 @@ class MainHeaderMenu extends Component {
                                     <li>{/* start message */}
                                         <a href="#abc">
                                             <div className="pull-left">
-                                                <img src="dist/img/user2-160x160.jpg" className="img-circle" alt="User" />
+                                                <img src="adminLTE/dist/img/user2-160x160.jpg" className="img-circle" alt="User" />
                                             </div>
                                             <h4>
                                                 Support Team
@@ -33,7 +33,7 @@ class MainHeaderMenu extends Component {
                                     <li>
                                         <a href="#abc">
                                             <div className="pull-left">
-                                                <img src="dist/img/user3-128x128.jpg" className="img-circle" alt="User Avatar" />
+                                                <img src="adminLTE/dist/img/user3-128x128.jpg" className="img-circle" alt="User Avatar" />
                                             </div>
                                             <h4>
                                                 AdminLTE Design Team
@@ -45,7 +45,7 @@ class MainHeaderMenu extends Component {
                                     <li>
                                         <a href="#abc">
                                             <div className="pull-left">
-                                                <img src="dist/img/user4-128x128.jpg" className="img-circle" alt="User Avatar" />
+                                                <img src="adminLTE/dist/img/user4-128x128.jpg" className="img-circle" alt="User Avatar" />
                                             </div>
                                             <h4>
                                                 Developers
@@ -57,7 +57,7 @@ class MainHeaderMenu extends Component {
                                     <li>
                                         <a href="#abc">
                                             <div className="pull-left">
-                                                <img src="dist/img/user3-128x128.jpg" className="img-circle" alt="User Avatar" />
+                                                <img src="adminLTE/dist/img/user3-128x128.jpg" className="img-circle" alt="User Avatar" />
                                             </div>
                                             <h4>
                                                 Sales Department
@@ -69,7 +69,7 @@ class MainHeaderMenu extends Component {
                                     <li>
                                         <a href="#abc">
                                             <div className="pull-left">
-                                                <img src="dist/img/user4-128x128.jpg" className="img-circle" alt="User Avatar" />
+                                                <img src="adminLTE/dist/img/user4-128x128.jpg" className="img-circle" alt="User Avatar" />
                                             </div>
                                             <h4>
                                                 Reviewers
@@ -202,13 +202,13 @@ class MainHeaderMenu extends Component {
                     {/* User Account: style can be found in dropdown.less */}
                     <li className="dropdown user user-menu">
                         <a href="#abc" className="dropdown-toggle" data-toggle="dropdown">
-                            <img src="dist/img/user2-160x160.jpg" className="user-image" alt="User Avatar" />
+                            <img src="adminLTE/dist/img/user2-160x160.jpg" className="user-image" alt="User Avatar" />
                             <span className="hidden-xs">Huy BV </span>
                         </a>
                         <ul className="dropdown-menu">
                             {/* User image */}
                             <li className="user-header">
-                                <img src="dist/img/user2-160x160.jpg" className="img-circle" alt="User Avatar" />
+                                <img src="adminLTE/dist/img/user2-160x160.jpg" className="img-circle" alt="User Avatar" />
                                 <p>
                                     HuyBV - Web Developer
           <small>Member since Nov. 2012</small>

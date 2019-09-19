@@ -35,7 +35,7 @@ class DashBoardContentLeft extends Component {
                     <div className="box-body chat" id="chat-box">
                         {/* chat item */}
                         <div className="item">
-                            <img src="dist/img/user4-128x128.jpg" alt="user Avatar" className="online" />
+                            <img src="adminLTE/dist/img/user4-128x128.jpg" alt="user Avatar" className="online" />
                             <p className="message">
                                 <a href="#abc" className="name">
                                     <small className="text-muted pull-right"><i className="fa fa-clock-o" /> 2:15</small>
@@ -59,7 +59,7 @@ class DashBoardContentLeft extends Component {
                         {/* /.item */}
                         {/* chat item */}
                         <div className="item">
-                            <img src="dist/img/user3-128x128.jpg" alt="user Avatar" className="offline" />
+                            <img src="adminLTE/dist/img/user3-128x128.jpg" alt="user Avatar" className="offline" />
                             <p className="message">
                                 <a href="#abc" className="name">
                                     <small className="text-muted pull-right"><i className="fa fa-clock-o" /> 5:15</small>
@@ -73,7 +73,7 @@ class DashBoardContentLeft extends Component {
                         {/* /.item */}
                         {/* chat item */}
                         <div className="item">
-                            <img src="dist/img/user2-160x160.jpg" alt="user Avatar" className="offline" />
+                            <img src="adminLTE/dist/img/user2-160x160.jpg" alt="user Avatar" className="offline" />
                             <p className="message">
                                 <a href="#abc" className="name">
                                     <small className="text-muted pull-right"><i className="fa fa-clock-o" /> 5:30</small>
@@ -114,7 +114,7 @@ class DashBoardContentLeft extends Component {
                     </div>
                     {/* /.box-header */}
                     <div className="box-body">
-                        {/* See dist/js/pages/dashboard.js to activate the todoList plugin */}
+                        {/* See adminLTE/dist/js/pages/dashboard.js to activate the todoList plugin */}
                         <ul className="todo-list">
                             <li>
                                 {/* drag handle */}

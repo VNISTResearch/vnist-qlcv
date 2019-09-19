@@ -1,4 +1,4 @@
-git const validateLoginInput = require("../../validation/login");
+const validateLoginInput = require("../../validation/login");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
