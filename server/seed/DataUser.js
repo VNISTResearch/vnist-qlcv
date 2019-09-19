@@ -1,6 +1,19 @@
 const User = require('../models/User');
 const Group = require('../models/Group');
 const bcrypt = require("bcryptjs");
+const mongoose = require("mongoose");
+
+// DB Config
+const db = require("../config/keys").mongoURI;
+
+// Connect to MongoDB
+mongoose
+  .connect(
+    db,
+    { useNewUrlParser: true }
+  )
+  .then(() => console.log("MongoDB successfully connected"))
+  .catch(err => console.log(err));
 
 // Seed data for user
 var pw = 'vnist123';
@@ -13,16 +26,16 @@ bcrypt.genSalt(10, (err, salt) => {
         if(!err){
             var users = [
                 {
-                    name: 'admin_vnist',
-                    email: 'admin@vnist.com',
+                    name: 'adminVnist',
+                    email: 'adminV@vnist.com',
                     password: hash,
-                    id_group: groups[0]._id
+                    id_group: groups[1]._id //group 1_2
                 },
                 {
-                    name: 'huybv',
-                    email: 'huybv@vnist.com',
+                    name: 'huybv97',
+                    email: 'huybv97@vnist.com',
                     password: hash,
-                    id_group: groups[1]._id
+                    id_group: groups[5]._id //group 2-3
                 },
                 {
                     name: 'huyadmin',

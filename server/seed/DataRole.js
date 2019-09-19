@@ -1,5 +1,19 @@
 const Role = require('../models/Role');
 const Permission = require('../models/Permission');
+const mongoose = require("mongoose");
+
+// DB Config
+const db = require("../config/keys").mongoURI;
+
+// Connect to MongoDB
+mongoose
+  .connect(
+    db,
+    { useNewUrlParser: true }
+  )
+  .then(() => console.log("MongoDB successfully connected"))
+  .catch(err => console.log(err));
+
 
 //2. Seed data role -----------------------------//
 Permission.find().exec((err, per) => {
