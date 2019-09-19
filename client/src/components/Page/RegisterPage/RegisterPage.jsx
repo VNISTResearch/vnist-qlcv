@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { userActions } from '../../../redux-actions/CombineActions';
 
 class RegisterPage extends Component {
     constructor(props) {
@@ -73,6 +75,9 @@ class RegisterPage extends Component {
                             <div className="form-group has-feedback">
                                 <input type="password" className="form-control" placeholder="Retype password" name="rePassword"/>
                                 <span className="glyphicon glyphicon-log-in form-control-feedback" />
+                                {submitted && document.form['form']['rePassword'] !== user.password &&
+                                <div className="help-block">RePassword is not </div>
+                                }
                             </div>
                             <div className="row">
                                 <div className="col-xs-8">
@@ -85,6 +90,9 @@ class RegisterPage extends Component {
                                 {/* /.col */}
                                 <div className="col-xs-4">
                                     <button type="submit" className="btn btn-primary btn-block btn-flat">Register</button>
+                                    {registering && 
+                                    <img alt="" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                                    }
                                 </div>
                                 {/* /.col */}
                             </div>
@@ -98,4 +106,14 @@ class RegisterPage extends Component {
     }
 }
 
-export {RegisterPage};
+function mapState(state) {
+    const { registering } = state.registration;
+    return { registering };
+}
+
+const actionCreators = {
+    register: userActions.register
+}
+
+const connectedRegisterPage = connect(mapState, actionCreators)(RegisterPage);
+export { connectedRegisterPage as RegisterPage };
