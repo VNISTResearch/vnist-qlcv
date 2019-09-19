@@ -1,4 +1,4 @@
-const validateLoginInput = require("../../validation/login");
+git const validateLoginInput = require("../../validation/login");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
@@ -52,37 +52,6 @@ module.exports = function (req, res) {
                                         name: user.name
                                     };
 
-<<<<<<< HEAD
-        // Check password
-        bcrypt.compare(password, user.password).then(isMatch => {
-            if (isMatch) {
-                // User matched
-                // Create JWT Payload
-                const payload = {
-                    id: user.id,
-                    name: user.name
-                };
-
-                // Sign token
-                jwt.sign(
-                    payload,
-                    keys.secretOrKey,
-                    {
-                        expiresIn: 31556926 // 1 year in seconds
-                    },
-                    (err, token) => {
-                        res.json({
-                        success: true,
-                        token: "VNIST " + token,
-                        info: user
-                        });
-                    }
-                );
-            } else {
-                return res
-                    .status(400)
-                    .json({ passwordincorrect: "Password incorrect" });
-=======
                                     // Sign token
                                     jwt.sign(
                                         payload,
@@ -113,7 +82,6 @@ module.exports = function (req, res) {
                             });
                         }
                     })
->>>>>>> 0aada5b269be6c994b21bbdff40541355560dabc
             }
         })
     });
