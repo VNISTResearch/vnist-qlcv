@@ -11,7 +11,7 @@ class MainSideBar extends Component {
                         {/* Sidebar user panel */}
                         <div className="user-panel">
                             <div className="pull-left image">
-                                <img src="dist/img/user2-160x160.jpg" className="img-circle" alt="User avatar"/>
+                                <img src="adminLTE/dist/img/user2-160x160.jpg" className="img-circle" alt="User avatar"/>
                             </div>
                             <div className="pull-left info">
                                 <p>Huy BV</p>
