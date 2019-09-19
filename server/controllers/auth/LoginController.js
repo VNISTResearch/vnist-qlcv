@@ -2,6 +2,9 @@ const validateLoginInput = require("../../validation/login");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
+const Group = require('../../models/Group');
+const Role = require('../../models/Role');
+const Permission = require('../../models/Permission');
 
 // Load User model
 const User = require("../../models/User");
@@ -19,13 +22,14 @@ module.exports = function (req, res) {
     const password = req.body.password;
 
     // Find user by email
-    User.findOne({ email }).then(user => {
+    User.findOne({ email })
+        // .populate('id_group')
+        .populate([{ path: 'id_group', populate: { path: 'id_role', populate: {path: 'id_permission'} }}])
+        .then(user => {
         // Check if user exists
         if (!user) {
         return res.status(404).json({ emailnotfound: "Email not found" });
         }
-
-        // Check password
         bcrypt.compare(password, user.password).then(isMatch => {
             if (isMatch) {
                 // User matched
@@ -44,9 +48,10 @@ module.exports = function (req, res) {
                     },
                     (err, token) => {
                         res.json({
-                        success: true,
-                        token: "VNIST " + token
-                        });
+                                success: true,
+                                token: "VNIST " + token,
+                                user: user
+                            })
                     }
                 );
             } else {
@@ -54,7 +59,22 @@ module.exports = function (req, res) {
                     .status(400)
                     .json({ passwordincorrect: "Password incorrect" });
             }
-        });
+        })
+
+        // Group.findById(user.id_group)
+        // .populate('id_role')
+        // .exec((err, group) => {
+        //     if(!err){
+        //         Role.findById(group.id_role)
+        //             .populate('id_permission', )
+        //             .exec((err, role) => {
+        //                 if(!err){
+        //                     // Check password
+        //                     );
+        //                 }
+        //             })
+        //     }
+        // })
     });
 };
 
