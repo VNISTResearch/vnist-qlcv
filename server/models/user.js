@@ -20,11 +20,11 @@ const UserSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  id_group: {
+  id_group: [{
     type: Schema.Types.ObjectId,
     ref: Group,
     required: true
-  }
+  }]
 });
 
 module.exports = User = mongoose.model("users", UserSchema);

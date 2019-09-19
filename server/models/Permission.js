@@ -1,18 +1,18 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Role = require('./Role');
 
 // Create Schema
 const PermissionSchema = new Schema({
 
-    hasPermission: [
-        {
-            admin: Boolean,
-        },
-        {
-            user: Boolean,
-        }
-    ]
+    link: {
+        access: Boolean
+    },
+    component: {
+        see: Boolean,
+        open: Boolean,
+        edit: Boolean,
+        delete: Boolean
+    }
 });
 
 module.exports = Permission = mongoose.model("permissions", PermissionSchema);
