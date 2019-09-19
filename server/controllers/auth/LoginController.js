@@ -1,4 +1,4 @@
-const validateLoginInput = require("../../validation/login");
+git const validateLoginInput = require("../../validation/login");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const keys = require("../../config/keys");
@@ -11,6 +11,12 @@ const User = require("../../models/User");
 
 module.exports = function (req, res) {
     // Form validation
+    const Group = require('../../models/Group');
+    var user_group = Group.find().exec(function(err, groups){
+        return JSON.stringify(groups);
+    });
+
+    //console.log(result);
     const { errors, isValid } = validateLoginInput(req.body);
 
     // Check validation
