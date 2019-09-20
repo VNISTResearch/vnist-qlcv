@@ -10,7 +10,7 @@ class Routes extends Component {
                 <PrivateRoute exact path="/" component={DashBoardPage} />
                 <Route exact path="/login" component={LoginPage} />
                 <Route exact path="/register" component={RegisterPage} />
-                <PrivateRoute path="/cocautochuc" component={CoCauToChucPage} />
+                <PrivateRoute path="/cocautochuc" roles="Group1_2" component={CoCauToChucPage} />
                 <PrivateRoute path="/editor" component={EditorPage} />
             </div>
         );

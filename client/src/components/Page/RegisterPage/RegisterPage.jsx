@@ -8,9 +8,11 @@ class RegisterPage extends Component {
 
         this.state = {
             user: {
-                fullName: '',
+                name: '',
                 email: '',
-                password: ''
+                password: '',
+                password2: '',
+                id_group: []
             },
             submitted: false
         };
@@ -35,7 +37,7 @@ class RegisterPage extends Component {
 
         this.setState({ submitted: true });
         const { user } = this.state;
-        if (user.fullName && user.email && user.password) {
+        if (user.name && user.email && user.password && user.password2) {
             this.props.register(user);
         }
     }
@@ -51,32 +53,28 @@ class RegisterPage extends Component {
                     <div className="register-box-body">
                         <p className="login-box-msg">Register a new membership</p>
                         <form name="form" onSubmit={this.handleSubmit}>
-                            <div className={'form-group has-feedback' + (submitted && !user.fullName ? ' has-error' : '')}>
-                                <input type="text" className="form-control" placeholder="Full name" name="fullName" value={user.fullName} onChange={this.handleChange}/>
-                                <span className="glyphicon glyphicon-user form-control-feedback" />
-                                {submitted && !user.fullName &&
+                            <div className={'form-group has-feedback' + (submitted && !user.name ? ' has-error' : '')}>
+                                <input type="text" className="form-control" placeholder="Full name" name="name" value={user.name} onChange={this.handleChange}/>
+                                {submitted && !user.name &&
                                 <div className="help-block">Full Name is required</div>
                                 }
                             </div>
                             <div className={'form-group has-feedback' + (submitted && !user.email ? ' has-error' : '')}>
                                 <input type="email" className="form-control" placeholder="Email" name="email" value={user.email} onChange={this.handleChange} />
-                                <span className="glyphicon glyphicon-envelope form-control-feedback" />
                                 {submitted && !user.email &&
                                 <div className="help-block">Email is required</div>
                                 }
                             </div>
                             <div className={'form-group has-feedback' + (submitted && !user.password ? ' has-error' : '')}>
                                 <input type="password" className="form-control" placeholder="Password" name="password" value={user.password} onChange={this.handleChange}/>
-                                <span className="glyphicon glyphicon-lock form-control-feedback" />
                                 {submitted && !user.password &&
                                 <div className="help-block">Password is required</div>
                                 }
                             </div>
-                            <div className="form-group has-feedback">
-                                <input type="password" className="form-control" placeholder="Retype password" name="rePassword"/>
-                                <span className="glyphicon glyphicon-log-in form-control-feedback" />
-                                {submitted && document.form['form']['rePassword'] !== user.password &&
-                                <div className="help-block">RePassword is not </div>
+                            <div className={'form-group has-feedback' + (submitted && user.password !== user.password2 ? ' has-error' : '')}>
+                                <input type="password" className="form-control" placeholder="Retype password" name="password2" value={user.password2} onChange={this.handleChange}/>
+                                {submitted && user.password !== user.password2 &&
+                                <div className="help-block">Confirm password is not matching</div>
                                 }
                             </div>
                             <div className="row">
@@ -89,10 +87,11 @@ class RegisterPage extends Component {
                                 </div>
                                 {/* /.col */}
                                 <div className="col-xs-4">
-                                    <button type="submit" className="btn btn-primary btn-block btn-flat">Register</button>
+                                    <button type="submit" className="btn btn-primary btn-block btn-flat">Register
                                     {registering && 
                                     <img alt="" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
                                     }
+                                    </button>
                                 </div>
                                 {/* /.col */}
                             </div>

@@ -50,7 +50,7 @@ function register(user) {
                 },
                 error => {
                     dispatch(failure(error.toString()));
-                    dispatch(alertActions.error(error.toString()));
+                    dispatch(alertActions.error(error.toString()+user));
                 }
             );
     };

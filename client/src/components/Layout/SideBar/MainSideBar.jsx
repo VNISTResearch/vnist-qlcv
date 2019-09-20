@@ -3,6 +3,8 @@ import { Router as Router, Route, Link } from "react-router-dom";
 
 class MainSideBar extends Component {
     render() {
+        const currentUser = localStorage.getItem('user');
+        const currentUserObj = JSON.parse(currentUser).user;
         return (
             <div>
                 <aside className="main-sidebar">
@@ -41,12 +43,13 @@ class MainSideBar extends Component {
                                 </Link>
                             </li>
                             <li>
+                                {"Group1_2".indexOf(currentUserObj.id_group[0].name_group) !== -1 && 
                                 <Link to="/cocautochuc">
                                     <i className="fa fa-th" /> <span>Cơ cấu tổ chức</span>
                                     <span className="pull-right-container">
                                         <i className="fa fa-angle-left pull-right" />
                                     </span>
-                                </Link>
+                                </Link>}
                             </li>
                             <li>
                                 <Link to="/editor">
