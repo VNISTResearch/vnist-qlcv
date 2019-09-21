@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import { Router as Router, Route } from "react-router-dom";
 import { PrivateRoute} from './ComebineRoutes';
-import { CoCauToChucPage, RegisterPage, EditorPage, LoginPage, DashBoardPage } from '../components/Page/CombineComponentPages';
+import { RegisterPage, LoginPage } from '../components/Page/CombineComponentPages';
+import { CoCauToChuc, Editor, DashBoard } from '../components/Content/CombineContent';
+import Layout from '../components/Layout/Layout';
 
 class Routes extends Component {
     render() {
         return (
             <div>
-                <PrivateRoute exact path="/" component={DashBoardPage} />
+                <PrivateRoute exact path="/" layout={Layout} component={DashBoard} />
                 <Route exact path="/login" component={LoginPage} />
                 <Route exact path="/register" component={RegisterPage} />
-                <PrivateRoute path="/cocautochuc" roles="Group1_2" component={CoCauToChucPage} />
-                <PrivateRoute path="/editor" component={EditorPage} />
+                <PrivateRoute path="/cocautochuc" layout={Layout} roles="Group1_2" component={CoCauToChuc} />
+                <PrivateRoute path="/editor" layout={Layout} component={Editor} />
             </div>
         );
     }
