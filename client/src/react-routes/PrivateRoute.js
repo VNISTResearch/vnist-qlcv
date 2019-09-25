@@ -9,10 +9,20 @@ export const PrivateRoute = ({ component: Component, layout: Layout, access, ...
         if(!currentUser) {
             return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
         }
-        console.log(currentUser);
-        if (access && access.indexOf(currentUser.user.has[0].role.permission.url[0]) === -1) {
+        let result = false;
+        currentUser.user.has.map((u) => {
+            if(u.role.name === "NV"){
+                console.log("Role::::",currentUser.currentRole);
+                u.role.permission.url.map((link) => {
+                    if(link === rest.path){
+                        result = true;
+                    }
+                })
+            }
+        });
+        if(result === false)
             return <Redirect to={{ pathname: '/'}} />
-        }
+    
         return <Layout><Component {...props}/></Layout>
     }} />
 )

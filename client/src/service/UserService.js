@@ -25,7 +25,7 @@ function login(email, password) {
     return fetch(`/api/users/login`, requestOptions)
         .then(handleResponse)
         .then(user => { 
-            user = {...user, currentRole: user.user.has[0].role.name};
+            user = {...user, currentRole: user.user.has[0].role.name}
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             localStorage.setItem('user', JSON.stringify(user));
             currentUserSubject.next(user);
