@@ -5,11 +5,11 @@ const Permission = require('./Permission');
 // Create Schema
 const RoleSchema = new Schema({
 
-  role_name: {
+  name: {
       type: String,
       required: true
   },
-  id_permission: {
+  permission: {
     type: Schema.Types.ObjectId,
     ref: Permission,
     required: true

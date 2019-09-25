@@ -20,16 +20,16 @@ Permission.find().exec((err, per) => {
     if(!err){
         var roles = [
             {
-                role_name: 'Admin',
-                id_permission: per[0]._id
+                name: 'TP',
+                permission: per[0]._id
             },
             {
-                role_name: 'User',
-                id_permission: per[1]._id
+                name: 'PP',
+                permission: per[1]._id
             },
             {
-                role_name: 'Guest',
-                id_permission: per[2]._id
+                name: 'NV',
+                permission: per[2]._id
             },
         ];
         
