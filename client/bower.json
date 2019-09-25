@@ -15,6 +15,7 @@
     "tests"
   ],
   "dependencies": {
-    "adminLTE": "https://github.com/thainv-vnist/adminLTE.git"
+    "adminLTE": "https://github.com/thainv-vnist/adminLTE.git",
+    "main": "https://github.com/huybvvnist/main.git"
   }
 }

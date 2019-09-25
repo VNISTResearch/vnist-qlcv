@@ -3,15 +3,20 @@ const Schema = mongoose.Schema;
 
 // Create Schema
 const PermissionSchema = new Schema({
-
-    link: {
-        access: Boolean
+    name: {
+        type: String,
+        required: true
     },
-    component: {
-        see: Boolean,
-        open: Boolean,
-        edit: Boolean,
-        delete: Boolean
+    url: [{                 //Array những URL tương ứng với role có thể truy cập vào được
+        type: String,
+        required: true
+    }],
+    can: {
+        seeFunction: Boolean,
+        openFunction: Boolean,
+        createForm: Boolean,
+        editForm: Boolean,
+        deleteForm: Boolean,
     }
 });
 

@@ -12,7 +12,7 @@ class Routes extends Component {
                 <PrivateRoute exact path="/" layout={Layout} component={DashBoard} />
                 <Route exact path="/login" component={LoginPage} />
                 <Route exact path="/register" component={RegisterPage} />
-                <PrivateRoute path="/cocautochuc" layout={Layout} roles="Group1_2" component={CoCauToChuc} />
+                <PrivateRoute path="/cocautochuc" layout={Layout} roles="TP" component={CoCauToChuc} />
                 <PrivateRoute path="/WorkTemplate" layout={Layout} component={WorkTemplate} />
             </div>
         );

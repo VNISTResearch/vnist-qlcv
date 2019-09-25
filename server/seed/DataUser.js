@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const Group = require('../models/Group');
+const Role = require('../models/Role');
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 
@@ -24,46 +25,52 @@ bcrypt.genSalt(10, (err, salt) => {
     // newUser.password = hash;
     Group.find().exec((err, groups) => {
         if(!err){
-            var users = [
-                {
-                    name: 'adminVnist',
-                    email: 'adminV@vnist.com',
-                    password: hash,
-                    id_group: groups[1]._id //group 1_2
-                },
-                {
-                    name: 'huybv97',
-                    email: 'huybv97@vnist.com',
-                    password: hash,
-                    id_group: groups[5]._id //group 2-3
-                },
-                {
-                    name: 'huyadmin',
-                    email: 'huyadmin@vnist.com',
-                    password: hash,
-                    id_group: groups[2]._id
-                },
-                {
-                    name: 'bvhuy',
-                    email: 'bvhuy@vnist.com',
-                    password: hash,
-                    id_group: groups[2]._id
-                },
-                {
-                    name: 'thai_vnist',
-                    email: 'thai@vnist.com',
-                    password: hash,
-                    id_group: groups[0]._id
-                }
-            ];
-            
-            User.insertMany(users, function(err, result){
+           Role.find().exec((err, roles) => {
                 if(!err){
-                    console.log("Seed User Data :\n" + result);
+                    var users = [
+                        {
+                            name: 'Nguyen Van A',
+                            email: 'nva@gmail.com',
+                            password: hash,
+                            has: [
+                                {
+                                    role: roles[0].id, // Role TP
+                                    group: groups[0].id  //Phong A
+                                },
+                                {
+                                    role: roles[2].id, //Role NV
+                                    group: groups[1].id  //Phong B
+                                },
+                            ]
+                        },
+                        {
+                            name: 'Pham Van B',
+                            email: 'pvb@gmail.com',
+                            password: hash,
+                            has: [
+                                {
+                                    role: roles[2].id, // Role Nhan Vien
+                                    group: groups[0].id  //Phong A
+                                },
+                                {
+                                    role: roles[0].id, //Role Truong Phong
+                                    group: groups[1].id  //Phong B
+                                },
+                            ]
+                        },
+                    ];
+
+                    User.insertMany(users, function(err, result){
+                        if(!err){
+                            console.log("Seed GroupData :\n" + result);
+                        }else{
+                            console.log(err);
+                        }
+                    });
                 }else{
                     console.log(err);
                 }
-            });
+           });
         }else{
             console.log(err);
         }

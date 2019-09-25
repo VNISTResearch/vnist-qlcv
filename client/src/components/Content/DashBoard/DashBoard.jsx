@@ -6,7 +6,7 @@ class DashBoard extends Component {
     componentWillMount(){
         // loadjs('js/home.js');
             let script = document.createElement('script');
-            script.src = 'js/DashBoard.js';
+            script.src = 'main/js/DashBoard.js';
             script.async = true;
             script.defer = true;
             document.body.appendChild(script);

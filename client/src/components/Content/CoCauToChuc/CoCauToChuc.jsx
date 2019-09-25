@@ -4,7 +4,7 @@ class CoCauToChuc extends Component {
     componentWillMount(){
         // loadjs('js/home.js');
             let script = document.createElement('script');
-            script.src = 'js/CoCauToChuc.js';
+            script.src = 'main/js/CoCauToChuc.js';
             script.async = true;
             script.defer = true;
             document.body.appendChild(script);
