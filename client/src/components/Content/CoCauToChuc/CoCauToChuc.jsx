@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
 
 class CoCauToChuc extends Component {
+    componentWillMount(){
+        // loadjs('js/home.js');
+            let script = document.createElement('script');
+            script.src = 'js/CoCauToChuc.js';
+            script.async = true;
+            script.defer = true;
+            document.body.appendChild(script);
+    }
     render() {
         return (
             <div className="content-wrapper">

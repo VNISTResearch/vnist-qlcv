@@ -3,36 +3,6 @@ import { connect } from 'react-redux';
 import { userActions } from '../../../redux-actions/CombineActions';
 
 class LoginPage extends Component {
-    // constructor(props){
-    //     super(props);
-    //     this.handleSubmit = this.handleSubmit.bind(this);
-    //    }
-    //    async handleSubmit(event){
-    //     event.preventDefault();
-    //     await fetch('/api/users/login', {
-    //        method: 'post',
-    //        headers: {'Content-Type':'application/json'},
-    //        body: JSON.stringify({
-    //             'email': this.email.value,
-    //             'password': this.password.value
-    //        })
-    //     }).then(res => {
-    //         if (res.status === 200) {
-    //           this.props.history.push('/');
-    //         } else {
-    //           const error = new Error(res.error);
-    //           throw error;
-    //         }
-    //       })
-    //     .catch(function(res){ console.log(res) });
-
-    //   };
-      
-    // useLoginStatusInStore = () => {
-    //     var { dispatch } = this.props;
-    //     dispatch({type:"UPDATE_ACCOUNT"})
-    // }
-
     constructor(props) {
         super(props);
 
@@ -119,12 +89,6 @@ class LoginPage extends Component {
         );
     }
 }
-
-// const mapStateToProps = (state, ownProps) => {
-//     return {
-//         statusLogin: state.statusLogin
-//     }
-// }
 
 function mapState(state) {
     const { loggingIn } = state.authentication;

@@ -22,6 +22,7 @@ Role.find().exec((err, role) => {
         var groups = [
             {
                 name_group: "Group1_1",
+                link: "",
                 id_role: role[0]._id
             },
             {

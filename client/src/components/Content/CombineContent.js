@@ -1,3 +1,4 @@
 export * from './CoCauToChuc/CoCauToChuc';
 export * from './DashBoard/DashBoard';
-export * from './Editor/Editor';
+export * from './WorkTemplate/WorkTemplate';
+export * from './Home/Home';

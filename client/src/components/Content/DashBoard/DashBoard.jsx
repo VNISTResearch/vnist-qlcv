@@ -3,6 +3,14 @@ import { DashBoardHeader} from './DashBoardHeader/DashBoardHeader';
 import { DashBoardContentLeft, DashBoardContentRight} from './DashBoardContent/CombineDashBoardContent';
 
 class DashBoard extends Component {
+    componentWillMount(){
+        // loadjs('js/home.js');
+            let script = document.createElement('script');
+            script.src = 'js/DashBoard.js';
+            script.async = true;
+            script.defer = true;
+            document.body.appendChild(script);
+    }
     render() {
         return (
             <div className="content-wrapper">

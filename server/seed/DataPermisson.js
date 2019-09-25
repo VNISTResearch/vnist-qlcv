@@ -20,7 +20,7 @@ mongoose
 var permissions = [
     {
         link: {
-            access: true
+            url: "/cocautochuc"
         },
         component: {
             see: true,

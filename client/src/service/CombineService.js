@@ -1,1 +1,1 @@
-export * from './UserContainer';
+export * from './UserService';

@@ -1,7 +1,7 @@
 import { history } from "../helpers/History";
 import { userConstants } from "../redux-constants/UserConstants";
 import { alertActions } from "./AlertActions";
-import { userService } from "../service/UserService";
+import { userService } from "../service/CombineService";
 export const userActions = {
     login,
     logout,
@@ -50,7 +50,7 @@ function register(user) {
                 },
                 error => {
                     dispatch(failure(error.toString()));
-                    dispatch(alertActions.error(error.toString()+user));
+                    dispatch(alertActions.error(error.toString()));
                 }
             );
     };

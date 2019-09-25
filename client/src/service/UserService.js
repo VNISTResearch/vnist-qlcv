@@ -1,5 +1,7 @@
 // import config from 'config';
 import { authHeader } from '../helpers/AuthHeader';
+import { BehaviorSubject } from 'rxjs';
+const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('user')));
 
 export const userService = {
     login,
@@ -8,7 +10,9 @@ export const userService = {
     getAll,
     getById,
     update,
-    delete: _delete
+    delete: _delete,
+    currentUser: currentUserSubject.asObservable(),
+    get currentUserValue () { return currentUserSubject.value }
 };
 
 function login(email, password) {
@@ -23,6 +27,7 @@ function login(email, password) {
         .then(user => {
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             localStorage.setItem('user', JSON.stringify(user));
+            currentUserSubject.next(user);
             return user;
         });
 }
@@ -40,6 +45,7 @@ function register(user) {
 function logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('user');
+    currentUserSubject.next(null);
 }
 
 function getAll() {
