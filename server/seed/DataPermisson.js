@@ -1,4 +1,3 @@
-const Group = require('../models/Group');
 const Permission = require('../models/Permission');
 const mongoose = require("mongoose");
 
@@ -17,45 +16,53 @@ mongoose
 
 
 //1. Seed data permission---------------------------//
-var permissions = [
+var pers = [
     {
-        link: {
-            url: "/cocautochuc"
-        },
-        component: {
-            see: true,
-            open: true,
-            edit: true,
-            delete: true
+        name: 'TP',
+        url: [
+            '/',
+            '/cocautochuc'
+        ],
+        can: {
+            seeFunction: true,
+            openFunction: true,
+            createForm: true,
+            editForm: true,
+            deleteForm: true,
         }
     },
     {
-        link: {
-            access: true
-        },
-        component: {
-            see: true,
-            open: true,
-            edit: false,
-            delete: false
+        name: 'PP',
+        url: [
+            '/',
+            '/cocautochuc'
+        ],
+        can: {
+            seeFunction: true,
+            openFunction: true,
+            createForm: false,
+            editForm: true,
+            deleteForm: false,
         }
     },
     {
-        link: {
-            access: false
-        },
-        component: {
-            see: true,
-            open: false,
-            edit: false,
-            delete: false
+        name: 'NV',
+        url: [
+            '/',
+        ],
+        can: {
+            seeFunction: true,
+            openFunction: false,
+            createForm: false,
+            editForm: true,
+            deleteForm: false,
         }
-    }
+    },
 ];
 
-Permission.insertMany(permissions, function(err, result){
+Permission.insertMany(pers, function(err, result){
     if(!err){
-        console.log("Seed Permission Data :\n" + result);
+        console.log("Seed PermissionData :\n" + result);
     }else{
         console.log(err);
     }

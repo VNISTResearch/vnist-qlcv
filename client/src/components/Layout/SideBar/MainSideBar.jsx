@@ -43,7 +43,7 @@ class MainSideBar extends Component {
                                 </Link>
                             </li>
                             <li>
-                                {"Group1_2".indexOf(currentUser.user.id_group[0].name_group) !== -1 && 
+                                {1 && 
                                 <Link to="/cocautochuc">
                                     <i className="fa fa-th" /> <span>Cơ cấu tổ chức</span>
                                     <span className="pull-right-container">
