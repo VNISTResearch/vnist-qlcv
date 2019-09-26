@@ -18,7 +18,7 @@ class MainSideBar extends Component {
     render() {
         const currentUser = userService.currentUserValue;
         return (
-            <div>
+            <React.Fragment>
                 <aside className="main-sidebar">
                     {/* sidebar: style can be found in sidebar.less */}
                     <section className="sidebar">
@@ -68,6 +68,14 @@ class MainSideBar extends Component {
                             <li>
                                 <Link to="/WorkTemplate">
                                     <i className="fa fa-th" /> <span>WorkTemplate</span>
+                                    <span className="pull-right-container">
+                                        <i className="fa fa-angle-left pull-right" />
+                                    </span>
+                                </Link>
+                            </li>
+                            <li className="treeview">
+                                <Link to="/muctieu">
+                                    <i className="fa fa-dashboard" /> <span>Quản lý mục tiêu</span>
                                     <span className="pull-right-container">
                                         <i className="fa fa-angle-left pull-right" />
                                     </span>
@@ -173,7 +181,7 @@ class MainSideBar extends Component {
                     </section>
                     {/* /.sidebar */}
                 </aside>
-            </div>
+            </React.Fragment>
         );
     }
 }

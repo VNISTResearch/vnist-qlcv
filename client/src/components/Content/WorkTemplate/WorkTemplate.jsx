@@ -1,23 +1,7 @@
 import React, { Component } from 'react';
-import ModalThemCongViec from './ModalThemCongViec';
-// import './css/modal.css'
+import ModalThemMauCongViec from './ModalThemMauCongViec';
 class WorkTemplate extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      bodyText: 'This text can be updated in modal 1'
-    };
-
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleChange(e) {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
-  }
   render() {
-    const { bodyText } = this.state;
     return (
       <div classname="content-wrapper">
         <div className="content-wrapper">
@@ -45,7 +29,7 @@ class WorkTemplate extends Component {
                       </div>
                       <div className="col-xs-2">
                         <button type="button" className="btn btn-success" data-toggle="modal" data-target="#myModalHorizontal">Thêm mẫu công việc</button>
-                        <ModalThemCongViec/>
+                        <ModalThemMauCongViec/>
                       </div>
                     </div>
                   </div>

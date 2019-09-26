@@ -11,8 +11,7 @@ export const PrivateRoute = ({ component: Component, layout: Layout, access, ...
         }
         let result = false;
         currentUser.user.has.map((u) => {
-            if(u.role.name === "NV"){
-                console.log("Role::::",currentUser.currentRole);
+            if(u.role.name === "TP"){
                 u.role.permission.url.map((link) => {
                     if(link === rest.path){
                         result = true;
