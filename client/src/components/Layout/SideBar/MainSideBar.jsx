@@ -4,13 +4,15 @@ import { userService } from '../../../service/CombineService';
 
 class MainSideBar extends Component {
 
-    checkURL = () => {
+    checkURL = (url) => {
         var result = false;
         userService.currentUserValue.user.has.map((u) => {
-            u.role.permission.url.map((link) => {
-                if("/cocautochuc" === link)
-                    result = true;
-            })
+            if (u.role._id === userService.currentUserValue.currentRole) {
+                u.role.permission.url.map((link) => {
+                    if (url === link)
+                        result = true;
+                })
+            }
         });
         return result;
     }
@@ -25,7 +27,7 @@ class MainSideBar extends Component {
                         {/* Sidebar user panel */}
                         <div className="user-panel">
                             <div className="pull-left image">
-                                <img src="adminLTE/dist/img/user2-160x160.jpg" className="img-circle" alt="User avatar"/>
+                                <img src="adminLTE/dist/img/user2-160x160.jpg" className="img-circle" alt="User avatar" />
                             </div>
                             <div className="pull-left info">
                                 <p>Huy BV</p>
@@ -55,31 +57,37 @@ class MainSideBar extends Component {
                                 </Link>
                             </li>
                             <li>
-                            {
-                                this.checkURL() &&
-                                <Link to="/cocautochuc">
-                                    <i className="fa fa-th" /> <span>Cơ cấu tổ chức</span>
-                                    <span className="pull-right-container">
-                                        <i className="fa fa-angle-left pull-right" />
-                                    </span>
-                                </Link>
-                            }
+                                {
+                                    this.checkURL("/cocautochuc") &&
+                                    <Link to="/cocautochuc">
+                                        <i className="fa fa-th" /> <span>Cơ cấu tổ chức</span>
+                                        <span className="pull-right-container">
+                                            <i className="fa fa-angle-left pull-right" />
+                                        </span>
+                                    </Link>
+                                }
                             </li>
                             <li>
-                                <Link to="/WorkTemplate">
-                                    <i className="fa fa-th" /> <span>WorkTemplate</span>
-                                    <span className="pull-right-container">
-                                        <i className="fa fa-angle-left pull-right" />
-                                    </span>
-                                </Link>
+                                {
+                                    this.checkURL("/WorkTemplate") &&
+                                    <Link to="/WorkTemplate">
+                                        <i className="fa fa-th" /> <span>WorkTemplate</span>
+                                        <span className="pull-right-container">
+                                            <i className="fa fa-angle-left pull-right" />
+                                        </span>
+                                    </Link>
+                                }
                             </li>
                             <li className="treeview">
-                                <Link to="/muctieu">
-                                    <i className="fa fa-dashboard" /> <span>Quản lý mục tiêu</span>
-                                    <span className="pull-right-container">
-                                        <i className="fa fa-angle-left pull-right" />
-                                    </span>
-                                </Link>
+                                {
+                                    this.checkURL("/muctieu") &&
+                                    <Link to="/muctieu">
+                                        <i className="fa fa-dashboard" /> <span>Quản lý mục tiêu</span>
+                                        <span className="pull-right-container">
+                                            <i className="fa fa-angle-left pull-right" />
+                                        </span>
+                                    </Link>
+                                }
                             </li>
                             <li className="treeview">
                                 <a href="#abc">
@@ -186,4 +194,4 @@ class MainSideBar extends Component {
     }
 }
 
-export {MainSideBar};
+export { MainSideBar };

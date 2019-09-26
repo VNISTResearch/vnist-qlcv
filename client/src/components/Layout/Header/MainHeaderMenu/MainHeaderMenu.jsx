@@ -1,8 +1,30 @@
 import React, { Component } from 'react';
 // import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { userService } from '../../../../service/UserService';
+import { userActions } from '../../../../redux-actions/CombineActions';
 
 class MainHeaderMenu extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            currentRole: ''
+        };
+
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(e) {
+        // this.setState({value: });
+        // const { currentRole } = this.state;
+        const user = {...(userService.currentUserValue), currentRole: e.target.value};
+        this.props.roleEdit(user);
+        console.log("hìojwfoqwjedqwie");
+    }
+
     render() {
+        const currentUser = userService.currentUserValue;
         return (
             <div className="navbar-custom-menu">
                 <ul className="nav navbar-nav">
@@ -211,7 +233,7 @@ class MainHeaderMenu extends Component {
                                 <img src="adminLTE/dist/img/user2-160x160.jpg" className="img-circle" alt="User Avatar" />
                                 <p>
                                     HuyBV - Web Developer
-          <small>Member since Nov. 2012</small>
+                                    <small>Member since Nov. 2012</small>
                                 </p>
                             </li>
                             {/* Menu Body */}
@@ -242,12 +264,25 @@ class MainHeaderMenu extends Component {
                     </li>
                     {/* Control Sidebar Toggle Button */}
                     <li>
-                        <a href="#abc" data-toggle="control-sidebar"><i className="fa fa-gears" /></a>
+                        <select defaultValue={currentUser.currentRole} onChange={this.handleChange} style={{ padding: "15px 15px", backgroundColor: "#3c8dbc", border: "none",color: "white"}}>
+                            {currentUser.user.has.map(x => {
+                                 return <option key={x.role._id} value={x.role._id}>{x.role.name}</option>
+                            })}
+                        </select>
                     </li>
                 </ul>
             </div>
         );
     }
 }
+function mapState(state) {
+    const { loggingIn } = state.authentication;
+    return { loggingIn };
+}
 
-export default MainHeaderMenu;
+const actionCreators = {
+    roleEdit: userActions.currentRoleEdit
+};
+
+const connectedMainHeaderMenu = connect(mapState, actionCreators)(MainHeaderMenu);
+export { connectedMainHeaderMenu as MainHeaderMenu};

@@ -11,7 +11,7 @@ export const PrivateRoute = ({ component: Component, layout: Layout, access, ...
         }
         let result = false;
         currentUser.user.has.map((u) => {
-            if(u.role.name === "TP"){
+            if(u.role._id=== currentUser.currentRole){
                 u.role.permission.url.map((link) => {
                     if(link === rest.path){
                         result = true;
@@ -19,9 +19,8 @@ export const PrivateRoute = ({ component: Component, layout: Layout, access, ...
                 })
             }
         });
-        if(result === false)
-            return <Redirect to={{ pathname: '/'}} />
-    
-        return <Layout><Component {...props}/></Layout>
+        if(result === true)
+            return <Layout><Component {...props}/></Layout>
+        return <Redirect to={{ pathname: '/'}} />
     }} />
 )
