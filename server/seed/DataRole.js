@@ -20,15 +20,15 @@ Permission.find().exec((err, per) => {
     if(!err){
         var roles = [
             {
-                name: 'TP',
+                name: 'Trưởng Phòng',
                 permission: per[0]._id
             },
             {
-                name: 'PP',
+                name: 'Phó Phòng',
                 permission: per[1]._id
             },
             {
-                name: 'NV',
+                name: 'Nhân Viên',
                 permission: per[2]._id
             },
         ];

@@ -18,10 +18,11 @@ mongoose
 //1. Seed data permission---------------------------//
 var pers = [
     {
-        name: 'TP',
+        name: 'Trưởng Phòng',
         url: [
+            '/cocautochuc',
             '/',
-            '/cocautochuc'
+            '/WorkTemplate'
         ],
         can: {
             seeFunction: true,
@@ -32,10 +33,11 @@ var pers = [
         }
     },
     {
-        name: 'PP',
+        name: 'Phó Phòng',
         url: [
+            '/cocautochuc',
             '/',
-            '/cocautochuc'
+            '/WorkTemplate'
         ],
         can: {
             seeFunction: true,
@@ -46,9 +48,10 @@ var pers = [
         }
     },
     {
-        name: 'NV',
+        name: 'Nhân Viên',
         url: [
             '/',
+            '/WorkTemplate'
         ],
         can: {
             seeFunction: true,

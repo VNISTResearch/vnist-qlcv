@@ -34,12 +34,12 @@ bcrypt.genSalt(10, (err, salt) => {
                             password: hash,
                             has: [
                                 {
-                                    role: roles[0].id, // Role TP
-                                    group: groups[0].id  //Phong A
+                                    role: roles[0].id, // Role Trưởng Phòng
+                                    group: groups[0].id  //Phong Kinh Doanh
                                 },
                                 {
-                                    role: roles[2].id, //Role NV
-                                    group: groups[1].id  //Phong B
+                                    role: roles[2].id, //Role Nhân Viên
+                                    group: groups[2].id  //Phòng Kế Hoạch
                                 },
                             ]
                         },
@@ -49,12 +49,8 @@ bcrypt.genSalt(10, (err, salt) => {
                             password: hash,
                             has: [
                                 {
-                                    role: roles[2].id, // Role Nhan Vien
-                                    group: groups[0].id  //Phong A
-                                },
-                                {
-                                    role: roles[0].id, //Role Truong Phong
-                                    group: groups[1].id  //Phong B
+                                    role: roles[0].id, //Role Trưởng Phòng
+                                    group: groups[2].id  //Phòng Kế Hoạch
                                 },
                             ]
                         },
