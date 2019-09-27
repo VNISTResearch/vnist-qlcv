@@ -89,7 +89,7 @@ class MainSideBar extends Component {
                                     </Link>
                                 }
                             </li>
-                            <li className="treeview">
+                            {/* <li className="treeview">
                                 <a href="#abc">
                                     <i className="fa fa-edit" /> <span>Forms</span>
                                     <span className="pull-right-container">
@@ -184,7 +184,7 @@ class MainSideBar extends Component {
                                     </li>
                                     <li><a href="#abc"><i className="fa fa-circle-o" /> Level One</a></li>
                                 </ul>
-                            </li>
+                            </li> */}
                         </ul>
                     </section>
                     {/* /.sidebar */}

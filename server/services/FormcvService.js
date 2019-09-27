@@ -2,7 +2,7 @@ const FormCV = require('../models/FormCV');
 
 exports.getAllForm = async (req, res) => {
     try{
-        const forms = await FormCV.find();
+        const forms = await FormCV.find().populate('creator');
         res.json(forms);
     }catch(e){
         res.json({message:e});
@@ -11,7 +11,7 @@ exports.getAllForm = async (req, res) => {
 
 exports.getFormByIdUser = async (req, res) => {
     try{
-        const forms = await FormCV.find({ creator: req.params.idUser });
+        const forms = await FormCV.find({ creator: req.params.idUser }).populate('creator');
         res.json(forms);
     }catch(e){
         res.json({message:e});

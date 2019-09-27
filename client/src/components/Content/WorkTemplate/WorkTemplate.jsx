@@ -1,134 +1,125 @@
 import React, { Component } from 'react';
 import ModalThemMauCongViec from './ModalThemMauCongViec';
-class WorkTemplate extends Component {
-  render() {
-    return (
-      <div classname="content-wrapper">
-        <div className="content-wrapper">
-          {/* Content Header (Page header) */}
-          <section className="content-header">
-            <h1>
-              Quản lý mẫu công việc
-        <small>mẫu công việc</small>
-            </h1>
-            <ol className="breadcrumb">
-              <li><a href="#abc"><i className="fa fa-dashboard" /> Home</a></li>
-              <li><a href="#abc">WorkTemplate</a></li>
-              <li className="active">Data tables</li>
-            </ol>
-          </section>
-          {/* Main content */}
-          <section className="content">
-            <div className="row">
-              <div className="col-xs-12">
-                <div className="box">
-                  <div className="box-header">
-                    <div className="row">
-                      <div className="col-xs-10">
-                        <h3 className="box-title">Bảng danh sách mẫu công việc</h3>
-                      </div>
-                      <div className="col-xs-2">
-                        <button type="button" className="btn btn-success" data-toggle="modal" data-target="#myModalHorizontal">Thêm mẫu công việc</button>
-                        <ModalThemMauCongViec/>
-                      </div>
-                    </div>
-                  </div>
-                  {/* /.box-header */}
-                  <div className="box-body">
-                    <table id="example2" className="table table-bordered table-hover">
-                      <thead>
-                        <tr>
-                          <th>Rendering engine</th>
-                          <th>Browser</th>
-                          <th>Platform(s)</th>
-                          <th>Engine version</th>
-                          <th>CSS grade</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Trident</td>
-                          <td>Internet
-                            Explorer 4.0
-                    </td>
-                          <td>Win 95+</td>
-                          <td> 4</td>
-                          <td>X</td>
-                        </tr>
-                        <tr>
-                          <td>Trident</td>
-                          <td>Internet
-                            Explorer 5.0
-                    </td>
-                          <td>Win 95+</td>
-                          <td>5</td>
-                          <td>C</td>
-                        </tr>
-                        <tr>
-                          <td>Trident</td>
-                          <td>Internet
-                            Explorer 5.5
-                    </td>
-                          <td>Win 95+</td>
-                          <td>5.5</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Trident</td>
-                          <td>Internet
-                            Explorer 6
-                    </td>
-                          <td>Win 98+</td>
-                          <td>6</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Trident</td>
-                          <td>Internet Explorer 7</td>
-                          <td>Win XP SP2+</td>
-                          <td>7</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Trident</td>
-                          <td>AOL browser (AOL desktop)</td>
-                          <td>Win XP</td>
-                          <td>6</td>
-                          <td>A</td>
-                        </tr>
-                        <tr>
-                          <td>Gecko</td>
-                          <td>Firefox 1.0</td>
-                          <td>Win 98+ / OSX.2+</td>
-                          <td>1.7</td>
-                          <td>A</td>
-                        </tr>
-                      </tbody>
-                      <tfoot>
-                        <tr>
-                          <th>Rendering engine</th>
-                          <th>Browser</th>
-                          <th>Platform(s)</th>
-                          <th>Engine version</th>
-                          <th>CSS grade</th>
-                        </tr>
-                      </tfoot>
-                    </table>
-                  </div>
-                  {/* /.box-body */}
-                </div>
-                {/* /.box */}
-              </div>
-              {/* /.col */}
-            </div>
-            {/* /.row */}
-          </section>
-          {/* /.content */}
-        </div>
-      </div>
+import { userService } from '../../../service/CombineService';
+import axios from 'axios';
 
-    );
-  }
+class WorkTemplate extends Component {
+
+	constructor(props){
+		super(props);
+		this.state = { 
+			forms: [],
+		};
+	}
+
+	componentDidMount(){
+		const URL = 'http://localhost:5000/api/forms/' + userService.currentUserValue.user._id;
+		axios.get(URL)
+		.then( res => {
+			this.setState({ forms: res.data });
+		});
+	}
+
+	getPermision = () => {
+		var user = (userService.currentUserValue.user);
+		var role = userService.currentUserValue.currentRole;
+		var data = {};
+		user.has.map( a => {
+			if(a.role._id === role){
+				data = a.role.permission.can;
+			}
+		});
+
+		return data;
+	}
+
+	render() {
+		return (
+		<div classname="content-wrapper">
+			<div className="content-wrapper">
+			{/* Content Header (Page header) */}
+			<section className="content-header">
+				<h1>
+				Quản lý mẫu công việc
+			<small>mẫu công việc</small>
+				</h1>
+				<ol className="breadcrumb">
+				<li><a href="#abc"><i className="fa fa-dashboard" /> Home</a></li>
+				<li><a href="#abc">WorkTemplate</a></li>
+				<li className="active">Data tables</li>
+				</ol>
+			</section>
+			{/* Main content */}
+			<section className="content">
+				<div className="row">
+				<div className="col-xs-12">
+					<div className="box">
+					<div className="box-header">
+						<div className="row">
+						<div className="col-xs-10">
+							<h3 className="box-title">Bảng danh sách mẫu công việc</h3>
+						</div>
+						<div className="col-xs-2">
+							{
+							this.getPermision().createForm &&
+							<button type="button" className="btn btn-success" data-toggle="modal" data-target="#myModalHorizontal">Thêm 1 mẫu công việc</button>
+							}
+							<ModalThemMauCongViec/>
+						</div>
+						</div>
+					</div>
+					{/* /.box-header */}
+					<div className="box-body">
+						<table id="example2" className="table table-bordered table-hover">
+						<thead>
+							<tr>
+							<th>ID Form</th>
+							<th>Name of FormCV</th>
+							<th>Creator</th>
+							<th>Description</th>
+							<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							{
+							this.state.forms.map(form =>
+								<tr key={form._id}>
+								<td>{form._id}</td>
+								<td>{form.name}</td>
+								<td>{form.creator.name}</td>
+								<td>{form.description}</td>
+								<td>
+									{this.getPermision().editForm && <button className="btn btn-primary">Edit</button>}
+									{this.getPermision().deleteForm && <button className="btn btn-danger">Delete</button>}
+								</td>
+								</tr>
+							)
+							}
+						</tbody>
+						{/* <tfoot>
+							<tr>
+							<th>Rendering engine</th>
+							<th>Browser</th>
+							<th>Platform(s)</th>
+							<th>Engine version</th>
+							</tr>
+						</tfoot> */}
+						</table>
+					</div>
+					{/* /.box-body */}
+					</div>
+					{/* /.box */}
+				</div>
+				{/* /.col */}
+				</div>
+				{/* /.row */}
+			</section>
+			{/* /.content */}
+			</div>
+		</div>
+
+		);
+	}
 }
 
 export { WorkTemplate };
