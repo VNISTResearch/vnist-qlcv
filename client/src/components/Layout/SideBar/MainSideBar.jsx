@@ -49,12 +49,15 @@ class MainSideBar extends Component {
                         <ul className="sidebar-menu" data-widget="tree">
                             <li className="header">MAIN NAVIGATION</li>
                             <li className="active treeview">
-                                <Link to="/">
-                                    <i className="fa fa-dashboard" /> <span>Home</span>
-                                    <span className="pull-right-container">
-                                        <i className="fa fa-angle-left pull-right" />
-                                    </span>
-                                </Link>
+                                {
+                                    this.checkURL("/") &&
+                                    <Link to="/">
+                                        <i className="fa fa-dashboard" /> <span>Home</span>
+                                        <span className="pull-right-container">
+                                            <i className="fa fa-angle-left pull-right" />
+                                        </span>
+                                    </Link>
+                                }
                             </li>
                             <li>
                                 {
