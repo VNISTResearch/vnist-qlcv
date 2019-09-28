@@ -1,8 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Role = require('../models/Role');
-const Group = require('../models/Group');
-const User = require('../models/User');
+const User = require('./User');
+const ChucDanh = require('./ChucDanh');
 
 // Create Schema
 const FormCVSchema = new Schema({
@@ -21,16 +20,9 @@ const FormCVSchema = new Schema({
 	},
 	action: [
 		{
-			role: {
-				type: Schema.Types.ObjectId,
-				ref: Role,
-				required: true
-			},
-			group: {
-				type: Schema.Types.ObjectId,
-				ref: Group,
-				required: true
-			}
+			type: Schema.Types.ObjectId,
+			ref: ChucDanh,
+			required: true
 		}
 	]
 });

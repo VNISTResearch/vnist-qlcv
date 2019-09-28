@@ -1,4 +1,4 @@
-const Permission = require('../models/Permission');
+const PerCom = require('../models/PerCom');
 const mongoose = require("mongoose");
 
 // DB Config
@@ -16,15 +16,9 @@ mongoose
 
 
 //1. Seed data permission---------------------------//
-var pers = [
+var percoms = [
     {
-        name: 'Trưởng Phòng',
-        url: [
-            '/cocautochuc',
-            '/',
-            '/WorkTemplate'
-        ],
-        can: {
+        can: { //với chức danh tương ứng với quyền trưởng phòng XYZ
             seeFunction: true,
             openFunction: true,
             createForm: true,
@@ -33,42 +27,29 @@ var pers = [
         }
     },
     {
-        name: 'Phó Phòng',
-        url: [
-            '/cocautochuc',
-            '/',
-            '/WorkTemplate'
-        ],
-        can: {
+        can: { //với chức danh tương ứng với quyền phó phòng XYZ
             seeFunction: true,
             openFunction: true,
             createForm: false,
             editForm: true,
-            deleteForm: false,
+            deleteForm: true,
         }
     },
     {
-        name: 'Nhân Viên',
-        url: [
-            '/',
-            '/WorkTemplate'
-        ],
-        can: {
+        can: { //với chức danh tương ứng với quyền nhân viên XYZ
             seeFunction: true,
             openFunction: false,
             createForm: false,
             editForm: true,
             deleteForm: false,
         }
-    },
+    }
 ];
 
-Permission.insertMany(pers, function(err, result){
+PerCom.insertMany(percoms, function(err, result){
     if(!err){
-        console.log("Seed PermissionData :\n" + result);
+        console.log("Seed PerCom Data :\n" + result);
     }else{
         console.log(err);
     }
 });
-
-

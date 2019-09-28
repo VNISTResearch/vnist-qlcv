@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Group = require('./Group');
+const ChucDanh = require('./ChucDanh');
 const Role = require('./Role');
 
 // Create Schema
@@ -27,9 +27,9 @@ const UserSchema = new Schema({
       ref: Role,
       required: true
     },
-    group: {
+    chucdanh: {
       type: Schema.Types.ObjectId,
-      ref: Group,
+      ref: ChucDanh,
       required: true
     }
   }]

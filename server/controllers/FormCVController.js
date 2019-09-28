@@ -7,3 +7,7 @@ exports.getAllForm = (req, res) => {
 exports.getFormByIdUser = (req, res) => {
     return FormcvService.getFormByIdUser(req, res);
 }
+
+exports.getFormByChucDanh = (req, res) => {
+    return FormcvService.getFormByChucDanh(req, res);
+}

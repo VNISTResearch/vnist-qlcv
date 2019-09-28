@@ -17,3 +17,12 @@ exports.getFormByIdUser = async (req, res) => {
         res.json({message:e});
     }
 }
+
+exports.getFormByChucDanh = async (req, res) => {
+    try{
+        const forms = await FormCV.find({ action: req.params.chucDanh }).populate('creator');
+        res.json(forms);
+    }catch(e){
+        res.json({message:e});
+    }
+}

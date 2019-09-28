@@ -1,5 +1,5 @@
 const User = require('../models/User');
-const Group = require('../models/Group');
+const ChucDanh = require('../models/ChucDanh');
 const Role = require('../models/Role');
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
@@ -23,7 +23,7 @@ bcrypt.genSalt(10, (err, salt) => {
     bcrypt.hash(pw, salt, (err, hash) => {
     if (err) throw err;
     // newUser.password = hash;
-    Group.find().exec((err, groups) => {
+    ChucDanh.find().exec((err, chucdanhs) => {
         if(!err){
            Role.find().exec((err, roles) => {
                 if(!err){
@@ -35,11 +35,11 @@ bcrypt.genSalt(10, (err, salt) => {
                             has: [
                                 {
                                     role: roles[0].id, // Role Trưởng Phòng
-                                    group: groups[0].id  //Phong Kinh Doanh
+                                    chucdanh: chucdanhs[0].id  //Trưởng Phòng Phòng Kinh Doanh
                                 },
                                 {
                                     role: roles[2].id, //Role Nhân Viên
-                                    group: groups[2].id  //Phòng Kế Hoạch
+                                    chucdanh: chucdanhs[7].id  //Nhân Viên Phòng Kế Hoạch
                                 },
                             ]
                         },
@@ -50,7 +50,18 @@ bcrypt.genSalt(10, (err, salt) => {
                             has: [
                                 {
                                     role: roles[0].id, //Role Trưởng Phòng
-                                    group: groups[2].id  //Phòng Kế Hoạch
+                                    chucdanh: chucdanhs[2].id  //Trưởng Phòng Tài Chính
+                                },
+                            ]
+                        },
+                        {
+                            name: 'Pham Thi C',
+                            email: 'ptc@gmail.com',
+                            password: hash,
+                            has: [
+                                {
+                                    role: roles[2].id, //Role Nhân Viên
+                                    chucdanh: chucdanhs[8].id  //Nhân Viên Phòng Tài Chính
                                 },
                             ]
                         },
@@ -58,7 +69,7 @@ bcrypt.genSalt(10, (err, salt) => {
 
                     User.insertMany(users, function(err, result){
                         if(!err){
-                            console.log("Seed GroupData :\n" + result);
+                            console.log("Seed User Data :\n" + result);
                         }else{
                             console.log(err);
                         }
