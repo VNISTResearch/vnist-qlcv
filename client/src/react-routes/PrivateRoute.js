@@ -16,8 +16,10 @@ export const PrivateRoute = ({ component: Component, layout: Layout, access, ...
                     if(link === rest.path){
                         result = true;
                     }
+                    return true;
                 })
             }
+            return true;
         });
         if(result === true)
             return <Layout><Component {...props}/></Layout>

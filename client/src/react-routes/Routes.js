@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Router as Router, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { PrivateRoute} from './ComebineRoutes';
 import { RegisterPage, LoginPage } from '../components/Page/CombineComponentPages';
 import { CoCauToChuc, WorkTemplate, DashBoard } from '../components/Content/CombineContent';

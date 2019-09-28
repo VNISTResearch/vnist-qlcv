@@ -59,7 +59,7 @@ class ModalThemMucTieu extends Component {
                         </div>
                         {/* Modal Body */}
                         <div className="modal-body" >
-                            <form className="form-horizontal" role="form">
+                            <form className="form-horizontal">
                                 {
                                     this.props.type === "1" ? this.mucTieuCaNhan() : this.mucTieuDonVi()
                                 }

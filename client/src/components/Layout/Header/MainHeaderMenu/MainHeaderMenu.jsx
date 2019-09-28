@@ -20,7 +20,6 @@ class MainHeaderMenu extends Component {
         // const { currentRole } = this.state;
         const user = {...(userService.currentUserValue), currentRole: e.target.value};
         this.props.roleEdit(user);
-        console.log("hìojwfoqwjedqwie");
     }
 
     render() {
@@ -266,7 +265,7 @@ class MainHeaderMenu extends Component {
                     <li>
                         <select defaultValue={currentUser.currentRole} onChange={this.handleChange} style={{ padding: "15px 15px", backgroundColor: "#3c8dbc", border: "none",color: "white"}}>
                             {currentUser.user.has.map(x => {
-                                 return <option key={x.role._id} value={x.role._id}>{x.role.name + "-" + x.group.name}</option>
+                                 return <option key={x.role._id} value={x.role._id}>{x.role.name + " " + x.group.name}</option>
                             })}
                         </select>
                     </li>

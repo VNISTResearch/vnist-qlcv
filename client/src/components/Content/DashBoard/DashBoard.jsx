@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import { DashBoardHeader} from './DashBoardHeader/DashBoardHeader';
-import { DashBoardContentLeft, DashBoardContentRight} from './DashBoardContent/CombineDashBoardContent';
+import { DashBoardHeader } from './DashBoardHeader/DashBoardHeader';
+import { DashBoardContentLeft, DashBoardContentRight } from './DashBoardContent/CombineDashBoardContent';
 
 class DashBoard extends Component {
-    componentWillMount(){
+    componentWillMount() {
         // loadjs('js/home.js');
-            let script = document.createElement('script');
-            script.src = 'main/js/DashBoard.js';
-            script.async = true;
-            script.defer = true;
-            document.body.appendChild(script);
+        let script = document.createElement('script');
+        script.src = 'main/js/DashBoard.js';
+        script.async = true;
+        script.defer = true;
+        document.body.appendChild(script);
     }
     render() {
         return (
@@ -28,15 +28,15 @@ class DashBoard extends Component {
                 {/* Main content */}
                 <section className="content">
                     {/* Small boxes (Stat box) */}
-                    <DashBoardHeader/>
+                    <DashBoardHeader />
                     {/* /.row */}
                     {/* Main row */}
                     <div className="row">
                         {/* Left col */}
-                        <DashBoardContentLeft/>
+                        <DashBoardContentLeft />
                         {/* /.Left col */}
                         {/* right col (We are only adding the ID to make the widgets sortable)*/}
-                        <DashBoardContentRight/>
+                        <DashBoardContentRight />
                         {/* right col */}
                     </div>
                     {/* /.row (main row) */}
@@ -47,4 +47,4 @@ class DashBoard extends Component {
     }
 }
 
-export {DashBoard};
+export { DashBoard };

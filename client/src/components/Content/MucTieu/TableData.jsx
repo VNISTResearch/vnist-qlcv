@@ -19,12 +19,13 @@ class TableData extends Component {
                 {/* /.box-header */}
                 <div className="box-body no-padding">
                     <table className="table">
-                        <tbody><tr>
-                            <th style={{ width: 10 }}>#</th>
-                            <th>Task</th>
-                            <th>Progress</th>
-                            <th style={{ width: 40 }}>Label</th>
-                        </tr>
+                        <tbody>
+                            <tr>
+                                <th style={{ width: 10 }}>#</th>
+                                <th>Task</th>
+                                <th>Progress</th>
+                                <th style={{ width: 40 }}>Label</th>
+                            </tr>
                             <tr>
                                 <td>1.</td>
                                 <td>Update software</td>
@@ -65,7 +66,8 @@ class TableData extends Component {
                                 </td>
                                 <td><span className="badge bg-green">90%</span></td>
                             </tr>
-                        </tbody></table>
+                        </tbody>
+                    </table>
                 </div>
                 {/* /.box-body */}
             </div>

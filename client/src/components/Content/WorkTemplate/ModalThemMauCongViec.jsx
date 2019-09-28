@@ -16,7 +16,7 @@ class ModalThemCongViec extends Component {
                         </div>
                         {/* Modal Body */}
                         <div className="modal-body" >
-                            <form className="form-horizontal" role="form">
+                            <form className="form-horizontal">
                                 <div className="form-group">
                                     <label className="col-sm-4 control-label" htmlFor="inputName3" style={{ width: '100%', textAlign: 'left' }}>Tên mẫu</label>
                                     <div className="col-sm-10" style={{ width: '100%' }}>

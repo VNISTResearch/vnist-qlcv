@@ -17,13 +17,13 @@ mongoose
 //3. Seed data role -----------------------------//
 var groups = [
     {
-        name: 'PhongA'
+        name: 'Phòng Kinh Doanh'
     },
     {
-        name: 'PhongB'
+        name: 'Phòng Nhân Sự'
     },
     {
-        name: 'PhongC'
+        name: 'Phong Kế Hoạch'
     }
 ];
 

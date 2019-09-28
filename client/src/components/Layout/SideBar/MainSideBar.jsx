@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Router as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { userService } from '../../../service/CombineService';
 
 class MainSideBar extends Component {
@@ -11,14 +11,15 @@ class MainSideBar extends Component {
                 u.role.permission.url.map((link) => {
                     if (url === link)
                         result = true;
+                    return true;
                 })
             }
+            return true;
         });
         return result;
     }
 
     render() {
-        const currentUser = userService.currentUserValue;
         return (
             <React.Fragment>
                 <aside className="main-sidebar">
@@ -92,7 +93,7 @@ class MainSideBar extends Component {
                                     </Link>
                                 }
                             </li>
-                            <li className="treeview">
+                            {/* <li className="treeview">
                                 <a href="#abc">
                                     <i className="fa fa-edit" /> <span>Forms</span>
                                     <span className="pull-right-container">
@@ -187,7 +188,7 @@ class MainSideBar extends Component {
                                     </li>
                                     <li><a href="#abc"><i className="fa fa-circle-o" /> Level One</a></li>
                                 </ul>
-                            </li>
+                            </li> */}
                         </ul>
                     </section>
                     {/* /.sidebar */}
