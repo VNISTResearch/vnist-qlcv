@@ -12,7 +12,7 @@ export const PrivateRoute = ({ component: Component, layout: Layout, access, ...
         let result = false;
         currentUser.user.has.map((u) => {
             if(u.role._id=== currentUser.currentRole){
-                u.role.permission.url.map((link) => {
+                u.role.perlink.url.map((link) => {
                     if(link === rest.path){
                         result = true;
                     }

@@ -13,20 +13,38 @@ class WorkTemplate extends Component {
 	}
 
 	componentDidMount(){
-		const URL = 'http://localhost:5000/api/forms/' + userService.currentUserValue.user._id;
+		// var id = this.getChucDanh()
+		const URL = 'http://localhost:5000/api/forms/manage/' + this.getChucDanh();
 		axios.get(URL)
 		.then( res => {
 			this.setState({ forms: res.data });
 		});
 	}
 
+	getChucDanh = () => {
+		var user = userService.currentUserValue.user;
+		console.log(user);
+		var role = userService.currentUserValue.currentRole;
+		console.log(role);
+		var result = role;
+		user.has.map( a => {
+			
+			if(a.role._id === role){
+				console.log(a.role._id);
+				result = a.chucdanh._id;
+			}
+		});
+
+		return result;
+	}
+
 	getPermision = () => {
-		var user = (userService.currentUserValue.user);
+		var user = userService.currentUserValue.user;
 		var role = userService.currentUserValue.currentRole;
 		var data = {};
 		user.has.map( a => {
 			if(a.role._id === role){
-				data = a.role.permission.can;
+				data = a.chucdanh.percom.can;
 			}
 		});
 
@@ -82,20 +100,24 @@ class WorkTemplate extends Component {
 						</thead>
 						<tbody>
 							{
-							this.state.forms.map(form =>
-								<tr key={form._id}>
-								<td>{form._id}</td>
-								<td>{form.name}</td>
-								<td>{form.creator.name}</td>
-								<td>{form.description}</td>
-								<td>
-									{this.getPermision().editForm && <button className="btn btn-primary">Edit</button>}
-									{this.getPermision().deleteForm && <button className="btn btn-danger">Delete</button>}
-								</td>
-								</tr>
-							)
+								this.state.forms.length === 0 ? <p>No data</p> :
+								this.state.forms.map(form => 
+									<tr key={form._id}>
+									<td>{form._id}</td>
+									<td>{form.name}</td>
+									<td>{form.creator.name}</td>
+									<td>{form.description}</td>
+									<td>
+										{this.getPermision().editForm && <button className="btn btn-primary">Edit</button>}
+										{this.getPermision().deleteForm && <button className="btn btn-danger">Delete</button>}
+									</td>
+									</tr>
+								)
 							}
 						</tbody>
+						<div>
+							ID chuc danh: {this.getChucDanh()}
+						</div>
 						{/* <tfoot>
 							<tr>
 							<th>Rendering engine</th>

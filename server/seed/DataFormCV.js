@@ -78,6 +78,16 @@ User.find().exec((err, users) => {
                         chucdanhs[2]._id,
                     ]
                 },
+                {
+                    name: "Mẫu CV cho bộ phận phòng Kế Hoạch",
+                    creator: users[0]._id,
+                    description: "Mẫu công việc cho phòng kế hoạch",
+                    action: [
+                        chucdanhs[1]._id,
+                        chucdanhs[4]._id,
+                        chucdanhs[7]._id,
+                    ]
+                },
             ];
             
             FormCV.insertMany(formcvs, function(err, result){
