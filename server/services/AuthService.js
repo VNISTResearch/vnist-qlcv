@@ -29,12 +29,15 @@ exports.login = (req, res) => {
             {
                 path: 'has.role', 
                 populate:{
-                    path: 'permission'
+                    path: 'perlink'
                 }
             },
             {
-                path: 'has.group'
-            }
+                path: 'has.chucdanh', 
+                populate:{
+                    path: 'percom'
+                }
+            },
         ])
         // .populate([{ path: 'id_group', populate: { path: 'id_role', populate: {path: 'id_permission'} }}])
         .then(user => {

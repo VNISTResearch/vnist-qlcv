@@ -8,7 +8,7 @@ class MainSideBar extends Component {
         var result = false;
         userService.currentUserValue.user.has.map((u) => {
             if (u.role._id === userService.currentUserValue.currentRole) {
-                u.role.permission.url.map((link) => {
+                u.role.perlink.url.map((link) => {
                     if (url === link)
                         result = true;
                     return true;

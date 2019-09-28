@@ -1,5 +1,5 @@
 const Role = require('../models/Role');
-const Permission = require('../models/Permission');
+const PerLink = require('../models/PerLink');
 const mongoose = require("mongoose");
 
 // DB Config
@@ -16,20 +16,20 @@ mongoose
 
 
 //2. Seed data role -----------------------------//
-Permission.find().exec((err, per) => {
+PerLink.find().exec((err, per) => {
     if(!err){
         var roles = [
             {
                 name: 'Trưởng Phòng',
-                permission: per[0]._id
+                perlink: per[0]._id
             },
             {
                 name: 'Phó Phòng',
-                permission: per[1]._id
+                perlink: per[1]._id
             },
             {
                 name: 'Nhân Viên',
-                permission: per[2]._id
+                perlink: per[2]._id
             },
         ];
         

@@ -18,6 +18,7 @@ function currentRoleEdit(user){
         window.location.reload();   
     }
 }
+
 function login(email, password) {
     return dispatch => {
         dispatch(request({ email }));

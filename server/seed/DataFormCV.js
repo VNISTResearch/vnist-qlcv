@@ -1,5 +1,5 @@
 const FormCV = require('../models/FormCV');
-const Group = require('../models/Group');
+const ChucDanh = require('../models/ChucDanh');
 const Role = require('../models/Role');
 const User = require('../models/User');
 const mongoose = require("mongoose");
@@ -19,150 +19,73 @@ mongoose
 
 //3. Seed data formCV -----------------------------//
 User.find().exec((err, users) => {
-    Role.find().exec((err, roles) => {
-        Group.find().exec((err, groups) => {
+        ChucDanh.find().exec((err, chucdanhs) => {
             var formcvs = [
                 {
-                    name: "Mẫu CV1 Phòng Kinh Doanh",
+                    name: "Mẫu CV1 Toàn Phòng Kinh Doanh",
                     creator: users[0]._id,
-                    description: "Mẫu công việc cho bộ phận phòng ban Kinh Doanh",
+                    description: "Mẫu công việc cho toàn bộ phận phòng ban Kinh Doanh",
                     action: [
-                        {
-                            role: roles[0]._id,//trưởng phòng
-                            group: groups[0]._id //phòng kinh doanh
-                        },
-                        {
-                            role: roles[1]._id,//phó phòng
-                            group: groups[0]._id//phòng kinh doanh
-                        },
-                        {
-                            role: roles[2]._id,//nhân viên
-                            group: groups[0]._id//phòng kinh doanh
-                        },
-                        
+                        chucdanhs[0]._id,
+                        chucdanhs[3]._id,
+                        chucdanhs[6]._id
                     ]
                 },
                 {
-                    name: "Mẫu CV1 Phòng Kế Hoạch",
-                    creator: users[1]._id,
-                    description: "Mẫu công việc cho bộ phận phòng ban kế hoạch",
+                    name: "Mẫu CV2 Toàn Phòng Kinh Doanh",
+                    creator: users[0]._id,
+                    description: "Mẫu công việc cho toàn bộ phận phòng ban Kinh Doanh",
                     action: [
-                        {
-                            role: roles[0]._id,//trưởng phòng
-                            group: groups[2]._id//phòng kế hoạch
-                        },
-                        {
-                            role: roles[1]._id,//phó phòng
-                            group: groups[2]._id//phòng kế hoạch
-                        },
+                        chucdanhs[0]._id,
+                        chucdanhs[3]._id,
+                        chucdanhs[6]._id
                     ]
                 },
                 {
-                    name: "Mẫu CV2 Phòng Kinh Doanh",
+                    name: "Mẫu CV3 TP,PP Kinh Doanh",
                     creator: users[0]._id,
-                    description: "Mẫu công việc cho bộ phận phòng ban Kinh Doanh",
+                    description: "Mẫu công việc cho trưởng và phó phòng ban Kinh Doanh",
                     action: [
-                        {
-                            role: roles[0]._id,//trưởng phòng
-                            group: groups[0]._id //phòng kinh doanh
-                        },
-                        {
-                            role: roles[1]._id,//phó phòng
-                            group: groups[0]._id//phòng kinh doanh
-                        },
-                        {
-                            role: roles[2]._id,//nhân viên
-                            group: groups[0]._id//phòng kinh doanh
-                        },
-                        
+                        chucdanhs[0]._id,
+                        chucdanhs[3]._id
                     ]
                 },
                 {
-                    name: "Mẫu CV3 Phòng Kinh Doanh",
+                    name: "Mẫu CV1 Toàn Phòng Tài Chính",
                     creator: users[0]._id,
-                    description: "Mẫu công việc cho bộ phận phòng ban Kinh Doanh",
+                    description: "Mẫu công việc cho bộ phận phòng ban Tài Chính",
                     action: [
-                        {
-                            role: roles[0]._id,//trưởng phòng
-                            group: groups[0]._id //phòng kinh doanh
-                        },
-                        {
-                            role: roles[1]._id,//phó phòng
-                            group: groups[0]._id//phòng kinh doanh
-                        },
-                        {
-                            role: roles[2]._id,//nhân viên
-                            group: groups[0]._id//phòng kinh doanh
-                        },
-                        
+                        chucdanhs[2]._id,
+                        chucdanhs[5]._id,
+                        chucdanhs[8]._id
                     ]
                 },
                 {
-                    name: "Mẫu CV4 Phòng Kinh Doanh",
+                    name: "Mẫu CV2 Toàn Phòng Tài Chính",
                     creator: users[0]._id,
-                    description: "Mẫu công việc cho bộ phận phòng ban Kinh Doanh",
+                    description: "Mẫu công việc cho bộ phận phòng ban Tài Chính",
                     action: [
-                        {
-                            role: roles[0]._id,//trưởng phòng
-                            group: groups[0]._id//phòng kinh doanh
-                        },
-                        {
-                            role: roles[1]._id,//phó phòng
-                            group: groups[0]._id//phòng kinh doanh
-                        },
-                        {
-                            role: roles[2]._id,//nhân viên
-                            group: groups[0]._id//phòng kinh doanh
-                        },
-                        
+                        chucdanhs[2]._id,
+                        chucdanhs[5]._id,
+                        chucdanhs[8]._id
                     ]
                 },
                 {
-                    name: "Mẫu CV5 Phòng Kinh Doanh",
+                    name: "Mẫu CV3 TP Tài Chính",
                     creator: users[0]._id,
-                    description: "Mẫu công việc cho bộ phận phòng ban Kinh Doanh",
+                    description: "Mẫu công việc cho trưởng phòng phòng ban Tài Chính",
                     action: [
-                        {
-                            role: roles[0]._id,//trưởng phòng
-                            group: groups[0]._id //phòng kinh doanh
-                        },
-                        {
-                            role: roles[1]._id,//phó phòng
-                            group: groups[0]._id//phòng kinh doanh
-                        },
-                        {
-                            role: roles[2]._id,//nhân viên
-                            group: groups[0]._id//phòng kinh doanh
-                        },
-                        
+                        chucdanhs[2]._id,
                     ]
                 },
                 {
-                    name: "Mẫu CV6 Phòng Kinh Doanh",
+                    name: "Mẫu CV cho bộ phận phòng Kế Hoạch",
                     creator: users[0]._id,
-                    description: "Mẫu công việc cho bộ phận phòng ban Kinh Doanh",
+                    description: "Mẫu công việc cho phòng kế hoạch",
                     action: [
-                        {
-                            role: roles[0]._id,//trưởng phòng
-                            group: groups[0]._id //phòng kinh doanh
-                        },
-                        {
-                            role: roles[1]._id,//phó phòng
-                            group: groups[0]._id//phòng kinh doanh
-                        }
-                        
-                    ]
-                },
-                {
-                    name: "Mẫu CV7 Phòng Kinh Doanh",
-                    creator: users[0]._id,
-                    description: "Mẫu công việc cho bộ phận phòng ban Kinh Doanh",
-                    action: [
-                        {
-                            role: roles[0]._id,//trưởng phòng
-                            group: groups[0]._id //phòng kinh doanh
-                        }
-                        
+                        chucdanhs[1]._id,
+                        chucdanhs[4]._id,
+                        chucdanhs[7]._id,
                     ]
                 },
             ];
@@ -175,5 +98,4 @@ User.find().exec((err, users) => {
                 }
             });
         });
-    });
 });

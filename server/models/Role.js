@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const Permission = require('./Permission');
+const PerLink = require('./PerLink');
 
 // Create Schema
 const RoleSchema = new Schema({
@@ -9,9 +9,9 @@ const RoleSchema = new Schema({
       type: String,
       required: true
   },
-  permission: {
+  perlink: {
     type: Schema.Types.ObjectId,
-    ref: Permission,
+    ref: PerLink,
     required: true
   }
 
