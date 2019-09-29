@@ -20,13 +20,13 @@ class ModalThemCongViec extends Component {
                                 <div className="form-group">
                                     <label className="col-sm-4 control-label" htmlFor="inputName3" style={{ width: '100%', textAlign: 'left' }}>Tên mẫu</label>
                                     <div className="col-sm-10" style={{ width: '100%' }}>
-                                        <input type="Name" className="form-control" id="inputName3" placeholder="Name"/>
+                                        <input type="Name" className="form-control" id="inputName3" placeholder="Name" />
                                     </div>
                                 </div>
                                 <div className="form-group">
                                     <label className="col-sm-4 control-label" htmlFor="inputUsername3" style={{ width: '100%', textAlign: 'left' }}>Người thực hiện:</label>
                                     <div className="col-sm-10" style={{ width: '100%' }}>
-                                        <input type="Username" className="form-control" id="inputUsername3" placeholder="Username" value="Bùi Văn Huy" disabled/>
+                                        <input type="Username" className="form-control" id="inputUsername3" placeholder="Username" value="Bùi Văn Huy" disabled />
                                     </div>
                                 </div>
                                 <div className="form-group">
