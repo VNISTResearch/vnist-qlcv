@@ -4,7 +4,7 @@ const User = require('./User.model');
 const JobTitle = require('./JobTitle.model');
 
 // Create Schema
-const WorkTemplatechema = new Schema({
+const WorkTemplateSchema = new Schema({
 	name: {
 		type: String,
 		required: true
@@ -37,4 +37,4 @@ const WorkTemplatechema = new Schema({
 	]
 });
 
-module.exports = WorkTemplate = mongoose.model("worktemplates", WorkTemplatechema);
+module.exports = WorkTemplate = mongoose.model("worktemplates", WorkTemplateSchema);
