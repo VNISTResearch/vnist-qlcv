@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { userService } from '../../../../service/UserService';
 import { userActions } from '../../../../redux-actions/CombineActions';
+import "./MainHeaderMenu.css";
 
 class MainHeaderMenu extends Component {
     constructor(props) {
@@ -261,7 +262,7 @@ class MainHeaderMenu extends Component {
                     </li>
                     {/* Control Sidebar Toggle Button */}
                     <li>
-                        <select defaultValue={currentUser.currentRole} onChange={this.handleChange} style={{ padding: "15px 15px", backgroundColor: "#3c8dbc", border: "none",color: "white"}}>
+                        <select className="selectRole" defaultValue={currentUser.currentRole} onChange={this.handleChange}>
                             {currentUser.user.has.map(x => {
                                  return <option key={x.role._id} value={x.role._id}>{x.chucdanh.name}</option>
                             })}

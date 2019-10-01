@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // import './modal.css';
-class ModalThemCongViec extends Component {
+class ModalAddTaskTemplate extends Component {
     render() {
         return (
             <div className="modal fade" id="myModalHorizontal" tabIndex={-1} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -67,4 +67,4 @@ class ModalThemCongViec extends Component {
     }
 }
 
-export default ModalThemCongViec;
+export default ModalAddTaskTemplate;

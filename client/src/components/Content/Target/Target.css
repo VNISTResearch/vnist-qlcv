@@ -1,7 +1,3 @@
-.content-header{
-    background-color: azure !important;
-}
-
 .addgoal{
     float: right;
     margin-top: -9px;
@@ -11,11 +7,6 @@
 
 .addgoal::before{
     content: "+ ";
-}
-
-.content{
-    background-color: aliceblue;
-    height: fit-content;
 }
 
 .clear{

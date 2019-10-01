@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import './muctieu.css'
+import './Target.css'
 import TableData from './TableData';
-import ModalThemMucTieu from './ModalThemMucTieu';
-class MucTieu extends Component {
+import ModalAddTarget from './ModalAddTarget';
+class Target extends Component {
     render() {
         return (
             <div className="content-wrapper">
@@ -10,7 +10,7 @@ class MucTieu extends Component {
                     <section className="content-header">
                         <label>Mục tiêu cá nhân</label>
                         <button type="button" className="btn btn-success addgoal" data-toggle="modal" data-target="#myModalHorizontal">Thêm mục tiêu</button>
-                        <ModalThemMucTieu type="1"/>
+                        <ModalAddTarget type="1"/>
                         <div className="clear"></div>
                     </section>
                     {/* Main content */}
@@ -28,4 +28,4 @@ class MucTieu extends Component {
     }
 }
 
-export default MucTieu;
+export {Target};

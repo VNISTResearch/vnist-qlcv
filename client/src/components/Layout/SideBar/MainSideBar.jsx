@@ -73,8 +73,8 @@ class MainSideBar extends Component {
                             </li>
                             <li>
                                 {
-                                    this.checkURL("/WorkTemplate") &&
-                                    <Link to="/WorkTemplate">
+                                    this.checkURL("/tasktemplate") &&
+                                    <Link to="/tasktemplate">
                                         <i className="fa fa-th" /> <span>WorkTemplate</span>
                                         <span className="pull-right-container">
                                             <i className="fa fa-angle-left pull-right" />
@@ -84,9 +84,20 @@ class MainSideBar extends Component {
                             </li>
                             <li className="treeview">
                                 {
-                                    this.checkURL("/muctieu") &&
-                                    <Link to="/muctieu">
+                                    this.checkURL("/target") &&
+                                    <Link to="/target">
                                         <i className="fa fa-dashboard" /> <span>Quản lý mục tiêu</span>
+                                        <span className="pull-right-container">
+                                            <i className="fa fa-angle-left pull-right" />
+                                        </span>
+                                    </Link>
+                                }
+                            </li>
+                            <li className="treeview">
+                                {
+                                    this.checkURL("/organizationstructure") &&
+                                    <Link to="/organizationstructure">
+                                        <i className="fa fa-dashboard" /> <span>Organization Structure</span>
                                         <span className="pull-right-container">
                                             <i className="fa fa-angle-left pull-right" />
                                         </span>

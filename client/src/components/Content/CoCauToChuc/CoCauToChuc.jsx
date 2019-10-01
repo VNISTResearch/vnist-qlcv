@@ -16,7 +16,7 @@ class CoCauToChuc extends Component {
                 <section className="content-header">
                     <h1>
                         Quản lý cơ cấu tổ chức
-                <small>Preview</small>
+                        <small>Preview</small>
                     </h1>
                     <ol className="breadcrumb">
                         <li><a href="/"><i className="fa fa-dashboard" /> Home</a></li>
