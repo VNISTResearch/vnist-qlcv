@@ -5,7 +5,8 @@ const keys = require("../config/keys");
 const validateLoginInput = require("../validation/login");
 const validateRegisterInput = require("../validation/register");
 
-const User = require("../models/User");
+const User = require("../models/User.model");
+const UserJobTitle = require("../models/UserJobTitle.model");
 
 
 //Handle for login and register service--------------------------//
@@ -25,50 +26,35 @@ exports.login = (req, res) => {
 
     // Find user by email
     User.findOne({ email })
-        .populate([
-            {
-                path: 'has.role', 
-                populate:{
-                    path: 'perlink'
-                }
-            },
-            {
-                path: 'has.chucdanh', 
-                populate:{
-                    path: 'percom'
-                }
-            },
-        ])
-        // .populate([{ path: 'id_group', populate: { path: 'id_role', populate: {path: 'id_permission'} }}])
         .then(user => {
-        // Check if user exists
-        if (!user) {
-        return res.status(404).json({ emailnotfound: "Email not found" });
-        }
-        bcrypt.compare(password, user.password).then(isMatch => {
-            if (isMatch) {
-                // User matched
-                // Create JWT Payload
-                const payload = {
-                    id: user.id,
-                    name: user.name
-                };
+            // Check if user exists
+            if (!user) {
+                return res.status(404).json({ emailnotfound: "Email not found" });
+            }
+            bcrypt.compare(password, user.password).then(isMatch => {
+                if (isMatch) {
+                    // User matched
+                    // Create JWT Payload
+                    const payload = {
+                        id: user.id,
+                        name: user.name
+                    };
 
-                // Sign token
-                jwt.sign(
-                    payload,
-                    keys.secretOrKey,
-                    {
-                        expiresIn: 31556926 // 1 year in seconds
-                    },
-                    (err, token) => {
-                        res.json({
-                                success: true,
-                                token: "VNIST " + token,
-                                user: user
-                            })
-                    }
-                );
+                    // Sign token
+                    jwt.sign(
+                        payload,
+                        keys.secretOrKey,
+                        {
+                            expiresIn: 31556926 // 1 year in seconds
+                        },
+                        (err, token) => {
+                            res.json({
+                                    success: true,
+                                    token: "VNIST" + token,
+                                    user: user
+                                })
+                        }
+                    );
             } else {
                 return res
                     .status(400)
