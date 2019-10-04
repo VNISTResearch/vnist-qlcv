@@ -110,6 +110,10 @@ class MainSideBar extends Component {
                                     <Link to="/privilege">
                                         <i className="fa fa-dashboard" /> <span>Phân quyền</span>
                                     </Link>
+                                    <ul className="treeview-menu">
+                                        <li><a href="pages/tables/simple.html"><i className="fa fa-circle-o" /> Role</a></li>
+                                        <li><a href="pages/tables/data.html"><i className="fa fa-circle-o" /> Data tables</a></li>
+                                    </ul>
                                 }
                             </li>
                             {/* <li className="treeview">
