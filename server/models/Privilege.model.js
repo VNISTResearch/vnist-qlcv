@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const Role = require('./Role.model');
 const Department = require('./Department.model');
+const Action = require('./Action.model');
 
 // Create Schema
 const PrivilegeSchema = new Schema({
@@ -25,10 +26,11 @@ const PrivilegeSchema = new Schema({
         enum: ['Link', 'WorkTemplate'],
         required: true
     },
-    action: [{
-        type: String,
+    action: { //luu id cua hanh dong tuong ung
+        type: Schema.Types.ObjectId,
+        ref: Action,
         required: true
-    }]
+    }
 });
 
 module.exports = Privilege = mongoose.model("privileges", PrivilegeSchema);

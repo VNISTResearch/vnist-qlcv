@@ -17,6 +17,11 @@ const WorkTemplateSchema = new Schema({
         type: String,
         required: true
     },
+    status: {
+        type: Boolean,
+        default: true,
+        required: true
+    },
     date: {
         type: Date,
         default: Date.now

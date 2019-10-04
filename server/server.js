@@ -5,6 +5,7 @@ const passport = require("passport");
 const users = require("./routes/api/users");
 const departments = require("./routes/api/departments");
 const worktemplates = require("./routes/api/worktemplates");
+const jobtitles = require("./routes/api/jobtitles");
 const cors = require('cors');
 
 const app = express();
@@ -40,6 +41,7 @@ require("./config/passport")(passport);
 app.use("/users", users);
 app.use("/departments", departments);
 app.use("/worktemplates", worktemplates);
+app.use("/jobtitles", jobtitles);
 
 const port = process.env.PORT || 5000;
 

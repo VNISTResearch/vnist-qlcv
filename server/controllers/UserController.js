@@ -11,3 +11,15 @@ exports.getById = (req, res) => {
 exports.create = (req, res) => {
     return UserService.create(req, res);
 };
+
+exports.createJobTitle = (req, res) => {
+    return UserService.createJobTitle(req, res);
+};
+
+exports.edit = (req, res) => {
+    return UserService.edit(req, res);
+};
+
+exports.delete = (req, res) => {
+    return UserService.delete(req, res);
+};

@@ -1,6 +1,7 @@
 const WorkTemplate = require('../models/WorkTemplate.model');
 const Privilege = require('../models/Privilege.model');
-const JobTitle = require('../models/JobTitle.model')
+const JobTitle = require('../models/JobTitle.model');
+const Action = require('../models/Action.model')
 
 exports.get = async (req, res) => {
     try {
@@ -32,7 +33,7 @@ exports.getByJobTitle = async (req, res) => { // lấy role và departments vì 
 	}
 }
 
-exports.create = async (req, res) => {
+exports.create_ = async (req, res) => {
     try {
         var template = await WorkTemplate.create({  //Tạo dữ liệu mẫu công việc
             name: req.body.name,
@@ -74,3 +75,61 @@ exports.create = async (req, res) => {
         res.json({ message: error });
     }
 } 
+
+
+        // req.body.read - có quyền xem - một array id Jobtitle
+        // req.body.write - có quyền thực hiện
+        // req.body.all - có quyền phê duỵet
+        // req.body.observe - có quyền quan sát
+exports.create = async(req, res) => {
+    try {
+        var wt = await WorkTemplate.create({  //Tạo dữ liệu mẫu công việc
+            name: req.body.name,
+            creator: req.body.creator,
+            description: req.body.description
+		});
+		
+		var jobs = req.body.read;
+		var read_action = await Action.findOne({name: "READ"}); 
+        jobs.map( async job => {
+            var r = await JobTitle.findById(job);
+            await Privilege.create({    
+                role: r.role,                  
+                department: r.department,           
+                resource: wt._id,                
+                resourceType: "WorkTemplate",           
+                action: read_action._id                        
+            });
+		});
+
+        res.json({
+            message: "Tạo thành công  mẫu công việc",
+			worktemplate: jobs,
+			read: jobs,
+			write: jobsW
+        });
+    } catch (error) {
+        res.json({ message: error });
+    }
+}
+
+
+// var act = await Action.findOne(req.body.action);
+		// if( act === null ){
+		// 	var actNew = await Action.create(req.body.action);
+		// 	await Privilege.create({    
+		// 		role: req.body.role,                  
+		// 		department: req.body.department,        
+		// 		resource: wt._id,                
+		// 		resourceType: "WorkTemplate",           
+		// 		action: actNew._id                         
+		// 	});
+		// }else{
+		// 	await Privilege.create({    
+		// 		role: req.body.role,                  
+		// 		department: req.body.department,        
+		// 		resource: wt._id,                
+		// 		resourceType: "WorkTemplate",           
+		// 		action: act._id                         
+		// 	});
+        // }
