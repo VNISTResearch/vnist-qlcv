@@ -48,9 +48,9 @@ exports.create = async (req, res) => {
     }
 }
 
-exports.addUserToDeparment = async (req, res) => {
+exports.createJobTitle = async (req, res) => {
     try {
-        var result = UserJobTitle.create({
+        var result = await UserJobTitle.create({
             user_id: req.body.user_id,
             jobTitle_id: req.body.jobTitle_id
         });
@@ -58,6 +58,46 @@ exports.addUserToDeparment = async (req, res) => {
         res.json({
             message: "Thêm chức danh thành công!",
             content: result
+        });
+    } catch (error) {
+        res.json({ message: error });
+    }
+}
+
+exports.edit = async (req, res) => {
+    try {
+        var user = await User.updateOne(
+            { _id: req.params.id }, //tìm user theo id
+            { $set:{ name: req.body.name } } //update thông tin user
+        );
+
+        res.json({
+            message: "Thêm chức danh thành công!",
+            content: user
+        });
+    } catch (error) {
+        res.json({ message: error });
+    }
+}
+
+exports.editJobTitle = async (req, res) => {
+    try {
+        //code here  ...
+    } catch (error) {
+        res.json({ message: error });
+    }
+}
+
+exports.delete = async (req, res) => {
+    try {
+        var user = await User.deleteOne({ _id: req.params.idUser });
+        var userJobTitle = await UserJobTitle.deleteOne({ user_id: req.params.idUser });
+        res.json({
+            message: "Xóa thành công tài khoản!",
+            content: {
+                user: user,
+                userJobTitle: userJobTitle
+            }
         });
     } catch (error) {
         res.json({ message: error });
