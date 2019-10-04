@@ -4,3 +4,4 @@ export * from './TaskTemplate/TaskTemplate';
 export * from './Home/Home';
 export * from './Target/Target';
 export * from './OrganizationStructure/OrganizationStructure';
+export * from './Privilege/Privilege';

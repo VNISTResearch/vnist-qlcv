@@ -104,6 +104,14 @@ class MainSideBar extends Component {
                                     </Link>
                                 }
                             </li>
+                            <li className="treeview">
+                                {
+                                    this.checkURL("/privilege") &&
+                                    <Link to="/privilege">
+                                        <i className="fa fa-dashboard" /> <span>Phân quyền</span>
+                                    </Link>
+                                }
+                            </li>
                             {/* <li className="treeview">
                                 <a href="#abc">
                                     <i className="fa fa-edit" /> <span>Forms</span>

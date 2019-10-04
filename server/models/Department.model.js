@@ -7,6 +7,7 @@ const DepartmentSchema = new Schema({
         type: String,
         required: true
     },
+    // id_parent?
     date: {
         type: Date,
         default: Date.now
