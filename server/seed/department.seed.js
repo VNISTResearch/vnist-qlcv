@@ -1,4 +1,4 @@
-const TypeTarget = require('../models/TypeTarget');
+const Department = require('../models/department.model');
 const mongoose = require("mongoose");
 
 // DB Config
@@ -14,25 +14,26 @@ mongoose
   .catch(err => console.log(err));
 
 
-//3. Seed data role -----------------------------//
-var typeTargets = [
+
+//1. Seed data permission---------------------------//
+var departments = [
     {
-        name: 'Tài chính'
+        name: 'Phòng Kế Hoạch'
     },
     {
-        name: 'Quy trình nội bộ'
+        name: 'Phòng Tài Chính'
     },
     {
-        name: 'Khách hàng'
+        name: 'Phòng Nhân Sự'
     },
     {
-        name: 'Đào tạo & phát triển'
+        name: 'Phòng Kỹ Thuật'
     }
 ];
 
-TypeTarget.insertMany(typeTargets, function(err, result){
+Department.insertMany(departments, function(err, result){
     if(!err){
-        console.log("Seed GroupData :\n" + result);
+        console.log("Seed Department Data :\n" + result);
     }else{
         console.log(err);
     }

@@ -1,40 +1,31 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const User = require('./User.model');
-const JobTitle = require('./JobTitle.model');
 
 // Create Schema
 const WorkTemplateSchema = new Schema({
-	name: {
-		type: String,
-		required: true
-	},
-	creator: {
-		type: Schema.Types.ObjectId,
-		ref: User,
-		required: true
-	},
-	description: {
-		type: String,
-		required: true
-	},
-	permisson: [
-		{
-			jobTitleId:{
-				type: Schema.Types.ObjectId,
-                ref: JobTitle,
-                required: true
-			},
-			can: {
-                see: Boolean,
-                open: Boolean,
-                create: Boolean,
-                edit: Boolean,
-                delete: Boolean
-			}
-		}
-
-	]
+    name: { //Tên của work template
+        type: String,
+        required: true
+    },
+    creator: {
+        type: Schema.Types.ObjectId,
+        ref: User,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
+    },
+    status: {
+        type: Boolean,
+        default: true,
+        required: true
+    },
+    date: {
+        type: Date,
+        default: Date.now
+    }
 });
 
-module.exports = WorkTemplate = mongoose.model("worktemplates", WorkTemplateSchema);
+module.exports = WorkTemplate = mongoose.model("work_templates", WorkTemplateSchema);
