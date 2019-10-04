@@ -1,0 +1,14 @@
+.selectRole{
+    padding: 15px 15px;
+    background-color: #00a65a;
+    border: none;
+    color: white;
+}
+
+#selectRole {
+    background-color: #00a65a !important;
+}
+
+#selectRole:hover {
+    background-color: #00a65a !important;
+}

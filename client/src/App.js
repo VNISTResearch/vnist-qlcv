@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import { Router } from "react-router-dom";
+import { connect } from 'react-redux';
+import { history } from '../src/helpers/History';
+import { alertActions } from './redux-actions/AlertActions';
+import { Routes } from './react-routes/ComebineRoutes';
+class App extends Component {
+  constructor(props) {
+    super(props);
 
-function App() {
+    history.listen((location, action) => {
+      // clear alert on location change
+      this.props.clearAlerts();
+    });
+  }
+  
+render() {
+  const { alert } = this.props;
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router history={history}>
+      {alert.message &&
+        <div className={`alert ${alert.type}`}>{alert.message}</div>
+      }
+      <Routes/>
+    </Router>
   );
 }
-
-export default App;
+}
+function mapState(state) {
+  const { alert } = state;
+  return { alert };
+}
+const actionCreators = {
+  clearAlerts: alertActions.clear
+};
+export default connect(mapState, actionCreators)(App);

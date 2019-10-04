@@ -1,0 +1,23 @@
+.content-header{
+    background-color: azure !important;
+}
+
+.addgoal{
+    float: right;
+    margin-top: -9px;
+    margin-bottom: 7px;
+    margin-right: 20px;
+}
+
+.addgoal::before{
+    content: "+ ";
+}
+
+.content{
+    background-color: aliceblue;
+    height: fit-content;
+}
+
+.clear{
+    clear:both
+}
