@@ -3,6 +3,7 @@ const Privilege = require('../models/Privilege.model');
 const JobTitle = require('../models/JobTitle.model');
 const Action = require('../models/Action.model')
 
+//Lấy tất cả các mẫu công việc
 exports.get = async (req, res) => {
     try {
         var template = await WorkTemplate.find();
@@ -17,6 +18,22 @@ exports.get = async (req, res) => {
     }
 }
 
+//Lấy mẫu công việc theo Id
+exports.getById = async (req, res) => {
+    try {
+        var template = await WorkTemplate.findById(req.params.id);
+
+        res.json({
+            message: "Get worktemplate by Id",
+            content: template
+        });
+    } catch (error) {
+
+        res.json({ message: error });
+    }
+}
+
+//Lấy mẫu công việc theo chức danh
 exports.getByJobTitle = async (req, res) => { // lấy role và departments vì jobtitle = role + department	
 	try {
 		var id  = req.params.jobTitleId;
@@ -33,54 +50,7 @@ exports.getByJobTitle = async (req, res) => { // lấy role và departments vì 
 	}
 }
 
-exports.create_ = async (req, res) => {
-    try {
-        var template = await WorkTemplate.create({  //Tạo dữ liệu mẫu công việc
-            name: req.body.name,
-            creator: req.body.creator,
-            description: req.body.description
-        });
-        var privilege = await Privilege.create({    //Phân quyền cho mẫu công việc 
-            role: req.body.role,                    //Id role: TP,PP,NV
-            department: req.body.department,        //Id Department
-            resource: template._id,                 //Id của worktemplate trong bảng worktemplate
-            resourceType: "WorkTemplate",           //Kiểu tài nguyên là WorkTemplate
-            action: req.body.action                 //ví dụ [ create, edit, delete]
-        });
-
-        //Phân quyền thêm cho role parents của role hiện tại nếu có
-        var role = await Role.findById(req.body.role);   //lấy role được phân quyền
-        var parents = role.parents;
-        if(parents.length > 0){
-            parents.map(role => {
-                    Privilege.create({                      //Phân quyền cho mẫu công việc 
-                    role: role,                             //Id role: TP,PP,NV
-                    department: req.body.department,        //Id Department
-                    resource: template._id,                 //Id của worktemplate trong bảng worktemplate
-                    resourceType: "WorkTemplate",           //Kiểu tài nguyên là WorkTemplate
-                    action: req.body.action                 //ví dụ [ create, edit, delete]
-                });
-            });
-        }
-
-        res.json({                                  //trả lại thông tin cho người dùng
-            message: "Tạo thành công mẫu công việc!",
-            content: {
-                worktemplate: template,
-                privilege: privilege,
-                parents: parents
-            }
-        });
-    } catch (error) {
-        res.json({ message: error });
-    }
-} 
-
-
-        // req.body.read - có quyền xem - một array id Jobtitle
-        // req.body.write - có quyền thực hiện
-        // req.body.all - có quyền phê duỵet
-        // req.body.observe - có quyền quan sát
+//Tạo mẫu công việc
 exports.create = async(req, res) => {
     try {
         var wt = await WorkTemplate.create({  //Tạo dữ liệu mẫu công việc
@@ -113,23 +83,21 @@ exports.create = async(req, res) => {
     }
 }
 
+//Xóa mẫu công việc
+exports.delete = async () => {
+    try {
+        var template = await WorkTemplate.deleteOne(req.params.id); // xóa mẫu công việc theo id
+        var privileges = await Privilege.delete({ 
+            resource: id,
+            resourceType: "WorkTemplate"
+        });
 
-// var act = await Action.findOne(req.body.action);
-		// if( act === null ){
-		// 	var actNew = await Action.create(req.body.action);
-		// 	await Privilege.create({    
-		// 		role: req.body.role,                  
-		// 		department: req.body.department,        
-		// 		resource: wt._id,                
-		// 		resourceType: "WorkTemplate",           
-		// 		action: actNew._id                         
-		// 	});
-		// }else{
-		// 	await Privilege.create({    
-		// 		role: req.body.role,                  
-		// 		department: req.body.department,        
-		// 		resource: wt._id,                
-		// 		resourceType: "WorkTemplate",           
-		// 		action: act._id                         
-		// 	});
-        // }
+        res.json({
+            message: "Xóa thành công mẫu công việc",
+            template: template,
+            privileges: privileges
+        });
+    } catch (error) {
+        res.json({ message: error });
+    }
+}
