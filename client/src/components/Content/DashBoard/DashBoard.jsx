@@ -3,7 +3,7 @@ import { DashBoardHeader } from './DashBoardHeader/DashBoardHeader';
 import { DashBoardContentLeft, DashBoardContentRight } from './DashBoardContent/CombineDashBoardContent';
 
 class DashBoard extends Component {
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         // loadjs('js/home.js');
         let script = document.createElement('script');
         script.src = 'main/js/DashBoard.js';

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './OrganizationStructure.css'
 class OrganizationStructure extends Component {
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
         // loadjs('js/home.js');
         let script = document.createElement('script');
         script.src = 'main/js/OrganizationStructure.js';

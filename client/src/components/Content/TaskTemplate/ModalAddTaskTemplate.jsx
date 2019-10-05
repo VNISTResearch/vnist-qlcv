@@ -4,6 +4,10 @@ import { taskTemplateActions, jobTitleActions} from '../../../redux-actions/Comb
 // import './modal.css';
 
 class ModalAddTaskTemplate extends Component {
+    componentWillMount(){
+        this.props.getJobTitle();
+    }
+
     constructor(props) {
         super(props);
 
@@ -19,10 +23,6 @@ class ModalAddTaskTemplate extends Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    componentWillMount(){
-        this.props.getJobTitle();
     }
 
     handleChange(event) {
@@ -47,9 +47,13 @@ class ModalAddTaskTemplate extends Component {
         }
     }
     render() {
+        var course;
         const { newTemplate, submitted } = this.state;
         const { jobtitles } = this.props;
-        console.log(jobtitles);
+        // console.log("item",jobtitles.items);
+        if(jobtitles.items) course = jobtitles.items.content;
+        
+        // console.log("content",jobtitles.items.content);
         return (
             <div className="modal fade" id="myModalHorizontal" tabIndex={-1} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
@@ -78,9 +82,10 @@ class ModalAddTaskTemplate extends Component {
                                     <label className="col-sm-5 control-label" style={{ width: '100%', textAlign: 'left' }}>Những người được phép xem*</label>
                                     <div className="col-sm-10" style={{ width: '100%' }}>
                                         <select defaultValue={newTemplate.read} className="form-control select2" multiple="multiple" name="read" onChange={this.handleChange} data-placeholder="Select a State" style={{ width: '100%' }}>
-                                            {/* { jobtitles.items.content.map(x => {
+                                            { course && 
+                                            jobtitles.items.content.map(x => {
                                                 return <option key={x._id} value={x._id}>{x.name}</option>
-                                            })} */}
+                                            })}
                                             {/* <option value="Alabama">Alabama</option>
                                             <option value="Alaska">Alaska</option>
                                             <option value="California">California</option>

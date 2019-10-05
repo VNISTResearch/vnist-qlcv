@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 class CoCauToChuc extends Component {
-    componentWillMount(){
+    UNSAFE_componentWillMount(){
         // loadjs('js/home.js');
             // let script = document.createElement('script');
             // script.src = 'main/js/CoCauToChuc.js';

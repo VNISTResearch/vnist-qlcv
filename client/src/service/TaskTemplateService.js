@@ -17,5 +17,5 @@ function addNewTemplate(newTemplate) {
         body: JSON.stringify(newTemplate)
     };
 
-    return fetch(`/worktemplate/create`, requestOptions);
+    return fetch(`/worktemplates/create`, requestOptions);
 }
