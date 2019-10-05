@@ -1,4 +1,4 @@
-const Department = require('../models/department.model');
+const Department = require('../models/Department.model');
 const mongoose = require("mongoose");
 
 // DB Config

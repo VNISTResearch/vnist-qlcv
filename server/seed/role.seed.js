@@ -1,4 +1,4 @@
-const Role = require('../models/role.model');
+const Role = require('../models/Role.model');
 const mongoose = require("mongoose");
 
 // DB Config

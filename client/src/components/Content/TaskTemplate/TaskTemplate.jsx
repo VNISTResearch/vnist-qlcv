@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { userService } from '../../../service/CombineService';
 import axios from 'axios';
-import ModalAddTaskTemplate from './ModalAddTaskTemplate';
+import {ModalAddTaskTemplate} from './ModalAddTaskTemplate';
 
 class TaskTemplate extends Component {
 
@@ -12,46 +12,46 @@ class TaskTemplate extends Component {
         };
     }
 
-    componentDidMount() {
-        // var id = this.getChucDanh()
-        const URL = 'http://localhost:5000/api/forms/manage/' + this.getChucDanh();
-        axios.get(URL)
-            .then(res => {
-                this.setState({ forms: res.data });
-            });
-    }
+    // componentDidMount() {
+    //     // var id = this.getChucDanh()
+    //     const URL = 'http://localhost:5000/api/forms/manage/' + this.getChucDanh();
+    //     axios.get(URL)
+    //         .then(res => {
+    //             this.setState({ forms: res.data });
+    //         });
+    // }
 
-    getChucDanh = () => {
-        var user = userService.currentUserValue.user;
-        console.log(user);
-        var role = userService.currentUserValue.currentRole;
-        console.log(role);
-        var result = role;
-        user.has.map(a => {
+    // getChucDanh = () => {
+    //     var user = userService.currentUserValue.user;
+    //     console.log(user);
+    //     var role = userService.currentUserValue.currentRole;
+    //     console.log(role);
+    //     var result = role;
+    //     user.has.map(a => {
 
-            if (a.role._id === role) {
-                console.log(a.role._id);
-                result = a.chucdanh._id;
-            }
-            return true;
-        });
+    //         if (a.role._id === role) {
+    //             console.log(a.role._id);
+    //             result = a.chucdanh._id;
+    //         }
+    //         return true;
+    //     });
 
-        return result;
-    }
+    //     return result;
+    // }
 
-    getPermision = () => {
-        var user = userService.currentUserValue.user;
-        var role = userService.currentUserValue.currentRole;
-        var data = {};
-        user.has.map(a => {
-            if (a.role._id === role) {
-                data = a.chucdanh.percom.can;
-            }
-            return true;
-        });
+    // getPermision = () => {
+    //     var user = userService.currentUserValue.user;
+    //     var role = userService.currentUserValue.currentRole;
+    //     var data = {};
+    //     user.has.map(a => {
+    //         if (a.role._id === role) {
+    //             data = a.chucdanh.percom.can;
+    //         }
+    //         return true;
+    //     });
 
-        return data;
-    }
+    //     return data;
+    // }
 
     render() {
         return (
@@ -79,10 +79,10 @@ class TaskTemplate extends Component {
                                             <h3 className="box-title">Bảng danh sách mẫu công việc</h3>
                                         </div>
                                         <div className="col-xs-2">
-                                            {
-                                                this.getPermision().createForm &&
+                                            {/* {
+                                                this.getPermision().createForm && */}
                                                 <button type="button" className="btn btn-success" data-toggle="modal" data-target="#myModalHorizontal">Thêm 1 mẫu công việc</button>
-                                            }
+                                            {/* } */}
                                             <ModalAddTaskTemplate />
                                         </div>
                                     </div>
@@ -100,7 +100,7 @@ class TaskTemplate extends Component {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {
+                                            {/* {
                                                 this.state.forms.length === 0 ? <tr><td colSpan={5}>No data</td></tr> :
                                                     this.state.forms.map(form =>
                                                         <tr key={form._id}>
@@ -114,7 +114,7 @@ class TaskTemplate extends Component {
                                                             </td>
                                                         </tr>
                                                     )
-                                            }
+                                            } */}
                                         </tbody>
                                         {/* <tfoot>
                             <tr>

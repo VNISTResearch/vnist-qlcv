@@ -1,6 +1,6 @@
-const User = require('../models/user.model');
-const JobTitle = require('../models/jobTitle.model');
-const UserJobTitle = require('../models/user-jobTitle.model');
+const User = require('../models/User.model');
+const JobTitle = require('../models/JobTitle.model');
+const UserJobTitle = require('../models/UserJobTitle.model');
 const mongoose = require("mongoose");
 
 // DB Config

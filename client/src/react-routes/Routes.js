@@ -14,9 +14,9 @@ class Routes extends Component {
                 <Route exact path="/login" component={LoginPage} />
                 <Route exact path="/register" component={RegisterPage} />
                 <PrivateRoute exact path="/target" layout={Layout} component={Target} />
-                <PrivateRoute path="/cocautochuc" layout={Layout} component={CoCauToChuc} />
-                <PrivateRoute path="/tasktemplate" layout={Layout} component={TaskTemplate} />
-                <PrivateRoute path="/privilege" layout={Layout} component={Privilege} />
+                <Route path="/cocautochuc" layout={Layout} component={CoCauToChuc} />
+                <Route path="/tasktemplate" layout={Layout} component={TaskTemplate} />
+                <Route path="/privilege" layout={Layout} component={Privilege} />
                 <PrivateRoute path="/organizationstructure" layout={Layout} component={OrganizationStructure} />
             </React.Fragment>
         );

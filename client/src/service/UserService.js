@@ -21,10 +21,10 @@ function login(email, password) {
         body: JSON.stringify({ email, password })
     };
 
-    return fetch(`/api/users/login`, requestOptions)
+    return fetch(`/users/login`, requestOptions)
         .then(handleResponse)
         .then(user => { 
-            user = {...user, currentRole: user.user.has[0].role._id};
+            // user = {...user, currentRole: user.user.has[0].role._id};
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             localStorage.setItem('user', JSON.stringify(user));
             currentUserSubject.next(user);
@@ -39,7 +39,7 @@ function register(user) {
         body: JSON.stringify(user)
     };
 
-    return fetch(`/api/users/register`, requestOptions).then(handleResponse);
+    return fetch(`/users/register`, requestOptions).then(handleResponse);
 }
 
 function logout() {

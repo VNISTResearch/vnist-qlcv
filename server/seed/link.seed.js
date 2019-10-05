@@ -1,4 +1,4 @@
-const Link = require('../models/link.model');
+const Link = require('../models/Link.model');
 const mongoose = require("mongoose");
 
 // DB Config

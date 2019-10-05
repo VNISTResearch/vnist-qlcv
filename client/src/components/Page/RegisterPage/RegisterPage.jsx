@@ -79,7 +79,7 @@ class RegisterPage extends Component {
                             </div>
                             <div className="row">
                                 <div className="col-xs-8">
-                                    <div className="checkbox icheck">
+                                    <div className="checkbox">
                                         <label>
                                             <input type="checkbox" /> I agree to the <a href="#abc">terms</a>
                                         </label>
