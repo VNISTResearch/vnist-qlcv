@@ -75,8 +75,7 @@ exports.create = async(req, res) => {
         res.json({
             message: "Tạo thành công  mẫu công việc",
 			worktemplate: jobs,
-			read: jobs,
-			write: jobsW
+			read: jobs
         });
     } catch (error) {
         res.json({ message: error });

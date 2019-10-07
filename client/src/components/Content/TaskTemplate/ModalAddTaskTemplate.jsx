@@ -4,7 +4,7 @@ import { taskTemplateActions, jobTitleActions} from '../../../redux-actions/Comb
 // import './modal.css';
 
 class ModalAddTaskTemplate extends Component {
-    componentWillMount(){
+    UNSAFE_componentWillMount(){
         this.props.getJobTitle();
     }
 
@@ -26,6 +26,7 @@ class ModalAddTaskTemplate extends Component {
     }
 
     handleChange(event) {
+        console.log(this.state.newTemplate);
         const { name, value } = event.target;
         const { newTemplate } = this.state;
         this.setState({
@@ -34,15 +35,14 @@ class ModalAddTaskTemplate extends Component {
                 [name]: value
             }
         });
-        console.log(this.state.newTemplate);
     }
-
+    
     handleSubmit(event) {
         event.preventDefault();
 
         this.setState({ submitted: true });
         const { newTemplate } = this.state;
-        if (newTemplate.name && newTemplate.read && newTemplate.description) {
+        if (newTemplate.name && newTemplate.read!==[] && newTemplate.description) {
             this.props.addNewTemplate(newTemplate);
         }
     }
@@ -52,8 +52,6 @@ class ModalAddTaskTemplate extends Component {
         const { jobtitles } = this.props;
         // console.log("item",jobtitles.items);
         if(jobtitles.items) course = jobtitles.items.content;
-        
-        // console.log("content",jobtitles.items.content);
         return (
             <div className="modal fade" id="myModalHorizontal" tabIndex={-1} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
@@ -75,15 +73,15 @@ class ModalAddTaskTemplate extends Component {
                                         <input type="Name" className="form-control" id="inputName3" placeholder="Name" value={newTemplate.name} onChange={this.handleChange} name="name" />
                                     </div>
                                     {submitted && !newTemplate.name &&
-                                        <div className="help-block">Template name is required</div>
+                                        <div className=" col-sm-4 help-block">Template name is required</div>
                                     }
                                 </div>
-                                <div className={'form-group has-feedback' + (submitted && !newTemplate.read ? ' has-error' : '')}>
+                                <div className={'form-group has-feedback' + (submitted && newTemplate.read!==[] ? ' has-error' : '')}>
                                     <label className="col-sm-5 control-label" style={{ width: '100%', textAlign: 'left' }}>Những người được phép xem*</label>
                                     <div className="col-sm-10" style={{ width: '100%' }}>
                                         <select defaultValue={newTemplate.read} className="form-control select2" multiple="multiple" name="read" onChange={this.handleChange} data-placeholder="Select a State" style={{ width: '100%' }}>
                                             { course && 
-                                            jobtitles.items.content.map(x => {
+                                            course.map(x => {
                                                 return <option key={x._id} value={x._id}>{x.name}</option>
                                             })}
                                             {/* <option value="Alabama">Alabama</option>
@@ -95,8 +93,8 @@ class ModalAddTaskTemplate extends Component {
                                             <option value="Washington">Washington</option> */}
                                         </select>
                                     </div>
-                                    {submitted && !newTemplate.read &&
-                                        <div className="help-block">Template name is required</div>
+                                    {submitted && newTemplate.read !== [] &&
+                                        <div className="col-sm-4 help-block">Template name is required</div>
                                     }
                                 </div>
                                 <div className={'form-group has-feedback' + (submitted && !newTemplate.description ? ' has-error' : '')}>
@@ -105,7 +103,7 @@ class ModalAddTaskTemplate extends Component {
                                         <textarea type="Description" className="form-control" id="inputDescription3" name="description" placeholder="Description" value={newTemplate.description} onChange={this.handleChange} />
                                     </div>
                                     {submitted && !newTemplate.description &&
-                                        <div className="help-block">Template des is required</div>
+                                        <div className="col-sm-4 help-block">Template des is required</div>
                                     }
                                 </div>
                                 {/* <div className="form-group">

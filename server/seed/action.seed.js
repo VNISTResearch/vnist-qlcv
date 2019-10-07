@@ -26,8 +26,8 @@ var actions = [
         enable: true,    
         disable: true
     },
-    {
-        name: "OBSERVE",  //có quyền quan sát ( chỉ nhìn thấy nhưng không mở được)
+    {//có thể nhìn thấy resource nhưng không thể xem chi tiết được, không thực hiện được action nào
+        name: "OBSERVE",  
         see: true, 
         open: false,
         edit: false,     

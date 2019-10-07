@@ -11,11 +11,6 @@ const PrivilegeSchema = new Schema({
         ref: Role,
         required: true
     },
-    department: {
-        type: Schema.Types.ObjectId,
-        ref: Department,
-        required: true
-    },
     resource: {
         type: Schema.Types.ObjectId,
         refPath: 'resourceType',
@@ -23,7 +18,7 @@ const PrivilegeSchema = new Schema({
     },
     resourceType: {
         type: String,
-        enum: ['Link', 'WorkTemplate'],
+        enum: ['Link', 'Component', 'WorkTemplate'],
         required: true
     },
     action: { //luu id cua hanh dong tuong ung
