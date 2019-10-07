@@ -7,10 +7,11 @@ const RoleSchema = new Schema({
         type: String,
         required: true
     },
-    parents: [{ //những role có vị trí cao hơn role hiện tại
+    childrens: [{ //những role con của role hiện tại
         type: Schema.Types.ObjectId,
         required: true
-    }]
+    }],
+    timestamps: true
 });
 
 module.exports = Role = mongoose.model("roles", RoleSchema);

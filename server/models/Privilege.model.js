@@ -11,17 +11,12 @@ const PrivilegeSchema = new Schema({
         ref: Role,
         required: true
     },
-    department: {
-        type: Schema.Types.ObjectId,
-        ref: Department,
-        required: true
-    },
     resource: {
         type: Schema.Types.ObjectId,
         refPath: 'resourceType',
         required: true
     },
-    resourceType: {
+    resource_type: {
         type: String,
         enum: ['Link', 'WorkTemplate'],
         required: true

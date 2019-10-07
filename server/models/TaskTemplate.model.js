@@ -22,10 +22,7 @@ const WorkTemplateSchema = new Schema({
         default: true,
         required: true
     },
-    date: {
-        type: Date,
-        default: Date.now
-    }
+    timestamps: true
 });
 
 module.exports = WorkTemplate = mongoose.model("work_templates", WorkTemplateSchema);

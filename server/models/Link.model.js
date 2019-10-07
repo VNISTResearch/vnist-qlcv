@@ -3,6 +3,10 @@ const Schema = mongoose.Schema;
 
 // Create Schema
 const LinkSchema = new Schema({
+    type: {
+        type: String, //public - private
+        require: true
+    },
     url: {
         type: String,
         required: true
