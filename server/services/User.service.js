@@ -1,6 +1,6 @@
 const User = require('../models/User.model');
+const Role = require('../models/Role.model');
 const bcrypt = require("bcryptjs");
-const UserJobTitle = require('../models/UserJobTitle.model');
 
 exports.get = async (req, res) => {
     try {
@@ -11,7 +11,8 @@ exports.get = async (req, res) => {
 
         res.json({ message: error });
     }
-}
+    console.log("Get Users");
+};
 
 exports.getById = async (req, res) => {
     try {
@@ -22,7 +23,8 @@ exports.getById = async (req, res) => {
 
         res.json({ message: error });
     }
-}
+    console.log("Get Users By Id");
+};
 
 exports.create = async (req, res) => {
     try {
@@ -38,7 +40,7 @@ exports.create = async (req, res) => {
                 var result = await User.create(user);
 
                 res.json({
-                    message: "Tạo tài khoản thành công!",
+                    message: "Create user successfully!",
                     content: result
                 });
             });
@@ -46,23 +48,24 @@ exports.create = async (req, res) => {
     } catch (error) {
         res.json({ message: error });
     }
-}
+    console.log("Create User");
+};
 
-exports.createJobTitle = async (req, res) => {
+exports.createRole = async (req, res) => {
     try {
-        var result = await UserJobTitle.create({
-            user_id: req.body.user_id,
-            jobTitle_id: req.body.jobTitle_id
+        var role = await UserRole.create({
+            id_user: req.body.id_user,
+            id_role: req.body.id_role
         });
 
         res.json({
-            message: "Thêm chức danh thành công!",
-            content: result
+            message: "Add role successfully!",
+            content: role
         });
     } catch (error) {
         res.json({ message: error });
     }
-}
+};
 
 exports.edit = async (req, res) => {
     try {
@@ -72,34 +75,34 @@ exports.edit = async (req, res) => {
         );
 
         res.json({
-            message: "Thêm chức danh thành công!",
+            message: "Edit user successfully",
             content: user
         });
     } catch (error) {
         res.json({ message: error });
     }
-}
+};
 
-exports.editJobTitle = async (req, res) => {
+exports.editRole = async (req, res) => {
     try {
         //code here  ...
     } catch (error) {
         res.json({ message: error });
     }
-}
+};
 
 exports.delete = async (req, res) => {
     try {
         var user = await User.deleteOne({ _id: req.params.idUser });
-        var userJobTitle = await UserJobTitle.deleteOne({ user_id: req.params.idUser });
+        var role = await UserRole.deleteOne({ id_user: req.params.idUser });
         res.json({
-            message: "Xóa thành công tài khoản!",
+            message: "Delete user successfully!",
             content: {
                 user: user,
-                userJobTitle: userJobTitle
+                role: role
             }
         });
     } catch (error) {
         res.json({ message: error });
     }
-}
+};

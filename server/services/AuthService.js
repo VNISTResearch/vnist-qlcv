@@ -6,7 +6,6 @@ const validateLoginInput = require("../validation/login");
 const validateRegisterInput = require("../validation/register");
 
 const User = require("../models/User.model");
-const UserJobTitle = require("../models/UserJobTitle.model");
 
 
 //Handle for login and register service--------------------------//
@@ -50,7 +49,7 @@ exports.login = (req, res) => {
                         (err, token) => {
                             res.json({
                                     success: true,
-                                    token: "VNIST" + token,
+                                    token: token,
                                     user: user
                                 })
                         }

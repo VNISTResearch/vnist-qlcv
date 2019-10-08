@@ -4,10 +4,10 @@ const bodyParser = require("body-parser");
 const passport = require("passport");
 const users = require("./routes/api/users");
 const departments = require("./routes/api/departments");
-const worktemplates = require("./routes/api/worktemplates");
-const jobtitles = require("./routes/api/jobtitles");
+const tasktemplates = require("./routes/api/tasktemplates");
+const roles = require("./routes/api/roles");
 const cors = require('cors');
-
+require('dotenv').config();
 const app = express();
 
 // Bodyparser middleware
@@ -20,7 +20,7 @@ app.use(
 app.use(bodyParser.json());
 
 // DB Config
-const db = require("./config/keys").mongoURI;
+const db = require("./config/keys").mongoURI + process.env.DATABASE_NAME;
 
 // Connect to MongoDB
 mongoose
@@ -40,8 +40,8 @@ require("./config/passport")(passport);
 // Routes
 app.use("/users", users);
 app.use("/departments", departments);
-app.use("/worktemplates", worktemplates);
-app.use("/jobtitles", jobtitles);
+app.use("/task-templates", tasktemplates);
+app.use("/roles", roles);
 
 const port = process.env.PORT || 5000;
 

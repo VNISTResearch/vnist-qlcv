@@ -8,9 +8,9 @@ const RoleSchema = new Schema({
         required: true
     },
     childrens: [{ //những role con của role hiện tại
-        type: Schema.Types.ObjectId,
-        required: true
-    }],
+        type: Schema.Types.ObjectId
+    }]
+},{
     timestamps: true
 });
 

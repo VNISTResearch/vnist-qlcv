@@ -1,4 +1,4 @@
 module.exports = {
-    mongoURI: 'mongodb://localhost/test',
+    mongoURI: 'mongodb://localhost/',
     secretOrKey: "vnist-qlcv"
 }

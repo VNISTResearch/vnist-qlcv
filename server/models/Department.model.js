@@ -34,7 +34,8 @@ const DepartmentSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: Role 
         }
-    },
+    }
+},{
     timestamps: true
 });
 

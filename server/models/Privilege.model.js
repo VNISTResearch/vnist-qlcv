@@ -18,7 +18,7 @@ const PrivilegeSchema = new Schema({
     },
     resource_type: {
         type: String,
-        enum: ['Link', 'WorkTemplate'],
+        enum: ['Link', 'TaskTemplate'],
         required: true
     },
     action: { //luu id cua hanh dong tuong ung
