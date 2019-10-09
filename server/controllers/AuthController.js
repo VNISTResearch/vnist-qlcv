@@ -1,4 +1,4 @@
-const AuthService = require('../services/AuthService');
+const AuthService = require('../services/Auth.service');
 
 exports.login = (req, res) => {
     return AuthService.login(req, res);
