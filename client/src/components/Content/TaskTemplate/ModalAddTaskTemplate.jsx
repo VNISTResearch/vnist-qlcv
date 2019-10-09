@@ -82,7 +82,7 @@ class ModalAddTaskTemplate extends Component {
                                         <select defaultValue={newTemplate.read} className="form-control select2" multiple="multiple" name="read" onChange={this.handleChange} data-placeholder="Select a State" style={{ width: '100%' }}>
                                             { course && 
                                             course.map(x => {
-                                                return <option key={x._id} value={x._id}>{x.name}</option>
+                                                return <option key={x._id} value={x._id} onClick={this.handleChange}>{x.name}</option>
                                             })}
                                             {/* <option value="Alabama">Alabama</option>
                                             <option value="Alaska">Alaska</option>

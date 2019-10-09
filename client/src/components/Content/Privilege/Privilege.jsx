@@ -22,7 +22,7 @@ class Privilege extends Component {
                                         <h3 className="box-title">Bảng phân quyền theo sản phẩm</h3>
                                     </div>
                                     <div className="col-xs-2">
-                                        <button type="button" className="btn btn-success" data-toggle="modal" data-target="#myModalHorizontal"><i class="fa fa-plus" aria-hidden="true"></i>Thêm quyền</button>
+                                        <button type="button" className="btn btn-success" data-toggle="modal" data-target="#myModalHorizontal"><i className="fa fa-plus" aria-hidden="true"></i>Thêm quyền</button>
                                         <ModalAddPrivilege />
                                     </div>
                                 </div>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 class TableData extends Component {
+    
     render() {
         return (
             <div className="box">

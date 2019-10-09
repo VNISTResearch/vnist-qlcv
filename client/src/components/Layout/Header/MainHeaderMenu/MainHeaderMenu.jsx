@@ -6,23 +6,23 @@ import { userActions } from '../../../../redux-actions/CombineActions';
 import "./MainHeaderMenu.css";
 
 class MainHeaderMenu extends Component {
-    constructor(props) {
-        super(props);
+    // constructor(props) {
+    //     super(props);
 
-        this.state = {
-            currentRole: ''
-        };
+    //     this.state = {
+    //         currentRole: ''
+    //     };
 
-        this.handleChange = this.handleChange.bind(this);
-    }
+    //     this.handleChange = this.handleChange.bind(this);
+    // }
 
-    handleChange(e) {
-        const user = {...(userService.currentUserValue), currentRole: e.target.value};
-        this.props.roleEdit(user);
-    }
+    // handleChange(e) {
+    //     const user = {...(userService.currentUserValue), currentRole: e.target.value};
+    //     this.props.roleEdit(user);
+    // }
 
     render() {
-        const currentUser = userService.currentUserValue;
+        // const currentUser = userService.currentUserValue;
         return (
             <div className="navbar-custom-menu">
                 <ul className="nav navbar-nav">
@@ -262,11 +262,11 @@ class MainHeaderMenu extends Component {
                     </li>
                     {/* Control Sidebar Toggle Button */}
                     <li>
-                        <select className="selectRole" defaultValue={currentUser.currentRole} onChange={this.handleChange}>
+                        {/* <select className="selectRole" defaultValue={currentUser.currentRole} onChange={this.handleChange}>
                             {currentUser.user.has.map(x => {
                                  return <option key={x.role._id} value={x.role._id}>{x.chucdanh.name}</option>
                             })}
-                        </select>
+                        </select> */}
                     </li>
                 </ul>
             </div>

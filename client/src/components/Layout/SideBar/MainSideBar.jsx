@@ -5,17 +5,17 @@ import { userService } from '../../../service/CombineService';
 class MainSideBar extends Component {
 
     checkURL = (url) => {
-        var result = false;
-        userService.currentUserValue.user.has.map((u) => {
-            if (u.role._id === userService.currentUserValue.currentRole) {
-                u.role.perlink.url.map((link) => {
-                    if (url === link)
-                        result = true;
-                    return true;
-                })
-            }
-            return true;
-        });
+        var result = true;
+        // userService.currentUserValue.user.has.map((u) => {
+        //     if (u.role._id === userService.currentUserValue.currentRole) {
+        //         u.role.perlink.url.map((link) => {
+        //             if (url === link)
+        //                 result = true;
+        //             return true;
+        //         })
+        //     }
+        //     return true;
+        // });
         return result;
     }
 
@@ -49,70 +49,67 @@ class MainSideBar extends Component {
                         {/* sidebar menu: : style can be found in sidebar.less */}
                         <ul className="sidebar-menu" data-widget="tree">
                             <li className="header">MAIN NAVIGATION</li>
-                            <li className="active treeview">
-                                {
-                                    this.checkURL("/") &&
-                                    <Link to="/">
+                            {
+                                this.checkURL("/") &&
+                                <li className="active">
+                                    <a href="/">
                                         <i className="fa fa-dashboard" /> <span>Home</span>
-                                        <span className="pull-right-container">
-                                            <i className="fa fa-angle-left pull-right" />
-                                        </span>
-                                    </Link>
-                                }
-                            </li>
-                            <li>
-                                {
-                                    this.checkURL("/cocautochuc") &&
-                                    <Link to="/cocautochuc">
-                                        <i className="fa fa-th" /> <span>Cơ cấu tổ chức</span>
-                                        <span className="pull-right-container">
-                                            <i className="fa fa-angle-left pull-right" />
-                                        </span>
-                                    </Link>
-                                }
-                            </li>
-                            <li>
-                                {
-                                    this.checkURL("/tasktemplate") &&
-                                    <Link to="/tasktemplate">
+                                    </a>
+                                </li>
+                            }
+                            {
+                                this.checkURL("/tasktemplate") &&
+                                <li>
+                                    <a href="/tasktemplate">
                                         <i className="fa fa-th" /> <span>WorkTemplate</span>
+                                    </a>
+                                </li>
+                            }
+                            {
+                                this.checkURL("/target") &&
+                                <li className="treeview">
+                                    <a to="#">
+                                        <i className="fa fa-dashboard" /> <span>Quản lý KPI</span>
                                         <span className="pull-right-container">
                                             <i className="fa fa-angle-left pull-right" />
                                         </span>
-                                    </Link>
-                                }
-                            </li>
-                            <li className="treeview">
-                                {
-                                    this.checkURL("/target") &&
-                                    <Link to="/target">
-                                        <i className="fa fa-dashboard" /> <span>Quản lý mục tiêu</span>
-                                        <span className="pull-right-container">
-                                            <i className="fa fa-angle-left pull-right" />
-                                        </span>
-                                    </Link>
-                                }
-                            </li>
-                            <li className="treeview">
-                                {
-                                    this.checkURL("/organizationstructure") &&
+                                    </a>
+                                    <ul className="treeview-menu">
+                                        <li><a href="/kpiunit"><i className="fa fa-circle-o" /> KPI đơn vị</a></li>
+                                        <li><a href="/target"><i className="fa fa-circle-o" /> KPI cá nhân</a></li>
+                                        <li><a href="pages/tables/data.html"><i className="fa fa-circle-o" /> Đánh giá KPI</a></li>
+                                        <li><a href="pages/tables/data.html"><i className="fa fa-circle-o" /> Thống kê KPI</a></li>
+                                    </ul>
+                                </li>
+                            }
+                            {
+                                this.checkURL("/organizationstructure") &&
+                                <li>
                                     <Link to="/organizationstructure">
                                         <i className="fa fa-dashboard" /> <span>Organization Structure</span>
-                                        <span className="pull-right-container">
-                                            <i className="fa fa-angle-left pull-right" />
-                                        </span>
                                     </Link>
-                                }
-                            </li>
+                                </li>
+                            }
+                            {
+                                this.checkURL("/cocautochuc") &&
+                                <li>
+                                    <Link to="/cocautochuc">
+                                        <i className="fa fa-th" /> <span>Cơ cấu tổ chức</span>
+                                    </Link>
+                                </li>
+                            }
                             {
                                 this.checkURL("/privilege") &&
                                 <li className="treeview">
-                                    <Link to="/privilege">
+                                    <Link to="#abc">
                                         <i className="fa fa-dashboard" /> <span>Phân quyền</span>
+                                        <span className="pull-right-container">
+                                            <i className="fa fa-angle-left pull-right" />
+                                        </span>
                                     </Link>
                                     <ul className="treeview-menu">
-                                        <li><a href="pages/tables/simple.html"><i className="fa fa-circle-o" /> Role</a></li>
-                                        <li><a href="pages/tables/data.html"><i className="fa fa-circle-o" /> Data tables</a></li>
+                                        <li><Link to="/privilege"><i className="fa fa-circle-o" /> Quyền trên sản phẩm</Link></li>
+                                        <li><Link to="pages/tables/data.html"><i className="fa fa-circle-o" /> Data tables</Link></li>
                                     </ul>
                                 </li>
                             }

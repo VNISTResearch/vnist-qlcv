@@ -30,7 +30,7 @@ class ModalAddPrivilege extends Component {
                                 <div className="form-group">
                                     <label className="col-sm-4 control-label" htmlFor="inputUsername3" style={{ width: '100%', textAlign: 'left' }}>Chức vụ</label>
                                     <div className="col-sm-10" style={{ width: '100%' }}>
-                                        <select defaultValue="TPKD" className="form-control select2">
+                                        <select defaultValue="TPKD" className="form-control">
                                             <option value="TPKD">All</option>
                                             <option value="TPKD">Trưởng phòng</option>
                                             <option value="PPKD">Phó phòng</option>
@@ -41,7 +41,7 @@ class ModalAddPrivilege extends Component {
                                 <div className="form-group">
                                     <label className="col-sm-4 control-label" htmlFor="inputUsername3" style={{ width: '100%', textAlign: 'left' }}>Tài sản</label>
                                     <div className="col-sm-10" style={{ width: '100%' }}>
-                                        <input type="Username" className="form-control" id="inputUsername3" placeholder="Username" value="Mẫu văn bản số 1"/>
+                                        <input type="Username" className="form-control" id="inputUsername3" placeholder="Username" defaultValue="Mẫu văn bản số 1"/>
                                     </div>
                                 </div>
                                 

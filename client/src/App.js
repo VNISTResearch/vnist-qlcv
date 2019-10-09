@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { history } from '../src/helpers/History';
 import { alertActions } from './redux-actions/AlertActions';
 import { Routes } from './react-routes/ComebineRoutes';
-import { TaskTemplate } from './components/Content/CombineContent';
+import { TaskTemplate, Target } from './components/Content/CombineContent';
 import Privilege from './components/Content/Privilege/Privilege';
 class App extends Component {
   constructor(props) {
@@ -19,13 +19,12 @@ class App extends Component {
 render() {
   const { alert } = this.props;
   return (
-    // <Router history={history}>
-    //   {alert.message &&
-    //     <div className={`alert ${alert.type}`}>{alert.message}</div>
-    //   }
-    //   <Routes/>
-    // </Router>
-    <TaskTemplate/>
+    <Router history={history}>
+      {alert.message &&
+        <div className={`alert ${alert.type}`}>{alert.message}</div>
+      }
+      <Routes/>
+    </Router>
   );
 }
 }
