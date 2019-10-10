@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { ItemSelectMember } from './CombineKPIItems';
 
 class KPITarget extends Component {
     render() {
         return (
             <div className="col-md-6">
                 <label>Thông tin mục tiêu</label>
+                { this.props.type ==="2"? <ItemSelectMember/>:''}
                 <div className="form-group">
                     <label className="col-sm-4 control-label" htmlFor="inputUsername3" style={{ width: '100%', textAlign: 'left' }}>Đơn vị:</label>
                     <div className="col-sm-10" style={{ width: '100%' }}>

@@ -6,3 +6,6 @@ export * from './Target/Target';
 export * from './OrganizationStructure/OrganizationStructure';
 export * from './Privilege/Privilege';
 export * from './KPIManagement/KPIUnit/KPIUnit';
+export * from './KPIManagement/KPIPersonal/KPIPersonal';
+export * from './KPIManagement/KPIEvaluate/KPIEvaluate';
+export * from './KPIManagement/KPIStatistical/KPIStatistical';

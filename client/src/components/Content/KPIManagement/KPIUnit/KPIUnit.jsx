@@ -60,10 +60,20 @@ class KPIUnit extends Component {
                             </div>
                         </div>
                         <div className="box-body">
-                            <div className="row">
-                                <KPITarget/>
-                                <KPIInfo/>
-                            </div>
+                            <form name="form">
+                                <div className="row">
+                                    <KPITarget type="1" />
+                                    <KPIInfo />
+                                    <div name="action">
+                                        <div className=" col-xs-3 col-xs-offset-3">
+                                            <button type="submit" className="btn btn-success btn-block btn-flat">Lưu</button>
+                                        </div>
+                                        <div className="col-xs-3">
+                                            <button type="cancel" className="btn btn-primary btn-block btn-flat">Hủy</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                     <div className="box box-default">
@@ -74,7 +84,7 @@ class KPIUnit extends Component {
                             </div>
                         </div>
                         <div className="box-body">
-                            <DataTable/>
+                            <DataTable />
                         </div>
                     </div>
                 </section>

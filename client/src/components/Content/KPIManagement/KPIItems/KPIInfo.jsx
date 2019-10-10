@@ -44,6 +44,12 @@ class KPIInfo extends Component {
                     </div>
                 </div>
                 <div className="form-group">
+                    <label className="col-sm-4 control-label" htmlFor="inputname" style={{ width: '100%', textAlign: 'left' }}>Chỉ tiêu:</label>
+                    <div className="col-sm-10" style={{ width: '100%' }}>
+                        <input type="number" className="form-control" id="inputname" placeholder="Chỉ thiêu hoàn thành mục tiêu" />
+                    </div>
+                </div>
+                <div className="form-group">
                     <label className="col-sm-4 control-label" style={{ width: '100%', textAlign: 'left' }}>Bảng điểm quy đổi:</label>
                     <table className="table">
                         <tbody>
@@ -56,14 +62,14 @@ class KPIInfo extends Component {
                                 <td>
                                     <div>
                                         <label>K&lt;</label>
-                                        <input type="number" classname="form-control" id="inputvalue" placeholder="50" style={{ width: 42 }} />
+                                        <input type="number" id="inputvalue" placeholder="50" style={{ width: 42 }} />
                                     </div>
                                 </td>
                                 <td>
-                                    <input type="number" classname="form-control" id="inputvalue" placeholder="1" style={{ width: 42 }} />
+                                    <input type="number" id="inputvalue" placeholder="1" style={{ width: 42 }} />
                                 </td>
                                 <td>
-                                    <select defaultValue="1" className="form-control" onChange={this.handleChange} name="parent">
+                                    <select defaultValue="1" onChange={this.handleChange} name="parent">
                                         <option value="1">Không đạt</option>
                                         <option value="2">Đạt</option>
                                         <option value="3">Tốt</option>
@@ -75,16 +81,16 @@ class KPIInfo extends Component {
                             <tr>
                                 <td>
                                     <div>
-                                        <input type="number" classname="form-control" id="inputvalue" placeholder="50" style={{ width: 42 }} />
+                                        <input type="number" id="inputvalue" placeholder="50" style={{ width: 42 }} />
                                         <label>&lt;=K&lt;</label>
-                                        <input type="number" classname="form-control" id="inputvalue" placeholder="75" style={{ width: 42 }} />
+                                        <input type="number" id="inputvalue" placeholder="75" style={{ width: 42 }} />
                                     </div>
                                 </td>
                                 <td>
-                                    <input type="number" classname="form-control" id="inputvalue" placeholder="2" style={{ width: 42 }} />
+                                    <input type="number" id="inputvalue" placeholder="2" style={{ width: 42 }} />
                                 </td>
                                 <td>
-                                    <select defaultValue="2" className="form-control" onChange={this.handleChange} name="parent">
+                                    <select defaultValue="2" onChange={this.handleChange} name="parent">
                                         <option value="1">Không đạt</option>
                                         <option value="2">Đạt</option>
                                         <option value="3">Tốt</option>
@@ -96,16 +102,16 @@ class KPIInfo extends Component {
                             <tr>
                                 <td>
                                     <div>
-                                        <input type="number" classname="form-control" id="inputvalue" placeholder="75" style={{ width: 42 }} />
+                                        <input type="number" id="inputvalue" placeholder="75" style={{ width: 42 }} />
                                         <label>&lt;=K&lt;</label>
-                                        <input type="number" classname="form-control" id="inputvalue" placeholder="90" style={{ width: 42 }} />
+                                        <input type="number" id="inputvalue" placeholder="90" style={{ width: 42 }} />
                                     </div>
                                 </td>
                                 <td>
-                                    <input type="number" classname="form-control" id="inputvalue" placeholder="3" style={{ width: 42 }} />
+                                    <input type="number" id="inputvalue" placeholder="3" style={{ width: 42 }} />
                                 </td>
                                 <td>
-                                    <select defaultValue="3" className="form-control" onChange={this.handleChange} name="parent">
+                                    <select defaultValue="3" onChange={this.handleChange} name="parent">
                                         <option value="1">Không đạt</option>
                                         <option value="2">Đạt</option>
                                         <option value="3">Tốt</option>
@@ -117,16 +123,16 @@ class KPIInfo extends Component {
                             <tr>
                                 <td>
                                     <div>
-                                        <input type="number" classname="form-control" id="inputvalue" placeholder="90" style={{ width: 42 }} />
+                                        <input type="number" id="inputvalue" placeholder="90" style={{ width: 42 }} />
                                         <label>&lt;=K&lt;</label>
-                                        <input type="number" classname="form-control" id="inputvalue" placeholder="110" style={{ width: 42 }} />
+                                        <input type="number" id="inputvalue" placeholder="110" style={{ width: 42 }} />
                                     </div>
                                 </td>
                                 <td>
-                                    <input type="number" classname="form-control" id="inputvalue" placeholder="4" style={{ width: 42 }} />
+                                    <input type="number" id="inputvalue" placeholder="4" style={{ width: 42 }} />
                                 </td>
                                 <td>
-                                    <select defaultValue="4" className="form-control" onChange={this.handleChange} name="parent">
+                                    <select defaultValue="4" onChange={this.handleChange} name="parent">
                                         <option value="1">Không đạt</option>
                                         <option value="2">Đạt</option>
                                         <option value="3">Tốt</option>
@@ -138,15 +144,15 @@ class KPIInfo extends Component {
                             <tr>
                                 <td>
                                     <div>
-                                        <input type="number" classname="form-control" id="inputvalue" placeholder="110" style={{ width: 42 }} />
+                                        <input type="number" id="inputvalue" placeholder="110" style={{ width: 42 }} />
                                         <label>&lt;=K</label>
                                     </div>
                                 </td>
                                 <td>
-                                    <input type="number" classname="form-control" id="inputvalue" placeholder="5" style={{ width: 42 }} />
+                                    <input type="number" id="inputvalue" placeholder="5" style={{ width: 42 }} />
                                 </td>
                                 <td>
-                                    <select defaultValue="5" className="form-control" onChange={this.handleChange} name="parent">
+                                    <select defaultValue="5" onChange={this.handleChange} name="parent">
                                         <option value="1">Không đạt</option>
                                         <option value="2">Đạt</option>
                                         <option value="3">Tốt</option>

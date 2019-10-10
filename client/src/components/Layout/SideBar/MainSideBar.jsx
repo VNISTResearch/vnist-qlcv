@@ -76,8 +76,8 @@ class MainSideBar extends Component {
                                     </a>
                                     <ul className="treeview-menu">
                                         <li><a href="/kpiunit"><i className="fa fa-circle-o" /> KPI đơn vị</a></li>
-                                        <li><a href="/target"><i className="fa fa-circle-o" /> KPI cá nhân</a></li>
-                                        <li><a href="pages/tables/data.html"><i className="fa fa-circle-o" /> Đánh giá KPI</a></li>
+                                        <li><a href="/kpipersonal"><i className="fa fa-circle-o" /> KPI cá nhân</a></li>
+                                        <li><a href="pages/tables/data.html"><i className="fa fa-circle-o" /> Dữ liệu KPI</a></li>
                                         <li><a href="pages/tables/data.html"><i className="fa fa-circle-o" /> Thống kê KPI</a></li>
                                     </ul>
                                 </li>
