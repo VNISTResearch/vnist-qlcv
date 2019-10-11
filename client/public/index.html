@@ -31,6 +31,12 @@
   <link rel="stylesheet" href="%PUBLIC_URL%/adminLTE/bower_components/bootstrap-daterangepicker/daterangepicker.css">
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="%PUBLIC_URL%/adminLTE/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+  <!-- Table Evaluate -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="%PUBLIC_URL%/main/css/KPIEvaluate.css">
   <!-- BEGIN CO CAU TO CHUC-->
   <!-- daterange picker -->
   <link rel="stylesheet" href="%PUBLIC_URL%/adminLTE/bower_components/bootstrap-daterangepicker/daterangepicker.css">
@@ -83,9 +89,61 @@
   <!-- jQuery UI 1.11.4 -->
   <script type="text/babel" src="%PUBLIC_URL%/adminLTE/bower_components/jquery-ui/jquery-ui.min.js"></script>
   <!-- BEGIN JS DASHBOARD-->
-
-  <script>
-
+  <!-- Table Edit -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+      var actions = $("table td:last-child").html();
+      // Append table with add row form on add new button click
+      $(".add-new").click(function () {
+        $(this).attr("disabled", "disabled");
+        var index = $("table tbody tr:last-child").index();
+        var row = '<tr>' +
+          '<td><input type="text" class="form-control" name="name" id="name"></td>' +
+          '<td><input type="text" class="form-control" name="department" id="department"></td>' +
+          '<td><input type="text" class="form-control" name="phone" id="phone"></td>' +
+          '<td>' + actions + '</td>' +
+          '</tr>';
+        $("table").append(row);
+        $("table tbody tr").eq(index + 1).find(".add, .edit").toggle();
+        $('[data-toggle="tooltip"]').tooltip();
+      });
+      // Add row on add button click
+      $(document).on("click", ".add", function () {
+        var empty = false;
+        var input = $(this).parents("tr").find('input[type="text"]');
+        input.each(function () {
+          if (!$(this).val()) {
+            $(this).addClass("error");
+            empty = true;
+          } else {
+            $(this).removeClass("error");
+          }
+        });
+        $(this).parents("tr").find(".error").first().focus();
+        if (!empty) {
+          input.each(function () {
+            $(this).parent("td").html($(this).val());
+          });
+          $(this).parents("tr").find(".add, .edit").toggle();
+          $(".add-new").removeAttr("disabled");
+        }
+      });
+      // Edit row on edit button click
+      $(document).on("click", ".edit", function () {
+        $(this).parents("tr").find("td:not(:last-child)").each(function () {
+          $(this).html('<input type="text" class="form-control" value="' + $(this).text() + '">');
+        });
+        $(this).parents("tr").find(".add, .edit").toggle();
+        $(".add-new").attr("disabled", "disabled");
+      });
+      // Delete row on delete button click
+      $(document).on("click", ".delete", function () {
+        $(this).parents("tr").remove();
+        $(".add-new").removeAttr("disabled");
+      });
+    });
   </script>
   <!-- Morris.js charts -->
   <script src="%PUBLIC_URL%/adminLTE/bower_components/raphael/raphael.min.js"></script>
@@ -129,77 +187,7 @@
   <!-- AdminLTE for demo purposes -->
   <script src="%PUBLIC_URL%/adminLTE/dist/js/demo.js"></script>
   <!-- Page script -->
-  <script>
-    $(function () {
-      //Initialize Select2 Elements
-      $('.select2').select2()
-      $(function () {
-        //Initialize Select2 Elements
-        $('.select2').select2()
-
-        //Datemask dd/mm/yyyy
-        $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
-        //Datemask2 mm/dd/yyyy
-        $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
-        //Money Euro
-        $('[data-mask]').inputmask()
-
-        //Date range picker
-        $('#reservation').daterangepicker()
-        //Date range picker with time picker
-        $('#reservationtime').daterangepicker({ timePicker: true, timePickerIncrement: 30, locale: { format: 'MM/DD/YYYY hh:mm A' } })
-        //Date range as a button
-        $('#daterange-btn').daterangepicker(
-          {
-            ranges: {
-              'Today': [moment(), moment()],
-              'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-              'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-              'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-              'This Month': [moment().startOf('month'), moment().endOf('month')],
-              'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-            },
-            startDate: moment().subtract(29, 'days'),
-            endDate: moment()
-          },
-          function (start, end) {
-            $('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
-          }
-        )
-
-        //Date picker
-        $('#datepicker').datepicker({
-          autoclose: true
-        })
-
-        //iCheck for checkbox and radio inputs
-        $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-          checkboxClass: 'icheckbox_minimal-blue',
-          radioClass: 'iradio_minimal-blue'
-        })
-        //Red color scheme for iCheck
-        $('input[type="checkbox"].minimal-red, input[type="radio"].minimal-red').iCheck({
-          checkboxClass: 'icheckbox_minimal-red',
-          radioClass: 'iradio_minimal-red'
-        })
-        //Flat red color scheme for iCheck
-        $('input[type="checkbox"].flat-red, input[type="radio"].flat-red').iCheck({
-          checkboxClass: 'icheckbox_flat-green',
-          radioClass: 'iradio_flat-green'
-        })
-
-        //Colorpicker
-        $('.my-colorpicker1').colorpicker()
-        //color picker with addon
-        $('.my-colorpicker2').colorpicker()
-
-        //Timepicker
-        $('.timepicker').timepicker({
-          showInputs: false
-        })
-      })
-    })
-  </script>
+  <script src="%PUBLIC_URL%/main/js/cocautochuc.js"></script>
   <!-- END JS CO CAU TO CHUC-->
   <!---Begin Calender Home-->
   <!-- fullCalendar -->

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { KPITarget, KPIInfo, DataTable, ItemSelectMember } from '../KPIItems/CombineKPIItems';
+import { KPITarget, KPIInfo, DataTable} from '../KPIItems/CombineKPIItems';
 
 class KPIPersonal extends Component {
     render() {

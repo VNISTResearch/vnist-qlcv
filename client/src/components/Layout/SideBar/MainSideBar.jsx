@@ -68,7 +68,7 @@ class MainSideBar extends Component {
                             {
                                 this.checkURL("/target") &&
                                 <li className="treeview">
-                                    <a to="#">
+                                    <a href="#abc">
                                         <i className="fa fa-dashboard" /> <span>Quản lý KPI</span>
                                         <span className="pull-right-container">
                                             <i className="fa fa-angle-left pull-right" />
@@ -77,7 +77,7 @@ class MainSideBar extends Component {
                                     <ul className="treeview-menu">
                                         <li><a href="/kpiunit"><i className="fa fa-circle-o" /> KPI đơn vị</a></li>
                                         <li><a href="/kpipersonal"><i className="fa fa-circle-o" /> KPI cá nhân</a></li>
-                                        <li><a href="pages/tables/data.html"><i className="fa fa-circle-o" /> Dữ liệu KPI</a></li>
+                                        <li><a href="/kpievaluate"><i className="fa fa-circle-o" /> Dữ liệu KPI</a></li>
                                         <li><a href="pages/tables/data.html"><i className="fa fa-circle-o" /> Thống kê KPI</a></li>
                                     </ul>
                                 </li>

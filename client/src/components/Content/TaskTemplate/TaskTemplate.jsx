@@ -60,7 +60,7 @@ class TaskTemplate extends Component {
                 <section className="content-header">
                     <h1>
                         Quản lý mẫu công việc
-            <small>mẫu công việc</small>
+                        <small>mẫu công việc</small>
                     </h1>
                     <ol className="breadcrumb">
                         <li><a href="#abc"><i className="fa fa-dashboard" /> Home</a></li>

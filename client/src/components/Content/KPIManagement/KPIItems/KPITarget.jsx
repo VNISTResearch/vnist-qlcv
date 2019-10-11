@@ -67,7 +67,7 @@ class KPITarget extends Component {
                         <div className="input-group-addon">
                             <i className="fa fa-calendar" />
                         </div>
-                        <input type="text" className="form-control pull-right" id="datepicker" />
+                        <input type="text" className="form-control pull-right" id="datepicker1" />
                     </div>
                 </div>
                 <div className="form-group">

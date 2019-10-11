@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import './OrganizationStructure.css'
+import './OrganizationStructure.css';
+
 class OrganizationStructure extends Component {
     UNSAFE_componentWillMount() {
         // loadjs('js/home.js');
@@ -15,8 +16,7 @@ class OrganizationStructure extends Component {
                 {/* Content Header (Page header) */}
                 <section className="content-header">
                     <h1>
-                        Quản lý mẫu công việc
-                        <small>mẫu công việc</small>
+                        Quản lý cơ cấu tổ chức
                     </h1>
                     <ol className="breadcrumb">
                         <li><a href="#abc"><i className="fa fa-dashboard" /> Home</a></li>
