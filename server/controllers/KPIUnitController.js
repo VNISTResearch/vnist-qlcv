@@ -17,7 +17,7 @@ exports.create = (req, res) => {
 }
 
 exports.edit = (req, res) => {
-    return KPIUnitService.getByUnit(req, res);
+    return KPIUnitService.editById(req, res);
 }
 
 exports.delete = (req, res) => {

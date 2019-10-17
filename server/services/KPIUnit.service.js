@@ -18,11 +18,11 @@ exports.get = async (req, res) => {
 // get kpi by id
 exports.getById = async (req, res) => {
     try {
-        var template = await KPIUnit.findById(req.params.id);
+        var kpiunit = await KPIUnit.findById(req.params.id);
 
         res.json({
             message: "Get unit kpi by Id",
-            content: template
+            content: kpiunit
         });
     } catch (error) {
 
@@ -30,19 +30,19 @@ exports.getById = async (req, res) => {
     }
 }
 // get kpi by id unit
-// exports.get = async (req, res) => {
-//     try {
-//         var kpiunits = await KPIUnit.find("unit": req.params.id);
+exports.getByUnit = async (req, res) => {
+    try {
+        var kpiunit = await KPIUnit.find({unit: req.params.id});
 
-//         res.json({
-//             message: "Get unit kpi by id unit",
-//             content: kpiunits
-//         });
-//     } catch (error) {
+        res.json({
+            message: "Get unit kpi by id unit",
+            content: kpiunit
+        });
+    } catch (error) {
 
-//         res.json({ message: error });
-//     }
-// }
+        res.json({ message: error });
+    }
+}
 // create kpi
 exports.create = async(req, res) => {
     try {
@@ -63,6 +63,35 @@ exports.create = async(req, res) => {
         res.json({ message: error });
     }
 }
+// Update kpi
+exports.editById = async (req,res) => {
+    try {
+        var objUpdate = {
+            unit: req.body.unit,
+            name: req.body.name,
+            parent: mongoose.Types.ObjectId.isValid(req.body.parent)?req.body.parent:rootid,
+            time: req.body.time,
+            weight: req.body.weight,
+            criteria: req.body.criteria
+        }
+        var kpiunit = await KPIUnit.findByIdAndUpdate(req.params.id, {$set:objUpdate}, {new:true});
+        res.json({
+            message: "Update success unit kpi",
+            kpiunit: kpiunit,
+        });
+    } catch (error) {
+        res.json({ message: error });
+    }
+}
 // Delete kpi
-
-// Edit kpi
+exports.delete = async (req,res) => {
+    try {
+        var kpiunit = await KPIUnit.findByIdAndDelete(req.params.id);
+        res.json({
+            message: "Delete success unit kpi",
+            kpiunit: kpiunit,
+        });
+    } catch (error) {
+        res.json({ message: error });
+    }
+}
