@@ -7,7 +7,10 @@ const DepartmentSchema = new Schema({
         type: String,
         required: true
     },
-    // id_parent?
+    parents: {
+        type: Schema.Types.ObjectId,
+        required: true
+    },
     date: {
         type: Date,
         default: Date.now

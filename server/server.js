@@ -6,6 +6,7 @@ const users = require("./routes/api/users");
 const departments = require("./routes/api/departments");
 const worktemplates = require("./routes/api/worktemplates");
 const jobtitles = require("./routes/api/jobtitles");
+const kpiunits = require("./routes/api/kpiunits");
 const cors = require('cors');
 
 const app = express();
@@ -42,8 +43,9 @@ app.use("/users", users);
 app.use("/departments", departments);
 app.use("/worktemplates", worktemplates);
 app.use("/jobtitles", jobtitles);
+app.use("/kpiunits", kpiunits);
 
 const port = process.env.PORT || 5000;
 
 app.listen(port, () => console.log(`Server up and running on port ${port} !`));
-require("./seed/workTemplate.seed");
+// require('./seed/kpiunit.seed');

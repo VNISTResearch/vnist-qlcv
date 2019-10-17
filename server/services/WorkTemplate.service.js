@@ -34,20 +34,20 @@ exports.getById = async (req, res) => {
 }
 
 //Lấy mẫu công việc theo chức danh
-exports.getByJobTitle = async (req, res) => { // lấy role và departments vì jobtitle = role + department	
-	try {
-		var id  = req.params.jobTitleId;
+exports.getByJobTitle = async (req, res) => { // lấy role và departments vì jobtitle = role + department    
+    try {
+        var id  = req.params.jobTitleId;
         var jobTitle = await JobTitle.findById(id);
         var f = {
             role: jobTitle.role, 
             department: jobTitle.department
         };
-		var result = await Privilege.find(f).populate({ path: 'resource', model: WorkTemplate });
+        var result = await Privilege.find(f).populate({ path: 'resource', model: WorkTemplate });
 
-		res.json(result);
-	} catch (error) {
-		res.json({ message: error });
-	}
+        res.json(result);
+    } catch (error) {
+        res.json({ message: error });
+    }
 }
 
 //Tạo mẫu công việc
@@ -57,10 +57,10 @@ exports.create = async(req, res) => {
             name: req.body.name,
             creator: req.body.creator,
             description: req.body.description
-		});
-		
-		var jobs = req.body.read;
-		var read_action = await Action.findOne({name: "READ"}); 
+        });
+        
+        var jobs = req.body.read;
+        var read_action = await Action.findOne({name: "READ"}); 
         jobs.map( async job => {
             var r = await JobTitle.findById(job);
             await Privilege.create({    
@@ -70,12 +70,12 @@ exports.create = async(req, res) => {
                 resourceType: "WorkTemplate",           
                 action: read_action._id                        
             });
-		});
+        });
 
         res.json({
             message: "Tạo thành công  mẫu công việc",
-			worktemplate: jobs,
-			read: jobs
+            worktemplate: jobs,
+            read: jobs
         });
     } catch (error) {
         res.json({ message: error });

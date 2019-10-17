@@ -5,6 +5,7 @@ import { users } from './UsersReducer';
 import { alert } from './AlertReducers';
 import { jobtitles } from './JobTitleReducers';
 import { tasktemplates } from './TaskTemplateReducers';
+import { departments } from './DepartmentReducers';
 
 const rootReducer = combineReducers({
   authentication,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   alert,
   jobtitles,
   tasktemplates,
+  departments
 });
 
 export default rootReducer;
