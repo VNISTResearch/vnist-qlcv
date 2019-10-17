@@ -54,26 +54,28 @@ class KPIUnit extends Component {
         event.preventDefault();
         const { kpiunit } = this.state;
         this.setState({
-            adding: true, kpiunit: {
+            adding: true,
+            kpiunit: {
                 ...kpiunit,
                 time: this.time.value
             }
         });
-        this.setState(state => {
-            const list = [...state.list, kpiunit];
-            return {
-                list,
-                kpiunit: {
-                    unit: '',
-                    name: '',
-                    parent: '',
-                    time: '',
-                    weight: '',
-                    criteria: ''
-                },
-                adding: false
-            };
-        });
+        if (kpiunit.name && kpiunit.weight && kpiunit.unit && kpiunit.criteria) {
+            this.setState(state => {
+                const list = [...state.list, state.kpiunit];
+                return {
+                    list,
+                    kpiunit: {
+                        unit: '',
+                        name: '',
+                        parent: '',
+                        time: '',
+                        weight: '',
+                        criteria: ''
+                    },
+                };
+            });
+        }
     }
     handleSubmit(event) {
         event.preventDefault();
