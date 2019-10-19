@@ -244,8 +244,6 @@ class KPIUnit extends Component {
                                                                             <td>{item.time}</td>
                                                                             <td>{item.weight}</td>
                                                                             <td>
-                                                                                {/* <button onClick={() => this.edit(item, index)}>Edit</button>
-                                                                                <button onClick={() => this.delete(item, index)}>Delete</button> */}
                                                                                 {/* <a className="add" title="Add" data-toggle="tooltip"><i className="material-icons"></i></a> */}
                                                                                 <a className="edit" title="Edit" data-toggle="tooltip" onClick={() => this.edit(item, index)}><i className="material-icons"></i></a>
                                                                                 <a className="delete" title="Delete" data-toggle="tooltip"><i className="material-icons"></i></a>

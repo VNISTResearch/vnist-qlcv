@@ -1,7 +1,8 @@
 const Department = require('../models/Department.model');
 const Role = require('../models/Role.model');
 const JobTitle = require('../models/JobTitle.model');
-
+const mongoose = require("mongoose");
+const rootid = require("../config/rootid").rootIdDepartment;
 exports.getAll = async (req, res)=> {
     try {
         var departments = await Department.find();
@@ -15,8 +16,11 @@ exports.getAll = async (req, res)=> {
 
 exports.create = async (req, res) => {
     try {
-        var department = await Department.create({ name: req.body.name}); //create department
-        var roles = await Role.find().exec();    //get all role of database
+        var department = await Department.create({ 
+            name: req.body.name,
+            parent: mongoose.Types.ObjectId.isValid(req.body.parent)?req.body.parent:rootid,
+        }); //create department
+        var roles = await Role.find().exec();//get all role of database
         var jobTitles = [ //create jobtitles
             {
                 name: roles[0].name + " " + department.name,
