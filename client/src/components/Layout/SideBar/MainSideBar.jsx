@@ -75,41 +75,62 @@ class MainSideBar extends Component {
                                         </span>
                                     </a>
                                     <ul className="treeview-menu">
-                                        <li><a href="/kpiunit"><i className="fa fa-circle-o" /> KPI đơn vị</a></li>
-                                        <li><a href="/kpipersonal"><i className="fa fa-circle-o" /> KPI cá nhân</a></li>
-                                        <li><a href="/kpievaluate"><i className="fa fa-circle-o" /> Dữ liệu KPI</a></li>
-                                        <li><a href="pages/tables/data.html"><i className="fa fa-circle-o" /> Thống kê KPI</a></li>
+                                        <li className="treeview">
+                                            <a href="#kpiunit"> KPI đơn vị
+                                                <span className="pull-right-container">
+                                                    <i className="fa fa-angle-left pull-right" />
+                                                </span>
+                                            </a>
+                                            <ul className="treeview-menu">
+                                                <li><a href="/kpiunitoverview">Tổng quan KPI đơn vị</a></li>
+                                                <li><a href="/kpiunitcreate">Thiết lập KPI đơn vị</a></li>
+                                                <li><a href="/kpiunitevaluate">Dữ liệu KPI đơn vị</a></li>
+                                            </ul>
+                                        </li>
+                                        <li className="treeview">
+                                            <a href="#kpipersonnal">KPI cá nhân
+                                                <span className="pull-right-container">
+                                                    <i className="fa fa-angle-left pull-right" />
+                                                </span>
+                                            </a>
+                                            <ul className="treeview-menu">
+                                                <li><a href="/kpipersonaloverview">Tổng quan KPI cá nhân</a></li>
+                                                <li><a href="/kpipersonalcreate">Thiết lập KPI cá nhân</a></li>
+                                                <li><a href="/kpipersonalevaluate">Dữ liệu KPI cá nhân</a></li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="pages/tables/data.html">Thống kê KPI</a></li>
                                     </ul>
                                 </li>
                             }
                             {
                                 this.checkURL("/organizationstructure") &&
                                 <li>
-                                    <Link to="/organizationstructure">
+                                    <a href="/organizationstructure">
                                         <i className="fa fa-dashboard" /> <span>Organization Structure</span>
-                                    </Link>
+                                    </a>
                                 </li>
                             }
                             {
                                 this.checkURL("/cocautochuc") &&
                                 <li>
-                                    <Link to="/cocautochuc">
+                                    <a href="/cocautochuc">
                                         <i className="fa fa-th" /> <span>Cơ cấu tổ chức</span>
-                                    </Link>
+                                    </a>
                                 </li>
                             }
                             {
                                 this.checkURL("/privilege") &&
                                 <li className="treeview">
-                                    <Link to="#abc">
+                                    <a href="#abc">
                                         <i className="fa fa-dashboard" /> <span>Phân quyền</span>
                                         <span className="pull-right-container">
                                             <i className="fa fa-angle-left pull-right" />
                                         </span>
-                                    </Link>
+                                    </a>
                                     <ul className="treeview-menu">
-                                        <li><Link to="/privilege"><i className="fa fa-circle-o" /> Quyền trên sản phẩm</Link></li>
-                                        <li><Link to="pages/tables/data.html"><i className="fa fa-circle-o" /> Data tables</Link></li>
+                                        <li><a href="/privilege"> Quyền trên sản phẩm</a></li>
+                                        <li><a href="pages/tables/data.html"> Data tables</a></li>
                                     </ul>
                                 </li>
                             }
@@ -121,9 +142,9 @@ class MainSideBar extends Component {
                                     </span>
                                 </a>
                                 <ul className="treeview-menu">
-                                    <li><a href="pages/forms/general.html"><i className="fa fa-circle-o" /> General Elements</a></li>
-                                    <li><a href="pages/forms/advanced.html"><i className="fa fa-circle-o" /> Advanced Elements</a></li>
-                                    <li><a href="pages/forms/editors.html"><i className="fa fa-circle-o" /> Editors</a></li>
+                                    <li><a href="pages/forms/general.html"> General Elements</a></li>
+                                    <li><a href="pages/forms/advanced.html"> Advanced Elements</a></li>
+                                    <li><a href="pages/forms/editors.html"> Editors</a></li>
                                 </ul>
                             </li>
                             <li className="treeview">
@@ -134,8 +155,8 @@ class MainSideBar extends Component {
                                     </span>
                                 </a>
                                 <ul className="treeview-menu">
-                                    <li><a href="pages/tables/simple.html"><i className="fa fa-circle-o" /> Simple tables</a></li>
-                                    <li><a href="pages/tables/data.html"><i className="fa fa-circle-o" /> Data tables</a></li>
+                                    <li><a href="pages/tables/simple.html"> Simple tables</a></li>
+                                    <li><a href="pages/tables/data.html"> Data tables</a></li>
                                 </ul>
                             </li>
                             <li>
@@ -165,15 +186,15 @@ class MainSideBar extends Component {
                                     </span>
                                 </a>
                                 <ul className="treeview-menu">
-                                    <li><a href="pages/examples/invoice.html"><i className="fa fa-circle-o" /> Invoice</a></li>
-                                    <li><a href="pages/examples/profile.html"><i className="fa fa-circle-o" /> Profile</a></li>
-                                    <li><a href="pages/examples/login.html"><i className="fa fa-circle-o" /> Login</a></li>
-                                    <li><a href="pages/examples/register.html"><i className="fa fa-circle-o" /> Register</a></li>
-                                    <li><a href="pages/examples/lockscreen.html"><i className="fa fa-circle-o" /> Lockscreen</a></li>
-                                    <li><a href="pages/examples/404.html"><i className="fa fa-circle-o" /> 404 Error</a></li>
-                                    <li><a href="pages/examples/500.html"><i className="fa fa-circle-o" /> 500 Error</a></li>
-                                    <li><a href="pages/examples/blank.html"><i className="fa fa-circle-o" /> Blank Page</a></li>
-                                    <li><a href="pages/examples/pace.html"><i className="fa fa-circle-o" /> Pace Page</a></li>
+                                    <li><a href="pages/examples/invoice.html"> Invoice</a></li>
+                                    <li><a href="pages/examples/profile.html"> Profile</a></li>
+                                    <li><a href="pages/examples/login.html"> Login</a></li>
+                                    <li><a href="pages/examples/register.html"> Register</a></li>
+                                    <li><a href="pages/examples/lockscreen.html"> Lockscreen</a></li>
+                                    <li><a href="pages/examples/404.html"> 404 Error</a></li>
+                                    <li><a href="pages/examples/500.html"> 500 Error</a></li>
+                                    <li><a href="pages/examples/blank.html"> Blank Page</a></li>
+                                    <li><a href="pages/examples/pace.html"> Pace Page</a></li>
                                 </ul>
                             </li>
                             <li className="treeview">
@@ -184,29 +205,29 @@ class MainSideBar extends Component {
                                     </span>
                                 </a>
                                 <ul className="treeview-menu">
-                                    <li><a href="#abc"><i className="fa fa-circle-o" /> Level One</a></li>
+                                    <li><a href="#abc"> Level One</a></li>
                                     <li className="treeview">
-                                        <a href="#abc"><i className="fa fa-circle-o" /> Level One
-                    <span className="pull-right-container">
+                                        <a href="#abc"> Level One
+                                            <span className="pull-right-container">
                                                 <i className="fa fa-angle-left pull-right" />
                                             </span>
                                         </a>
                                         <ul className="treeview-menu">
-                                            <li><a href="#abc"><i className="fa fa-circle-o" /> Level Two</a></li>
+                                            <li><a href="#abc"> Level Two</a></li>
                                             <li className="treeview">
-                                                <a href="#abc"><i className="fa fa-circle-o" /> Level Two
-                        <span className="pull-right-container">
+                                                <a href="#abc"> Level Two
+                                                    <span className="pull-right-container">
                                                         <i className="fa fa-angle-left pull-right" />
                                                     </span>
                                                 </a>
                                                 <ul className="treeview-menu">
-                                                    <li><a href="#abc"><i className="fa fa-circle-o" /> Level Three</a></li>
-                                                    <li><a href="#abc"><i className="fa fa-circle-o" /> Level Three</a></li>
+                                                    <li><a href="#abc"> Level Three</a></li>
+                                                    <li><a href="#abc"> Level Three</a></li>
                                                 </ul>
                                             </li>
                                         </ul>
                                     </li>
-                                    <li><a href="#abc"><i className="fa fa-circle-o" /> Level One</a></li>
+                                    <li><a href="#abc"> Level One</a></li>
                                 </ul>
                             </li> */}
                         </ul>

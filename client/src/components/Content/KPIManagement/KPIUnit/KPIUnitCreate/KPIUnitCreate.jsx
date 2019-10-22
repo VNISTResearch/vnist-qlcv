@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { departmentActions } from '../../../../redux-actions/CombineActions';
+import { departmentActions } from '../../../../../redux-actions/CombineActions';
 
-class KPIUnit extends Component {
+class KPIUnitCreate extends Component {
     UNSAFE_componentWillMount() {
         this.props.getDepartment();
     }
@@ -11,6 +11,7 @@ class KPIUnit extends Component {
         this.state = {
             kpiunit: {
                 unit: '',
+                creater: '',
                 name: '',
                 parent: '',
                 time: '',
@@ -73,6 +74,7 @@ class KPIUnit extends Component {
                         weight: '',
                         criteria: ''
                     },
+                    adding: false
                 };
             });
         }
@@ -118,15 +120,13 @@ class KPIUnit extends Component {
         var unitList, root;
         const { kpiunit, list, adding, editing } = this.state;
         const { departments } = this.props;
-        console.log(this.state);
         if (departments.items) unitList = departments.items;
         return (
             <div className="table-wrapper">
                 <div className="content-wrapper">
                     <section className="content-header">
                         <h1>
-                            KPI đơn vị
-                        <small>Preview</small>
+                            <b>KPI đơn vị</b>
                         </h1>
                         <ol className="breadcrumb">
                             <li><a href="/"><i className="fa fa-dashboard" /> Home</a></li>
@@ -139,7 +139,7 @@ class KPIUnit extends Component {
                             <div className="col-xs-12">
                                 <div className="box">
                                     <div className="box-header">
-                                        <h3 className="box-title">Thiết lập KPI</h3>
+                                        <h3 className="box-title"><b>Thiết lập KPI đơn vị</b></h3>
                                     </div>
                                     {/* /.box-header */}
                                     <div className="box-body">
@@ -180,7 +180,7 @@ class KPIUnit extends Component {
                                                     </div>
                                                 }
                                                 <div className="form-group">
-                                                    <label>Tiêu chí đánh giá:</label>
+                                                    <label>Mô tả tiêu chí đánh giá:</label>
                                                     <div className={'form-group has-feedback' + (adding && !kpiunit.criteria ? ' has-error' : '')}>
                                                         <textarea type="text" className='form-control' id="inputname" value={kpiunit.criteria} placeholder="Đánh giá mức độ hoàn thành dựa trên tiêu chí nào?" name="criteria" onChange={this.handleChange} />
                                                     </div>
@@ -191,8 +191,8 @@ class KPIUnit extends Component {
                                                         <input type="number" min="0" max="100" className="form-control pull-right" value={kpiunit.weight} placeholder="Trọng số của mục tiêu" name="weight" onChange={this.handleChange} />
                                                     </div>
                                                 </div>
-                                                <div className="form-group">
-                                                    <label>Tháng:</label>
+                                                <div className="form-group" >
+                                                    <label style={{ marginTop: "15px" }}>Tháng:</label>
                                                     <div className={'input-group date has-feedback' + (adding && !kpiunit.time ? ' has-error' : '')}>
                                                         <div className="input-group-addon">
                                                             <i className="fa fa-calendar" />
@@ -216,7 +216,7 @@ class KPIUnit extends Component {
                             <div className="col-xs-12">
                                 <div className="box">
                                     <div className="box-header">
-                                        <h3 className="box-title">Danh sách KPI</h3>
+                                        <h3 className="box-title">Danh sách KPI đơn vị</h3>
                                     </div>
                                     <div className="box-body">
                                         <form>
@@ -265,7 +265,7 @@ class KPIUnit extends Component {
                                                     </table>
                                                 </div>
                                                 <div className="col-xs-8 col-xs-offset-9">
-                                                    <button type="submit" className="btn btn-success col-md-2">Save</button>
+                                                    <button type="submit" className="btn btn-success col-md-2">Confirm</button>
                                                     <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }}>Cancel</button>
                                                 </div>
                                             </div>
@@ -289,5 +289,5 @@ function mapState(state) {
 const actionCreators = {
     getDepartment: departmentActions.getAll
 };
-const connectedKPIUnit = connect(mapState, actionCreators)(KPIUnit);
-export { connectedKPIUnit as KPIUnit };
+const connectedKPIUnitCreate = connect(mapState, actionCreators)(KPIUnitCreate);
+export { connectedKPIUnitCreate as KPIUnitCreate };
