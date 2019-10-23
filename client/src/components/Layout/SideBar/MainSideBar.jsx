@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
-import { userService } from '../../../service/CombineService';
+// import { Link } from "react-router-dom";
+// import { userService } from '../../../service/CombineService';
 
 class MainSideBar extends Component {
 

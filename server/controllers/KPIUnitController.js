@@ -20,6 +20,10 @@ exports.edit = (req, res) => {
     return KPIUnitService.editById(req, res);
 }
 
+exports.confirmKPIUnit = (req, res) => {
+    return KPIUnitService.confirmByUnitId(req, res);
+}
+
 exports.delete = (req, res) => {
     return KPIUnitService.delete(req, res);
 }

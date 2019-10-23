@@ -9,6 +9,9 @@ const KPIUnitSchema = new Schema({
         ref: Department,
         required: true
     },
+    creater: {
+        type: String,
+    },
     name: {
         type: String,
         required: true
@@ -27,6 +30,9 @@ const KPIUnitSchema = new Schema({
     criteria: {
         type: String,
         required: true
+    },
+    confirm: {
+        type: Boolean
     }
 });
 

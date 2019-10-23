@@ -245,8 +245,8 @@ class KPIUnitCreate extends Component {
                                                                             <td>{item.weight}</td>
                                                                             <td>
                                                                                 {/* <a className="add" title="Add" data-toggle="tooltip"><i className="material-icons"></i></a> */}
-                                                                                <a className="edit" title="Edit" data-toggle="tooltip" onClick={() => this.edit(item, index)}><i className="material-icons"></i></a>
-                                                                                <a className="delete" title="Delete" data-toggle="tooltip"><i className="material-icons"></i></a>
+                                                                                <a href="#abc" className="edit" title="Edit" data-toggle="tooltip" onClick={() => this.edit(item, index)}><i className="material-icons"></i></a>
+                                                                                <a href="#abc" className="delete" title="Delete" data-toggle="tooltip"><i className="material-icons"></i></a>
                                                                             </td>
                                                                         </tr>
                                                                     )

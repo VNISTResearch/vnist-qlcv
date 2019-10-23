@@ -116,7 +116,7 @@ class KPIPersonalCreate extends Component {
         this.handleCancel();
     }
     render() {
-        var unitList, root;
+        var unitList;
         const { kpiunit, list, adding, editing } = this.state;
         const { departments } = this.props;
         if (departments.items) unitList = departments.items;
@@ -151,7 +151,6 @@ class KPIPersonalCreate extends Component {
                                                             <option>--Hãy chọn đơn vị--</option>
                                                             {unitList &&
                                                                 unitList.map(x => {
-                                                                    if (x.parents === "a00000000000000000000001") root = x._id;
                                                                     return <option key={x._id} value={x._id}>{x.name}</option>
                                                                 })}
                                                         </select>
@@ -247,8 +246,8 @@ class KPIPersonalCreate extends Component {
                                                                             <td>{item.weight}</td>
                                                                             <td>
                                                                                 {/* <a className="add" title="Add" data-toggle="tooltip"><i className="material-icons"></i></a> */}
-                                                                                <a className="edit" title="Edit" data-toggle="tooltip" onClick={() => this.edit(item, index)}><i className="material-icons"></i></a>
-                                                                                <a className="delete" title="Delete" data-toggle="tooltip"><i className="material-icons"></i></a>
+                                                                                <a href="#edit" className="edit" title="Edit" data-toggle="tooltip" onClick={() => this.edit(item, index)}><i className="material-icons"></i></a>
+                                                                                <a href="#delete" className="delete" title="Delete" data-toggle="tooltip"><i className="material-icons"></i></a>
                                                                             </td>
                                                                         </tr>
                                                                     )

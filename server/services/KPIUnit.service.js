@@ -48,11 +48,13 @@ exports.create = async(req, res) => {
     try {
         var kpiunit = await KPIUnit.create({
             unit: req.body.unit,
+            creater: req.body.creater,
             name: req.body.name,
             parent: mongoose.Types.ObjectId.isValid(req.body.parent)?req.body.parent:rootid,
             time: req.body.time,
             weight: req.body.weight,
-            criteria: req.body.criteria
+            criteria: req.body.criteria,
+            confirm: false
         });
 
         res.json({
@@ -68,6 +70,7 @@ exports.editById = async (req,res) => {
     try {
         var objUpdate = {
             unit: req.body.unit,
+            creater: req.body.creater,
             name: req.body.name,
             parent: mongoose.Types.ObjectId.isValid(req.body.parent)?req.body.parent:rootid,
             time: req.body.time,
@@ -83,6 +86,20 @@ exports.editById = async (req,res) => {
         res.json({ message: error });
     }
 }
+
+// Confirm KPI Unit
+exports.confirmByUnitId = async (req, res) => {
+    try {
+        var kpiunit = await KPIUnit.updateMany({unit: req.params.id}, {$set:{confirm: true}});
+        res.json({
+            message: "Confirm success unit kpi",
+            kpiunit
+        });
+    } catch (error) {
+        res.json({ message: error });
+    }
+}
+
 // Delete kpi
 exports.delete = async (req,res) => {
     try {
