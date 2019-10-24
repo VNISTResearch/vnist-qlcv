@@ -32,7 +32,12 @@ const KPIUnitSchema = new Schema({
         required: true
     },
     confirm: {
-        type: Boolean
+        type: Boolean,
+        required: true
+    },
+    evaluate: {
+        type: Boolean,
+        required: true
     }
 });
 

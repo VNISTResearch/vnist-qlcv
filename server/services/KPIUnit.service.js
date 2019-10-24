@@ -32,11 +32,11 @@ exports.getById = async (req, res) => {
 // get kpi by id unit
 exports.getByUnit = async (req, res) => {
     try {
-        var kpiunit = await KPIUnit.find({unit: req.params.id});
+        var kpiunits = await KPIUnit.find({unit: req.params.id}, {evaluate: false});
 
         res.json({
             message: "Get unit kpi by id unit",
-            content: kpiunit
+            content: kpiunits
         });
     } catch (error) {
 
@@ -54,7 +54,8 @@ exports.create = async(req, res) => {
             time: req.body.time,
             weight: req.body.weight,
             criteria: req.body.criteria,
-            confirm: false
+            confirm: false,
+            evaluate: false
         });
 
         res.json({
@@ -75,7 +76,9 @@ exports.editById = async (req,res) => {
             parent: mongoose.Types.ObjectId.isValid(req.body.parent)?req.body.parent:rootid,
             time: req.body.time,
             weight: req.body.weight,
-            criteria: req.body.criteria
+            criteria: req.body.criteria,
+            confirm: false,
+            evaluate: false
         }
         var kpiunit = await KPIUnit.findByIdAndUpdate(req.params.id, {$set:objUpdate}, {new:true});
         res.json({
