@@ -8,6 +8,8 @@ router.get('/', KPIUnitController.get);
 router.get('/:id', KPIUnitController.getById);
 // get all target kpi of a unit
 router.get('/unit/:id', KPIUnitController.getByUnit);
+// get all parent target kpi of a unit
+router.get('/parent/unit/:id', KPIUnitController.getParentByUnit);
 // add a new target of unit
 router.post('/create', KPIUnitController.create);
 // edit target of unit by id

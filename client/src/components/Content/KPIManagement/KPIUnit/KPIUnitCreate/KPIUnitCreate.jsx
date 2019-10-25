@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { departmentActions } from '../../../../../redux-actions/CombineActions';
+import { departmentActions, kpiUnitActions } from '../../../../../redux-actions/CombineActions';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class KPIUnitCreate extends Component {
-    UNSAFE_componentWillMount() {
+    componentDidMount() {
         this.props.getDepartment();
+        this.props.getAllTarget(this.state.kpiunit.unit);
     }
     constructor(props) {
         super(props);
         this.state = {
             kpiunit: {
-                unit: '',
+                unit: '5da6c65a2add902300313be0',
                 creater: '',
                 name: '',
                 parent: '',
@@ -18,7 +21,7 @@ class KPIUnitCreate extends Component {
                 weight: '',
                 criteria: ''
             },
-            list: [],
+            // list: [],
             adding: false,
             editing: false,
             submitted: false
@@ -27,11 +30,10 @@ class KPIUnitCreate extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-
     handleCancel = () => {
         this.setState({
             kpiunit: {
-                unit: '',
+                unit: '5da6c65a2add902300313be0',
                 name: '',
                 time: '',
                 parent: '',
@@ -51,6 +53,9 @@ class KPIUnitCreate extends Component {
             }
         });
     }
+
+    notify = (message) => toast(message);
+
     onAddItem = (event) => {
         event.preventDefault();
         const { kpiunit } = this.state;
@@ -63,11 +68,12 @@ class KPIUnitCreate extends Component {
         });
         if (kpiunit.name && kpiunit.weight && kpiunit.unit && kpiunit.criteria) {
             this.setState(state => {
-                const list = [...state.list, state.kpiunit];
+                // const list = [...state.list, state.kpiunit];
+                this.props.createTarget(state.kpiunit);
                 return {
-                    list,
+                    // list,
                     kpiunit: {
-                        unit: '',
+                        unit: '5da6c65a2add902300313be0',
                         name: '',
                         parent: '',
                         time: '',
@@ -77,6 +83,7 @@ class KPIUnitCreate extends Component {
                     adding: false
                 };
             });
+            this.notify("Thêm thành công");
         }
     }
     handleSubmit(event) {
@@ -89,38 +96,64 @@ class KPIUnitCreate extends Component {
         }
     }
 
-    edit = (item, index) => {
+    edit = (item, idTarget) => {
         this.setState({
             kpiunit: {
                 unit: item.unit,
                 name: item.name,
-                parent: '',
+                parent: item.parent,
                 time: item.time,
                 weight: item.weight,
                 criteria: item.criteria
             },
             editing: true,
-            index: index
+            idTarget: idTarget
         });
     }
 
-    saveEdit = () => {
-        var newlist = this.state.list.map((item, index) => {
-            if (index === this.state.index) return this.state.kpiunit;
-            return item;
-        });
+    saveEdit = (event) => {
+        event.preventDefault();
+        const { kpiunit } = this.state;
         this.setState({
-            list: newlist,
-            editing: false
+            editing: true,
+            kpiunit: {
+                ...kpiunit,
+                time: this.time.value
+            }
         });
+        if (kpiunit.name && kpiunit.weight && kpiunit.unit && kpiunit.criteria) {
+            this.setState(state => {
+                // const list = [...state.list, state.kpiunit];
+                this.props.editTarget(state.idTarget,state.kpiunit);
+                return {
+                    // list,
+                    kpiunit: {
+                        unit: '5da6c65a2add902300313be0',
+                        name: '',
+                        parent: '',
+                        time: '',
+                        weight: '',
+                        criteria: ''
+                    },
+                    editing: false
+                };
+            });
+            this.notify("Sửa thành công");
+        }
         this.handleCancel();
     }
 
+    delete = (id) => {
+        this.props.deleteTarget(id);
+    }
+
     render() {
-        var unitList, root;
-        const { kpiunit, list, adding, editing } = this.state;
-        const { departments } = this.props;
+        console.log(this.state);
+        var unitList, root, list;
+        const { kpiunit, adding, editing } = this.state;
+        const { departments, kpiunits } = this.props;
         if (departments.items) unitList = departments.items;
+        if(kpiunits.items) list = kpiunits.items;
         return (
             <div className="table-wrapper">
                 <div className="content-wrapper">
@@ -148,7 +181,7 @@ class KPIUnitCreate extends Component {
                                                 <div className="form-group">
                                                     <label>Chọn đơn vị:</label>
                                                     <div className={'form-group has-feedback' + (adding && !kpiunit.unit ? ' has-error' : '')}>
-                                                        <select className="form-control" id="selunit" name="unit" value={kpiunit.unit} onChange={this.handleChange}>
+                                                        <select className="form-control" id="selunit" name="unit" value={kpiunit.unit} onChange={this.handleChange} disabled>
                                                             <option>--Hãy chọn đơn vị--</option>
                                                             {unitList &&
                                                                 unitList.map(x => {
@@ -204,10 +237,10 @@ class KPIUnitCreate extends Component {
                                             <div className="col-md-8 col-md-offset-9" style={{ marginTop: '15px' }}>
                                                 {
                                                     editing === false ?
-                                                        <button className="btn btn-success col-md-2" onClick={this.onAddItem}>Add</button>
-                                                        : <button className="btn btn-info col-md-2" onClick={this.saveEdit}>Save</button>
+                                                        <button className="btn btn-success col-md-2" onClick={this.onAddItem}>Thêm mục tiêu</button>
+                                                        : <button className="btn btn-info col-md-2" onClick={this.saveEdit}>Lưu thay đổi</button>
                                                 }
-                                                <button type="cancel" className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleCancel}>Cancel</button>
+                                                <button type="cancel" className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleCancel}>Xóa trắng</button>
                                             </div>
                                         </div>
                                     </div>
@@ -230,34 +263,39 @@ class KPIUnitCreate extends Component {
                                                                 <th>Tiêu chí đánh giá</th>
                                                                 <th>Thời gian</th>
                                                                 <th>Trọng số</th>
+                                                                <th>Trạng thái</th>
                                                                 <th>Hành động</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             {
-                                                                list.length === 0 ? <tr><td colSpan={5}>No data</td></tr> :
+                                                                (typeof list === 'undefined' || list.length === 0)?<tr><td colSpan={7}>No data</td></tr> :
                                                                     list.map((item, index) =>
-                                                                        <tr key={index + 1}>
+                                                                        <tr key={item._id}>
                                                                             <td>{index + 1}</td>
                                                                             <td>{item.name}</td>
                                                                             <td>{item.criteria}</td>
                                                                             <td>{item.time}</td>
                                                                             <td>{item.weight}</td>
+                                                                            <td>{item.confirm?"Đã kích hoạt":"Chưa kích hoạt"}</td>
                                                                             <td>
                                                                                 {/* <a className="add" title="Add" data-toggle="tooltip"><i className="material-icons"></i></a> */}
-                                                                                <a href="#abc" className="edit" title="Edit" data-toggle="tooltip" onClick={() => this.edit(item, index)}><i className="material-icons"></i></a>
-                                                                                <a href="#abc" className="delete" title="Delete" data-toggle="tooltip"><i className="material-icons"></i></a>
+                                                                                <a href="#abc" className="edit" title="Edit" data-toggle="tooltip" onClick={() => this.edit(item, item._id)}><i className="material-icons"></i></a>
+                                                                                <a href="#abc" className="delete" title="Delete" data-toggle="tooltip" onClick={() => this.delete(item._id)}><i className="material-icons"></i></a>
                                                                             </td>
                                                                         </tr>
                                                                     )
                                                             }
                                                         </tbody>
                                                         {
-                                                            list.length !== 0 &&
+                                                            (typeof list !== 'undefined' && list.length !== 0) &&
                                                             <tfoot>
                                                                 <tr>
-                                                                    <td colSpan={4}><b>Tổng:</b></td>
-                                                                    <td colSpan={2}><b>{list.length && list.map(item => parseInt(item.weight)).reduce((sum, number) => sum + number, 0)}</b></td>
+                                                                    <td colSpan={1}><b>Số mục tiêu:</b></td>
+                                                                    <td colSpan={1}><b>{list.reduce(sum => sum +1,0)} mục tiêu</b></td>
+                                                                    <td colSpan={2}><b>Tổng trọng số:</b></td>
+                                                                    <td colSpan={1}><b>{list.map(item => parseInt(item.weight)).reduce((sum, number) => sum + number, 0)}</b></td>
+                                                                    <td colSpan={2}><b>*Ghi chú:</b>{list.map(item => parseInt(item.weight)).reduce((sum, number) => sum + number, 0) !== 100?" Trọng số chưa thỏa mãn":" Trọng số đã thỏa mãn"}</td>
                                                                 </tr>
                                                             </tfoot>
                                                         }
@@ -265,11 +303,12 @@ class KPIUnitCreate extends Component {
                                                     </table>
                                                 </div>
                                                 <div className="col-xs-8 col-xs-offset-9">
-                                                    <button type="submit" className="btn btn-success col-md-2">Confirm</button>
-                                                    <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }}>Cancel</button>
+                                                    <button type="submit" className="btn btn-success col-md-2">Kích hoạt</button>
+                                                    <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }}>Bỏ kích hoạt</button>
                                                 </div>
                                             </div>
                                         </form>
+                                        <ToastContainer />
                                     </div>
                                 </div>
                             </div>
@@ -282,12 +321,16 @@ class KPIUnitCreate extends Component {
 }
 
 function mapState(state) {
-    const { departments } = state;
-    return { departments };
+    const { departments, kpiunits } = state;
+    return { departments, kpiunits };
 }
 
 const actionCreators = {
-    getDepartment: departmentActions.getAll
+    getDepartment: departmentActions.getAll,
+    createTarget: kpiUnitActions.addTarget, 
+    getAllTarget: kpiUnitActions.getAllTargetByUnitId,
+    editTarget: kpiUnitActions.editTarget,
+    deleteTarget: kpiUnitActions.delete
 };
 const connectedKPIUnitCreate = connect(mapState, actionCreators)(KPIUnitCreate);
 export { connectedKPIUnitCreate as KPIUnitCreate };

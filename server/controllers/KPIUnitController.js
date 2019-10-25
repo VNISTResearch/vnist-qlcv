@@ -12,6 +12,10 @@ exports.getByUnit = (req, res) => {
     return KPIUnitService.getByUnit(req, res);
 }
 
+exports.getParentByUnit = (req, res) => {
+    return KPIUnitService.getParentByUnit(req, res);
+}
+
 exports.create = (req, res) => {
     return KPIUnitService.create(req, res);
 }

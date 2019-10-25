@@ -1,7 +1,7 @@
 import { kpiUnitConstants } from "../redux-constants/CombineConstants";
 import { alertActions } from "./AlertActions";
 import { kpiUnitService } from "../service/CombineService";
-export const userActions = {
+export const kpiUnitActions = {
     getAllTargetByUnitId,
     addTarget,
     editTarget,
@@ -12,7 +12,7 @@ export const userActions = {
 // Get all target of a Unit by Unit id
 function getAllTargetByUnitId(id) {
     return dispatch => {
-        dispatch(request());
+        dispatch(request(id));
 
         kpiUnitService.getAllTargetUnitByIdUnit(id)
             .then(
@@ -21,7 +21,7 @@ function getAllTargetByUnitId(id) {
             );
     };
 
-    function request() { return { type: kpiUnitConstants.GETALLTARGET_BYIDUNIT_REQUEST } }
+    function request(id) { return { type: kpiUnitConstants.GETALLTARGET_BYIDUNIT_REQUEST, id } }
     function success(targets) { return { type: kpiUnitConstants.GETALLTARGET_BYIDUNIT_SUCCESS, targets } }
     function failure(error) { return { type: kpiUnitConstants.GETALLTARGET_BYIDUNIT_FAILURE, error } }
 }
@@ -34,8 +34,9 @@ function addTarget(target) {
         kpiUnitService.addNewTargetUnit(target)
             .then(
                 target => { 
-                    dispatch(success());
+                    dispatch(success(target));
                     dispatch(alertActions.success('Add target successful'));
+                    // window.location.reload();
                 },
                 error => {
                     dispatch(failure(error.toString()));
@@ -50,15 +51,16 @@ function addTarget(target) {
 }
 
 // Edit a target of unit
-function editTarget(id,target) {
+function editTarget(id, target) {
     return dispatch => {
-        dispatch(request(target));
+        dispatch(request(id));
 
         kpiUnitService.editTargetUnit(id, target)
             .then(
                 target => { 
-                    dispatch(success());
+                    dispatch(success(target));
                     dispatch(alertActions.success('Edit target successful'));
+                    // window.location.reload();
                 },
                 error => {
                     dispatch(failure(error.toString()));
@@ -67,7 +69,7 @@ function editTarget(id,target) {
             );
     };
 
-    function request(target) { return { type: kpiUnitConstants.EDITTARGET_REQUEST, target } }
+    function request(id) { return { type: kpiUnitConstants.EDITTARGET_REQUEST, id } }
     function success(target) { return { type: kpiUnitConstants.EDITTARGET_SUCCESS, target } }
     function failure(error) { return { type: kpiUnitConstants.EDITTARGET_FAILURE, error } }
 }
@@ -107,7 +109,7 @@ function _delete(id) {
             );
     };
 
-    function request(id) { return { type: kpiUnitConstants.DELETE_REQUEST, id } }
-    function success(id) { return { type: kpiUnitConstants.DELETE_SUCCESS, id } }
-    function failure(id, error) { return { type: kpiUnitConstants.DELETE_FAILURE, id, error } }
+    function request(id) { return { type: kpiUnitConstants.DELETETARGET_REQUEST, id } }
+    function success(id) { return { type: kpiUnitConstants.DELETETARGET_SUCCESS, id } }
+    function failure(id, error) { return { type: kpiUnitConstants.DELETETARGET_FAILURE, id, error } }
 }

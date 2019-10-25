@@ -1,4 +1,5 @@
 const KPIUnit = require('../models/KPIUnit.model');
+const Department = require('../models/Department.model');
 const mongoose = require("mongoose");
 const rootid = require("../config/rootid").rootIdKpiUnit;
 // get all kpi unit
@@ -32,10 +33,24 @@ exports.getById = async (req, res) => {
 // get kpi by id unit
 exports.getByUnit = async (req, res) => {
     try {
-        var kpiunits = await KPIUnit.find({unit: req.params.id}, {evaluate: false});
+        var kpiunits = await KPIUnit.find({unit: req.params.id, evaluate: false});
 
         res.json({
             message: "Get unit kpi by id unit",
+            content: kpiunits
+        });
+    } catch (error) {
+
+        res.json({ message: error });
+    }
+}
+// get all parent kpi comfirmed but not evaluated by id unit
+exports.getParentByUnit = async (req, res) => {
+    try {
+        var parentDepartment = await Department.findById(req.params.id);
+        var kpiunits = await KPIUnit.find({unit: parentDepartment.parents, confirm: true, evaluate: false});
+        res.json({
+            message: "Lấy tất cả các mục tiêu cha",
             content: kpiunits
         });
     } catch (error) {

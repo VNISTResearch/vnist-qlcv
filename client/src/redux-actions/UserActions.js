@@ -15,7 +15,7 @@ function currentRoleEdit(user){
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         localStorage.setItem('user', JSON.stringify(user));
         dispatch({ type: userConstants.CURRENT_USER_EDIT, user})
-        window.location.reload();   
+        window.location.reload();
     }
 }
 

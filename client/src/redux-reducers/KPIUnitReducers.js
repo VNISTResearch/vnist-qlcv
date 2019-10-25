@@ -8,7 +8,7 @@ export function kpiunits(state = {}, action) {
       };
     case kpiUnitConstants.GETALLTARGET_BYIDUNIT_SUCCESS:
       return {
-        items: action.departments
+        items: action.targets.content
       };
     case kpiUnitConstants.GETALLTARGET_BYIDUNIT_FAILURE:
       return { 
@@ -28,11 +28,16 @@ export function kpiunits(state = {}, action) {
       };
     case  kpiUnitConstants.ADDTARGET_REQUEST:
       return {
+        ...state,
         adding: true
       };
     case kpiUnitConstants.ADDTARGET_SUCCESS:
       return {
-        items: action.departments
+          ...state,
+          items: [
+            ...state.items,
+            action.target.kpiunit
+          ]
       };
     case kpiUnitConstants.ADDTARGET_FAILURE:
       return { 
@@ -40,11 +45,20 @@ export function kpiunits(state = {}, action) {
       };
     case  kpiUnitConstants.EDITTARGET_REQUEST:
       return {
-        editing: true
+        ...state,
+        items: state.items.map(kpiunit =>
+          kpiunit._id === action.id
+            ? { ...kpiunit, editing: true }
+            : kpiunit
+        )
       };
     case kpiUnitConstants.EDITTARGET_SUCCESS:
       return {
-        items: action.departments
+        ...state,
+        items: state.items.map(kpiunit =>
+          kpiunit._id === action.target.kpiunit._id
+            ? action.target.kpiunit:kpiunit
+            )
       };
     case kpiUnitConstants.EDITTARGET_FAILURE:
       return { 
@@ -64,11 +78,17 @@ export function kpiunits(state = {}, action) {
       };
     case  kpiUnitConstants.DELETETARGET_REQUEST:
       return {
-        deleting: true
+        ...state,
+        items: state.items.map(kpiunit =>
+          kpiunit._id === action.id
+            ? { ...kpiunit, deleting: true }
+            : kpiunit
+        )
       };
     case kpiUnitConstants.DELETETARGET_SUCCESS:
       return {
-        items: action.departments
+        ...state,
+        items: state.items.filter(kpiunit => kpiunit._id !== action.id)
       };
     case kpiUnitConstants.DELETETARGET_FAILURE:
       return { 
