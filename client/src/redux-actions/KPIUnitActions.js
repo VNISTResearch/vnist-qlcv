@@ -3,6 +3,7 @@ import { alertActions } from "./AlertActions";
 import { kpiUnitService } from "../service/CombineService";
 export const kpiUnitActions = {
     getAllTargetByUnitId,
+    getAllParentTargetByUnitId,
     addTarget,
     editTarget,
     confirm,
@@ -26,6 +27,23 @@ function getAllTargetByUnitId(id) {
     function failure(error) { return { type: kpiUnitConstants.GETALLTARGET_BYIDUNIT_FAILURE, error } }
 }
 
+// Get all target of a Unit by Unit id
+function getAllParentTargetByUnitId(id) {
+    return dispatch => {
+        dispatch(request(id));
+
+        kpiUnitService.getAllParentTargetUnitByIdUnit(id)
+            .then(
+                targets => dispatch(success(targets)),
+                error => dispatch(failure(error.toString()))
+            );
+    };
+
+    function request(id) { return { type: kpiUnitConstants.GETALL_PARENTTARGET_REQUEST, id } }
+    function success(targets) { return { type: kpiUnitConstants.GETALL_PARENTTARGET_SUCCESS, targets } }
+    function failure(error) { return { type: kpiUnitConstants.GETALL_PARENTTARGET_FAILURE, error } }
+}
+
 // Add a new target of unit
 function addTarget(target) {
     return dispatch => {
@@ -36,7 +54,6 @@ function addTarget(target) {
                 target => { 
                     dispatch(success(target));
                     dispatch(alertActions.success('Add target successful'));
-                    // window.location.reload();
                 },
                 error => {
                     dispatch(failure(error.toString()));
@@ -60,7 +77,6 @@ function editTarget(id, target) {
                 target => { 
                     dispatch(success(target));
                     dispatch(alertActions.success('Edit target successful'));
-                    // window.location.reload();
                 },
                 error => {
                     dispatch(failure(error.toString()));

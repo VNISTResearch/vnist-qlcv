@@ -8,9 +8,23 @@ export function kpiunits(state = {}, action) {
       };
     case kpiUnitConstants.GETALLTARGET_BYIDUNIT_SUCCESS:
       return {
+        ...state,
         items: action.targets.content
       };
     case kpiUnitConstants.GETALLTARGET_BYIDUNIT_FAILURE:
+      return { 
+        error: action.error
+      };
+    case  kpiUnitConstants.GETALL_PARENTTARGET_REQUEST:
+      return {
+        loading: true
+      };
+    case kpiUnitConstants.GETALL_PARENTTARGET_SUCCESS:
+      return {
+        ...state,
+        parents: action.targets.content
+      };
+    case kpiUnitConstants.GETALL_PARENTTARGET_FAILURE:
       return { 
         error: action.error
       };
@@ -20,6 +34,7 @@ export function kpiunits(state = {}, action) {
       };
     case kpiUnitConstants.GETTARGET_BYID_SUCCESS:
       return {
+        ...state,
         items: action.departments
       };
     case kpiUnitConstants.GETTARGET_BYID_FAILURE:

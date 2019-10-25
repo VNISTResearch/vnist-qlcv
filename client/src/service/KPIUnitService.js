@@ -3,6 +3,7 @@ export const kpiUnitService = {
     getAll,
     getById,
     getAllTargetUnitByIdUnit,
+    getAllParentTargetUnitByIdUnit,
     addNewTargetUnit,
     editTargetUnit,
     comfirmKPIUnit,
@@ -33,6 +34,15 @@ function getAllTargetUnitByIdUnit(id) {
     };
 
     return fetch(`/kpiunits/unit/${id}`, requestOptions).then(handleResponse);
+}
+
+// get all parent target of one unit
+function getAllParentTargetUnitByIdUnit(id) {
+    const requestOptions = {
+        method: 'GET',
+    };
+
+    return fetch(`/kpiunits/parent/unit/${id}`, requestOptions).then(handleResponse);
 }
 
 // add new target of one unit 

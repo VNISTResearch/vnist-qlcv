@@ -8,6 +8,7 @@ class KPIUnitCreate extends Component {
     componentDidMount() {
         this.props.getDepartment();
         this.props.getAllTarget(this.state.kpiunit.unit);
+        this.props.getParentTarget(this.state.kpiunit.unit);
     }
     constructor(props) {
         super(props);
@@ -124,7 +125,7 @@ class KPIUnitCreate extends Component {
         if (kpiunit.name && kpiunit.weight && kpiunit.unit && kpiunit.criteria) {
             this.setState(state => {
                 // const list = [...state.list, state.kpiunit];
-                this.props.editTarget(state.idTarget,state.kpiunit);
+                this.props.editTarget(state.idTarget, state.kpiunit);
                 return {
                     // list,
                     kpiunit: {
@@ -148,12 +149,13 @@ class KPIUnitCreate extends Component {
     }
 
     render() {
-        console.log(this.state);
-        var unitList, root, list;
+        var unitList, root, list, parentTargets;
         const { kpiunit, adding, editing } = this.state;
         const { departments, kpiunits } = this.props;
         if (departments.items) unitList = departments.items;
-        if(kpiunits.items) list = kpiunits.items;
+        if (kpiunits.items) list = kpiunits.items;
+        if (kpiunits.parents) parentTargets = kpiunits.parents;
+        console.log(parentTargets);
         return (
             <div className="table-wrapper">
                 <div className="content-wrapper">
@@ -202,12 +204,17 @@ class KPIUnitCreate extends Component {
                                                     <div className="form-group">
                                                         <label>Thuộc mục tiêu:</label>
                                                         <div className={'form-group has-feedback' + (adding && !kpiunit.parent ? ' has-error' : '')}>
-                                                            <select className="form-control" id="selparent" name="parent" onChange={this.handleChange}>
+                                                            <select className="form-control" id="selparent" value={kpiunit.unit} name="parent" onChange={this.handleChange}>
                                                                 <option>--Hãy chọn mục tiêu cha--</option>
-                                                                <option value="1">Mục tiêu 1</option>
+                                                                {(typeof parentTargets !== 'undefined' && parentTargets.length !== 0) &&
+                                                                    parentTargets.map(x => {
+                                                                        return <option key={x._id} value={x._id}>{x.name}</option>
+                                                                    })
+                                                                }
+                                                                {/* <option value="1">Mục tiêu 1</option>
                                                                 <option value="2">Mục tiêu 2</option>
                                                                 <option value="3">Mục tiêu 3</option>
-                                                                <option value="4">Mục tiêu 4</option>
+                                                                <option value="4">Mục tiêu 4</option> */}
                                                             </select>
                                                         </div>
                                                     </div>
@@ -269,7 +276,7 @@ class KPIUnitCreate extends Component {
                                                         </thead>
                                                         <tbody>
                                                             {
-                                                                (typeof list === 'undefined' || list.length === 0)?<tr><td colSpan={7}>No data</td></tr> :
+                                                                (typeof list === 'undefined' || list.length === 0) ? <tr><td colSpan={7}>No data</td></tr> :
                                                                     list.map((item, index) =>
                                                                         <tr key={item._id}>
                                                                             <td>{index + 1}</td>
@@ -277,7 +284,7 @@ class KPIUnitCreate extends Component {
                                                                             <td>{item.criteria}</td>
                                                                             <td>{item.time}</td>
                                                                             <td>{item.weight}</td>
-                                                                            <td>{item.confirm?"Đã kích hoạt":"Chưa kích hoạt"}</td>
+                                                                            <td>{item.confirm ? "Đã kích hoạt" : "Chưa kích hoạt"}</td>
                                                                             <td>
                                                                                 {/* <a className="add" title="Add" data-toggle="tooltip"><i className="material-icons"></i></a> */}
                                                                                 <a href="#abc" className="edit" title="Edit" data-toggle="tooltip" onClick={() => this.edit(item, item._id)}><i className="material-icons"></i></a>
@@ -292,10 +299,10 @@ class KPIUnitCreate extends Component {
                                                             <tfoot>
                                                                 <tr>
                                                                     <td colSpan={1}><b>Số mục tiêu:</b></td>
-                                                                    <td colSpan={1}><b>{list.reduce(sum => sum +1,0)} mục tiêu</b></td>
+                                                                    <td colSpan={1}><b>{list.reduce(sum => sum + 1, 0)} mục tiêu</b></td>
                                                                     <td colSpan={2}><b>Tổng trọng số:</b></td>
                                                                     <td colSpan={1}><b>{list.map(item => parseInt(item.weight)).reduce((sum, number) => sum + number, 0)}</b></td>
-                                                                    <td colSpan={2}><b>*Ghi chú:</b>{list.map(item => parseInt(item.weight)).reduce((sum, number) => sum + number, 0) !== 100?" Trọng số chưa thỏa mãn":" Trọng số đã thỏa mãn"}</td>
+                                                                    <td colSpan={2}><b>*Ghi chú:</b>{list.map(item => parseInt(item.weight)).reduce((sum, number) => sum + number, 0) !== 100 ? " Trọng số chưa thỏa mãn" : " Trọng số đã thỏa mãn"}</td>
                                                                 </tr>
                                                             </tfoot>
                                                         }
@@ -327,8 +334,9 @@ function mapState(state) {
 
 const actionCreators = {
     getDepartment: departmentActions.getAll,
-    createTarget: kpiUnitActions.addTarget, 
+    createTarget: kpiUnitActions.addTarget,
     getAllTarget: kpiUnitActions.getAllTargetByUnitId,
+    getParentTarget: kpiUnitActions.getAllParentTargetByUnitId,
     editTarget: kpiUnitActions.editTarget,
     deleteTarget: kpiUnitActions.delete
 };
