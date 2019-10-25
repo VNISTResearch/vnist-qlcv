@@ -1,0 +1,20 @@
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+
+// Create Schema
+const DepartmentSchema = new Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    parents: {
+        type: Schema.Types.ObjectId,
+        required: true
+    },
+    date: {
+        type: Date,
+        default: Date.now
+    }
+});
+
+module.exports = Department = mongoose.model("departments", DepartmentSchema);
