@@ -77,6 +77,7 @@ class MainSideBar extends Component {
                                     <ul className="treeview-menu">
                                         <li><a href="/addemployee">Thêm nhân viên </a></li>
                                         <li><a href="/listemployee">Danh sách nhân viên</a></li>
+                                        <li><a href="/detailemployee">Thông tin nhân viên</a></li>
                                     </ul>
                                 </li>
                             }

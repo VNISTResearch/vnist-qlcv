@@ -56,7 +56,7 @@ class AddEmployee extends Component {
                                                 </div>
                                                 <div className="form-group">
                                                     <label htmlFor="email">Email:</label>
-                                                    <input type="email" className="form-control" id="email" />
+                                                    <input type="email" className="form-control" id="email" placeholder="Email công ty"/>
                                                 </div>
                                             </div>
                                             <div className=" col-md-4">
@@ -110,7 +110,7 @@ class AddEmployee extends Component {
                                                     <input type="Date" className="form-control" id="brithday" />
                                                 </div>
                                                 <div className="form-group">
-                                                    <label htmlFor="nativeLand">Quê quán</label>
+                                                    <label htmlFor="nativeLand">Hộ khẩu thường trú:</label>
                                                     <input type="text" className="form-control" id="nativeLand" />
                                                 </div>
                                             </div>
@@ -159,7 +159,7 @@ class AddEmployee extends Component {
                                             <hr id="hr"/>
                                             <div className="form-group">
                                                 <label htmlFor="Educational ">Trình độ văn hoá:</label>
-                                                <input type="text" className="form-control" id="Educational" placeholder="12/12" />
+                                                <input type="text" className="form-control" id="Educational" placeholder="Ví dụ: 12/12" />
                                             </div>
                                             <div className="form-group">
                                                 <label htmlFor="foreignLanguage ">Trình độ ngoại ngữ:</label>
@@ -170,11 +170,11 @@ class AddEmployee extends Component {
                                                 <input type="text" className="form-control" id="Educational" />
                                             </div>
                                             <div className="form-group">
-                                                <label>Chứng chỉ:</label>
+                                                <label>Bằng cấp/Chứng chỉ:</label>
                                                 <table className="table" id="certificate" style={{ marginBottom: 0 }}>
                                                     <thead>
                                                         <tr>
-                                                            <th>Tên chứng chỉ</th>
+                                                            <th>Tên bằng cấp( chứng chỉ)</th>
                                                             <th>File đính kèm</th>
                                                             <th style={{ width: '12%' }}>Hoạt động</th>
                                                         </tr>
@@ -214,11 +214,12 @@ class AddEmployee extends Component {
                                         </div>
                                     </div>
                                     <div className="box-footer col-md-12">
-                                        <button type="submit" className="btn btn-primary col-md-2 pull-right" id="btnuser" >Xoá trắng</button>
-                                        <button type="submit" className="btn btn-success col-md-2 pull-right" id="btnuser" >Thêm nhân viên</button>
+                                        <button type="submit" title="xoá tất cả các trường" className="btn btn-primary col-md-2 pull-right btnuser"  >Xoá trắng</button>
+                                        <button type="submit" title="Thêm nhân viên mới" className="btn btn-success col-md-2 pull-right btnuser" >Thêm nhân viên</button>
                                     </div>
                                 </div>
-                            </form></div>
+                            </form>
+                        </div>
                     </div>
                 </section></div>
         );

@@ -14,3 +14,5 @@ export * from './KPIManagement/KPIUnit/KPIUnitOverview/KPIUnitOverview';
 export * from './KPIManagement/KPIStatistical/KPIStatistical';
 export * from './EmployeesManagement/Employees/AddEmployee';
 export * from './EmployeesManagement/Employees/ListEmployee';
+export * from './EmployeesManagement/Employees/DetailEmployee';
+export * from './EmployeesManagement/Employees/InfoEmployee';
