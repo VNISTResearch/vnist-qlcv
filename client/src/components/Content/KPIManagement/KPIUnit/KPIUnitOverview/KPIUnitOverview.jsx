@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 
 class KPIUnitOverview extends Component {
+    UNSAFE_componentWillMount(){
+            let script = document.createElement('script');
+            script.src = 'main/js/FlotChart.js';
+            script.async = true;
+            script.defer = true;
+            document.body.appendChild(script);
+    }
     render() {
         return (
             <div className="table-wrapper">
@@ -22,7 +29,7 @@ class KPIUnitOverview extends Component {
                                 <div className="box box-primary">
                                     <div className="box-header with-border">
                                         <i className="fa fa-bar-chart-o" />
-                                        <h3 className="box-title">Kết quả KPI 6 tháng đầu năm</h3>
+                                        <h3 className="box-title">Kết quả KPI 6 tháng gần nhất</h3>
                                         <div className="box-tools pull-right">
                                             <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus" />
                                             </button>
@@ -36,22 +43,20 @@ class KPIUnitOverview extends Component {
                                 {/* /.box */}
                             </div>
                             <div className="col-xs-6">
-                                {/* Donut chart */}
-                                <div className="box box-primary">
+                                <div className="box box-danger">
                                     <div className="box-header with-border">
-                                        <i className="fa fa-bar-chart-o" />
-                                        <h3 className="box-title">Phân bố mục tiêu của KPI hiện tại</h3>
+                                        <h3 className="box-title">Biểu đồ phân bố mục tiêu
+                                        <small> Di chuyển chuột vào từng vùng để xem thông tin</small>
+                                        </h3>
                                         <div className="box-tools pull-right">
                                             <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus" />
                                             </button>
                                         </div>
                                     </div>
                                     <div className="box-body">
-                                        <div id="donut-chart" style={{ height: 300 }} />
+                                        <canvas id="pieChart" style={{ height: 300 }} />
                                     </div>
-                                    {/* /.box-body*/}
                                 </div>
-                                {/* /.box */}
                             </div>
                             <div className="col-xs-12">
                                 <div className="box">

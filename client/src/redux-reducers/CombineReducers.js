@@ -7,6 +7,7 @@ import { jobtitles } from './JobTitleReducers';
 import { tasktemplates } from './TaskTemplateReducers';
 import { departments } from './DepartmentReducers';
 import { kpiunits } from './KPIUnitReducers';
+import { kpipersonals } from './KPIPersonalReducer';
 
 const rootReducer = combineReducers({
   authentication,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
   jobtitles,
   tasktemplates,
   departments,
-  kpiunits
+  kpiunits,
+  kpipersonals
 });
 
 export default rootReducer;

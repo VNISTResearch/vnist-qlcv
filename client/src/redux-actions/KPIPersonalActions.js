@@ -1,47 +1,47 @@
-import { kpiUnitConstants } from "../redux-constants/CombineConstants";
+import { kpiPersonalConstants } from "../redux-constants/CombineConstants";
 import { alertActions } from "./AlertActions";
-import { kpiUnitService } from "../service/CombineService";
-export const kpiUnitActions = {
-    getAllTargetByUnitId,
-    getAllParentTargetByUnitId,
+import { kpiPersonalService } from "../service/CombineService";
+export const kpiPersonalActions = {
+    getAllTargetByUser,
+    getAllParentTarget,
     addTarget,
     editTarget,
     confirm,
     delete: _delete,
 };
 
-// Get all target of a Unit by Unit id
-function getAllTargetByUnitId(id) {
+// Get all target of a user
+function getAllTargetByUser(id) {
     return dispatch => {
         dispatch(request(id));
 
-        kpiUnitService.getAllTargetUnitByIdUnit(id)
+        kpiPersonalService.getAllTargetPersonalByUserId(id)
             .then(
                 targets => dispatch(success(targets)),
                 error => dispatch(failure(error.toString()))
             );
     };
 
-    function request(id) { return { type: kpiUnitConstants.GETALLTARGET_BYIDUNIT_REQUEST, id } }
-    function success(targets) { return { type: kpiUnitConstants.GETALLTARGET_BYIDUNIT_SUCCESS, targets } }
-    function failure(error) { return { type: kpiUnitConstants.GETALLTARGET_BYIDUNIT_FAILURE, error } }
+    function request(id) { return { type: kpiPersonalConstants.GETALLTARGET_BYIDUSER_REQUEST, id } }
+    function success(targets) { return { type: kpiPersonalConstants.GETALLTARGET_BYIDUSER_SUCCESS, targets } }
+    function failure(error) { return { type: kpiPersonalConstants.GETALLTARGET_BYIDUSER_FAILURE, error } }
 }
 
 // Get all target of a Unit by Unit id
-function getAllParentTargetByUnitId(id) {
+function getAllParentTarget(id) {
     return dispatch => {
         dispatch(request(id));
 
-        kpiUnitService.getAllParentTargetUnitByIdUnit(id)
+        kpiPersonalService.getAllParentTarget(id)
             .then(
                 targets => dispatch(success(targets)),
                 error => dispatch(failure(error.toString()))
             );
     };
 
-    function request(id) { return { type: kpiUnitConstants.GETALL_PARENTTARGET_REQUEST, id } }
-    function success(targets) { return { type: kpiUnitConstants.GETALL_PARENTTARGET_SUCCESS, targets } }
-    function failure(error) { return { type: kpiUnitConstants.GETALL_PARENTTARGET_FAILURE, error } }
+    function request(id) { return { type: kpiPersonalConstants.GETALL_PARENTTARGET_REQUEST, id } }
+    function success(targets) { return { type: kpiPersonalConstants.GETALL_PARENTTARGET_SUCCESS, targets } }
+    function failure(error) { return { type: kpiPersonalConstants.GETALL_PARENTTARGET_FAILURE, error } }
 }
 
 // Add a new target of unit
@@ -49,7 +49,7 @@ function addTarget(target) {
     return dispatch => {
         dispatch(request(target));
 
-        kpiUnitService.addNewTargetUnit(target)
+        kpiPersonalService.addNewTargetPersonal(target)
             .then(
                 target => { 
                     dispatch(success(target));
@@ -62,9 +62,9 @@ function addTarget(target) {
             );
     };
 
-    function request(target) { return { type: kpiUnitConstants.ADDTARGET_REQUEST, target } }
-    function success(target) { return { type: kpiUnitConstants.ADDTARGET_SUCCESS, target } }
-    function failure(error) { return { type: kpiUnitConstants.ADDTARGET_FAILURE, error } }
+    function request(target) { return { type: kpiPersonalConstants.ADDTARGET_REQUEST, target } }
+    function success(target) { return { type: kpiPersonalConstants.ADDTARGET_SUCCESS, target } }
+    function failure(error) { return { type: kpiPersonalConstants.ADDTARGET_FAILURE, error } }
 }
 
 // Edit a target of unit
@@ -72,7 +72,7 @@ function editTarget(id, target) {
     return dispatch => {
         dispatch(request(id));
 
-        kpiUnitService.editTargetUnit(id, target)
+        kpiPersonalService.editTargetPersonal(id, target)
             .then(
                 target => { 
                     dispatch(success(target));
@@ -85,9 +85,9 @@ function editTarget(id, target) {
             );
     };
 
-    function request(id) { return { type: kpiUnitConstants.EDITTARGET_REQUEST, id } }
-    function success(target) { return { type: kpiUnitConstants.EDITTARGET_SUCCESS, target } }
-    function failure(error) { return { type: kpiUnitConstants.EDITTARGET_FAILURE, error } }
+    function request(id) { return { type: kpiPersonalConstants.EDITTARGET_REQUEST, id } }
+    function success(target) { return { type: kpiPersonalConstants.EDITTARGET_SUCCESS, target } }
+    function failure(error) { return { type: kpiPersonalConstants.EDITTARGET_FAILURE, error } }
 }
 
 // confirm kpi unit final
@@ -95,7 +95,7 @@ function confirm(id) {
     return dispatch => {
         dispatch(request(id));
 
-        kpiUnitService.comfirmKPIUnit(id)
+        kpiPersonalService.comfirmKPIUnit(id)
             .then(
                 target => { 
                     dispatch(success(id));
@@ -108,9 +108,9 @@ function confirm(id) {
             );
     };
 
-    function request(id) { return { type: kpiUnitConstants.CONFIRM_REQUEST, id } }
-    function success(id) { return { type: kpiUnitConstants.CONFIRM_SUCCESS, id } }
-    function failure(error) { return { type: kpiUnitConstants.CONFIRM_FAILURE, error } }
+    function request(id) { return { type: kpiPersonalConstants.CONFIRM_REQUEST, id } }
+    function success(id) { return { type: kpiPersonalConstants.CONFIRM_SUCCESS, id } }
+    function failure(error) { return { type: kpiPersonalConstants.CONFIRM_FAILURE, error } }
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
@@ -118,14 +118,14 @@ function _delete(id) {
     return dispatch => {
         dispatch(request(id));
 
-        kpiUnitService.deleteTargetById(id)
+        kpiPersonalService.deleteTargetById(id)
             .then(
                 target => dispatch(success(id)),
                 error => dispatch(failure(id, error.toString()))
             );
     };
 
-    function request(id) { return { type: kpiUnitConstants.DELETETARGET_REQUEST, id } }
-    function success(id) { return { type: kpiUnitConstants.DELETETARGET_SUCCESS, id } }
-    function failure(id, error) { return { type: kpiUnitConstants.DELETETARGET_FAILURE, id, error } }
+    function request(id) { return { type: kpiPersonalConstants.DELETETARGET_REQUEST, id } }
+    function success(id) { return { type: kpiPersonalConstants.DELETETARGET_SUCCESS, id } }
+    function failure(id, error) { return { type: kpiPersonalConstants.DELETETARGET_FAILURE, id, error } }
 }

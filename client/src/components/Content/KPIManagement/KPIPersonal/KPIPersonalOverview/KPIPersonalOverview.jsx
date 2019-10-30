@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 
 class KPIPersonalOverview extends Component {
+    UNSAFE_componentWillMount() {
+        let script = document.createElement('script');
+        script.src = 'main/js/FlotChart.js';
+        script.async = true;
+        script.defer = true;
+        document.body.appendChild(script);
+    }
     render() {
         return (
             <div className="table-wrapper">
@@ -22,7 +29,7 @@ class KPIPersonalOverview extends Component {
                                 <div className="box box-primary">
                                     <div className="box-header with-border">
                                         <i className="fa fa-bar-chart-o" />
-                                        <h3 className="box-title">Kết quả KPI 6 tháng đầu năm</h3>
+                                        <h3 className="box-title">Kết quả KPI 6 tháng gần nhất</h3>
                                         <div className="box-tools pull-right">
                                             <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus" />
                                             </button>
@@ -36,22 +43,20 @@ class KPIPersonalOverview extends Component {
                                 {/* /.box */}
                             </div>
                             <div className="col-xs-6">
-                                {/* Donut chart */}
-                                <div className="box box-primary">
+                                <div className="box box-danger">
                                     <div className="box-header with-border">
-                                        <i className="fa fa-bar-chart-o" />
-                                        <h3 className="box-title">Phân bố mục tiêu của KPI hiện tại</h3>
+                                        <h3 className="box-title">Biểu đồ phân bố mục tiêu
+                                        <small> Di chuyển chuột vào từng vùng để xem thông tin</small>
+                                        </h3>
                                         <div className="box-tools pull-right">
                                             <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus" />
                                             </button>
                                         </div>
                                     </div>
                                     <div className="box-body">
-                                        <div id="donut-chart" style={{ height: 300 }} />
+                                        <canvas id="pieChart" style={{ height: 300 }} />
                                     </div>
-                                    {/* /.box-body*/}
                                 </div>
-                                {/* /.box */}
                             </div>
                             <div className="col-xs-12">
                                 <div className="box">
@@ -80,8 +85,8 @@ class KPIPersonalOverview extends Component {
                                                     <td>Đảm bảo chất lượng sản phẩm theo lô</td>
                                                     <td>95</td>
                                                     <td>
-                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="copy" title="Copy" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
+                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="Xem chi tiết dữ liệu KPI này" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
+                                                        <a href="#abc" className="copy" title="Thiết lập KPI tháng 11 từ KPI này" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -92,8 +97,8 @@ class KPIPersonalOverview extends Component {
                                                     <td>Đảm bảo chất lượng sản phẩm theo lô</td>
                                                     <td>93</td>
                                                     <td>
-                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="copy" title="Copy" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
+                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="Xem chi tiết dữ liệu KPI này" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
+                                                        <a href="#abc" className="copy" title="Thiết lập KPI tháng 11 từ KPI này" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -104,8 +109,8 @@ class KPIPersonalOverview extends Component {
                                                     <td>Đảm bảo chất lượng sản phẩm theo lô</td>
                                                     <td>95</td>
                                                     <td>
-                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="copy" title="Copy" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
+                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="Xem chi tiết dữ liệu KPI này" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
+                                                        <a href="#abc" className="copy" title="Thiết lập KPI tháng 11 từ KPI này" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -116,8 +121,8 @@ class KPIPersonalOverview extends Component {
                                                     <td>Đảm bảo chất lượng sản phẩm theo lô</td>
                                                     <td>95</td>
                                                     <td>
-                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="copy" title="Copy" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
+                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="Xem chi tiết dữ liệu KPI này" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
+                                                        <a href="#abc" className="copy" title="Thiết lập KPI tháng 11 từ KPI này" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -128,8 +133,8 @@ class KPIPersonalOverview extends Component {
                                                     <td>Đảm bảo chất lượng sản phẩm theo lô</td>
                                                     <td>95</td>
                                                     <td>
-                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="copy" title="Copy" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
+                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="Xem chi tiết dữ liệu KPI này" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
+                                                        <a href="#abc" className="copy" title="Thiết lập KPI tháng 11 từ KPI này" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -140,8 +145,8 @@ class KPIPersonalOverview extends Component {
                                                     <td>Đảm bảo chất lượng sản phẩm theo lô</td>
                                                     <td>95</td>
                                                     <td>
-                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="copy" title="Copy" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
+                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="Xem chi tiết dữ liệu KPI này" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
+                                                        <a href="#abc" className="copy" title="Thiết lập KPI tháng 11 từ KPI này" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -152,8 +157,8 @@ class KPIPersonalOverview extends Component {
                                                     <td>Đảm bảo chất lượng sản phẩm theo lô</td>
                                                     <td>95</td>
                                                     <td>
-                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="copy" title="Copy" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
+                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="Xem chi tiết dữ liệu KPI này" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
+                                                        <a href="#abc" className="copy" title="Thiết lập KPI tháng 11 từ KPI này" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -164,8 +169,8 @@ class KPIPersonalOverview extends Component {
                                                     <td>Đảm bảo chất lượng sản phẩm theo lô</td>
                                                     <td>95</td>
                                                     <td>
-                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="copy" title="Copy" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
+                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="Xem chi tiết dữ liệu KPI này" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
+                                                        <a href="#abc" className="copy" title="Thiết lập KPI tháng 11 từ KPI này" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -176,8 +181,8 @@ class KPIPersonalOverview extends Component {
                                                     <td>Đảm bảo chất lượng sản phẩm theo lô</td>
                                                     <td>95</td>
                                                     <td>
-                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="copy" title="Copy" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
+                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="Xem chi tiết dữ liệu KPI này" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
+                                                        <a href="#abc" className="copy" title="Thiết lập KPI tháng 11 từ KPI này" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -188,8 +193,8 @@ class KPIPersonalOverview extends Component {
                                                     <td>Đảm bảo chất lượng sản phẩm theo lô</td>
                                                     <td>95</td>
                                                     <td>
-                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="copy" title="Copy" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
+                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="Xem chi tiết dữ liệu KPI này" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
+                                                        <a href="#abc" className="copy" title="Thiết lập KPI tháng 11 từ KPI này" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
                                                     </td>
                                                 </tr>
                                             </tbody>
