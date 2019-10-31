@@ -7,8 +7,7 @@ class MainFooter extends Component {
                 <div className="pull-right hidden-xs">
                     <b>Version</b> 2.4.18
                 </div>
-                <strong>Copyright © 2014-2019 <a href="https://adminlte.io">AdminLTE</a>.</strong> All rights
-                reserved.
+                <strong>Create @ 2019-2020 <a href="/">VNIST</a>.</strong> All rights reserved.
             </footer>
         );
     }

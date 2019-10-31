@@ -13,7 +13,9 @@ import {
     KPIUnitOverview, 
     KPIPersonalOverview,
     KPIPersonalCreate,
-    KPIPersonalEvaluate
+    KPIPersonalEvaluate,
+    KPIMember,
+    MemberApprove
 } from '../components/Content/CombineContent';
 import Layout from '../components/Layout/Layout';
 import Privilege from '../components/Content/Privilege/Privilege';
@@ -31,6 +33,8 @@ class Routes extends Component {
                 <PrivateRoute exact path="/kpipersonaloverview" layout={Layout} component={KPIPersonalOverview} />
                 <PrivateRoute exact path="/kpipersonalcreate" layout={Layout} component={KPIPersonalCreate} />
                 <PrivateRoute exact path="/kpipersonalevaluate" layout={Layout} component={KPIPersonalEvaluate} />
+                <PrivateRoute exact path="/kpimemberoverview" layout={Layout} component={KPIMember} />
+                <PrivateRoute exact path="/kpimemberapprove" layout={Layout} component={MemberApprove} />
                 <PrivateRoute path="/cocautochuc" layout={Layout} component={CoCauToChuc} />
                 <PrivateRoute path="/tasktemplate" layout={Layout} component={TaskTemplate} />
                 <PrivateRoute path="/privilege" layout={Layout} component={Privilege} />

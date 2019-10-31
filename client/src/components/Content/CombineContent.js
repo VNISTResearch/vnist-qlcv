@@ -12,3 +12,5 @@ export * from './KPIManagement/KPIUnit/KPIUnitCreate/KPIUnitCreate';
 export * from './KPIManagement/KPIUnit/KPIUnitEvaluate/KPIUnitEvaluate';
 export * from './KPIManagement/KPIUnit/KPIUnitOverview/KPIUnitOverview';
 export * from './KPIManagement/KPIStatistical/KPIStatistical';
+export * from './KPIManagement/KPIMember/KPIMember';
+export * from './KPIManagement/KPIMember/MemberApprove';

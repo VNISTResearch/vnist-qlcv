@@ -99,7 +99,8 @@ class MainSideBar extends Component {
                                                 <li><a href="/kpipersonalevaluate">Dữ liệu KPI cá nhân</a></li>
                                             </ul>
                                         </li>
-                                        <li><a href="pages/tables/data.html">Tổng hợp kpi nhân viên</a></li>
+                                        <li><a href="/kpimemberoverview">Phê duyệt kpi nhân viên</a></li>
+                                        <li><a href="/kpimemberapprove">Đánh giá kpi nhân viên</a></li>
                                         <li><a href="pages/tables/data.html">Thống kê KPI</a></li>
                                     </ul>
                                 </li>
