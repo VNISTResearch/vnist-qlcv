@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { node } from 'prop-types';
 
 class InfoEmployee extends Component {
     render() {
@@ -7,8 +8,8 @@ class InfoEmployee extends Component {
                 {/* left column */}
                 <div className="col-md-12">
                     <div className="box">
-                        <div className="box-header with-border">
-                            <h3 className="box-title">Thông tin chi tiết nhân viên</h3>
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Thông tin chi tiết nhân viên</h3>
                         </div>
                         <div className="nav-tabs-custom">
                             <ul className="nav nav-tabs">
@@ -26,7 +27,7 @@ class InfoEmployee extends Component {
                                         <div className="col-md-12">
                                             <div className="col-md-3">
                                                 <div className="form-group">
-                                                    <img className="attachment-img avarta" src="adminLTE/dist/img/avatar5.png" alt="Attachment" />
+                                                    <img className="attachment-img avarta" src="adminLTE/dist/img/avatar5.png" alt="Attachment Image" />
                                                 </div>
                                             </div>
                                             <div className="col-md-4">
@@ -88,7 +89,8 @@ class InfoEmployee extends Component {
                                         </div>
                                     </div>
                                     <div className="box-footer">
-                                        <a href="#abc"><button type="submit" className="btn btn-primary col-md-2 pull-right btnuserupdate" id="" >Cập nhật thông tin</button></a>
+                                        <a href=""><button type="submit" className="btn btn-primary col-md-2 pull-right btnuserupdate" id="" >Cập nhật thông tin</button></a>
+                                        
                                     </div>
                                 </div>
                                 <div id="lienhe" className="tab-pane">
@@ -188,7 +190,7 @@ class InfoEmployee extends Component {
                                         </div>
                                     </div>
                                         <div className="box-footer">
-                                            <a href="#abc"><button type="submit" className="btn btn-primary col-md-2 pull-right btnuserupdate" id="" >Cập nhật thông tin</button></a>
+                                            <a href=""><button type="submit" className="btn btn-primary col-md-2 pull-right btnuserupdate" id="" >Cập nhật thông tin</button></a>
                                             
                                         </div>
                                 </div>
@@ -231,7 +233,7 @@ class InfoEmployee extends Component {
                                         </div>
                                     </div>
                                     <div className="box-footer">
-                                        <a href="#abc"><button type="submit" className="btn btn-primary col-md-2 pull-right btnuserupdate" id="" >Cập nhật thông tin</button></a>
+                                        <a href=""><button type="submit" className="btn btn-primary col-md-2 pull-right btnuserupdate" id="" >Cập nhật thông tin</button></a>
                                     </div>
                                 </div>
                                 <div id="hocvan" className="tab-pane">
@@ -264,15 +266,15 @@ class InfoEmployee extends Component {
                                                     <tbody>
                                                         <tr>
                                                             <td>Chứng chỉ lập trình PHP</td>
-                                                            <td><a href="#abc">chungchiPHP.pdf</a></td>                                                 
+                                                            <td><a>chungchiPHP.pdf</a></td>                                                 
                                                         </tr>
                                                         <tr>
                                                             <td>Bằn đại học Bách khoa Hà Nội</td>
-                                                            <td><a href="#abc">bangdaihoc.pdf</a></td>
+                                                            <td><a>bangdaihoc.pdf</a></td>
                                                         </tr>
                                                         <tr>
                                                             <td>Chứng chỉ lập trình Java</td>
-                                                            <td><a href="#abc">chungchijava.pdf</a></td>
+                                                            <td><a>chungchijava.pdf</a></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -280,7 +282,7 @@ class InfoEmployee extends Component {
                                         </div>
                                     </div>
                                     <div className="box-footer">
-                                        <a href="#abc"><button type="submit" className="btn btn-primary col-md-2 pull-right btnuserupdate" id="" >Cập nhật thông tin</button></a>
+                                        <a href=""><button type="submit" className="btn btn-primary col-md-2 pull-right btnuserupdate" id="" >Cập nhật thông tin</button></a>
                                         
                                     </div>
                                 </div>
@@ -306,7 +308,7 @@ class InfoEmployee extends Component {
                                         </table>
                                     </div>
                                     <div className="box-footer">
-                                        <a href="#abc"><button type="submit" className="btn btn-primary col-md-2 pull-right btnuserupdate" id="" >Cập nhật thông tin</button></a>
+                                        <a href=""><button type="submit" className="btn btn-primary col-md-2 pull-right btnuserupdate" id="" >Cập nhật thông tin</button></a>
                                         
                                     </div>
                                 </div>
@@ -362,17 +364,17 @@ class InfoEmployee extends Component {
                                                         <tr>
                                                             <td>1/1/2017</td>
                                                             <td>30/12/2017</td>
-                                                            <td><a href="#abc">hợp đồng năm đầu.pdf</a></td>                                          
+                                                            <td><a>hợp đồng năm đầu.pdf</a></td>                                          
                                                         </tr>
                                                         <tr>
                                                             <td>1/1/2018</td>
                                                             <td>30/12/2018</td>
-                                                            <td><a href="#abc">hợp đồng năm đầu.pdf</a></td>                                          
+                                                            <td><a>hợp đồng năm đầu.pdf</a></td>                                          
                                                         </tr>
                                                         <tr>
                                                             <td>1/1/2019</td>
                                                             <td>30/12/2019</td>
-                                                            <td><a href="#abc">hợp đồng năm đầu.pdf</a></td>                                           
+                                                            <td><a>hợp đồng năm đầu.pdf</a></td>                                           
                                                         </tr>
                                                     </tbody>
                                                 </table>
@@ -380,7 +382,7 @@ class InfoEmployee extends Component {
                                         </div>
                                     </div>
                                     <div className="box-footer">
-                                        <a href="#abc"><button type="submit" className="btn btn-primary col-md-2 pull-right btnuserupdate" id="" >Cập nhật thông tin</button></a>
+                                        <a href=""><button type="submit" className="btn btn-primary col-md-2 pull-right btnuserupdate" id="" >Cập nhật thông tin</button></a>
                                         
                                     </div>
                                 </div>
@@ -422,7 +424,7 @@ class InfoEmployee extends Component {
                                         </table>
                                     </div>
                                     <div className="box-footer">
-                                        <a href="#abc"><button type="submit" title="Cập nhật thông tin" className="btn btn-primary col-md-2 pull-right btnuserupdate" id="" >Cập nhật thông tin</button></a>
+                                        <a href=""><button type="submit" title="Cập nhật thông tin" className="btn btn-primary col-md-2 pull-right btnuserupdate" id="" >Cập nhật thông tin</button></a>
                                     </div>
                                 </div>
                             </div>
