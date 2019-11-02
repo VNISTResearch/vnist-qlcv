@@ -1,8 +1,24 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { kpiUnitActions } from '../../../../../redux-actions/CombineActions';
 import { ModalDataResultTask } from './ModalDataResultTask';
 
 class KPIUnitEvaluate extends Component {
+    componentDidMount() {
+        // get all target of unit
+        this.props.getAllTarget(this.state.unit);
+    }
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            unit: '5db7e5820ab82817c09b4605'
+        };
+    }
     render() {
+        var list;
+        const { kpiunits } = this.props;
+        if (kpiunits.items) list = kpiunits.items;
         return (
             <div className="table-wrapper">
                 <div className="content-wrapper">
@@ -20,122 +36,58 @@ class KPIUnitEvaluate extends Component {
                         <div className="row">
                             <div className="col-xs-12">
                                 <div className="box">
-                                    <div className="box-header">
-                                        <h3 className="box-title"><b>Bảng danh sách dữ liệu KPI đơn vị</b></h3>
-                                    </div>
+                                    {/* <div className="box-header">
+                                        <h3 className="box-title"><b>Dữ liệu KPI ban giám đốc</b></h3>
+                                    </div> */}
+                                    {list &&
+                                        <div className="box-header">
+                                            <div className="form-group">
+                                                <label className="col-sm-2">- Số mục tiêu</label>
+                                                <label className="col-sm-10">: {list.reduce(sum => sum + 1, 0)}</label>
+                                            </div>
+                                            <div className="form-group">
+                                                <label className="col-sm-2"><b>- Tổng trọng số</b></label>
+                                                <label className="col-sm-10">: {list.map(item => parseInt(item.weight)).reduce((sum, number) => sum + number, 0)}</label>
+                                            </div>
+                                            <div className="form-group">
+                                                <label className="col-sm-2"><b>- Ghi chú</b></label>
+                                                <label className="col-sm-10">: {list.map(item => parseInt(item.weight)).reduce((sum, number) => sum + number, 0) !== 100 ? " Trọng số chưa thỏa mãn" : " Trọng số đã thỏa mãn"}</label>
+                                            </div>
+                                        </div>
+                                    }
                                     <div className="box-body">
-                                        <table id="example1" className="table table-bordered table-striped">
+                                        <table className="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th>Stt</th>
-                                                    <th>Tên nhân viên</th>
-                                                    <th>Mục tiêu số 1</th>
-                                                    <th>Mục tiêu số 2</th>
-                                                    <th>Mục tiêu số 3</th>
-                                                    <th>Mục tiêu số 4</th>
-                                                    <th>Tổng</th>
+                                                    <th style={{ width: "40px" }}>Stt</th>
+                                                    <th>Tên mục tiêu</th>
+                                                    <th>Tiêu chí đánh giá</th>
+                                                    <th>Thời gian</th>
+                                                    <th style={{ width: "80px" }}>Trọng số</th>
+                                                    <th>Trạng thái</th>
                                                     <th>Hành động</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>Nguyễn Văn A</td>
-                                                    <td>20</td>
-                                                    <td>25</td>
-                                                    <td>30</td>
-                                                    <td>20</td>
-                                                    <td>95</td>
-                                                    <td>
-                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="delete" title="Delete" data-toggle="tooltip"><i className="material-icons"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>2</td>
-                                                    <td>Bùi Văn B</td>
-                                                    <td>20</td>
-                                                    <td>20</td>
-                                                    <td>30</td>
-                                                    <td>20</td>
-                                                    <td>90</td>
-                                                    <td>
-                                                        <a href="#myModalHorizontal2" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal2"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="delete" title="Delete" data-toggle="tooltip"><i className="material-icons"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>3</td>
-                                                    <td>Lê Thị C</td>
-                                                    <td>15</td>
-                                                    <td>20</td>
-                                                    <td>30</td>
-                                                    <td>20</td>
-                                                    <td>85</td>
-                                                    <td>
-                                                        <a href="#myModalHorizontal3" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal3"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="delete" title="Delete" data-toggle="tooltip"><i className="material-icons"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>4</td>
-                                                    <td>Phan Thanh D</td>
-                                                    <td>15</td>
-                                                    <td>30</td>
-                                                    <td>30</td>
-                                                    <td>20</td>
-                                                    <td>95</td>
-                                                    <td>
-                                                        <a href="#myModalHorizontal4" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal4"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="delete" title="Delete" data-toggle="tooltip"><i className="material-icons"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>5</td>
-                                                    <td>Nguyễn Thị E</td>
-                                                    <td>15</td>
-                                                    <td>30</td>
-                                                    <td>30</td>
-                                                    <td>20</td>
-                                                    <td>95</td>
-                                                    <td>
-                                                        <a href="#myModalHorizontal5" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal5"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="delete" title="Delete" data-toggle="tooltip"><i className="material-icons"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>6</td>
-                                                    <td>Đinh Thanh F</td>
-                                                    <td>15</td>
-                                                    <td>20</td>
-                                                    <td>30</td>
-                                                    <td>20</td>
-                                                    <td>85</td>
-                                                    <td>
-                                                        <a href="#myModalHorizontal6" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal6"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="delete" title="Delete" data-toggle="tooltip"><i className="material-icons"></i></a>
-                                                    </td>
-                                                </tr>
+                                                {
+                                                    (typeof list === 'undefined' || list.length === 0) ? <tr><td colSpan={7}>No data</td></tr> :
+                                                        list.map((item, index) =>
+                                                            <tr key={item._id}>
+                                                                <td>{index + 1}</td>
+                                                                <td>{item.name}</td>
+                                                                <td>{item.criteria}</td>
+                                                                <td>{item.time}</td>
+                                                                <td>{item.weight}</td>
+                                                                <td>{item.confirm ? "Đã kích hoạt" : "Chưa kích hoạt"}</td>
+                                                                <td>
+                                                                    <center><a href="#view" className="view" title="Xem chi tiết" data-toggle="tooltip"><i className="material-icons">visibility</i></a></center>
+                                                                </td>
+                                                            </tr>
+                                                        )
+                                                }
                                             </tbody>
-                                            {/* <tfoot>
-                                                <tr>
-                                                    <th>Stt</th>
-                                                    <th>Tên nhân viên</th>
-                                                    <th>Mục tiêu số 1</th>
-                                                    <th>Mục tiêu số 2</th>
-                                                    <th>Mục tiêu số 3</th>
-                                                    <th>Mục tiêu số 4</th>
-                                                    <th>Tổng</th>
-                                                    <th>Hành động</th>
-                                                </tr>
-                                            </tfoot> */}
                                         </table>
                                         <ModalDataResultTask index="1" />
-                                        <ModalDataResultTask index="2" />
-                                        <ModalDataResultTask index="3" />
-                                        <ModalDataResultTask index="4" />
-                                        <ModalDataResultTask index="5" />
-                                        <ModalDataResultTask index="6" />
                                     </div>
                                 </div>
                             </div>
@@ -147,4 +99,13 @@ class KPIUnitEvaluate extends Component {
     }
 }
 
-export { KPIUnitEvaluate };
+function mapState(state) {
+    const { kpiunits } = state;
+    return { kpiunits };
+}
+
+const actionCreators = {
+    getAllTarget: kpiUnitActions.getAllTargetByUnitId,
+};
+const connectedKPIUnitEvaluate = connect(mapState, actionCreators)(KPIUnitEvaluate);
+export { connectedKPIUnitEvaluate as KPIUnitEvaluate };

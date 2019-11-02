@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
-import { userService } from '../../../service/CombineService';
+// import { Link } from "react-router-dom";
+// import { userService } from '../../../service/CombineService';
 
 class MainSideBar extends Component {
 
@@ -95,7 +95,7 @@ class MainSideBar extends Component {
                                         <li><a href="/listcourse">Khoá đào tạo bắt buộc</a></li>
                                         <li><a href="/trainingplan">Kế hoạch đào tạo</a></li>
                                         <li><a href="/trainingresults">Kết quả đào tạo</a></li>
-                                       
+
                                     </ul>
                                 </li>
                             }
@@ -150,6 +150,8 @@ class MainSideBar extends Component {
                                                 <li><a href="/kpipersonalevaluate">Dữ liệu KPI cá nhân</a></li>
                                             </ul>
                                         </li>
+                                        <li><a href="/kpimemberoverview">Phê duyệt kpi nhân viên</a></li>
+                                        <li><a href="/kpimemberapprove">Đánh giá kpi nhân viên</a></li>
                                         <li><a href="pages/tables/data.html">Thống kê KPI</a></li>
                                     </ul>
                                 </li>
@@ -162,15 +164,15 @@ class MainSideBar extends Component {
                                     </a>
                                 </li>
                             }
-                            {
+                            {/* {
                                 this.checkURL("/cocautochuc") &&
                                 <li>
                                     <a href="/cocautochuc">
                                         <i className="fa fa-th" /> <span>Cơ cấu tổ chức</span>
                                     </a>
                                 </li>
-                            }
-                            {
+                            } */}
+                            {/* {
                                 this.checkURL("/privilege") &&
                                 <li className="treeview">
                                     <a href="#abc">
@@ -184,7 +186,7 @@ class MainSideBar extends Component {
                                         <li><a href="pages/tables/data.html"> Data tables</a></li>
                                     </ul>
                                 </li>
-                            }
+                            } */}
                             {/* <li className="treeview">
                                 <a href="#abc">
                                     <i className="fa fa-edit" /> <span>Forms</span>

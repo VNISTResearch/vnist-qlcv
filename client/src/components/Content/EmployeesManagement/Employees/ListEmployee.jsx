@@ -10,7 +10,7 @@ class ListEmployee extends Component {
                         Danh sách nhân viên
                     </h1>
                     <ol className="breadcrumb">
-                        <li><a href="#"><i className="fa fa-dashboard" /> Home</a></li>
+                        <li><a href="#abc"><i className="fa fa-dashboard" /> Home</a></li>
                         <li className="active">Quản lý nhân sự</li>
                     </ol>
                 </section>

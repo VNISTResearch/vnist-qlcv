@@ -1,6 +1,6 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
-import { userService } from '../service/CombineService';
+import { Route} from 'react-router-dom';
+// import { userService } from '../service/CombineService';
 
 
 export const PrivateRoute = ({ component: Component, layout: Layout, ...rest }) => (

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { userService } from '../../../../service/UserService';
+// import { userService } from '../../../../service/UserService';
 import { userActions } from '../../../../redux-actions/CombineActions';
 import "./MainHeaderMenu.css";
 

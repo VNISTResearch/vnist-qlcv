@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { userService } from '../../../service/CombineService';
-import axios from 'axios';
+// import { userService } from '../../../service/CombineService';
+// import axios from 'axios';
 import {ModalAddTaskTemplate} from './ModalAddTaskTemplate';
 
 class TaskTemplate extends Component {

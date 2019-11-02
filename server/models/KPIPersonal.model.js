@@ -3,14 +3,21 @@ const Schema = mongoose.Schema;
 const Department = require('./Department.model');
 
 // Create Schema
-const KPIUnitSchema = new Schema({
+const KPIPersonalSchema = new Schema({
     unit: {
         type: Schema.Types.ObjectId,
         ref: Department,
         required: true
     },
     creater: {
-        type: String,
+        type: Schema.Types.ObjectId,
+        // ref: User,
+        required: true
+    },
+    approver: {
+        type: Schema.Types.ObjectId,
+        // ref: User,
+        required: true
     },
     name: {
         type: String,
@@ -18,9 +25,10 @@ const KPIUnitSchema = new Schema({
     },
     parent: {
         type: Schema.Types.ObjectId,
+        required: true
     },
     time: {
-        type: String,
+        type: Date,
         required: true
     },
     weight: {
@@ -35,10 +43,14 @@ const KPIUnitSchema = new Schema({
         type: Boolean,
         required: true
     },
+    approve: {
+        type: Boolean,
+        required: true
+    },
     evaluate: {
         type: Boolean,
         required: true
     }
 });
 
-module.exports = KPIUnit = mongoose.model("kpiunits", KPIUnitSchema);
+module.exports = KPIPersonal = mongoose.model("kpipersonals", KPIPersonalSchema);

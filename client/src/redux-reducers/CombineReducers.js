@@ -6,6 +6,8 @@ import { alert } from './AlertReducers';
 import { jobtitles } from './JobTitleReducers';
 import { tasktemplates } from './TaskTemplateReducers';
 import { departments } from './DepartmentReducers';
+import { kpiunits } from './KPIUnitReducers';
+import { kpipersonals } from './KPIPersonalReducer';
 
 const rootReducer = combineReducers({
   authentication,
@@ -14,7 +16,9 @@ const rootReducer = combineReducers({
   alert,
   jobtitles,
   tasktemplates,
-  departments
+  departments,
+  kpiunits,
+  kpipersonals
 });
 
 export default rootReducer;

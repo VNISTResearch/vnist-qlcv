@@ -10,7 +10,7 @@ class ListCourse extends Component {
                         Khoá đào tạo bắt buộc
                     </h1>
                     <ol className="breadcrumb">
-                        <li><a href="#"><i className="fa fa-dashboard" /> Home</a></li>
+                        <li><a href="#abc"><i className="fa fa-dashboard" /> Home</a></li>
                         <li className="active">Quản lý Đào tạo</li>
                     </ol>
                 </section>

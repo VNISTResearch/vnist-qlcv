@@ -27,6 +27,16 @@ mongoose
     });
 
     var phongTaiChinh = await Department.create({
+        name: "Phòng Đảm Bảo Chất Lượng",
+        parents: banGiamDoc._id
+    });
+
+    var phongTaiChinh = await Department.create({
+        name: "Phòng Sản Xuất",
+        parents: banGiamDoc._id
+    });
+
+    var phongTaiChinh = await Department.create({
         name: "Phòng Tài Chính",
         parents: banGiamDoc._id
     });

@@ -38,9 +38,6 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="%PUBLIC_URL%/main/css/datatableedit.css">
   <link rel="stylesheet" href="%PUBLIC_URL%/main/css/tablecrollcolumn.css">
-  <!-- Add Employee -->
-  <link rel="stylesheet" href="%PUBLIC_URL%/main/css/addemployee.css">
-  <link rel="stylesheet" href="%PUBLIC_URL%/main/css/infoemployee.css">
   <!-- Modal css -->
   <link rel="stylesheet" href="%PUBLIC_URL%/main/css/modal.css">
   <!-- BEGIN CO CAU TO CHUC-->
@@ -62,7 +59,8 @@
   <link rel="stylesheet" href="%PUBLIC_URL%/adminLTE/dist/css/AdminLTE.min.css">
   <!-- iCheck -->
   <link rel="stylesheet" href="%PUBLIC_URL%/adminLTE/plugins/iCheck/square/blue.css">
-  <!-- END CO CAU TO CHUC-->
+  <!-- Kpi member-->
+  <link rel="stylesheet" href="%PUBLIC_URL%/main/css/kpimember.css">
   <!-- Organization Structure-->
   <link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
   <link href="%PUBLIC_URL%/main/css/jquery.orgchart.css" media="all" rel="stylesheet" type="text/css" />
@@ -75,6 +73,7 @@
 
 <body class="hold-transition skin-purple-light sidebar-mini">
   <div id="root"></div>
+  
   <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -95,10 +94,6 @@
   <!-- jQuery UI 1.11.4 -->
   <script type="text/babel" src="%PUBLIC_URL%/adminLTE/bower_components/jquery-ui/jquery-ui.min.js"></script>
   <!-- BEGIN JS DASHBOARD-->
-  <!-- Add Employee-->
-  <script type="text/javascript" src="%PUBLIC_URL%/main/js/AddEmployee.js"></script>
-  <!-- Add Employee-->
-  <script type="text/javascript" src="%PUBLIC_URL%/main/js/ListEmployee.js"></script>
   <!-- Table Edit -->
   <script type="text/javascript" src="%PUBLIC_URL%/main/js/TableEdit.js"></script>
   <!-- Morris.js charts -->
@@ -168,15 +163,17 @@
     })
   </script>
   <!-- KPI JS -->
+  <!-- ChartJS -->
+  <script src="%PUBLIC_URL%/adminLTE/bower_components/chart.js/Chart.js"></script>
   <!-- FLOT CHARTS -->
   <script src="%PUBLIC_URL%/adminLTE/bower_components/Flot/jquery.flot.js"></script>
   <!-- FLOT RESIZE PLUGIN - allows the chart to redraw when the window is resized -->
   <script src="%PUBLIC_URL%/adminLTE/bower_components/Flot/jquery.flot.resize.js"></script>
   <!-- FLOT PIE PLUGIN - also used to draw donut charts -->
-  <script src="%PUBLIC_URL%/adminLTE/bower_components/Flot/jquery.flot.pie.js"></script>
+  <!-- <script src="%PUBLIC_URL%/adminLTE/bower_components/Flot/jquery.flot.pie.js"></script> -->
   <!-- FLOT CATEGORIES PLUGIN - Used to draw bar charts -->
   <script src="%PUBLIC_URL%/adminLTE/bower_components/Flot/jquery.flot.categories.js"></script>
-  <script src="%PUBLIC_URL%/main/js/FlotChart.js"></script>
+  <!-- <script src="%PUBLIC_URL%/main/js/FlotChart.js"></script> -->
 </body>
 
 </html>
