@@ -1,7 +1,25 @@
 import React, { Component } from 'react';
 
 class KPIMember extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            commenting: false
+        };
+    }
+    handleRequestEdit = () => {
+        this.setState({
+            commenting: true
+        });
+    }
+    handleSubmitComment = () => {
+        this.setState({
+            commenting: false
+        });
+    }
     render() {
+        const {commenting} = this.state;
+        console.log(this.state);
         return (
             <div className="table-wrapper">
                 <div className="content-wrapper">
@@ -232,7 +250,7 @@ class KPIMember extends Component {
                                                             <td>
                                                                 <a href="#data-member" className="view" title="Xem chi tiết"><i className="material-icons">visibility</i></a>
                                                                 <a href="#abc" className="approve" title="Phê duyệt"><i className="material-icons">playlist_add_check</i></a>
-                                                                <a href="#abc" className="copy" title="Phản hồi" data-toggle="tooltip"><i className="material-icons">reply</i></a>
+                                                                <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleRequestEdit}>Yêu cầu làm lại</button>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -242,7 +260,7 @@ class KPIMember extends Component {
                                                             <td>
                                                                 <a href="#data-member" className="view" title="Xem chi tiết"><i className="material-icons">visibility</i></a>
                                                                 <a href="#abc" className="approve" title="Phê duyệt"><i className="material-icons">playlist_add_check</i></a>
-                                                                <a href="#abc" className="copy" title="Phản hồi" data-toggle="tooltip"><i className="material-icons">reply</i></a>
+                                                                <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleRequestEdit}>Yêu cầu làm lại</button>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -252,7 +270,7 @@ class KPIMember extends Component {
                                                             <td>
                                                                 <a href="#data-member" className="view" title="Xem chi tiết"><i className="material-icons">visibility</i></a>
                                                                 <a href="#abc" className="approve" title="Phê duyệt"><i className="material-icons">playlist_add_check</i></a>
-                                                                <a href="#abc" className="copy" title="Phản hồi" data-toggle="tooltip"><i className="material-icons">reply</i></a>
+                                                                <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleRequestEdit}>Yêu cầu làm lại</button>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -262,7 +280,7 @@ class KPIMember extends Component {
                                                             <td>
                                                                 <a href="#data-member" className="view" title="Xem chi tiết"><i className="material-icons">visibility</i></a>
                                                                 <a href="#abc" className="approve" title="Phê duyệt"><i className="material-icons">playlist_add_check</i></a>
-                                                                <a href="#abc" className="copy" title="Phản hồi" data-toggle="tooltip"><i className="material-icons">reply</i></a>
+                                                                <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleRequestEdit}>Yêu cầu làm lại</button>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -272,7 +290,7 @@ class KPIMember extends Component {
                                                             <td>
                                                                 <a href="#data-member" className="view" title="Xem chi tiết"><i className="material-icons">visibility</i></a>
                                                                 <a href="#abc" className="approve" title="Phê duyệt"><i className="material-icons">playlist_add_check</i></a>
-                                                                <a href="#abc" className="copy" title="Phản hồi" data-toggle="tooltip"><i className="material-icons">reply</i></a>
+                                                                <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleRequestEdit}>Yêu cầu làm lại</button>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -282,7 +300,7 @@ class KPIMember extends Component {
                                                             <td>
                                                                 <a href="#data-member" className="view" title="Xem chi tiết"><i className="material-icons">visibility</i></a>
                                                                 <a href="#abc" className="approve" title="Phê duyệt"><i className="material-icons">playlist_add_check</i></a>
-                                                                <a href="#abc" className="copy" title="Phản hồi" data-toggle="tooltip"><i className="material-icons">reply</i></a>
+                                                                <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleRequestEdit}>Yêu cầu làm lại</button>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -292,7 +310,7 @@ class KPIMember extends Component {
                                                             <td>
                                                                 <a href="#data-member" className="view" title="Xem chi tiết"><i className="material-icons">visibility</i></a>
                                                                 <a href="#abc" className="approve" title="Phê duyệt"><i className="material-icons">playlist_add_check</i></a>
-                                                                <a href="#abc" className="copy" title="Phản hồi" data-toggle="tooltip"><i className="material-icons">reply</i></a>
+                                                                <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleRequestEdit}>Yêu cầu làm lại</button>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -302,7 +320,7 @@ class KPIMember extends Component {
                                                             <td>
                                                                 <a href="#data-member" className="view" title="Xem chi tiết"><i className="material-icons">visibility</i></a>
                                                                 <a href="#abc" className="approve" title="Phê duyệt"><i className="material-icons">playlist_add_check</i></a>
-                                                                <a href="#abc" className="copy" title="Phản hồi" data-toggle="tooltip"><i className="material-icons">reply</i></a>
+                                                                <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleRequestEdit}>Yêu cầu làm lại</button>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -312,7 +330,7 @@ class KPIMember extends Component {
                                                             <td>
                                                                 <a href="#data-member" className="view" title="Xem chi tiết"><i className="material-icons">visibility</i></a>
                                                                 <a href="#abc" className="approve" title="Phê duyệt"><i className="material-icons">playlist_add_check</i></a>
-                                                                <a href="#abc" className="copy" title="Phản hồi" data-toggle="tooltip"><i className="material-icons">reply</i></a>
+                                                                <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleRequestEdit}>Yêu cầu làm lại</button>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -322,7 +340,7 @@ class KPIMember extends Component {
                                                             <td>
                                                                 <a href="#data-member" className="view" title="Xem chi tiết"><i className="material-icons">visibility</i></a>
                                                                 <a href="#abc" className="approve" title="Phê duyệt"><i className="material-icons">playlist_add_check</i></a>
-                                                                <a href="#abc" className="copy" title="Phản hồi" data-toggle="tooltip"><i className="material-icons">reply</i></a>
+                                                                <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleRequestEdit}>Yêu cầu làm lại</button>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -332,7 +350,7 @@ class KPIMember extends Component {
                                                             <td>
                                                                 <a href="#data-member" className="view" title="Xem chi tiết"><i className="material-icons">visibility</i></a>
                                                                 <a href="#abc" className="approve" title="Phê duyệt"><i className="material-icons">playlist_add_check</i></a>
-                                                                <a href="#abc" className="copy" title="Phản hồi" data-toggle="tooltip"><i className="material-icons">reply</i></a>
+                                                                <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleRequestEdit}>Yêu cầu làm lại</button>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -342,7 +360,7 @@ class KPIMember extends Component {
                                                             <td>
                                                                 <a href="#data-member" className="view" title="Xem chi tiết"><i className="material-icons">visibility</i></a>
                                                                 <a href="#abc" className="approve" title="Phê duyệt"><i className="material-icons">playlist_add_check</i></a>
-                                                                <a href="#abc" className="copy" title="Phản hồi" data-toggle="tooltip"><i className="material-icons">reply</i></a>
+                                                                <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleRequestEdit}>Yêu cầu làm lại</button>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -352,7 +370,7 @@ class KPIMember extends Component {
                                                             <td>
                                                                 <a href="#data-member" className="view" title="Xem chi tiết"><i className="material-icons">visibility</i></a>
                                                                 <a href="#abc" className="approve" title="Phê duyệt"><i className="material-icons">playlist_add_check</i></a>
-                                                                <a href="#abc" className="copy" title="Phản hồi" data-toggle="tooltip"><i className="material-icons">reply</i></a>
+                                                                <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleRequestEdit}>Yêu cầu làm lại</button>
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -397,6 +415,21 @@ class KPIMember extends Component {
                                                     </tbody>
                                                 </table>
                                             </div>
+                                            <div className="col-xs-9 col-xs-offset-8">
+                                                <button type="submit" className="btn btn-success col-md-2">Phê duyệt tất cả</button>
+                                                {commenting?<button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleSubmitComment}>Gửi nhận xét</button>
+                                                :<button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleRequestEdit}>Yêu cầu làm lại</button>}
+                                            </div>
+                                            { commenting && <div className="col-xs-12">
+                                                <form>
+                                                    <div className="form-group">
+                                                        <label>Phản hồi:</label>
+                                                        <div className='form-group'>
+                                                            <textarea type="text" className='form-control' id="inputname" name="reason"/>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>}
                                         </div>
                                     </div>
                                 </div>
@@ -414,7 +447,7 @@ class KPIMember extends Component {
                                             {/* <button type="button" className="btn btn-box-tool" data-widget="remove"><i className="fa fa-times" /></button> */}
                                         </div>
                                     </div>
-                                    <div className="box-body" style={{ display: "none"}}>
+                                    <div className="box-body" style={{ display: "none" }}>
                                         <div className="direct-chat-messages">
                                             <div className="direct-chat-msg">
                                                 <div className="direct-chat-info clearfix">
@@ -440,7 +473,91 @@ class KPIMember extends Component {
                                         <div className="direct-chat-contacts">
                                             <ul className="contacts-list">
                                                 <li>
-                                                    <a href="#">
+                                                    <a href="#abc">
+                                                        <img className="contacts-list-img" src="adminLTE/dist/img/user1-128x128.jpg" alt="Avatar User" />
+                                                        <div className="contacts-list-info">
+                                                            <span className="contacts-list-name">
+                                                                Count Dracula
+                                                                <small className="contacts-list-date pull-right">2/28/2015</small>
+                                                            </span>
+                                                            <span className="contacts-list-msg">How have you been? I was...</span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#abc">
+                                                        <img className="contacts-list-img" src="adminLTE/dist/img/user1-128x128.jpg" alt="Avatar User" />
+                                                        <div className="contacts-list-info">
+                                                            <span className="contacts-list-name">
+                                                                Count Dracula
+                                                                <small className="contacts-list-date pull-right">2/28/2015</small>
+                                                            </span>
+                                                            <span className="contacts-list-msg">How have you been? I was...</span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#abc">
+                                                        <img className="contacts-list-img" src="adminLTE/dist/img/user1-128x128.jpg" alt="Avatar User" />
+                                                        <div className="contacts-list-info">
+                                                            <span className="contacts-list-name">
+                                                                Count Dracula
+                                                                <small className="contacts-list-date pull-right">2/28/2015</small>
+                                                            </span>
+                                                            <span className="contacts-list-msg">How have you been? I was...</span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#abc">
+                                                        <img className="contacts-list-img" src="adminLTE/dist/img/user1-128x128.jpg" alt="Avatar User" />
+                                                        <div className="contacts-list-info">
+                                                            <span className="contacts-list-name">
+                                                                Count Dracula
+                                                                <small className="contacts-list-date pull-right">2/28/2015</small>
+                                                            </span>
+                                                            <span className="contacts-list-msg">How have you been? I was...</span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#abc">
+                                                        <img className="contacts-list-img" src="adminLTE/dist/img/user1-128x128.jpg" alt="Avatar User" />
+                                                        <div className="contacts-list-info">
+                                                            <span className="contacts-list-name">
+                                                                Count Dracula
+                                                                <small className="contacts-list-date pull-right">2/28/2015</small>
+                                                            </span>
+                                                            <span className="contacts-list-msg">How have you been? I was...</span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#abc">
+                                                        <img className="contacts-list-img" src="adminLTE/dist/img/user1-128x128.jpg" alt="Avatar User" />
+                                                        <div className="contacts-list-info">
+                                                            <span className="contacts-list-name">
+                                                                Count Dracula
+                                                                <small className="contacts-list-date pull-right">2/28/2015</small>
+                                                            </span>
+                                                            <span className="contacts-list-msg">How have you been? I was...</span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#abc">
+                                                        <img className="contacts-list-img" src="adminLTE/dist/img/user1-128x128.jpg" alt="Avatar User" />
+                                                        <div className="contacts-list-info">
+                                                            <span className="contacts-list-name">
+                                                                Count Dracula
+                                                                <small className="contacts-list-date pull-right">2/28/2015</small>
+                                                            </span>
+                                                            <span className="contacts-list-msg">How have you been? I was...</span>
+                                                        </div>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#abc">
                                                         <img className="contacts-list-img" src="adminLTE/dist/img/user1-128x128.jpg" alt="Avatar User" />
                                                         <div className="contacts-list-info">
                                                             <span className="contacts-list-name">
@@ -454,8 +571,8 @@ class KPIMember extends Component {
                                             </ul>
                                         </div>
                                     </div>
-                                    <div className="box-footer" style={{ display: "none"}}>
-                                        <form action="#" method="post">
+                                    <div className="box-footer" style={{ display: "none" }}>
+                                        <form action="#abc" method="post">
                                             <div className="input-group">
                                                 <input type="text" name="message" placeholder="Type Message ..." className="form-control" />
                                                 <span className="input-group-btn">
@@ -466,7 +583,6 @@ class KPIMember extends Component {
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </section>
                 </div>
