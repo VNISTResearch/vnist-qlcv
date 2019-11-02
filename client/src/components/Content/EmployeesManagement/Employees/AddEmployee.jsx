@@ -10,7 +10,7 @@ class AddEmployee extends Component {
                         Thêm nhân viên
                     </h1>
                     <ol className="breadcrumb">
-                        <li><a href="#"><i className="fa fa-dashboard" /> Home</a></li>
+                        <li><a href="#abc"><i className="fa fa-dashboard" /> Home</a></li>
                         <li className="active">Quản lý nhân sự</li>
                     </ol>
                 </section>
@@ -27,7 +27,7 @@ class AddEmployee extends Component {
                                             <hr className="hr"/>
                                             <div className="col-md-3">
                                                 <div className="form-group">
-                                                    <img className="attachment-img avarta" src="adminLTE/dist/img/avatar5.png" alt="Attachment Image" />
+                                                    <img className="attachment-img avarta" src="adminLTE/dist/img/avatar5.png" alt="Attachment" />
                                                     <button type="button" className="btn btn-default" style={{ marginLeft: 55 }}>Chọn ảnh</button>
                                                 </div>
                                                 {/* <div class="form-group">

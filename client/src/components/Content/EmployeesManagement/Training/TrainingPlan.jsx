@@ -10,7 +10,7 @@ class TraningPlan extends Component {
                         Kế hoạch đào tạo
                     </h1>
                     <ol className="breadcrumb">
-                        <li><a href="#"><i className="fa fa-dashboard" /> Home</a></li>
+                        <li><a href="#abc"><i className="fa fa-dashboard" /> Home</a></li>
                         <li className="active">Quản lý đào tạo</li>
                     </ol>
                 </section>

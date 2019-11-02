@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {InfoEmployee} from './../../CombineContent';
 class DetailEmployee extends Component {
     render() {
         return (
@@ -10,7 +9,7 @@ class DetailEmployee extends Component {
                         Thông tin nhân viên
                     </h1>
                     <ol className="breadcrumb">
-                        <li><a href="#"><i className="fa fa-dashboard" /> Home</a></li>
+                        <li><a href="#abc"><i className="fa fa-dashboard" /> Home</a></li>
                         <li className="active">Quản lý nhân sự</li>
                     </ol>
                     <a href="/updateemployee"><button type="submit" className="btn btn-primary pull-right " id="" style={{marginTop:20,marginBottom:10}}>Cập nhật thông tin</button></a>
@@ -36,7 +35,7 @@ class DetailEmployee extends Component {
                                                 <div className="col-sm-12">
                                                     <div className="col-sm-3">
                                                         <div className="form-group">
-                                                            <img className="attachment-img avarta" src="adminLTE/dist/img/avatar5.png" alt="Attachment Image" />
+                                                            <img className="attachment-img avarta" src="adminLTE/dist/img/avatar5.png" alt="Attachment" />
                                                         </div>
                                                     </div>
                                                     <div className="col-sm-4">
@@ -271,15 +270,15 @@ class DetailEmployee extends Component {
                                                             <tbody>
                                                                 <tr>
                                                                     <td>Chứng chỉ lập trình PHP</td>
-                                                                    <td><a>chungchiPHP.pdf</a></td>                                                 
+                                                                    <td><a href="#abc">chungchiPHP.pdf</a></td>                                                 
                                                                 </tr>
                                                                 <tr>
                                                                     <td>Bằn đại học Bách khoa Hà Nội</td>
-                                                                    <td><a>bangdaihoc.pdf</a></td>
+                                                                    <td><a href="#abc">bangdaihoc.pdf</a></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>Chứng chỉ lập trình Java</td>
-                                                                    <td><a>chungchijava.pdf</a></td>
+                                                                    <td><a href="#abc">chungchijava.pdf</a></td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
@@ -367,17 +366,17 @@ class DetailEmployee extends Component {
                                                                 <tr>
                                                                     <td>1/1/2017</td>
                                                                     <td>30/12/2017</td>
-                                                                    <td><a>hợp đồng năm đầu.pdf</a></td>                                          
+                                                                    <td><a href="#abc">hợp đồng năm đầu.pdf</a></td>                                          
                                                                 </tr>
                                                                 <tr>
                                                                     <td>1/1/2018</td>
                                                                     <td>30/12/2018</td>
-                                                                    <td><a>hợp đồng năm đầu.pdf</a></td>                                          
+                                                                    <td><a href="#abc">hợp đồng năm đầu.pdf</a></td>                                          
                                                                 </tr>
                                                                 <tr>
                                                                     <td>1/1/2019</td>
                                                                     <td>30/12/2019</td>
-                                                                    <td><a>hợp đồng năm đầu.pdf</a></td>                                           
+                                                                    <td><a href="#abc">hợp đồng năm đầu.pdf</a></td>                                           
                                                                 </tr>
                                                             </tbody>
                                                         </table>
