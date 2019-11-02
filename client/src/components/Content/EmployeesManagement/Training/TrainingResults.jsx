@@ -119,7 +119,7 @@ class TrainingResults extends Component {
                                                                     <th>Mã nhân viên</th>
                                                                     <th>Tên nhân viên</th>
                                                                     <th>Phòng ban</th>
-                                                                    <th>Kết quả</th>
+                                                                    <th style={{width:'20%'}}>Kết quả</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -127,7 +127,22 @@ class TrainingResults extends Component {
                                                                     <td>VN123456</td>
                                                                     <td>Nguyễn Chí Thanh</td>
                                                                     <td>phòng hành chính</td>
-                                                                    <td></td>
+                                                                    <td>                          
+                                                                        <div class="form-group">
+                                                                            <div className="radio">
+                                                                                <label>
+                                                                                <input type="radio" name="optionsRadios" id="optionsRadios1" defaultValue="Hoàn thành"/>
+                                                                                &emsp;Đạt&emsp;&emsp;
+                                                                                </label>
+                                                                            </div>
+                                                                            <div className="radio">
+                                                                                <label>
+                                                                                <input type="radio" name="optionsRadios" id="optionsRadios2" defaultValue="Không hoàn thành" />
+                                                                                &emsp;Không đạt
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                        </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>VN123456</td>
