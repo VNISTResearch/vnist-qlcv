@@ -20,7 +20,7 @@ class ListEmployee extends Component {
                             <div className="box">
                                 {/* /.box-header */}
                                 <div className="box-body">
-                                    <table id="listEmployee" className="table table-bordered table-hover">
+                                    <table id="" className="table table-bordered table-hover list">
                                         <thead>
                                             <tr>
                                                 <th>Mã nhân viên</th>
@@ -98,7 +98,10 @@ class ListEmployee extends Component {
                         </div>
                         {/* /.col */}
                     </div>
+                    <div >
                     <InfoEmployee/>
+                    </div>
+                    
                 </section>
             </div>
         );

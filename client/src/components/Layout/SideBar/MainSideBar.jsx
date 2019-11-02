@@ -65,7 +65,7 @@ class MainSideBar extends Component {
                                     </a>
                                 </li>
                             }
-                             {
+                            {
                                 this.checkURL("/target") &&
                                 <li className="treeview">
                                     <a href="#abc">
@@ -78,6 +78,41 @@ class MainSideBar extends Component {
                                         <li><a href="/addemployee">Thêm nhân viên </a></li>
                                         <li><a href="/listemployee">Danh sách nhân viên</a></li>
                                         <li><a href="/detailemployee">Thông tin nhân viên</a></li>
+                                        <li><a href="/updateemployee">Cập nhật thông tin nhân viên</a></li>
+                                    </ul>
+                                </li>
+                            }
+                            {
+                                this.checkURL("/target") &&
+                                <li className="treeview">
+                                    <a href="#abc">
+                                        <i className="fa fa-dashboard" /> <span>Quản lý đào tạo</span>
+                                        <span className="pull-right-container">
+                                            <i className="fa fa-angle-left pull-right" />
+                                        </span>
+                                    </a>
+                                    <ul className="treeview-menu">
+                                        <li><a href="/listcourse">Khoá đào tạo bắt buộc</a></li>
+                                        <li><a href="/trainingplan">Kế hoạch đào tạo</a></li>
+                                        <li><a href="/trainingresults">Kết quả đào tạo</a></li>
+                                       
+                                    </ul>
+                                </li>
+                            }
+                            {
+                                this.checkURL("/target") &&
+                                <li className="treeview">
+                                    <a href="#abc">
+                                        <i className="fa fa-dashboard" /> <span>Tra cứu</span>
+                                        <span className="pull-right-container">
+                                            <i className="fa fa-angle-left pull-right" />
+                                        </span>
+                                    </a>
+                                    <ul className="treeview-menu">
+                                        <li><a href="/detailsalary">Lịch sử tăng - giảm lương</a></li>
+                                        <li><a href="#abc">Lịch sử khen thưởng-kỷ luật</a></li>
+                                        <li><a href="#abc">Kết quả đánh giá định kỳ</a></li>
+                                        <li><a href="#abc">Lịch sử công việc</a></li>
                                     </ul>
                                 </li>
                             }

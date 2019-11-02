@@ -16,3 +16,8 @@ export * from './EmployeesManagement/Employees/AddEmployee';
 export * from './EmployeesManagement/Employees/ListEmployee';
 export * from './EmployeesManagement/Employees/DetailEmployee';
 export * from './EmployeesManagement/Employees/InfoEmployee';
+export * from './EmployeesManagement/Employees/UpdateEmployee';
+export * from './EmployeesManagement/Search/DetailSalary';
+export * from './EmployeesManagement/Training/TrainingResults';
+export * from './EmployeesManagement/Training/TrainingPlan';
+export * from './EmployeesManagement/Training/ListCourse';

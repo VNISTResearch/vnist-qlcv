@@ -16,7 +16,12 @@ import {
     KPIPersonalEvaluate,
     AddEmployee,
     ListEmployee,
-    DetailEmployee
+    DetailEmployee,
+    UpdateEmployee,
+    DetailSalary,
+    TraningPlan,
+    ListCourse,
+    TrainingResults
 } from '../components/Content/CombineContent';
 import Layout from '../components/Layout/Layout';
 import Privilege from '../components/Content/Privilege/Privilege';
@@ -41,6 +46,11 @@ class Routes extends Component {
                 <PrivateRoute exact path = "/addemployee" layout = {Layout} component = {AddEmployee}/>
                 <PrivateRoute exact path = "/listemployee" layout = {Layout} component = {ListEmployee}/>
                 <PrivateRoute exact path = "/detailemployee" layout = {Layout} component = {DetailEmployee}/>
+                <PrivateRoute exact path = "/updateemployee" layout = {Layout} component = {UpdateEmployee}/>
+                <PrivateRoute exact path = "/detailsalary" layout = {Layout} component = {DetailSalary}/>
+                <PrivateRoute exact path = "/trainingplan" layout = {Layout} component = {TraningPlan}/>
+                <PrivateRoute exact path = "/listcourse" layout = {Layout} component = {ListCourse}/>
+                <PrivateRoute exact path = "/trainingresults" layout = {Layout} component = {TrainingResults}/>
             </React.Fragment>
         );
     }

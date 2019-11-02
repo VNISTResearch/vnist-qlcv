@@ -24,10 +24,10 @@ class AddEmployee extends Component {
                                     <div className="box-body">
                                         <div className="col-md-12">
                                             <h3 className="box-title">Thông tin cơ bản</h3>
-                                            <hr id="hr"/>
+                                            <hr className="hr"/>
                                             <div className="col-md-3">
                                                 <div className="form-group">
-                                                    <img className="attachment-img" id="avarta" src="adminLTE/dist/img/avatar5.png" alt="Attachment Image" />
+                                                    <img className="attachment-img avarta" src="adminLTE/dist/img/avatar5.png" alt="Attachment Image" />
                                                     <button type="button" className="btn btn-default" style={{ marginLeft: 55 }}>Chọn ảnh</button>
                                                 </div>
                                                 {/* <div class="form-group">
@@ -54,10 +54,6 @@ class AddEmployee extends Component {
                                                     <label htmlFor="phoneNumber">Số điện thoại:</label>
                                                     <input type="text" className="form-control" id="phoneNumber" />
                                                 </div>
-                                                <div className="form-group">
-                                                    <label htmlFor="email">Email:</label>
-                                                    <input type="email" className="form-control" id="email" placeholder="Email công ty"/>
-                                                </div>
                                             </div>
                                             <div className=" col-md-4">
                                                 <div className="form-group">
@@ -67,7 +63,6 @@ class AddEmployee extends Component {
                                                 <div className="form-group">
                                                     <label>Bộ phận:</label>
                                                     <select className="form-control">
-                                                        <option>-- Null --</option>
                                                         <option>Phòng nhân sự</option>
                                                         <option>Phòng hành chính</option>
                                                         <option>Phòng kinh doanh</option>
@@ -75,17 +70,8 @@ class AddEmployee extends Component {
                                                     </select>
                                                 </div>
                                                 <div className="form-group">
-                                                    <label>Chức vụ:</label>
-                                                    <select className="form-control">
-                                                        <option>-- Null --</option>
-                                                        <option>Trưởng phòng</option>
-                                                        <option>Phó phòng</option>
-                                                        <option>Nhân viên</option>
-                                                    </select>
-                                                </div>
-                                                <div className="form-group">
-                                                    <label htmlFor="Reputation">Chức danh:</label>
-                                                    <input type="text" className="form-control" id="Reputation" />
+                                                    <label htmlFor="email">Email:</label>
+                                                    <input type="email" className="form-control" id="email" placeholder="Email công ty"/>
                                                 </div>
                                                 <div className="form-group">
                                                     <label htmlFor="address">Nơi ở hiện tại:</label>
@@ -95,11 +81,15 @@ class AddEmployee extends Component {
                                         </div>
                                         <div className="col-md-12">
                                             <h3 className="box-title">Thông tin cá nhân</h3>
-                                            <hr id="hr"/>
+                                            <hr className="hr"/>
                                             <div className="col-md-4">
                                                 <div className="form-group">
                                                     <label htmlFor="MST">Mã số thuế:</label>
                                                     <input type="text" className="form-control" id="MST" />
+                                                </div>
+                                                <div className="form-group">
+                                                    <label htmlFor="ATM">Số tài khoản ngân hàng:</label>
+                                                        <input type="text" className="form-control" id="ATM" />
                                                 </div>
                                                 <div className="form-group">
                                                     <label htmlFor="CMND">Số CMND/Hộ chiếu:</label>
@@ -120,6 +110,24 @@ class AddEmployee extends Component {
                                                     <input type="text" className="form-control" id="BHYT" />
                                                 </div>
                                                 <div className="form-group">
+                                                    <label>Tên ngân hàng:</label>
+                                                    <select className="form-control">
+                                                        <option>Techcombank</option>
+                                                        <option>Vietinbank</option>
+                                                        <option>Vietcombank</option>
+                                                        <option>BIDV</option>
+                                                        <option>TPBank</option>
+                                                        <option>VPBank</option>
+                                                        <option>Sacombank</option>
+                                                        <option>Agribank </option>
+                                                        <option>ABBANK</option>
+                                                        <option>VIB</option>
+                                                        <option>MB</option>
+                                                        <option>ACB</option>
+                                                        <option>MSB</option>
+                                                    </select>
+                                                </div>
+                                                <div className="form-group">
                                                     <label htmlFor="DateCMTND">Ngày cấp:</label>
                                                     <input type="Date" className="form-control" id="DateCMTND" />
                                                 </div>
@@ -133,11 +141,7 @@ class AddEmployee extends Component {
                                                 </div>
                                             </div>
                                             <div className="col-md-4">
-                                                <div className="form-group">
-                                                    <label htmlFor="ATM">Số tài khoản ngân hàng:</label>
-                                                    <input type="text" className="form-control" id="ATM" />
-                                                </div>
-                                                <div className="form-group">
+                                                <div className="form-group" style={{marginTop: "49%", paddingTop: 1}}>
                                                     <label htmlFor="addressCMND">Nơi cấp:</label>
                                                     <input type="text" className="form-control" id="addressCMND" />
                                                 </div>
@@ -156,11 +160,16 @@ class AddEmployee extends Component {
                                         </div>
                                         <div className="col-md-12">
                                             <h3 className="box-title">Trình độ học vấn</h3>
-                                            <hr id="hr"/>
+                                            <hr className="hr"/>
                                             <div className="form-group">
-                                                <label htmlFor="Educational ">Trình độ văn hoá:</label>
-                                                <input type="text" className="form-control" id="Educational" placeholder="Ví dụ: 12/12" />
-                                            </div>
+                                                    <label>Trình độ văn hoá:</label>
+                                                    <select className="form-control">
+                                                        <option>12/12</option>
+                                                        <option>11/12</option>
+                                                        <option>10/12</option>
+                                                        <option>9/12</option>
+                                                    </select>
+                                                </div>
                                             <div className="form-group">
                                                 <label htmlFor="foreignLanguage ">Trình độ ngoại ngữ:</label>
                                                 <input type="text" className="form-control" id="foreignLanguage" />
@@ -192,11 +201,12 @@ class AddEmployee extends Component {
                                         </div>
                                         <div className="col-md-12">
                                             <h3 className="box-title">Kinh nghiệm làm việc</h3>
-                                            <hr id="hr"/>
+                                            <hr className="hr"/>
                                             <table className="table" id="experience" style={{ marginBottom: 0 }}>
                                                 <thead>
                                                     <tr>
-                                                        <th style={{ width: '14%', paddingRight:25 }}>Từ tháng năm đến tháng năm</th>
+                                                        <th style={{ width: '14%'}}>Từ tháng/năm</th>
+                                                        <th style={{ width: '14%'}}>Đến tháng/năm</th>
                                                         <th>Đơn vị công tác</th>
                                                         <th>Chức vụ</th>
                                                         <th style={{ width: '12%' }}>Hoạt động</th>
@@ -206,7 +216,7 @@ class AddEmployee extends Component {
                                                 </tbody>
                                                 <tfoot>
                                                     <tr>
-                                                        <td colSpan={3} />
+                                                        <td colSpan={4} />
                                                         <td><button type="button" title="Thêm mới" className="btn btn-success add-new2"><i className="fa fa-plus" /></button></td>
                                                     </tr>
                                                 </tfoot>
