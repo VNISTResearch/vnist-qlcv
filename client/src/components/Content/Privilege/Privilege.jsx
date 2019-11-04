@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './Privilege.css';
+// import './Privilege.css';
 import ModalAddPrivilege from './ModalAddPrivilege';
 
 class Privilege extends Component {

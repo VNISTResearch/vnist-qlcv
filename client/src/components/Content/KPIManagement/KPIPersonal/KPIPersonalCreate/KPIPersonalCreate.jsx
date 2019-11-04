@@ -48,7 +48,8 @@ class KPIPersonalCreate extends Component {
             ],
             adding: false,
             editing: false,
-            submitted: false
+            submitted: false,
+            commenting: false
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -129,8 +130,6 @@ class KPIPersonalCreate extends Component {
             this.notify("Thêm thành công");
         }
     }
-    handleSubmit(event) {
-    }
 
     edit = (item) => {
         this.setState({
@@ -187,14 +186,26 @@ class KPIPersonalCreate extends Component {
         this.props.deleteTarget(id);
     }
 
+    handleRequestEdit = () => {
+        this.setState({
+            commenting: true
+        });
+    }
+
+    handleSubmitComment = () => {
+        this.setState({
+            commenting: false
+        });
+    }
+
     render() {
         var unitList, list, parentTargets, approver;
-        const { kpipersonal, approverlist, adding, editing } = this.state;
+        const { kpipersonal, approverlist, adding, editing, commenting } = this.state;
         const { departments, kpipersonals } = this.props;
         if (departments.items) unitList = departments.items;
         if (kpipersonals.items) list = kpipersonals.items;
         if (kpipersonals.parents) parentTargets = kpipersonals.parents;
-        if(typeof list !== 'undefined' && list.length !== 0){
+        if (typeof list !== 'undefined' && list.length !== 0) {
             approver = list[0].approver;
         }
         return (
@@ -242,7 +253,7 @@ class KPIPersonalCreate extends Component {
                                                 <div className="form-group">
                                                     <label>Người phê duyệt:</label>
                                                     <div className={'form-group has-feedback' + (adding && !kpipersonal.name ? ' has-error' : '')}>
-                                                        <select className="form-control" id="selparent" name="approver" value={approver?approver:kpipersonal.approver} disabled={approver} onChange={this.handleChange}>
+                                                        <select className="form-control" id="selparent" name="approver" value={approver ? approver : kpipersonal.approver} disabled={approver} onChange={this.handleChange}>
                                                             <option>--Hãy chọn người phê duyệt--</option>
                                                             <optgroup label="Giám đốc">
                                                                 {
@@ -379,8 +390,19 @@ class KPIPersonalCreate extends Component {
                                                 </div>
                                                 <div className="col-xs-10 col-xs-offset-8">
                                                     <button type="submit" className="btn btn-success col-md-2">Yêu cầu phê duyệt</button>
-                                                    <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }}>Bỏ kích hoạt</button>
+                                                    {commenting ? <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleSubmitComment}>Gửi phản hồi</button>
+                                                        : <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleRequestEdit}>Viết bình luận</button>}
                                                 </div>
+                                                { commenting && <div className="col-xs-12">
+                                                <form>
+                                                    <div className="form-group">
+                                                        <label>Phản hồi:</label>
+                                                        <div className='form-group'>
+                                                            <textarea type="text" className='form-control' id="inputname" name="reason"/>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>}
                                             </div>
                                         </form>
                                         <ToastContainer />

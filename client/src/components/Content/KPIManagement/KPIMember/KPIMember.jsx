@@ -240,7 +240,7 @@ class KPIMember extends Component {
                                                             <td>
                                                                 <a href="#data-member" className="view" title="Xem chi tiết"><i className="material-icons">visibility</i></a>
                                                                 <a href="#abc" className="approve" title="Phê duyệt"><i className="material-icons">playlist_add_check</i></a>
-                                                                <a href="#abc" className="copy" title="Phản hồi" data-toggle="tooltip" ><i className="material-icons">reply</i></a>
+                                                                {/* <a href="#abc" className="copy" title="Phản hồi" data-toggle="tooltip" ><i className="material-icons">reply</i></a> */}
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -250,7 +250,6 @@ class KPIMember extends Component {
                                                             <td>
                                                                 <a href="#data-member" className="view" title="Xem chi tiết"><i className="material-icons">visibility</i></a>
                                                                 <a href="#abc" className="approve" title="Phê duyệt"><i className="material-icons">playlist_add_check</i></a>
-                                                                <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleRequestEdit}>Yêu cầu làm lại</button>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -260,7 +259,6 @@ class KPIMember extends Component {
                                                             <td>
                                                                 <a href="#data-member" className="view" title="Xem chi tiết"><i className="material-icons">visibility</i></a>
                                                                 <a href="#abc" className="approve" title="Phê duyệt"><i className="material-icons">playlist_add_check</i></a>
-                                                                <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleRequestEdit}>Yêu cầu làm lại</button>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -270,7 +268,6 @@ class KPIMember extends Component {
                                                             <td>
                                                                 <a href="#data-member" className="view" title="Xem chi tiết"><i className="material-icons">visibility</i></a>
                                                                 <a href="#abc" className="approve" title="Phê duyệt"><i className="material-icons">playlist_add_check</i></a>
-                                                                <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleRequestEdit}>Yêu cầu làm lại</button>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -280,7 +277,6 @@ class KPIMember extends Component {
                                                             <td>
                                                                 <a href="#data-member" className="view" title="Xem chi tiết"><i className="material-icons">visibility</i></a>
                                                                 <a href="#abc" className="approve" title="Phê duyệt"><i className="material-icons">playlist_add_check</i></a>
-                                                                <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleRequestEdit}>Yêu cầu làm lại</button>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -290,7 +286,6 @@ class KPIMember extends Component {
                                                             <td>
                                                                 <a href="#data-member" className="view" title="Xem chi tiết"><i className="material-icons">visibility</i></a>
                                                                 <a href="#abc" className="approve" title="Phê duyệt"><i className="material-icons">playlist_add_check</i></a>
-                                                                <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleRequestEdit}>Yêu cầu làm lại</button>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -300,7 +295,6 @@ class KPIMember extends Component {
                                                             <td>
                                                                 <a href="#data-member" className="view" title="Xem chi tiết"><i className="material-icons">visibility</i></a>
                                                                 <a href="#abc" className="approve" title="Phê duyệt"><i className="material-icons">playlist_add_check</i></a>
-                                                                <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleRequestEdit}>Yêu cầu làm lại</button>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -310,7 +304,6 @@ class KPIMember extends Component {
                                                             <td>
                                                                 <a href="#data-member" className="view" title="Xem chi tiết"><i className="material-icons">visibility</i></a>
                                                                 <a href="#abc" className="approve" title="Phê duyệt"><i className="material-icons">playlist_add_check</i></a>
-                                                                <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleRequestEdit}>Yêu cầu làm lại</button>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -320,7 +313,6 @@ class KPIMember extends Component {
                                                             <td>
                                                                 <a href="#data-member" className="view" title="Xem chi tiết"><i className="material-icons">visibility</i></a>
                                                                 <a href="#abc" className="approve" title="Phê duyệt"><i className="material-icons">playlist_add_check</i></a>
-                                                                <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleRequestEdit}>Yêu cầu làm lại</button>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -330,7 +322,6 @@ class KPIMember extends Component {
                                                             <td>
                                                                 <a href="#data-member" className="view" title="Xem chi tiết"><i className="material-icons">visibility</i></a>
                                                                 <a href="#abc" className="approve" title="Phê duyệt"><i className="material-icons">playlist_add_check</i></a>
-                                                                <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleRequestEdit}>Yêu cầu làm lại</button>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -340,7 +331,6 @@ class KPIMember extends Component {
                                                             <td>
                                                                 <a href="#data-member" className="view" title="Xem chi tiết"><i className="material-icons">visibility</i></a>
                                                                 <a href="#abc" className="approve" title="Phê duyệt"><i className="material-icons">playlist_add_check</i></a>
-                                                                <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleRequestEdit}>Yêu cầu làm lại</button>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -350,7 +340,6 @@ class KPIMember extends Component {
                                                             <td>
                                                                 <a href="#data-member" className="view" title="Xem chi tiết"><i className="material-icons">visibility</i></a>
                                                                 <a href="#abc" className="approve" title="Phê duyệt"><i className="material-icons">playlist_add_check</i></a>
-                                                                <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleRequestEdit}>Yêu cầu làm lại</button>
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -360,7 +349,6 @@ class KPIMember extends Component {
                                                             <td>
                                                                 <a href="#data-member" className="view" title="Xem chi tiết"><i className="material-icons">visibility</i></a>
                                                                 <a href="#abc" className="approve" title="Phê duyệt"><i className="material-icons">playlist_add_check</i></a>
-                                                                <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleRequestEdit}>Yêu cầu làm lại</button>
                                                             </td>
                                                         </tr>
                                                         <tr>
