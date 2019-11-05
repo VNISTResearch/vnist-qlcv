@@ -8,13 +8,13 @@ const tasktemplates = require("./routes/api/tasktemplates");
 const roles = require("./routes/api/roles");
 const links = require("./routes/api/links");
 const components = require("./routes/api/components");
-const cors = require('cors');
-require('dotenv').config();
 const worktemplates = require("./routes/api/worktemplates");
 const jobtitles = require("./routes/api/jobtitles");
 const kpiunits = require("./routes/api/kpiunits");
 const kpipersonals = require("./routes/api/kpipersonals");
+
 const cors = require('cors');
+require('dotenv').config();
 
 const app = express();
 

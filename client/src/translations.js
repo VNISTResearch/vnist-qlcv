@@ -45,7 +45,9 @@ export default {
                 department: 'Phòng Ban',
                 role: 'Phân quyền',
                 resource: 'Tài nguyên',
-                tasktemplate: 'Mẫu Công Việc'
+                tasktemplate: 'Mẫu Công Việc',
+                cocautochuc: 'Cơ Cấu Tổ Chức',
+                taskmanagement: 'Quản Lý Công Việc'
             },
             footer: {
                 copyRight: 'Bản quyền thuộc về',
@@ -100,7 +102,9 @@ export default {
                 department: 'Department',
                 role: 'Role',
                 resource: 'Resource',
-                tasktemplate: 'Task Template'
+                tasktemplate: 'Task Template',
+                cocautochuc: 'Organizational Structure',
+                taskmanagement: 'Task Management'
             },
             footer: {
                 copyRight: 'Copyright',

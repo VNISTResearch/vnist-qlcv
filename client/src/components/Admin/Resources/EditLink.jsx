@@ -81,7 +81,7 @@ class EditLink extends Component {
                                                         className="form-control select2" 
                                                         style={{width: '100%'}} 
                                                         name="role"
-                                                        defaultValue={links.item.role._id}
+                                                        defaultValue={links.item.role !== undefined ? (links.item.role !== null ? links.item.role._id : null ) : null}
                                                         onChange={this.selectHandle}>
                                                         {
                                                             roles.super.map( role => 

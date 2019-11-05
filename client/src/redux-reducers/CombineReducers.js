@@ -37,19 +37,5 @@ const rootReducer = combineReducers(Object.assign({
   roles,
   links
 }, { Intl }));
-  
-
-
-const rootReducer = combineReducers({
-  authentication,
-  registration,
-  users,
-  alert,
-  jobtitles,
-  tasktemplates,
-  departments,
-  kpiunits,
-  kpipersonals
-});
 
 export default rootReducer;

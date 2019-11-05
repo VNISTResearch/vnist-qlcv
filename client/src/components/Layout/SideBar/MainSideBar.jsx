@@ -25,6 +25,10 @@ const menu = [
         name: 'tasktemplate',
         path: '/task-template',
         icon: 'fa fa-tasks'
+    },{
+        name: 'cocautochuc',
+        path: '/cocautochuc',
+        icon: 'fa fa-th'
     }
 ];
 
@@ -50,7 +54,7 @@ class MainSideBar extends Component {
                         {/* Sidebar user panel */}
                         <div className="user-panel">
                             <div className="pull-left image">
-                                <img src="adminLTE/dist/img/user2-160x160.jpg" className="img-circle" alt="User avatar" />
+                                <img src="/adminLTE/dist/img/user2-160x160.jpg" className="img-circle" alt="User avatar" />
                             </div>
                             <div className="pull-left info">
                                 <p>User</p>
@@ -68,23 +72,29 @@ class MainSideBar extends Component {
                             </div>
                         </form>
                         <ul className="sidebar-menu" data-widget="tree">
+                            <li className="header">MENU</li>
+                            <li>
+                                <a href="/">
+                                    <i className="fa fa-home" /> <span>{ translate('mainSideBar.home') }</span>
+                                </a>
+                            </li>
+                            {
+                                typeof(user.links) !== 'undefined' ? 
+                                (
+                                    user.links.map( link => (
+                                        menu.map( item => 
+                                            (link.resource.url === item.path) ?
+                                            <Item
+                                                key={ item.name }
+                                                name={ translate('mainSideBar.'+item.name) }
+                                                path={ item.path }
+                                                icon={ item.icon }
+                                            /> : null
+                                        )
+                                    ))
+                                ) : null
+                            }
                             <li className="header">MAIN NAVIGATION</li>
-                            {
-                                this.checkURL("/") &&
-                                <li className="active">
-                                    <a href="/">
-                                        <i className="fa fa-dashboard" /> <span>Trang chủ</span>
-                                    </a>
-                                </li>
-                            }
-                            {
-                                this.checkURL("/tasktemplate") &&
-                                <li>
-                                    <a href="/tasktemplate">
-                                        <i className="fa fa-th" /> <span>Quản lý mẫu công việc</span>
-                                    </a>
-                                </li>
-                            }
                             {
                                 this.checkURL("/target") &&
                                 <li className="treeview">
@@ -101,7 +111,6 @@ class MainSideBar extends Component {
                                 </li>
                             }
                             {
-                                this.checkURL("/target") &&
                                 <li className="treeview">
                                     <a href="#abc">
                                         <i className="fa fa-dashboard" /> <span>Quản lý KPI</span>
@@ -140,22 +149,6 @@ class MainSideBar extends Component {
                                     </ul>
                                 </li>
                             }
-                            {
-                                this.checkURL("/organizationstructure") &&
-                                <li>
-                                    <a href="/organizationstructure">
-                                        <i className="fa fa-dashboard" /> <span>Organization Structure</span>
-                                    </a>
-                                </li>
-                            }
-                            {/* {
-                                this.checkURL("/cocautochuc") &&
-                                <li>
-                                    <a href="/cocautochuc">
-                                        <i className="fa fa-th" /> <span>Cơ cấu tổ chức</span>
-                                    </a>
-                                </li>
-                            } */}
                             {/* {
                                 this.checkURL("/privilege") &&
                                 <li className="treeview">
@@ -196,27 +189,7 @@ class MainSideBar extends Component {
                                     <li><a href="pages/tables/data.html"> Data tables</a></li>
                                 </ul>
                         </li>*/}
-                            <li>
-                                <a href="/">
-                                    <i className="fa fa-home" /> <span>{ translate('mainSideBar.home') }</span>
-                                </a>
-                            </li>
-                            {
-                                typeof(user.links) !== 'undefined' ? 
-                                (
-                                    user.links.map( link => (
-                                        menu.map( item => 
-                                            (link.resource.url === item.path) ?
-                                            <Item
-                                                key={ item.name }
-                                                name={ translate('mainSideBar.'+item.name) }
-                                                path={ item.path }
-                                                icon={ item.icon }
-                                            /> : null
-                                        )
-                                    ))
-                                ) : null
-                            }
+                            
                         </ul>
                     </section>
                 </aside>

@@ -10,23 +10,10 @@ import DepartmentDetail from '../components/Admin/Departments/Details';
 import Role from '../components/Admin/Role';
 import Resources from '../components/Admin/Resources';
 import EditLink from '../components/Admin/Resources/EditLink';
-import TaskTemplate from '../components/Content/TaskTemplate';
-
-const privatePage = [
-    { path: '/', exact: true, component: () => <Home/> },
-    { path: '/home', exact: true, component: () => <Home/> },
-    { path: '/admin/user', exact: true, component: () => <Users/> },
-    { path: '/admin/department', exact: true, component: () => <Departments/> },
-    { path: '/admin/department/detail/:id', exact: true, component: ({match}) => <DepartmentDetail match={match}/> },
-    { path: '/admin/role', exact: true, component: () => <Role/> },
-    { path: '/admin/resource', exact: true, component: () => <Resources/> },
-    { path: '/admin/resource/link/edit/:id', exact: true, component: ({match}) => <EditLink match={match}/> },
-    { path: '/task-template', exact: true, component: ({match}) => <TaskTemplate match={match}/> },
-]
+// import TaskTemplate from '../components/Content/TaskTemplate';
 
 import { Route } from "react-router-dom";
-import { PrivateRoute} from './ComebineRoutes';
-import { RegisterPage, LoginPage } from '../components/Page/CombineComponentPages';
+import { RegisterPage } from '../components/Page/CombineComponentPages';
 import { 
     CoCauToChuc, 
     DashBoard, 
@@ -43,8 +30,34 @@ import {
     MemberApprove,
     TaskManagement
 } from '../components/Content/CombineContent';
-import Layout from '../components/Layout/Layout';
 import Privilege from '../components/Content/Privilege/Privilege';
+
+const privatePage = [
+    { path: '/', exact: true, component: () => <DashBoard/> },
+    { path: '/home', exact: true, component: () => <Home/> },
+    { path: '/admin/user', exact: true, component: () => <Users/> },
+    { path: '/admin/department', exact: true, component: () => <Departments/> },
+    { path: '/admin/department/detail/:id', exact: true, component: ({match}) => <DepartmentDetail match={match}/> },
+    { path: '/admin/role', exact: true, component: () => <Role/> },
+    { path: '/admin/resource', exact: true, component: () => <Resources/> },
+    { path: '/admin/resource/link/edit/:id', exact: true, component: ({match}) => <EditLink match={match}/> },
+
+    { path: '/task-template', exact: true, component: ({match}) => <TaskTemplate match={match}/> },
+    { path: '/target', exact: true, component: ({match}) => <Target match={match}/> },
+    { path: '/taskmanagement', exact: true, component: ({match}) => <TaskManagement match={match}/> },
+    { path: '/kpiunitcreate', exact: true, component: ({match}) => <KPIUnitCreate match={match}/> },
+    { path: '/kpiunitoverview', exact: true, component: ({match}) => <KPIUnitOverview match={match}/> },
+    { path: '/kpiunitevaluate', exact: true, component: ({match}) => <KPIUnitEvaluate match={match}/> },
+    { path: '/kpipersonaloverview', exact: true, component: ({match}) => <KPIPersonalOverview match={match}/> },
+    { path: '/kpipersonalcreate', exact: true, component: ({match}) => <KPIPersonalCreate match={match}/> },
+    { path: '/kpipersonalevaluate', exact: true, component: ({match}) => <KPIPersonalEvaluate match={match}/> },
+    { path: '/kpimemberoverview', exact: true, component: ({match}) => <KPIMember match={match}/> },
+    { path: '/kpimemberapprove', exact: true, component: ({match}) => <MemberApprove match={match}/> },
+    { path: '/cocautochuc', exact: true, component: ({match}) => <CoCauToChuc match={match}/> },
+    { path: '/privilege', exact: true, component: ({match}) => <Privilege match={match}/> },
+    { path: '/organizationstructure', exact: true, component: ({match}) => <OrganizationStructure match={match}/> },
+]
+
 class Routes extends Component {
     
     render() {
@@ -52,6 +65,7 @@ class Routes extends Component {
         return (
             <React.Fragment>
                 <AuthRoute auth={ auth } exact path="/login" component={LoginPage} />
+                <Route exact path="/register" component={RegisterPage} />
                 {
                     privatePage.map( page => (
                         <PrivateRoute 
@@ -64,23 +78,6 @@ class Routes extends Component {
                         />
                     ))
                 }
-                <PrivateRoute exact path="/" layout={Layout} component={DashBoard} />
-                <Route exact path="/login" component={LoginPage} />
-                <Route exact path="/register" component={RegisterPage} />
-                <PrivateRoute exact path="/target" layout={Layout} component={Target} />
-                <PrivateRoute exact path="/taskmanagement" layout={Layout} component={TaskManagement} />
-                <PrivateRoute exact path="/kpiunitcreate" layout={Layout} component={KPIUnitCreate} />
-                <PrivateRoute exact path="/kpiunitoverview" layout={Layout} component={KPIUnitOverview} />
-                <PrivateRoute exact path="/kpiunitevaluate" layout={Layout} component={KPIUnitEvaluate} />
-                <PrivateRoute exact path="/kpipersonaloverview" layout={Layout} component={KPIPersonalOverview} />
-                <PrivateRoute exact path="/kpipersonalcreate" layout={Layout} component={KPIPersonalCreate} />
-                <PrivateRoute exact path="/kpipersonalevaluate" layout={Layout} component={KPIPersonalEvaluate} />
-                <PrivateRoute exact path="/kpimemberoverview" layout={Layout} component={KPIMember} />
-                <PrivateRoute exact path="/kpimemberapprove" layout={Layout} component={MemberApprove} />
-                <PrivateRoute path="/cocautochuc" layout={Layout} component={CoCauToChuc} />
-                <PrivateRoute path="/tasktemplate" layout={Layout} component={TaskTemplate} />
-                <PrivateRoute path="/privilege" layout={Layout} component={Privilege} />
-                <PrivateRoute path="/organizationstructure" layout={Layout} component={OrganizationStructure} />
             </React.Fragment>
         );
     }
