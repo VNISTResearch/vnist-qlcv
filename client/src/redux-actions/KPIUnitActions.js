@@ -95,7 +95,7 @@ function confirm(id) {
     return dispatch => {
         dispatch(request(id));
 
-        kpiUnitService.confirm(id)
+        kpiUnitService.comfirmKPIUnit(id)
             .then(
                 target => { 
                     dispatch(success(id));

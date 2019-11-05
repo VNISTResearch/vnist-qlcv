@@ -20,6 +20,10 @@ exports.create = (req, res) => {
     return DepartmentService.create(req, res);
 }
 
+exports.createDepartment = (req, res) => {
+    return DepartmentService.createDepartment(req, res);
+}
+
 exports.addUserWithRole = (req, res) => {
     return DepartmentService.addUserWithRole(req, res);
 }

@@ -42,7 +42,7 @@ function getAllParentTargetUnitByIdUnit(id) {
         method: 'GET',
     };
 
-    return fetch(`/kpiunits/parent/unit/${id}`, requestOptions).then(handleResponse);
+    return fetch(`/kpiunits/parent/${id}`, requestOptions).then(handleResponse);
 }
 
 // add new target of one unit 

@@ -81,11 +81,15 @@ export function kpiunits(state = {}, action) {
       };
     case  kpiUnitConstants.CONFIRM_REQUEST:
       return {
+        ...state,
         confirming: true
       };
     case kpiUnitConstants.CONFIRM_SUCCESS:
       return {
-        items: action.departments
+        ...state,
+        items: state.items.map(kpiunit => ({
+            ...kpiunit, confirm: true
+        }))
       };
     case kpiUnitConstants.CONFIRM_FAILURE:
       return { 

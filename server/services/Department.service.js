@@ -3,6 +3,9 @@ const Role = require('../models/Role.model');
 const UserRole = require('../models/UserRole.model');
 const User = require('../models/User.model');
 const Privilege = require('../models/Privilege.model');
+const JobTitle = require('../models/JobTitle.model');
+const mongoose = require("mongoose");
+const rootid = require("../config/rootid").rootIdDepartment;
 
 exports.get = (req, res) => {
 	Department.find()
@@ -66,7 +69,7 @@ exports.getDepartmentInfo = async(req, res) => {
 	}
 }
 
-exports.create = async (req, res) => {
+exports.createDepartment = async (req, res) => {
 	
     try {
 		var superDean = await Role.findOne({name: 'Dean'});
@@ -213,4 +216,52 @@ exports.addRoleForUser = async (req, res) => {
 
 		res.status(400).json({msg: error});
 	}
+}
+
+exports.getAll = async (req, res)=> {
+    try {
+        var departments = await Department.find();
+        
+        res.json(departments);
+    } catch (error) {
+        
+        res.json( {message: error});
+    }
+}
+
+exports.create = async (req, res) => {
+    try {
+        var department = await Department.create({ 
+            name: req.body.name,
+            parent: mongoose.Types.ObjectId.isValid(req.body.parent)?req.body.parent:rootid,
+        }); //create department
+        var roles = await Role.find().exec();//get all role of database
+        var jobTitles = [ //create jobtitles
+            {
+                name: roles[0].name + " " + department.name,
+                role: roles[0]._id,
+                department: department._id
+            },
+            {
+                name: roles[1].name + " " + department.name,
+                role: roles[1]._id,
+                department: department._id
+            },
+            {
+                name: roles[2].name + " " + department.name,
+                role: roles[2]._id,
+                department: department._id
+            }
+        ];
+        var jobs = await JobTitle.insertMany(jobTitles); //add to database
+
+        res.json( {
+            message: "Tạo phòng ban thàng công!",
+            department: department,
+            jobTitles: jobs
+        });
+    } catch (error) {
+
+        res.json( {message: error});
+    }
 }

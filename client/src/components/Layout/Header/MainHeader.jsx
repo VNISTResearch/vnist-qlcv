@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import MainHeaderMenu from './MainHeaderMenu/MainHeaderMenu';
+import { MainHeaderMenu } from './MainHeaderMenu/MainHeaderMenu';
 
 class MainHeader extends Component {
     render() {

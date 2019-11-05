@@ -7,7 +7,7 @@ const Action = require('./Action.model');
 const PrivilegeSchema = new Schema({
     resource: {
         type: Schema.Types.ObjectId,
-        refPath: 'resourceType',
+        refPath: 'resource_type',
         required: true
     },
 
