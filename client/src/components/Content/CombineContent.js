@@ -14,3 +14,4 @@ export * from './KPIManagement/KPIUnit/KPIUnitOverview/KPIUnitOverview';
 export * from './KPIManagement/KPIStatistical/KPIStatistical';
 export * from './KPIManagement/KPIMember/KPIMember';
 export * from './KPIManagement/KPIMember/MemberApprove';
+export * from './TaskManagement/TaskManagement';

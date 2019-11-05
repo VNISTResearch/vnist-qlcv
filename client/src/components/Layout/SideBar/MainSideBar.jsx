@@ -53,7 +53,7 @@ class MainSideBar extends Component {
                                 this.checkURL("/") &&
                                 <li className="active">
                                     <a href="/">
-                                        <i className="fa fa-dashboard" /> <span>Home</span>
+                                        <i className="fa fa-dashboard" /> <span>Trang chủ</span>
                                     </a>
                                 </li>
                             }
@@ -61,8 +61,23 @@ class MainSideBar extends Component {
                                 this.checkURL("/tasktemplate") &&
                                 <li>
                                     <a href="/tasktemplate">
-                                        <i className="fa fa-th" /> <span>WorkTemplate</span>
+                                        <i className="fa fa-th" /> <span>Quản lý mẫu công việc</span>
                                     </a>
+                                </li>
+                            }
+                            {
+                                this.checkURL("/target") &&
+                                <li className="treeview">
+                                    <a href="#abc">
+                                        <i className="fa fa-dashboard" /> <span>Quản lý công việc</span>
+                                        <span className="pull-right-container">
+                                            <i className="fa fa-angle-left pull-right" />
+                                        </span>
+                                    </a>
+                                    <ul className="treeview-menu">
+                                        <li><a href="/taskmanagement">Xem danh sách công việc</a></li>
+                                        <li><a href="/kpimemberapprove">Thực hiện công việc</a></li>
+                                    </ul>
                                 </li>
                             }
                             {

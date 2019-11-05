@@ -81,7 +81,7 @@ class TaskTemplate extends Component {
                                         <div className="col-xs-2">
                                             {/* {
                                                 this.getPermision().createForm && */}
-                                                <button type="button" className="btn btn-success" data-toggle="modal" data-target="#myModalHorizontal">Thêm 1 mẫu công việc</button>
+                                                <button type="button" className="btn btn-success" data-toggle="modal" data-target="#myModalHorizontal" style={{ marginLeft: "-12%"}}>Thêm 1 mẫu công việc</button>
                                             {/* } */}
                                             <ModalAddTaskTemplate />
                                         </div>
@@ -92,11 +92,11 @@ class TaskTemplate extends Component {
                                     <table id="example2" className="table table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <th>ID Form</th>
-                                                <th>Name of FormCV</th>
-                                                <th>Creator</th>
-                                                <th>Description</th>
-                                                <th>Action</th>
+                                                <th>Tên mẫu công việc</th>
+                                                <th>Mô tả</th>
+                                                <th>Số công việc</th>
+                                                <th>Người tạo mẫu</th>
+                                                <th>Hoạt động</th>
                                             </tr>
                                         </thead>
                                         <tbody>
