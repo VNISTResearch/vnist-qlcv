@@ -1,14 +1,13 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 
 class DetailSalary extends Component {
     render() {
-        return(
+        return (
             <div>
                 
             </div>
         );
-    };
+    }
+}
 
-};
-
-export {DetailSalary};
+export default DetailSalary;

@@ -4,3 +4,4 @@ export * from './JobTitleService';
 export * from './DepartmentService';
 export * from './KPIUnitService';
 export * from './KPIPersonalService';
+export * from './EmployeeService';

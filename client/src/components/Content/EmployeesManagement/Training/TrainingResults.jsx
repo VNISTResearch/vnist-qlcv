@@ -18,8 +18,8 @@ class TrainingResults extends Component {
                     <div className="row">
                         <div className="col-xs-12">
                             <div className="box">
-                                <div class="box-header with-border">
-                                    <h3 class="box-title">Danh sách các khoá đào tạo:</h3>
+                                <div className="box-header with-border">
+                                    <h3 className="box-title">Danh sách các khoá đào tạo:</h3>
                                 </div>
                                 {/* /.box-header */}
                                 <div className="box-body">
@@ -70,8 +70,8 @@ class TrainingResults extends Component {
                                 {/* /.box-body */}
                             </div>
                             <div className="box">
-                                <div class="box-header with-border">
-                                    <h3 class="box-title">Chi tiết khoá đào tạo</h3>
+                                <div className="box-header with-border">
+                                    <h3 className="box-title">Chi tiết khoá đào tạo</h3>
                                 </div>
                                 <div className="nav-tabs-custom">
                                     <ul className="nav nav-tabs">
@@ -108,15 +108,15 @@ class TrainingResults extends Component {
                                                             20/10/2018
                                                         </div>
                                                     </div>
-                                                    <div class="box-header col-md-12">
-                                                        <h3 class="box-title">Danh sách nhân viên tham gia khoá đào tạo:</h3>
+                                                    <div className="box-header col-md-12">
+                                                        <h3 className="box-title">Danh sách nhân viên tham gia khoá đào tạo:</h3>
                                                         
                                                     </div>
                                                     <div className="col-md-12">
                                                         <table className="table table-bordered table-hover listcourse">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>Mã nhân viên</th>
+                                                                    <th style={{width:"18%"}}>Mã nhân viên</th>
                                                                     <th>Tên nhân viên</th>
                                                                     <th>Phòng ban</th>
                                                                     <th style={{width:'20%'}}>Kết quả</th>
@@ -128,7 +128,7 @@ class TrainingResults extends Component {
                                                                     <td>Nguyễn Chí Thanh</td>
                                                                     <td>phòng hành chính</td>
                                                                     <td>                          
-                                                                        <div class="form-group">
+                                                                        <div className="form-group">
                                                                             <div className="radio">
                                                                                 <label>
                                                                                 <input type="radio" name="optionsRadios" id="optionsRadios1" defaultValue="Hoàn thành"/>

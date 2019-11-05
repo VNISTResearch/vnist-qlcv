@@ -1,7 +1,22 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { employeeActions } from '../../../../redux-actions/CombineActions';
 import {InfoEmployee} from './../../CombineContent';
 class ListEmployee extends Component {
+    componentWillMount() {
+        this.props.getAllEmployee();
+        
+    }
+    getAll= () => {
+        this.props.getAllEmployee();
+    }
+    
+    
     render() {
+        var list;
+        const { employees } = this.props;
+        if(employees.items) list=employees.items;
+        console.log(list);
         return (
             <div className="content-wrapper">
                 {/* Content Header (Page header) */}
@@ -20,7 +35,23 @@ class ListEmployee extends Component {
                             <div className="box">
                                 {/* /.box-header */}
                                 <div className="box-body">
-                                    <table id="" className="table table-bordered table-hover list">
+                                    <div className="col-md-4">
+                                        <div className="form-group">
+                                            <label>Phòng ban:</label>
+                                            <select className="form-control" onChange={()=>this.getAll()}>
+                                                <option>Phòng nhân sự</option>
+                                                <option>Phòng hành chính</option>
+                                                <option>Phòng kinh doanh</option>
+                                                <option>Phòng Marketing</option>
+                                            </select>
+                                        </div>
+                                        <div className="box-header" style={{paddingLeft:0}}>
+                                            <h3 className="box-title">Danh sách nhân viên:</h3>
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="col-md-12" style={{paddingLeft:20}}>
+                                    <table id="" className="table table-bordered table-hover list" data={["ma nhan vien", "dsadad", "dấd", "đấ","hjkahjda"]}>
                                         <thead>
                                             <tr>
                                                 <th>Mã nhân viên</th>
@@ -31,55 +62,16 @@ class ListEmployee extends Component {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>VN00156</td>
-                                                <td>Nguyễn Văn thuận</td>
-                                                <td>Nam</td>
-                                                <td>17/03/1996</td>
-                                                <td>Nhân viên</td>
-                                            </tr>
-                                            <tr>
-                                                <td>VN00154</td>
-                                                <td>Ngô Thị Oanh</td>
-                                                <td>Nữ</td>
-                                                <td>20/05/1997</td>
-                                                <td>Phó phòng</td>
-                                            </tr>
-                                            <tr>
-                                                <td>VN00155</td>
-                                                <td>Nguyễn Phi Hùng</td>
-                                                <td>Nam</td>
-                                                <td>15/08/1996</td>
-                                                <td>Trưởng phòng</td>
-                                            </tr>
-                                            <tr>
-                                                <td>VN001256</td>
-                                                <td>Lê Văn Việt</td>
-                                                <td>Nam</td>
-                                                <td>15/06/1996</td>
-                                                <td>Nhân viên</td>
-                                            </tr>
-                                            <tr>
-                                                <td>VN00157</td>
-                                                <td>Nguyễn Khánh Linh</td>
-                                                <td>Nữ</td>
-                                                <td>17/05/1996</td>
-                                                <td>Nhân viên</td>
-                                            </tr>
-                                            <tr>
-                                                <td>VN00785</td>
-                                                <td>Bùi Văn Huy</td>
-                                                <td>Nam</td>
-                                                <td>18/10/1996</td>
-                                                <td>Nhân viên</td>
-                                            </tr>
-                                            <tr>
-                                                <td>VN00158</td>
-                                                <td>Nguyễn Văn Hùng</td>
-                                                <td>Nam</td>
-                                                <td>17/03/1996</td>
-                                                <td>Nhân viên</td>
-                                            </tr>
+                                            {list &&
+                                                list.map((x,indext)=>
+                                                    <tr key={indext}>
+                                                        <td>{x.employeeNumber}</td>
+                                                        <td>{x.fullName}</td>
+                                                        <td>{x.gender}</td>
+                                                        <td>{x.brithday}</td>
+                                                        <td>nhân viên</td>
+                                                    </tr>
+                                            )}
                                         </tbody>
                                         <tfoot>
                                             <tr>
@@ -91,6 +83,7 @@ class ListEmployee extends Component {
                                             </tr>
                                         </tfoot>
                                     </table>
+                                    </div>
                                 </div>
                                 {/* /.box-body */}
                             </div>
@@ -108,4 +101,14 @@ class ListEmployee extends Component {
     };
 }
 
-export { ListEmployee };
+function mapState(state) {
+    const { employees } = state;
+    return { employees};
+}
+
+const actionCreators = {
+    getAllEmployee : employeeActions.getAllEmployee,
+};
+const connectedEmplyee = connect(mapState, actionCreators)(ListEmployee);
+
+export { connectedEmplyee as ListEmployee };

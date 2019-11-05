@@ -18,8 +18,8 @@ class TraningPlan extends Component {
                     <div className="row">
                         <div className="col-xs-12">
                             <div className="box">
-                                <div class="box-header with-border">
-                                    <h3 class="box-title">Danh sách các khoá đào tạo:</h3>
+                                <div className="box-header with-border">
+                                    <h3 className="box-title">Danh sách các khoá đào tạo:</h3>
                                     <button type="submit" className="btn btn-success pull-right" id="" style={{marginRight:16}}>Thêm khoá đào tạo</button>
                                 </div>
                                 {/* /.box-header */}
@@ -71,8 +71,8 @@ class TraningPlan extends Component {
                                 {/* /.box-body */}
                             </div>
                             <div className="box">
-                                <div class="box-header with-border">
-                                    <h3 class="box-title">Thông tin chi tiết khoá đào tạo</h3>
+                                <div className="box-header with-border">
+                                    <h3 className="box-title">Thông tin chi tiết khoá đào tạo</h3>
                                     <button type="submit" className="btn btn-primary pull-right" id="" style={{marginRight:16}}>Cập nhật khoá đào tạo</button>
                                 </div>
                                 {/* /.box-header */}
@@ -103,8 +103,8 @@ class TraningPlan extends Component {
                                                 20/10/2018
                                             </div>
                                         </div>
-                                        <div class="box-header col-md-12">
-                                            <h3 class="box-title">Danh sách nhân viên tham gia khoá đào tạo</h3>
+                                        <div className="box-header col-md-12">
+                                            <h3 className="box-title">Danh sách nhân viên tham gia khoá đào tạo</h3>
                                         </div>
                                         <div className="col-md-12">
                                             <table className="table table-bordered table-hover listcourse">

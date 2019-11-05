@@ -41,8 +41,8 @@ class ListCourse extends Component {
                                         </div>
                                     </div>
                                     <div className="col-md-12">
-                                        <div class="box-header col-md-6" style={{paddingLeft:0}}>
-                                            <h3 class="box-title">Danh sách khoá đào tạo bắt buộc:</h3>
+                                        <div className="box-header col-md-6" style={{paddingLeft:0}}>
+                                            <h3 className="box-title">Danh sách khoá đào tạo bắt buộc:</h3>
                                             </div>
                                             <button type="submit" className="btn btn-success pull-right" id="">Thêm khoá đào tạo</button>
                                         <table className="table table-bordered table-hover listcourse">
