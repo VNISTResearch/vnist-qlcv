@@ -1,8 +1,72 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { ModalAddTask } from './ModalAddTask';
+import { taskManagementActions } from '../../../redux-actions/CombineActions';
 
 class TaskManagement extends Component {
+    UNSAFE_componentWillMount() {
+        this.props.getTaskByRole(localStorage.getItem('id'), localStorage.getItem('currentRole'))
+        let script = document.createElement('script');
+        script.src = 'main/js/GridTable.js';
+        script.async = true;
+        script.defer = true;
+        document.body.appendChild(script);
+    }
+    constructor(props) {
+        super(props);
+        this.state = {
+            role: []
+        };
+    }
+
+    formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+
+        return [day, month, year].join('-');
+    }
+
+    list_to_tree = (list) => {
+        var map = {}, node, roots = [], i, newarr = [];
+        for (i = 0; i < list.length; i += 1) {
+            map[list[i]._id] = i; // initialize the map
+            list[i].children = []; // initialize the children
+        }
+        // console.log(map);
+        for (i = 0; i < list.length; i += 1) {
+            node = list[i];
+            if (node.parent !== "") {
+                // if you have dangling branches check that map[node.parentId] exists
+                list[map[node.parent]].children.push(node);
+            } else {
+                roots.push(node);
+            }
+        }
+        let change = (arr) => {
+            arr.map(item => {
+                newarr.push(item);
+                change(item.children);
+                return true;
+            });
+            return newarr;
+        }
+        let flat = change(roots).map(x => delete x.children && x);
+        console.log(flat);
+        return flat;
+    }
+
     render() {
+        var listTasks;
+        const { tasks } = this.props;
+        if (tasks.items) listTasks = tasks.items;
+        console.log(listTasks);
         return (
             <div className="content-wrapper">
                 <section className="content-header">
@@ -36,155 +100,60 @@ class TaskManagement extends Component {
                                     <div style={{ marginLeft: "5%" }}>
                                         <div className="col-sm-10">
                                             <label className="col-sm-3 control-label" style={{ width: "18%", fontWeight: "400" }}>Người tạo</label>
-                                            <input type="checkbox" className="flat-red col-sm-8" defaultChecked/>
+                                            <input type="checkbox" className="flat-red col-sm-8" defaultChecked />
                                         </div>
                                         <div className="col-sm-10">
                                             <label className="col-sm-3 control-label" style={{ width: "18%", fontWeight: "400" }}>Người thực hiện</label>
-                                            <input type="checkbox" className="flat-red col-sm-8" defaultChecked/>
+                                            <input type="checkbox" className="flat-red col-sm-8" defaultChecked />
                                         </div>
                                         <div className="col-sm-10">
                                             <label className="col-sm-3 control-label" style={{ width: "18%", fontWeight: "400" }}>Người phê duyệt</label>
-                                            <input type="checkbox" className="flat-red col-sm-8" defaultChecked/>
+                                            <input type="checkbox" className="flat-red col-sm-8" defaultChecked />
                                         </div>
                                         <div className="col-sm-10">
                                             <label className="col-sm-3 control-label" style={{ width: "18%", fontWeight: "400" }}>Người quan sát</label>
-                                            <input type="checkbox" className="flat-red col-sm-8" defaultChecked/>
+                                            <input type="checkbox" className="flat-red col-sm-8" defaultChecked />
                                         </div>
                                         <div className="col-sm-2">
-                                            <button type="button" className="btn btn-success" data-toggle="modal" data-target="#myModalHorizontal" style={{ marginTop: "-25%" }}>Thêm công việc</button>
-                                            <ModalAddTask/>
+                                            <button type="button" className="btn btn-success" data-toggle="modal" data-target="#myModalHorizontal" data-backdrop="static" data-keyboard="false" style={{ marginTop: "-25%" }}>Thêm công việc</button>
+                                            <ModalAddTask />
                                         </div>
                                     </div>
                                 </div>
                                 <table id="tree-table" className="table table-hover table-bordered">
-                                    <tbody>
+                                    <thead>
                                         <tr>
-                                            <th style={{ width: "20%"}}>Tên công việc</th>
+                                            <th style={{ width: "20%" }}>Tên công việc</th>
                                             <th>Trạng thái</th>
                                             <th>Tiến độ</th>
                                             <th>Độ ưu tiên</th>
                                             <th>Bắt đầu</th>
                                             <th>Kết thúc</th>
                                             <th>Thời gian</th>
-                                            <th>Hành động</th>
+                                            <th style={{width: "15%"}}><center>Hành động</center></th>
                                         </tr>
-                                        <tr data-id={1} data-parent={0} data-level={1}>
-                                            <td data-column="name">Công việc 1</td>
-                                            <td>Đang thực hiện</td>
-                                            <td>ABCD</td>
-                                            <td>Cao</td>
-                                            <td>2-11-2019</td>
-                                            <td>9-11-2019</td>
-                                            <td>120</td>
-                                            <td>
-                                                <a href="#abc" className="edit" title="Edit" data-toggle="tooltip"><i className="material-icons"></i></a>
-                                                <a href="#abc" className="delete" title="Delete" data-toggle="tooltip"><i className="material-icons"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr data-id={2} data-parent={1} data-level={2}>
-                                            <td data-column="name">Công việc 1.1</td>
-                                            <td>Đang thực hiện</td>
-                                            <td>ABCD</td>
-                                            <td>Cao</td>
-                                            <td>2-11-2019</td>
-                                            <td>9-11-2019</td>
-                                            <td>120</td>
-                                            <td>
-                                                <a href="#abc" className="edit" title="Edit" data-toggle="tooltip"><i className="material-icons"></i></a>
-                                                <a href="#abc" className="delete" title="Delete" data-toggle="tooltip"><i className="material-icons"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr data-id={3} data-parent={1} data-level={2}>
-                                            <td data-column="name">Công việc 1.2</td>
-                                            <td>Đang thực hiện</td>
-                                            <td>ABCD</td>
-                                            <td>Cao</td>
-                                            <td>2-11-2019</td>
-                                            <td>9-11-2019</td>
-                                            <td>120</td>
-                                            <td>
-                                                <a href="#abc" className="edit" title="Edit" data-toggle="tooltip"><i className="material-icons"></i></a>
-                                                <a href="#abc" className="delete" title="Delete" data-toggle="tooltip"><i className="material-icons"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr data-id={4} data-parent={3} data-level={3}>
-                                            <td data-column="name">Công việc 1.2.1</td>
-                                            <td>Đang thực hiện</td>
-                                            <td>ABCD</td>
-                                            <td>Cao</td>
-                                            <td>2-11-2019</td>
-                                            <td>9-11-2019</td>
-                                            <td>120</td>
-                                            <td>
-                                                <a href="#abc" className="edit" title="Edit" data-toggle="tooltip"><i className="material-icons"></i></a>
-                                                <a href="#abc" className="delete" title="Delete" data-toggle="tooltip"><i className="material-icons"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr data-id={5} data-parent={3} data-level={3}>
-                                            <td data-column="name">Công việc 1.2.2</td>
-                                            <td>Đang thực hiện</td>
-                                            <td>ABCD</td>
-                                            <td>Cao</td>
-                                            <td>2-11-2019</td>
-                                            <td>9-11-2019</td>
-                                            <td>120</td>
-                                            <td>
-                                                <a href="#abc" className="edit" title="Edit" data-toggle="tooltip"><i className="material-icons"></i></a>
-                                                <a href="#abc" className="delete" title="Delete" data-toggle="tooltip"><i className="material-icons"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr data-id={6} data-parent={0} data-level={1}>
-                                            <td data-column="name">Công việc 2</td>
-                                            <td>Đã quá hạn</td>
-                                            <td>ABCD</td>
-                                            <td>Cao</td>
-                                            <td>2-11-2019</td>
-                                            <td>9-11-2019</td>
-                                            <td>120</td>
-                                            <td>
-                                                <a href="#abc" className="edit" title="Edit" data-toggle="tooltip"><i className="material-icons"></i></a>
-                                                <a href="#abc" className="delete" title="Delete" data-toggle="tooltip"><i className="material-icons"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr data-id={7} data-parent={0} data-level={1}>
-                                            <td data-column="name">Công việc 3</td>
-                                            <td>Đang chờ</td>
-                                            <td>ABCD</td>
-                                            <td>Cao</td>
-                                            <td>2-11-2019</td>
-                                            <td>9-11-2019</td>
-                                            <td>120</td>
-                                            <td>
-                                                <a href="#abc" className="edit" title="Edit" data-toggle="tooltip"><i className="material-icons"></i></a>
-                                                <a href="#abc" className="delete" title="Delete" data-toggle="tooltip"><i className="material-icons"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr data-id={8} data-parent={7} data-level={2}>
-                                            <td data-column="name">Công việc 3.1</td>
-                                            <td>Đang chờ</td>
-                                            <td>ABCD</td>
-                                            <td>Cao</td>
-                                            <td>2-11-2019</td>
-                                            <td>9-11-2019</td>
-                                            <td>120</td>
-                                            <td>
-                                                <a href="#abc" className="edit" title="Edit" data-toggle="tooltip"><i className="material-icons"></i></a>
-                                                <a href="#abc" className="delete" title="Delete" data-toggle="tooltip"><i className="material-icons"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr data-id={9} data-parent={7} data-level={2}>
-                                            <td data-column="name">Công việc 3.2</td>
-                                            <td>Đang chờ</td>
-                                            <td>ABCD</td>
-                                            <td>Cao</td>
-                                            <td>2-11-2019</td>
-                                            <td>9-11-2019</td>
-                                            <td>120</td>
-                                            <td>
-                                                <a href="#abc" className="edit" title="Edit" data-toggle="tooltip"><i className="material-icons"></i></a>
-                                                <a href="#abc" className="delete" title="Delete" data-toggle="tooltip"><i className="material-icons"></i></a>
-                                            </td>
-                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            (typeof listTasks !== 'undefined' && listTasks.length !== 0) ?
+                                                this.list_to_tree(listTasks).map(item =>
+                                                    <tr key={item._id} data-id={item._id} data-parent={item.parent} data-level={item.level}>
+                                                        <td data-column="name">{item.name}</td>
+                                                        <td>{item.status === 1 ? "Đang chờ" : "Đang thực hiện"}</td>
+                                                        <td>0%</td>
+                                                        <td>{item.priority}</td>
+                                                        <td>{this.formatDate(item.startdate)}</td>
+                                                        <td>{this.formatDate(item.enddate)}</td>
+                                                        <td>0</td>
+                                                        <td>
+                                                            <a href="#abc" className="star" title="Ưu tiên"><i className="material-icons">star</i></a>
+                                                            <a href="#abc" className="timer" title="Bấm giờ"><i className="material-icons">timer</i></a>
+                                                            <a href="#abc" className="add_circle" title="Thêm mới"><i className="material-icons">add_circle</i></a>
+                                                            <a href="#abc" className="all_inbox" title="Kho"><i className="material-icons">all_inbox</i></a>
+                                                        </td>
+                                                    </tr>
+                                                ) : null
+                                        }
                                     </tbody>
                                 </table>
                             </div>
@@ -441,4 +410,13 @@ class TaskManagement extends Component {
     }
 }
 
-export { TaskManagement };
+function mapState(state) {
+    const { tasks } = state;
+    return { tasks };
+}
+
+const actionCreators = {
+    getTaskByRole: taskManagementActions.getAllTaskByRole
+};
+const connectedTaskManagement = connect(mapState, actionCreators)(TaskManagement);
+export { connectedTaskManagement as TaskManagement };

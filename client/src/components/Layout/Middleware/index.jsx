@@ -17,7 +17,7 @@ class Middleware extends Component {
                         result = true;
                     }
                     break;
-
+//t check link o day r. ko can id . chỉ can giống chuoi nay la vao duoc?? tren may t van chay ok 
                 case '/admin/resource/link/edit':
                     if(url.indexOf(link.resource.url) !== -1){
                         result = true;

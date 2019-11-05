@@ -39,3 +39,7 @@ exports.delete = (req, res) => {
 exports.testInput = (req, res) => {
     return DepartmentService.testInput(req, res);
 }
+
+exports.getDepartmentOfUser = (req, res) => {
+    return DepartmentService.getDepartmentOfUser(req, res);
+}

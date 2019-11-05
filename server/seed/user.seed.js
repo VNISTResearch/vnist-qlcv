@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
 // DB Config
-const db = 'mongodb+srv://qlcv:thai135@cluster0-zqzcq.mongodb.net/test?retryWrites=true&w=majority';
+const db = 'mongodb://localhost/test';
 
 // Connect to MongoDB
 mongoose
@@ -22,8 +22,8 @@ bcrypt.genSalt(10, (err, salt) => {
         if (err) throw err;
         var users = [
             {
-                name: "super admin",
-                email: "superadmin@gmail.com",
+                name: "System Admin User",
+                email: "systemAdmin@gmail.com",
                 password: hash
             }
         ];

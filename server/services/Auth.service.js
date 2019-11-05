@@ -34,27 +34,27 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
     try {
-        //validate the data
         const {error} = loginValidation(req.body);
         if(error) return res.status(400).json({msg: error.details[0].message});
-
-        //check if user is already in database
         const user = await User.findOne({email: req.body.email});
         if(!user) return res.status(400).json({msg: 'Email invalid'});
-
-        //check password
         const validPass = await bcrypt.compare(req.body.password, user.password);
-        if(!validPass) return res.status(400).json({msg: 'Password invalid'});
-
-        //create and assign a token
+        if(!validPass) {
+            if(user.active) user.status = user.status + 1;
+            if(user.status > 5){
+                user.active = false;
+                user.status = 0;
+                user.save();
+                return res.status(400).json({ msg: 'Enter the wrong password more than 5 times. The account has been locked.'});
+            }
+            user.save();
+            return res.status(400).json({msg: 'Password invalid'});
+        }
+        if(!user.active) return res.status(400).json({ msg: ' Cannot login! The account has been locked !'});
         const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
-
         const roles = await UserRole.find({id_user: user._id});
-
-        authLogger.info("Login :" + user.name + " : " + user.email);
-        //tạo một state trên DB
-        //viết mọt hàm mới bao logger cũ và reset việc ghi log
-        //tạo biến private kiểm tra việc ghi log
+        user.status = 0; 
+        user.save();
 
         res.header('VNIST-Authentication-Token', token).status(200).send({
             token: token,
@@ -64,11 +64,8 @@ exports.login = async (req, res) => {
             roles: roles
         });
     } catch (error) {
-        authLogger.error("Login Error");
         res.status.json({
-            tag: "Error",
-            msg: error
+            msg: "Login error"
         })
     }
 }
-

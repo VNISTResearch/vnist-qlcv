@@ -8,7 +8,9 @@ const DepartmentSchema = new Schema({
         type: String,
         required: true
     },
-    
+    description: {
+        type: String
+    },
     dean: {
         type: Schema.Types.ObjectId,
         ref: Role   
@@ -20,9 +22,10 @@ const DepartmentSchema = new Schema({
     employee: {
         type: Schema.Types.ObjectId,
         ref: Role 
-    },parents: {
+    },
+    parent: {
         type: Schema.Types.ObjectId,
-        required: true
+        replies: this
     }
 },{
     timestamps: true

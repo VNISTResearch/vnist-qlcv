@@ -6,7 +6,7 @@ const LinkController = require("../../controllers/LinkController");
 
 router.get('/', auth, LinkController.get);
 router.get('/:id', auth, LinkController.getById);
-router.get('/role/:id', auth, LinkController.getLinkByRole);
+router.get('/role/:id', LinkController.getLinkByRole);
 router.post('/', auth, LinkController.create);
 router.post('/add-role', auth, LinkController.addRoleToLink);
 

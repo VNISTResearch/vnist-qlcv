@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
 class Item extends Component {
     constructor(props) {
@@ -10,9 +10,9 @@ class Item extends Component {
         const { name, path, icon } = this.props;
         return ( 
             <li className={ window.location.pathname === path ? "active" : "" }>
-                <Link to={ path }>
+                <a href={ path }>
                     <i className={ icon } /> <span>{ name }</span>
-                </Link>
+                </a>
             </li>
         );
     }

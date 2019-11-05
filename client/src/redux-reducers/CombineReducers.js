@@ -16,6 +16,7 @@ import { user } from './User/UserReducer';
 import { aDepartments} from './Admin/DepartmentsReducer';
 import { roles} from './Admin/RolesReducer';
 import { links} from './Admin/LinksReducer';
+import { tasks} from './TaskManagementReducers';
 
 const rootReducer = combineReducers(Object.assign({
   authentication,
@@ -27,7 +28,6 @@ const rootReducer = combineReducers(Object.assign({
   departments,
   kpiunits,
   kpipersonals,
-  
   errors,
   auth,
   user,
@@ -35,21 +35,8 @@ const rootReducer = combineReducers(Object.assign({
   aUsers,
   aDepartments,
   roles,
-  links
+  links,
+  tasks
 }, { Intl }));
-  
-
-
-const rootReducer = combineReducers({
-  authentication,
-  registration,
-  users,
-  alert,
-  jobtitles,
-  tasktemplates,
-  departments,
-  kpiunits,
-  kpipersonals
-});
 
 export default rootReducer;

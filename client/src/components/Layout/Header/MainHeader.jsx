@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { MainHeaderMenu } from './MainHeaderMenu/MainHeaderMenu';
+import MainHeaderMenu from './MainHeaderMenu/MainHeaderMenu';
 
 class MainHeader extends Component {
     render() {
@@ -10,7 +10,7 @@ class MainHeader extends Component {
                     {/* mini logo for sidebar mini 50x50 pixels */}
                     <span className="logo-mini">QLCV</span>
                     {/* logo for regular state and mobile devices */}
-                    <span className="logo-lg"><b>QLCV-</b>VNIST</span>
+                    <span className="logo-lg"><img src="/main/image/logo.png" alt="Logo" style={{width: "40px", marginTop: "-5px", marginLeft: "-15px"}}></img>VNIST-Việc</span>
                 </a>
                 {/* Header Navbar: style can be found in header.less */}
                 <nav className="navbar navbar-static-top">

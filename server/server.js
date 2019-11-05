@@ -8,13 +8,14 @@ const tasktemplates = require("./routes/api/tasktemplates");
 const roles = require("./routes/api/roles");
 const links = require("./routes/api/links");
 const components = require("./routes/api/components");
-const cors = require('cors');
-require('dotenv').config();
 const worktemplates = require("./routes/api/worktemplates");
 const jobtitles = require("./routes/api/jobtitles");
 const kpiunits = require("./routes/api/kpiunits");
 const kpipersonals = require("./routes/api/kpipersonals");
+const tasks = require("./routes/api/tasks");
+
 const cors = require('cors');
+require('dotenv').config();
 
 const app = express();
 
@@ -56,6 +57,7 @@ app.use("/worktemplates", worktemplates);
 app.use("/jobtitles", jobtitles);
 app.use("/kpiunits", kpiunits);
 app.use("/kpipersonals", kpipersonals);
+app.use("/tasks", tasks);
 
 const port = process.env.PORT || 5000;
 

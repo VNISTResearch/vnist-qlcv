@@ -22,7 +22,7 @@ function get() {
 
 function create(department) {
     const requestOptions = {
-        url: `${LOCAL_SERVER_API}/departments`,
+        url: `${LOCAL_SERVER_API}/departments/create`,
         method: 'POST',
         data: department,
         headers: authHeader()

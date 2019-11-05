@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { DashBoardHeader } from './DashBoardHeader/DashBoardHeader';
-import { DashBoardContentLeft, DashBoardContentRight } from './DashBoardContent/CombineDashBoardContent';
+import { DashBoardContentLeft } from './DashBoardContent/DashBoardContentLeft/DashBoardContentLeft';
+import { DashBoardContentRight } from './DashBoardContent/DashBoardContentRight/DashBoardContentRight';
 
 class DashBoard extends Component {
     UNSAFE_componentWillMount() {

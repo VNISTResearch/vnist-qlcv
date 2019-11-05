@@ -8,7 +8,8 @@ const RoleSchema = new Schema({
         required: true
     },
     abstract: [{ //có tất cả các quyền của những role bên trong mảng này
-        type: Schema.Types.ObjectId
+        type: Schema.Types.ObjectId,
+        replies: this
     }]
 },{
     timestamps: true

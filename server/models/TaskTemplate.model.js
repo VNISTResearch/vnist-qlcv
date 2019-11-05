@@ -1,10 +1,16 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const User = require('./User.model');
+const Department = require('./Department.model');
 
 // Create Schema
 const TaskTemplateSchema = new Schema({
-    name: { //Tên của work template
+    unit: {
+        type: Schema.Types.ObjectId,
+        ref: Department,
+        required: true
+    },
+    name: {
         type: String,
         required: true
     },
@@ -13,17 +19,38 @@ const TaskTemplateSchema = new Schema({
         ref: User,
         required: true
     },
+    responsible: [{
+        type: Schema.Types.ObjectId,
+        ref: User
+    }],
+    accounatable: [{
+        type: Schema.Types.ObjectId,
+        ref: User
+    }],
+    informed: [{
+        type: Schema.Types.ObjectId,
+        ref: User
+    }],
     description: {
+        type: String,
+        required: true
+    },
+    formula: {
         type: String,
         required: true
     },
     status: {
         type: Boolean,
-        default: true,
+        default: false,
+        required: true
+    },
+    count: {
+        type: Number,
+        default: 0,
         required: true
     }
-},{
+}, {
     timestamps: true
 });
 
-module.exports = WorkTemplate = mongoose.model("tasktemplates", TaskTemplateSchema);
+module.exports = TaskTemplate = mongoose.model("tasktemplates", TaskTemplateSchema);

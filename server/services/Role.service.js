@@ -5,7 +5,11 @@ const Department = require('../models/Department.model');
 
 exports.get = async (req, res) => {
     try {
-        var roles = await Role.find();
+        var roles = await Role.find({
+            name: { $ne: 'SuperAdmin'}
+        })
+        .sort({ name: 1 })
+        .populate('abstract');
 
         res.status(200).json(roles);
     } catch (error) {
@@ -17,8 +21,10 @@ exports.get = async (req, res) => {
 
 exports.getRoleById = async (req, res) => {
     try {
-        var role = await Role.findById(req.params.id).populate('id_role');
-
+        var role = await Role
+            .findById(req.params.id)
+            .populate('abstract');
+            
         res.status(200).json(role);
     } catch (error) {
         res.status(400).json({msg: error});
@@ -28,7 +34,7 @@ exports.getRoleById = async (req, res) => {
 exports.getSuperRole = async (req, res) => {
     try {
         var roles = await Role.find({
-            name: { $in: ["Admin", "Dean", "Vice_Dean", "Employee"]}
+            name: { $in: ["System Admin", "Super Admin", "Dean", "Vice Dean", "Employee"]}
         });
 
         res.status(200).json(roles);
@@ -64,7 +70,7 @@ exports.getRoleSameDepartment = async (req, res) => {
 			{path:'vice_dean'}, 
             {path:'employee'}]
         );
-        console.log(roles);
+        
         res.status(200).json(roles);
     } catch (error) {
 
@@ -77,10 +83,7 @@ exports.getAdmins = async (req, res) => {
     try {
         var admin = await Role.findOne({name: 'Admin'});
         var admins = await UserRole.findOne({id_role: admin._id}).populate('id_user');
-        res.status(200).json({
-            tag: 'Success',
-            admins
-        })
+        res.status(200).json(admins)
     } catch (error) {
         res.status(400).json({
             tag: 'Error',
@@ -110,6 +113,58 @@ exports.addAdmin = async (req, res) => {
                 msg: 'Not found email in system'
             })
         }
+    } catch (error) {
+        res.status(400).json({
+            tag: 'Error',
+            msg: error
+        })
+    }
+}
+
+exports.create = async(req, res) => {
+    try {
+        var role = await Role.create({
+            name: req.body.name,
+            abstract: req.body.abstract
+        });
+
+        res.status(200).json(role);
+    } catch (error) {
+        res.status(400).json({
+            tag: 'Error',
+            msg: error
+        })
+    }
+}
+
+exports.deleteRoleOfUser = async(req, res) => {
+    try {
+        await UserRole.updateOne(
+            { id_role: req.body.role },
+            {
+                $pull: { id_user: req.body.user}
+            }
+        );
+
+        res.status(200).json({msg: 'Delete role of user success'});
+    } catch (error) {
+        res.status(400).json({
+            tag: 'Error',
+            msg: error
+        })
+    }
+}
+
+exports.deleteRole = async(req, res) => {
+    try {
+        var role = await Role.deleteOne({
+            _id: req.params.id //id cua role
+        });
+        var ur = await UserRole.deleteOne({
+            id_role: req.params.id 
+        });
+
+        res.json(200).json({ msg: "Delete role success" });
     } catch (error) {
         res.status(400).json({
             tag: 'Error',

@@ -9,7 +9,7 @@ class Components extends Component {
         this.state = {  }
     }
     render() { 
-        const { translate } = this.props;
+        // const { translate } = this.props;
         return ( 
             <React.Fragment>
                 <div className="row">

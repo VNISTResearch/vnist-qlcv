@@ -2,12 +2,101 @@ import { taskTemplateConstants } from "../redux-constants/TaskTemplateConstants"
 
 export function tasktemplates(state = {}, action) {
     switch (action.type) {
-        case taskTemplateConstants.ADDNEWTEMPLATE_REQUEST:
-            return { adding: true };
-        case taskTemplateConstants.ADDNEWTEMPLATE_SUCCESS:
-            return {};
-        case taskTemplateConstants.ADDNEWTEMPLATE_FAILURE:
-            return {};
+        case taskTemplateConstants.GETALL_TEMPLATE_REQUEST:
+            return {
+                loading: true
+            };
+        case taskTemplateConstants.GETALL_TEMPLATE_SUCCESS:
+            return {
+                ...state,
+                items: action.templates
+            };
+        case taskTemplateConstants.GETALL_TEMPLATE_FAILURE:
+            return {
+                error: action.error
+            };
+        case taskTemplateConstants.GETTEMPLATE_BYID_REQUEST:
+            return {
+                loading: true
+            };
+        case taskTemplateConstants.GETTEMPLATE_BYID_SUCCESS:
+            return {
+                ...state,
+                template: action.template
+            };
+        case taskTemplateConstants.GETTEMPLATE_BYID_FAILURE:
+            return {
+                error: action.error
+            };
+        case taskTemplateConstants.GETTEMPLATE_BYROLE_REQUEST:
+            return {
+                loadingMany: true
+            };
+        case taskTemplateConstants.GETTEMPLATE_BYROLE_SUCCESS:
+            return {
+                ...state,
+                items: action.tasktemplates
+            };
+        case taskTemplateConstants.GETTEMPLATE_BYROLE_FAILURE:
+            return {
+                error: action.error
+            };
+        case taskTemplateConstants.ADDNEW_TEMPLATE_REQUEST:
+            return {
+                ...state,
+                adding: true
+            };
+        case taskTemplateConstants.ADDNEW_TEMPLATE_SUCCESS:
+            return {
+                ...state,
+                items: [
+                    ...state.items,
+                    action.taskTemplate.data
+                ]
+            };
+        case taskTemplateConstants.ADDNEW_TEMPLATE_FAILURE:
+            return {
+                error: action.error
+            };
+        case taskTemplateConstants.EDIT_TEMPLATE_REQUEST:
+            return {
+                ...state,
+                items: state.items.map(template =>
+                    template._id === action.id
+                        ? { ...template, editing: true }
+                        : template
+                )
+            };
+        case taskTemplateConstants.EDIT_TEMPLATE_SUCCESS:
+            return {
+                ...state,
+                items: state.items.map(template =>
+                    template._id === action.taskTemplate.tasktemplate._id
+                        ? action.taskTemplate.tasktemplate : template
+                )
+            };
+        case taskTemplateConstants.EDIT_TEMPLATE_FAILURE:
+            return {
+                error: action.error
+            };
+        case taskTemplateConstants.DELETE_TEMPLATE_REQUEST:
+            return {
+                ...state,
+                items: state.items.map(template =>
+                    template._id === action.id
+                        ? { ...template, deleting: true }
+                        : template
+                )
+            };
+        case taskTemplateConstants.DELETE_TEMPLATE_SUCCESS:
+            return {
+                ...state,
+                items: state.items.filter(template => template._id !== action.id)
+            };
+        case taskTemplateConstants.DELETE_TEMPLATE_FAILURE:
+            return {
+                error: action.error
+            };
         default:
             return state
     }

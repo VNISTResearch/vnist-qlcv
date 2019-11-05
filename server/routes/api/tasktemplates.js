@@ -7,8 +7,8 @@ const TaskTemplateController = require("../../controllers/TaskTemplateController
 
 router.get('/', auth, TaskTemplateController.get);
 router.get('/:id', auth, TaskTemplateController.getById);
-router.get('/role/:id', auth, TaskTemplateController.getByRole);
-router.post('/create', auth, TaskTemplateController.create);
+router.get('/role/:id', TaskTemplateController.getByRole);
+router.post('/create', TaskTemplateController.create);
 router.delete('/:id', auth, role, TaskTemplateController.delete);
 router.post('/test', auth, TaskTemplateController.test);
 

@@ -24,3 +24,26 @@ exports.getComponentByRole = async (req, res) => { //lay tat ca cac link ma role
     }
     console.log("Get components By Role");
 }
+
+exports.create = async (req, res) => {
+    try {
+        var component = await Component.create({
+            name: req.body.name,
+            description: req.body.description
+        });
+        await Privilege.create({
+            resource: component._id,
+            resource_type: 'Component',
+            role: [req.body.role]
+        });
+
+        res.status(200).json({
+            msg: "Create component success",
+            component
+        })
+    } catch (error) {
+        res.status(400).json({
+            msg: 'Cannot create component!'
+        });
+    }
+}

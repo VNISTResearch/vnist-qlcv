@@ -8,6 +8,10 @@ exports.getById = (req, res) => {
     return UserService.getById(req, res);
 }
 
+exports.getUsersSameDepartment = (req, res) => {
+    return UserService.getUsersSameDepartment(req, res);
+}
+
 exports.create = (req, res) => {
     return UserService.create(req, res);
 };

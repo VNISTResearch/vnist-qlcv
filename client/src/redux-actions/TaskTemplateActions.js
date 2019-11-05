@@ -1,28 +1,125 @@
-import { history } from "../helpers/History";
 import { taskTemplateConstants } from "../redux-constants/TaskTemplateConstants";
 import { alertActions } from "./AlertActions";
 import { taskTemplateService } from "../service/CombineService";
 export const taskTemplateActions = {
-    addNewTemplate,
+    getAll,
+    getAllTaskTemplateByRole,
+    getTaskTemplateById,
+    addTaskTemplate,
+    editTaskTemplate,
+    _delete
 };
 
-function addNewTemplate(newTemplate) {
+// Get all tasktemplate
+function getAll() {
     return dispatch => {
-        dispatch(request(newTemplate));
+        dispatch(request());
 
-        taskTemplateService.addNewTemplate(newTemplate)
+        taskTemplateService.getAll()
             .then(
-                taskTemplate => {
+                tasktemplates => dispatch(success(tasktemplates)),
+                error => dispatch(failure(error.toString()))
+            );
+    };
+
+    function request() { return { type: taskTemplateConstants.GETALL_TEMPLATE_REQUEST } }
+    function success(tasktemplates) { return { type: taskTemplateConstants.GETALL_TEMPLATE_SUCCESS, tasktemplates } }
+    function failure(error) { return { type: taskTemplateConstants.GETALL_TEMPLATE_FAILURE, error } }
+}
+
+// Get all task template by role
+function getAllTaskTemplateByRole(id) {
+    return dispatch => {
+        dispatch(request(id));
+
+        taskTemplateService.getAllTaskTemplateByRole(id)
+            .then(
+                tasktemplates => dispatch(success(tasktemplates)),
+                error => dispatch(failure(error.toString()))
+            );
+    };
+
+    function request(id) { return { type: taskTemplateConstants.GETTEMPLATE_BYROLE_REQUEST, id } }
+    function success(tasktemplates) { return { type: taskTemplateConstants.GETTEMPLATE_BYROLE_SUCCESS, tasktemplates } }
+    function failure(error) { return { type: taskTemplateConstants.GETTEMPLATE_BYROLE_FAILURE, error } }
+}
+
+// Get task template by id
+function getTaskTemplateById(id) {
+    return dispatch => {
+        dispatch(request(id));
+
+        taskTemplateService.getById(id)
+            .then(
+                tasktemplate => dispatch(success(tasktemplate)),
+                error => dispatch(failure(error.toString()))
+            );
+    };
+
+    function request(id) { return { type: taskTemplateConstants.GETTEMPLATE_BYID_REQUEST, id } }
+    function success(tasktemplate) { return { type: taskTemplateConstants.GETTEMPLATE_BYID_SUCCESS, tasktemplate } }
+    function failure(error) { return { type: taskTemplateConstants.GETTEMPLATE_BYID_FAILURE, error } }
+}
+
+// Add a new target of unit
+function addTaskTemplate(taskTemplate) {
+    return dispatch => {
+        dispatch(request(taskTemplate));
+
+        taskTemplateService.addNewTaskTemplate(taskTemplate)
+            .then(
+                taskTemplate => { 
                     dispatch(success(taskTemplate));
-                    history.push('/tasktemplate');
+                    dispatch(alertActions.success('Add task template successful'));
                 },
                 error => {
                     dispatch(failure(error.toString()));
                     dispatch(alertActions.error(error.toString()));
                 }
-            )
-    }
-    function request(taskTemplate) { return { type: taskTemplateConstants.ADDNEWTEMPLATE_REQUEST, taskTemplate } }
-    function success(taskTemplate) { return { type: taskTemplateConstants.ADDNEWTEMPLATE_SUCCESS, taskTemplate } }
-    function failure(error) { return { type: taskTemplateConstants.ADDNEWTEMPLATE_FAILURE, error } }
+            );
+    };
+
+    function request(taskTemplate) { return { type: taskTemplateConstants.ADDNEW_TEMPLATE_REQUEST, taskTemplate } }
+    function success(taskTemplate) { return { type: taskTemplateConstants.ADDNEW_TEMPLATE_SUCCESS, taskTemplate } }
+    function failure(error) { return { type: taskTemplateConstants.ADDNEW_TEMPLATE_FAILURE, error } }
+}
+
+// Edit a task template
+function editTaskTemplate(id, taskTemplate) {
+    return dispatch => {
+        dispatch(request(id));
+
+        taskTemplateService.editTaskTemplate(id, taskTemplate)
+            .then(
+                taskTemplate => { 
+                    dispatch(success(taskTemplate));
+                    dispatch(alertActions.success('Edit target successful'));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                    dispatch(alertActions.error(error.toString()));
+                }
+            );
+    };
+
+    function request(id) { return { type: taskTemplateConstants.EDIT_TEMPLATE_REQUEST, id } }
+    function success(taskTemplate) { return { type: taskTemplateConstants.EDIT_TEMPLATE_SUCCESS, taskTemplate } }
+    function failure(error) { return { type: taskTemplateConstants.EDIT_TEMPLATE_FAILURE, error } }
+}
+
+// prefixed function name with underscore because delete is a reserved word in javascript
+function _delete(id) {
+    return dispatch => {
+        dispatch(request(id));
+
+        taskTemplateService.deleteTaskTemplateById(id)
+            .then(
+                taskTemplate => dispatch(success(id)),
+                error => dispatch(failure(id, error.toString()))
+            );
+    };
+
+    function request(id) { return { type: taskTemplateConstants.DELETE_TEMPLATE_REQUEST, id } }
+    function success(id) { return { type: taskTemplateConstants.DELETE_TEMPLATE_SUCCESS, id } }
+    function failure(id, error) { return { type: taskTemplateConstants.DELETE_TEMPLATE_FAILURE, id, error } }
 }

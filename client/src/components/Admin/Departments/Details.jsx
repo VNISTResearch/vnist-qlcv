@@ -3,17 +3,6 @@ import { connect } from 'react-redux';
 import { getDepartmentInfo, addUserWithRole } from '../../../redux-actions/Admin/Departments.action';
 import { withTranslate } from 'react-redux-multilingual';
 
-function getDeanName(translate, name){
-    return translate + name.substring(7,name.length);
-}
-
-function getViceDeanName(translate, name){
-    return translate + name.substring(11,name.length);
-}
-
-function getEmployeeName(translate, name){
-    return translate + name.substring(11,name.length);
-}
 class Detail extends Component {
     constructor(props) {
         super(props);
@@ -84,9 +73,9 @@ class Detail extends Component {
                             <div className="box-content">
                                 <div className="nav-tabs-custom">
                                     <ul className="nav nav-tabs">
-                                        <li className="active bg bg-gray"><a href="#tab_1" data-toggle="tab">{ getDeanName( translate('manageDepartment.dean'), aDepartments.dean.name  ) }</a></li>
-                                        <li className="bg bg-gray"><a href="#tab_2" data-toggle="tab">{ getViceDeanName( translate('manageDepartment.vicedean'), aDepartments.vice_dean.name  ) }</a></li>
-                                        <li className="bg bg-gray"><a href="#tab_3" data-toggle="tab">{ getEmployeeName( translate('manageDepartment.employee'), aDepartments.employee.name  ) }</a></li>
+                                        <li className="active bg bg-gray"><a href="#tab_1" data-toggle="tab">{ aDepartments.dean.name }</a></li>
+                                        <li className="bg bg-gray"><a href="#tab_2" data-toggle="tab">{ aDepartments.vice_dean.name }</a></li>
+                                        <li className="bg bg-gray"><a href="#tab_3" data-toggle="tab">{ aDepartments.employee.name }</a></li>
                                     </ul>
                                     <div className="tab-content">
                                         <div className="tab-pane active" id="tab_1">

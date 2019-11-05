@@ -10,6 +10,8 @@ router.post("/login", AuthController.login);
 
 router.get("/", auth, UserController.get);
 router.get("/:id", UserController.getById);
+router.get("/same-department/:id", UserController.getUsersSameDepartment);
+
 router.post("/create", UserController.create);
 router.post("/create-job-title", UserController.createJobTitle);
 router.patch("/:id", UserController.edit);

@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
-// import { userService } from '../../../service/CombineService';
-// import axios from 'axios';
-import {ModalAddTaskTemplate} from './ModalAddTaskTemplate';
+import { connect } from 'react-redux';
+import { ModalAddTaskTemplate } from './ModalAddTaskTemplate';
+import { taskTemplateActions } from '../../../redux-actions/CombineActions';
 
 class TaskTemplate extends Component {
+    UNSAFE_componentWillMount() {
+        this.props.getTaskTemplateByRole(localStorage.getItem('currentRole'));
+        let script = document.createElement('script');
+        script.src = 'main/js/Table.js';
+        script.async = true;
+        script.defer = true;
+        document.body.appendChild(script);
+    }
 
     constructor(props) {
         super(props);
@@ -12,55 +20,16 @@ class TaskTemplate extends Component {
         };
     }
 
-    // componentDidMount() {
-    //     // var id = this.getChucDanh()
-    //     const URL = 'http://localhost:5000/api/forms/manage/' + this.getChucDanh();
-    //     axios.get(URL)
-    //         .then(res => {
-    //             this.setState({ forms: res.data });
-    //         });
-    // }
-
-    // getChucDanh = () => {
-    //     var user = userService.currentUserValue.user;
-    //     console.log(user);
-    //     var role = userService.currentUserValue.currentRole;
-    //     console.log(role);
-    //     var result = role;
-    //     user.has.map(a => {
-
-    //         if (a.role._id === role) {
-    //             console.log(a.role._id);
-    //             result = a.chucdanh._id;
-    //         }
-    //         return true;
-    //     });
-
-    //     return result;
-    // }
-
-    // getPermision = () => {
-    //     var user = userService.currentUserValue.user;
-    //     var role = userService.currentUserValue.currentRole;
-    //     var data = {};
-    //     user.has.map(a => {
-    //         if (a.role._id === role) {
-    //             data = a.chucdanh.percom.can;
-    //         }
-    //         return true;
-    //     });
-
-    //     return data;
-    // }
-
     render() {
+        var list;
+        const { tasktemplates } = this.props;
+        if (tasktemplates.items) list = tasktemplates.items;
+        console.log(list);
         return (
             <div className="content-wrapper">
-                {/* Content Header (Page header) */}
                 <section className="content-header">
                     <h1>
                         Quản lý mẫu công việc
-                        <small>mẫu công việc</small>
                     </h1>
                     <ol className="breadcrumb">
                         <li><a href="#abc"><i className="fa fa-dashboard" /> Home</a></li>
@@ -81,7 +50,7 @@ class TaskTemplate extends Component {
                                         <div className="col-xs-2">
                                             {/* {
                                                 this.getPermision().createForm && */}
-                                                <button type="button" className="btn btn-success" data-toggle="modal" data-target="#myModalHorizontal" style={{ marginLeft: "-12%"}}>Thêm 1 mẫu công việc</button>
+                                            <button type="button" className="btn btn-success" data-toggle="modal" data-target="#myModalHorizontal" data-backdrop="static" data-keyboard="false" style={{ marginLeft: "-12%" }}>Thêm 1 mẫu công việc</button>
                                             {/* } */}
                                             <ModalAddTaskTemplate />
                                         </div>
@@ -89,56 +58,51 @@ class TaskTemplate extends Component {
                                 </div>
                                 {/* /.box-header */}
                                 <div className="box-body">
-                                    <table id="example1" className="table table-bordered table-striped">
+                                    <table className="table table-bordered table-striped">
                                         <thead>
                                             <tr>
                                                 <th>Tên mẫu công việc</th>
                                                 <th>Mô tả</th>
-                                                <th>Số công việc</th>
+                                                <th>Số lần sử dụng</th>
                                                 <th>Người tạo mẫu</th>
                                                 <th>Hoạt động</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {/* {
-                                                this.state.forms.length === 0 ? <tr><td colSpan={5}>No data</td></tr> :
-                                                    this.state.forms.map(form =>
-                                                        <tr key={form._id}>
-                                                            <td>{form._id}</td>
-                                                            <td>{form.name}</td>
-                                                            <td>{form.creator}</td>
-                                                            <td>{form.description}</td>
+                                            {
+                                                (typeof list !== 'undefined' && list.length !== 0) ?
+                                                    list.map(item =>
+                                                        <tr key={item.resource._id}>
+                                                            <td>{item.resource.name}</td>
+                                                            <td>{item.resource.description}</td>
+                                                            <td>{item.resource.count}</td>
+                                                            <td>{item.resource.creator.name}</td>
                                                             <td>
-                                                                <button className="btn btn-primary">Edit</button>
-                                                                <button className="btn btn-danger">Delete</button>
+                                                                <a href="#abc" className="edit" title="Edit"><i className="material-icons"></i></a>
+                                                                <a href="#abc" className="delete" title="Delete"><i className="material-icons"></i></a>
                                                             </td>
                                                         </tr>
-                                                    )
-                                            } */}
+                                                    ) : null
+                                            }
                                         </tbody>
-                                        {/* <tfoot>
-                            <tr>
-                            <th>ID Form</th>
-                            <th>Name of FormCV</th>
-                            <th>Creator</th>
-                            <th>Description</th>
-                            <th>Action</th>
-                            </tr>
-                        </tfoot> */}
                                     </table>
                                 </div>
-                                {/* /.box-body */}
                             </div>
-                            {/* /.box */}
                         </div>
-                        {/* /.col */}
                     </div>
-                    {/* /.row */}
                 </section>
-                {/* /.content */}
             </div>
         );
     }
 }
 
-export { TaskTemplate };
+function mapState(state) {
+    const { tasktemplates } = state;
+    return { tasktemplates };
+}
+
+const actionCreators = {
+    getTaskTemplateByRole: taskTemplateActions.getAllTaskTemplateByRole
+};
+const connectedTaskTemplate = connect(mapState, actionCreators)(TaskTemplate);
+export { connectedTaskTemplate as TaskTemplate };

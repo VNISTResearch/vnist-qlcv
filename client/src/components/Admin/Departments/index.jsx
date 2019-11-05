@@ -4,14 +4,19 @@ import { get, create, deleteD } from '../../../redux-actions/Admin/Departments.a
 import Swal from 'sweetalert2';
 import {Link} from 'react-router-dom';
 import { withTranslate } from 'react-redux-multilingual';
+import CreateDepartment from './CreateDepartment.jsx';
 
 class Departments extends Component {
     constructor(props) {
         super(props);
         this.state = { 
             name: null,
-            showForm: true,
-            deleteAlert: true
+            description: null,
+            dean: null,
+            vice_dean: null,
+            employee: null,
+            deleteAlert: true,
+            parent: null
         }
         this.toggleForm = this.toggleForm.bind(this);
         this.inputChange = this.inputChange.bind(this);
@@ -37,13 +42,20 @@ class Departments extends Component {
 
     save = (e) => {
         e.preventDefault();
-        var {name} = this.state;
-        this.props.create({name});
+        var {name, description, dean, vice_dean, employee, parent} = this.state;
+        this.props.create({
+            name,
+            description,
+            dean,
+            vice_dean,
+            employee,
+            parent
+        });
     }
 
-    alert(id){
+    alert(id, title, name){
         Swal.fire({
-            title: 'You really want to delete this department?',
+            title: `${title} "${name}"`,
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -61,8 +73,8 @@ class Departments extends Component {
     }
 
     render() { 
-        const {showForm} = this.state;
         const {aDepartments, translate} = this.props;
+        console.log(this.state);
         return ( 
             <div className="content-wrapper">
                 {/* Content Header (Page header) */}
@@ -78,36 +90,30 @@ class Departments extends Component {
                 </section>
                 {/* Main content */}
                 <section className="content">
+                    <CreateDepartment 
+                        create = { translate('manageDepartment.create') }
+                        name = { translate('table.name') }
+                        inputChange = { this.inputChange }
+                        saveDepartment = { this.save }
+                        description = { translate('manageDepartment.description') }
+                        dean = { translate('manageDepartment.dean') }
+                        vicedean = { translate('manageDepartment.vicedean') }
+                        employee = { translate('manageDepartment.employee') }
+                        sub_dean = { ` * ${translate('manageDepartment.sub_dean')}` }
+                        sub_vicedean = { ` * ${translate('manageDepartment.sub_vicedean')}` }
+                        sub_employee = { ` * ${translate('manageDepartment.sub_employee')}` }
+                        departmentParent = { translate('manageDepartment.departmentParent') }
+                        parent = { aDepartments.list }
+                        close = { translate('table.close') }
+                        save = { translate('table.save') }
+                    />
                     {
-                        showForm ? 
-                        <button className="btn btn-success" onClick={this.toggleForm}>
-                            <i className="fa fa-plus"/>
-                            <span> { translate('manageDepartment.create') } </span>
-                        </button> : null
-                    }
-                    <div 
-                        className="row" 
-                        hidden={showForm}
-                    >
-                        <div className="col-sm-3"></div>
-                        <div className="col-sm-6">
-                            <div className="panel panel-default">
-                                <div className="panel-header">
-                                    <h3 style={{textAlign: 'center'}}>{ translate('manageDepartment.create') }</h3>
-                                </div>
-                                <div className="panel-body">
-                                    <form onSubmit={ this.save } style={{ marginBottom: '20px' }}>
-                                        <div className="form-group">
-                                            <label>{ translate('table.name') }</label>
-                                            <input type="text" className="form-control" name="name" onChange={ this.inputChange }/><br/>
-                                        </div>
-                                        <button type="button" onClick={this.toggleForm} className="btn btn-danger"><i className="fa fa-close"></i> { translate('table.close') } </button>
-                                        <button type="submit" className="btn btn-primary pull-right"><i className="fa fa-save"></i> { translate('table.save') } </button>
-                                    </form>
-                                </div>
-                            </div>
+                        aDepartments.success !== null && aDepartments.success !== undefined &&
+                        <div className="alert alert-success" style={{ marginTop: '20px'}}>
+                            <button type="button" className="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            <p>{ aDepartments.success }</p>
                         </div>
-                    </div>
+                    }
                     <div className="box" style={{ marginTop: '20px'}}>
                         <div className="box-header">
                             <h3 className="box-title">{ translate('manageDepartment.name') }</h3>
@@ -136,7 +142,7 @@ class Departments extends Component {
                                                     </Link>
                                                     <button 
                                                         className="btn btn-sm btn-danger"
-                                                        onClick={() => this.alert(department._id)}
+                                                        onClick={() => this.alert(department._id, translate('manageDepartment.delete'), department.name)}
                                                     >
                                                         <i className="fa fa-trash"></i>
                                                     </button>

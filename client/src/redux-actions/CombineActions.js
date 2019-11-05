@@ -5,3 +5,4 @@ export * from './JobTitleActions';
 export * from './DepartmentActions';
 export * from './KPIUnitActions';
 export * from './KPIPersonalActions';
+export * from './TaskManagementActions';

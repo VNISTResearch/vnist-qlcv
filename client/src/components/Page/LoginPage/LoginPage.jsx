@@ -37,7 +37,7 @@ class LoginPage extends Component {
             <div className="hold-transition login-page" style={{ minHeight: '100vh' }}>
                 <div className="login-box" style={{ marginTop: 0, marginBottom: 0, paddingTop: '7vh' }}>
                     <div className="login-logo">
-                        <a href="/index2.html"><b>VNIST</b>-QLCV</a>
+                        <a href="/index2.html"><b>VNIST</b>-Việc</a>
                     </div>
                     <div className="login-box-body">
                         <p className="login-box-msg">Sign in to start your session</p>
@@ -59,7 +59,7 @@ class LoginPage extends Component {
                                     </div>
                                 </div>
                                 <div className="col-xs-4">
-                                    <button className="btn btn-primary btn-block btn-flat">Sign In </button>
+                                    <button className="btn btn-primary btn-block btn-flat" id="btn-login">Sign In </button>
                                 </div>
                             </div>
                         </form>
