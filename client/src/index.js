@@ -5,10 +5,23 @@ import App from './App';
 import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 import store from './redux-store/Store';
+import translations from './translations'
+import { IntlProvider, IntlActions } from 'react-redux-multilingual';
+
+const lang = localStorage.getItem('lang');
+if(lang){
+    store.dispatch(IntlActions.setLocale(lang));
+}else{
+    localStorage.setItem('lang', 'vn');
+    store.dispatch(IntlActions.setLocale(localStorage.getItem('lang')));
+}
+
 
 ReactDOM.render(
     <Provider store={store}>
-        <App />
+        <IntlProvider translations={translations}>
+            <App />
+        </IntlProvider>
     </Provider>
 , document.getElementById('root'));
 

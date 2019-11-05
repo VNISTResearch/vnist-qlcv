@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
-
+import { withTranslate } from 'react-redux-multilingual';
+import { connect } from 'react-redux';
 class MainFooter extends Component {
     render() {
+        const { translate } = this.props;
         return (
             <footer className="main-footer">
                 <div className="pull-right hidden-xs">
-                    <b>Version</b> 2.4.18
+                    <b>{ translate('footer.version')}</b> 2019.1
                 </div>
-                <strong>Copyright © 2014-2019 <a href="https://adminlte.io">AdminLTE</a>.</strong> All rights
-                reserved.
+                <strong>{ translate('footer.copyRight')} <span style={{color: 'blue'}}>Quản Lý Công Việc</span></strong>
             </footer>
         );
     }
 }
 
-export {MainFooter};
+const mapState = state => state ;
+
+export default connect(mapState, null)(withTranslate(MainFooter));

@@ -1,14 +1,23 @@
 import { history } from "../helpers/History";
 import { userConstants } from "../redux-constants/UserConstants";
 import { alertActions } from "./AlertActions";
-import { userService } from "../service/UserService";
+import { userService } from "../service/CombineService";
 export const userActions = {
     login,
     logout,
     register,
     getAll,
-    delete: _delete
+    delete: _delete,
+    currentRoleEdit
 };
+function currentRoleEdit(user){
+    return dispatch => {
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
+        localStorage.setItem('user', JSON.stringify(user));
+        dispatch({ type: userConstants.CURRENT_USER_EDIT, user})
+        window.location.reload();
+    }
+}
 
 function login(email, password) {
     return dispatch => {
@@ -50,7 +59,7 @@ function register(user) {
                 },
                 error => {
                     dispatch(failure(error.toString()));
-                    dispatch(alertActions.error(error.toString()+user));
+                    dispatch(alertActions.error(error.toString()));
                 }
             );
     };
