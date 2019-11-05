@@ -8,7 +8,7 @@ class TaskTemplate extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            forms: [],
+            forms: []
         };
     }
 
@@ -89,7 +89,7 @@ class TaskTemplate extends Component {
                                 </div>
                                 {/* /.box-header */}
                                 <div className="box-body">
-                                    <table id="example2" className="table table-bordered table-hover">
+                                    <table id="example1" className="table table-bordered table-striped">
                                         <thead>
                                             <tr>
                                                 <th>Tên mẫu công việc</th>
@@ -106,11 +106,11 @@ class TaskTemplate extends Component {
                                                         <tr key={form._id}>
                                                             <td>{form._id}</td>
                                                             <td>{form.name}</td>
-                                                            <td>{form.creator.name}</td>
+                                                            <td>{form.creator}</td>
                                                             <td>{form.description}</td>
                                                             <td>
-                                                                {this.getPermision().editForm && <button className="btn btn-primary">Edit</button>}
-                                                                {this.getPermision().deleteForm && <button className="btn btn-danger">Delete</button>}
+                                                                <button className="btn btn-primary">Edit</button>
+                                                                <button className="btn btn-danger">Delete</button>
                                                             </td>
                                                         </tr>
                                                     )
