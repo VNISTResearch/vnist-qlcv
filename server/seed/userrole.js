@@ -1,4 +1,6 @@
 const UserRole = require('../models/UserRole.model');
+const User = require('../models/User.model');
+const Role = require('../models/Role.model');
 const mongoose = require("mongoose");
 
 // DB Config
@@ -13,11 +15,18 @@ mongoose
   .then(() => console.log("MongoDB successfully connected"))
   .catch(err => console.log(err));
 
-var ur = {
-  id_user: ['5dbace5f412d9b12a04f063e'],
-  id_role: '5dbad298524b981014cdf3de'
+initAdmin = async () => {
+  try {
+    var admin = await Role.findOne({name: 'Admin'});
+    var user = await User.findOne({email: 'superadmin@gmail.com'});
+    var ur = await UserRole.create({
+      id_user: user._id,
+      id_role: admin._id
+    });
+    console.log(ur);
+  } catch (error) {
+    console.log(errror);
+  }
 }
 
-UserRole.create(ur)
-  .then(res => console.log(res))
-  .catch(err => console.log(err));
+initAdmin();
