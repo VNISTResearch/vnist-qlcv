@@ -9,7 +9,7 @@ export function employees (state = {}, action) {
         case employeeConstants.GETALL_SUCCESS:
             return {
                 ...state,
-                items: action.employees
+                items: action.employees.content
             };
         case employeeConstants.GETALL_FAILURE:
             return {

@@ -15,11 +15,11 @@ class AddEmployee extends Component {
                 avatar: 'adminLTE/dist/img/avatar5.png',
                 gender: "Nam",
                 relationship: "Độc thân",
-                department:"Phòng nhân sự",
-                cultural:"12/12",
-                nameBank:"Techcombank"
+                department: "Phòng nhân sự",
+                cultural: "12/12",
+                nameBank: "Techcombank"
             }
-            
+
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -31,9 +31,9 @@ class AddEmployee extends Component {
         //const {employee} = this.state;
         this.setState({
             employee: {
-                avatar:avatar,
+                avatar: avatar,
             }
-            
+
         })
     }
 
@@ -57,6 +57,8 @@ class AddEmployee extends Component {
         const { employee } = this.state;
         this.props.addNewEmployee(employee);
         this.notify("Thêm thành công");
+        console.log(employee);
+        
     }
 
     render() {
@@ -88,10 +90,10 @@ class AddEmployee extends Component {
                                                     <img className="attachment-img avarta" src={this.state.employee.avatar} alt="Attachment" />
                                                     <div className="upload btn btn-default" style={{ marginLeft: 55 }}>
                                                         Chọn ảnh
-                                                        <input className="upload" type="file" name="file" onChange={this.handleUpload}/>
+                                                        <input className="upload" type="file" name="file" onChange={this.handleUpload} />
                                                     </div>
 
-                                                    
+
                                                 </div>
                                             </div>
                                             <div className=" col-md-4">
@@ -166,8 +168,8 @@ class AddEmployee extends Component {
                                             </div>
                                             <div className="col-md-4">
                                                 <div className="form-group">
-                                                    <label htmlFor="BHYT">Mã số thẻ BHYT:</label>
-                                                    <input type="text" className="form-control" id="BHYT" name="BHYT" onChange={this.handleChange} />
+                                                    <label htmlFor="numberBHYT">Mã số thẻ BHYT:</label>
+                                                    <input type="text" className="form-control" id="numberBHYT" name="numberBHYT" onChange={this.handleChange} />
                                                 </div>
                                                 <div className="form-group">
                                                     <label>Tên ngân hàng:</label>
@@ -289,7 +291,7 @@ class AddEmployee extends Component {
                                     </div>
                                 </div>
                             </form>
-                            <ToastContainer/>
+                            <ToastContainer />
                         </div>
                     </div>
                 </section></div>

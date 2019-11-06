@@ -11,7 +11,7 @@ function getAll() {
         method: 'GET',
     }
 
-    return fetch(`http://5daffacbf2946f001481db35.mockapi.io/api/employees`,requestOptions).then(handleResponse);
+    return fetch(`/employees/`,requestOptions).then(handleResponse);
 }
 
 // add new employee
@@ -22,7 +22,7 @@ function addNewEmployee(newEmployee) {
         body: JSON.stringify(newEmployee)
     };
 
-    return fetch(`http://5daffacbf2946f001481db35.mockapi.io/api/employees`, requestOptions).then(handleResponse);
+    return fetch(`/employees/create`, requestOptions).then(handleResponse);
 
 
 }

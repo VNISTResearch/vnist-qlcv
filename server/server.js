@@ -8,6 +8,7 @@ const worktemplates = require("./routes/api/worktemplates");
 const jobtitles = require("./routes/api/jobtitles");
 const kpiunits = require("./routes/api/kpiunits");
 const kpipersonals = require("./routes/api/kpipersonals");
+const employees = require("./routes/api/employees");
 const cors = require('cors');
 
 const app = express();
@@ -27,8 +28,9 @@ const db = require("./config/keys").mongoURI;
 // Connect to MongoDB
 mongoose
   .connect(
-    db,
-    { useNewUrlParser: true }
+    db, {
+      useNewUrlParser: true
+    }
   )
   .then(() => console.log("MongoDB successfully connected"))
   .catch(err => console.log(err));
@@ -46,6 +48,7 @@ app.use("/worktemplates", worktemplates);
 app.use("/jobtitles", jobtitles);
 app.use("/kpiunits", kpiunits);
 app.use("/kpipersonals", kpipersonals);
+app.use("/employees", employees);
 
 const port = process.env.PORT || 5000;
 
