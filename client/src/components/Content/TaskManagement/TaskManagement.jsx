@@ -51,7 +51,7 @@ class TaskManagement extends Component {
                                             <input type="checkbox" className="flat-red col-sm-8" defaultChecked/>
                                         </div>
                                         <div className="col-sm-2">
-                                            <button type="button" className="btn btn-success" data-toggle="modal" data-target="#myModalHorizontal" style={{ marginTop: "-25%" }}>Thêm công việc</button>
+                                            <button type="button" className="btn btn-success" data-toggle="modal" data-target="#myModalHorizontal"  data-backdrop="static" data-keyboard="false" style={{ marginTop: "-25%" }}>Thêm công việc</button>
                                             <ModalAddTask/>
                                         </div>
                                     </div>

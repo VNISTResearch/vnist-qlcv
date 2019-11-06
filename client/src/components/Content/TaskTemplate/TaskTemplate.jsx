@@ -81,7 +81,7 @@ class TaskTemplate extends Component {
                                         <div className="col-xs-2">
                                             {/* {
                                                 this.getPermision().createForm && */}
-                                                <button type="button" className="btn btn-success" data-toggle="modal" data-target="#myModalHorizontal" style={{ marginLeft: "-12%"}}>Thêm 1 mẫu công việc</button>
+                                                <button type="button" className="btn btn-success" data-toggle="modal" data-target="#myModalHorizontal" data-backdrop="static" data-keyboard="false" style={{ marginLeft: "-12%"}}>Thêm 1 mẫu công việc</button>
                                             {/* } */}
                                             <ModalAddTaskTemplate />
                                         </div>
