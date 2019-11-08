@@ -15,38 +15,26 @@ mongoose
 
 var privileges = [
     {
-        resource:'5dbacf96c7292e10589c05f4',
+        resource:'5dc4b5a70ee1b70da9430ed2',
         resource_type: 'Link',
         role: ['5dbad298524b981014cdf3de']
     },{
-        resource:'5dbacf96c7292e10589c05f5',
+        resource:'5dc4b5a70ee1b70da9430ed3',
         resource_type: 'Link',
         role: ['5dbad298524b981014cdf3de']
     },{
-        resource:'5dbacf96c7292e10589c05f6',
+        resource:'5dc4b5a70ee1b70da9430ed4',
         resource_type: 'Link',
         role: ['5dbad298524b981014cdf3de']
     },{
-        resource:'5dbacf96c7292e10589c05f7',
+        resource:'5dc4b5a70ee1b70da9430ed5',
         resource_type: 'Link',
         role: ['5dbad298524b981014cdf3de']
     },{
-        resource:'5dbacf96c7292e10589c05f8',
+        resource:'5dc4b5a70ee1b70da9430ed6',
         resource_type: 'Link',
         role: ['5dbad298524b981014cdf3de']
-    },{
-        resource:'5dbacf96c7292e10589c05f9',
-        resource_type: 'Link',
-        role: ['5dbad298524b981014cdf3de']
-    },{
-        resource:'5dbacf96c7292e10589c05fa',
-        resource_type: 'Link',
-        role: ['5dbad298524b981014cdf3de']
-    },{
-        resource:'5dbacf96c7292e10589c05fb',
-        resource_type: 'Link',
-        role: ['5dbad298524b981014cdf3de']
-    },
+    }
 ];
 
 Privilege.insertMany(privileges)

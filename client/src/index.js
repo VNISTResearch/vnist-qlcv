@@ -12,7 +12,7 @@ const lang = localStorage.getItem('lang');
 if(lang){
     store.dispatch(IntlActions.setLocale(lang));
 }else{
-    localStorage.setItem('lang', 'vn');
+    localStorage.setItem('lang', 'en');
     store.dispatch(IntlActions.setLocale(localStorage.getItem('lang')));
 }
 

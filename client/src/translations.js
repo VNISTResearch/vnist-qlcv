@@ -6,21 +6,39 @@ export default {
             profile: 'Hồ sơ',
             logout: 'Đăng xuất',
             manageUser: {
-                name: 'Quản lý người dùng',
-                create: 'Thêm người dùng',
+                name: 'Quản lý tài khoản người dùng',
+                create: 'Thêm tài khoản người dùng',
+                delete: 'Xóa tài khoản người dùng'
             },
             manageDepartment: {
                 name: 'Quản lý phòng ban',
                 create: 'Tạo phòng ban mới',
                 dean: 'Trưởng phòng',
                 vicedean: 'Phó phòng',
-                employee: 'Nhân viên'
+                employee: 'Nhân viên',
+                delete: 'Bạn muốn xóa phòng'
             },
             manageRole: {
-                name: 'Quản lý admin'
+                name: 'Quản lý admin',
+                admins: 'Quản lý danh sách các tài khoản admin',
+                roles: 'Quản lý các phân quyền khác',
+                add: 'Thêm',
+                create: 'Tạo thêm phân quyền mới',
+                roleName: 'Tên phân quyền mới',
+                abstract: 'Kế thừa các quyền',
+                select: 'Chọn role muốn kế thừa quyền'
             },
             manageResource: {
-                name: 'Quản lý tài nguyên'
+                name: 'Quản lý tài nguyên',
+                url: 'Đường link',
+                urlDescription: 'Mô tả về  URL',
+                roleTo: 'Cấp quyền cho',
+                selectRole: '--- chọn role ---',
+                createLink: 'Thêm link',
+                infoLink: 'Thông tin về đường link',
+                createComponent: 'Tạo thêm thành phần',
+                link: 'Đường link',
+                component: 'Thành phần UI'
             },
             input: 'Nhập thông tin ... ',
             table: {
@@ -29,9 +47,10 @@ export default {
                 email: 'Email',
                 action: 'Hành động',
                 password: 'Mật khẩu',
+                back: 'Quay lại',
                 close: 'Đóng',
                 save: 'Lưu',
-                url: 'URL',
+                url: 'Đường link',
                 label: 'Nhãn',
                 description: 'Mô tả'
             },
@@ -65,19 +84,37 @@ export default {
             manageUser: {
                 name: 'Manage User',
                 create: 'Create',
+                delete: 'Delete account'
             },
             manageDepartment: {
                 name: 'Manage Department',
                 create: 'Create',
                 dean: 'Dean of',
                 vicedean: 'ViceDean of',
-                employee: 'Employee of'
+                employee: 'Employee of',
+                delete: 'Delete department'
             },
             manageRole: {
-                name: 'Manage Admin'
+                name: 'Manage Admin',
+                admins: 'Manage Admin Accounts',
+                roles: 'Manage Different Role Accounts',
+                add: 'Add',
+                create: 'Create new role',
+                roleName: 'Name of role',
+                abstract: 'Abstract of roles',
+                select: 'Select abstract role'
             },
             manageResource: {
-                name: 'Manage Resource'
+                name: 'Manage Resource',
+                url: 'URL',
+                urlDescription: 'Description of URL',
+                roleTo: 'Permisstion to',
+                selectRole: '--- select role ---',
+                createLink: 'Create',
+                infoLink: 'Link information',
+                createComponent: 'Create component',
+                link: 'Links',
+                component: 'Components UI'
             },
             input: 'Input here ...',
             table: {
@@ -86,6 +123,7 @@ export default {
                 email: 'Email',
                 action: 'Action',
                 password: 'Password',
+                back: 'Back',
                 close: 'Close',
                 save: 'Save',
                 url: 'URL',

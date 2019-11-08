@@ -26,6 +26,7 @@ class LoginPage extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
+        console.log("LOGIN")
         var { email, password } = this.state;
         var user = { email, password };
 		this.props.login(user);

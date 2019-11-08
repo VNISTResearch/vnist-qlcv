@@ -8,3 +8,7 @@ exports.getComponentByRole = (req, res) => {
     return ComponentService.getComponentByRole(req, res);
 };
 
+exports.create = (req, res) => {
+    return ComponentService.create(req, res);
+};
+

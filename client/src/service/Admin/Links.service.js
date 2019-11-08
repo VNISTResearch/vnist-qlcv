@@ -6,7 +6,9 @@ export const linksService = {
     get,
     getById,
     create,
-    addRoleToLink
+    edit,
+    // addRoleToLink,
+    destroy
 };
 
 function get() {
@@ -29,22 +31,44 @@ function getById(id) {
     return axios(requestOptions);
 }
 
-function create(url, description) {
+function create(url, description, role) {
     const requestOptions = {
         url: `${LOCAL_SERVER_API}/links`,
-        method: 'POST',
-        data: { url, description },
+        method: 'POST', 
+        data: { url, description, role },
         headers: authHeader()
     };
 
     return axios(requestOptions);
 }
 
-function addRoleToLink(url, role) {
+function edit(id, url, description, role) {
     const requestOptions = {
-        url: `${LOCAL_SERVER_API}/links/add-role`,
-        method: 'POST',
-        data: { url, role },
+        url: `${LOCAL_SERVER_API}/links/${id}`,
+        method: 'PATCH', 
+        data: { url, description, role },
+        headers: authHeader()
+    };
+
+    return axios(requestOptions);
+}
+
+// function addRoleToLink(url, role) {
+//     const requestOptions = {
+//         url: `${LOCAL_SERVER_API}/links/${id}`,
+//         method: 'POST',
+//         data: { url, role },
+//         headers: authHeader()
+//     };
+
+//     return axios(requestOptions);
+// }
+
+//Delete link
+function destroy(id) {
+    const requestOptions = {
+        url: `${LOCAL_SERVER_API}/links/${id}`,
+        method: 'DELETE',
         headers: authHeader()
     };
 

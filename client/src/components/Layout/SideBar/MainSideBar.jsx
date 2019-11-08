@@ -40,11 +40,6 @@ class MainSideBar extends Component {
         }
     }
 
-    checkURL = (url) => {
-        var result = true;
-        return result;
-    }
-
     render() {
         const { user, translate } = this.props;
         return (
@@ -94,102 +89,6 @@ class MainSideBar extends Component {
                                     ))
                                 ) : null
                             }
-                            <li className="header">MAIN NAVIGATION</li>
-                            {
-                                this.checkURL("/target") &&
-                                <li className="treeview">
-                                    <a href="#abc">
-                                        <i className="fa fa-dashboard" /> <span>Quản lý công việc</span>
-                                        <span className="pull-right-container">
-                                            <i className="fa fa-angle-left pull-right" />
-                                        </span>
-                                    </a>
-                                    <ul className="treeview-menu">
-                                        <li><a href="/taskmanagement">Xem danh sách công việc</a></li>
-                                        <li><a href="/kpimemberapprove">Thực hiện công việc</a></li>
-                                    </ul>
-                                </li>
-                            }
-                            {
-                                <li className="treeview">
-                                    <a href="#abc">
-                                        <i className="fa fa-dashboard" /> <span>Quản lý KPI</span>
-                                        <span className="pull-right-container">
-                                            <i className="fa fa-angle-left pull-right" />
-                                        </span>
-                                    </a>
-                                    <ul className="treeview-menu">
-                                        <li className="treeview">
-                                            <a href="#kpiunit"> KPI đơn vị
-                                                <span className="pull-right-container">
-                                                    <i className="fa fa-angle-left pull-right" />
-                                                </span>
-                                            </a>
-                                            <ul className="treeview-menu">
-                                                <li><a href="/kpiunitoverview">Tổng quan KPI đơn vị</a></li>
-                                                <li><a href="/kpiunitcreate">Thiết lập KPI đơn vị</a></li>
-                                                <li><a href="/kpiunitevaluate">Dữ liệu KPI đơn vị</a></li>
-                                            </ul>
-                                        </li>
-                                        <li className="treeview">
-                                            <a href="#kpipersonnal">KPI cá nhân
-                                                <span className="pull-right-container">
-                                                    <i className="fa fa-angle-left pull-right" />
-                                                </span>
-                                            </a>
-                                            <ul className="treeview-menu">
-                                                <li><a href="/kpipersonaloverview">Tổng quan KPI cá nhân</a></li>
-                                                <li><a href="/kpipersonalcreate">Thiết lập KPI cá nhân</a></li>
-                                                <li><a href="/kpipersonalevaluate">Dữ liệu KPI cá nhân</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="/kpimemberoverview">Phê duyệt kpi nhân viên</a></li>
-                                        <li><a href="/kpimemberapprove">Đánh giá kpi nhân viên</a></li>
-                                        <li><a href="pages/tables/data.html">Thống kê KPI</a></li>
-                                    </ul>
-                                </li>
-                            }
-                            {/* {
-                                this.checkURL("/privilege") &&
-                                <li className="treeview">
-                                    <a href="#abc">
-                                        <i className="fa fa-dashboard" /> <span>Phân quyền</span>
-                                        <span className="pull-right-container">
-                                            <i className="fa fa-angle-left pull-right" />
-                                        </span>
-                                    </a>
-                                    <ul className="treeview-menu">
-                                        <li><a href="/privilege"> Quyền trên sản phẩm</a></li>
-                                        <li><a href="pages/tables/data.html"> Data tables</a></li>
-                                    </ul>
-                                </li>
-                            } */}
-                            {/* <li className="treeview">
-                                <a href="#abc">
-                                    <i className="fa fa-edit" /> <span>Forms</span>
-                                    <span className="pull-right-container">
-                                        <i className="fa fa-angle-left pull-right" />
-                                    </span>
-                                </a>
-                                <ul className="treeview-menu">
-                                    <li><a href="pages/forms/general.html"> General Elements</a></li>
-                                    <li><a href="pages/forms/advanced.html"> Advanced Elements</a></li>
-                                    <li><a href="pages/forms/editors.html"> Editors</a></li>
-                                </ul>
-                            </li>
-                            <li className="treeview">
-                                <a href="#abc">
-                                    <i className="fa fa-table" /> <span>Tables</span>
-                                    <span className="pull-right-container">
-                                        <i className="fa fa-angle-left pull-right" />
-                                    </span>
-                                </a>
-                                <ul className="treeview-menu">
-                                    <li><a href="pages/tables/simple.html"> Simple tables</a></li>
-                                    <li><a href="pages/tables/data.html"> Data tables</a></li>
-                                </ul>
-                        </li>*/}
-                            
                         </ul>
                     </section>
                 </aside>

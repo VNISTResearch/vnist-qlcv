@@ -6,5 +6,6 @@ const ComponentController = require("../../controllers/ComponentController");
 
 router.get('/', auth, ComponentController.get);
 router.get('/role/:id', auth, ComponentController.getComponentByRole);
+router.post('/', auth, ComponentController.create);
 
 module.exports = router;

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import { withTranslate } from 'react-redux-multilingual';
-import Components from './Components';
-import Links from './Links';
+import Components from './Components/Components';
+import Links from './Links/Links';
 
 class Resources extends Component {
     constructor(props) {
@@ -32,8 +32,8 @@ class Resources extends Component {
                         <div className="box-content">
                             <div className="nav-tabs-custom">
                                 <ul className="nav nav-tabs">
-                                    <li className="active"><a href="#tab_1" data-toggle="tab">Links</a></li>
-                                    <li className=""><a href="#tab_2" data-toggle="tab">Components</a></li>
+                                    <li className="active"><a href="#tab_1" data-toggle="tab">{ translate('manageResource.link') }</a></li>
+                                    <li className=""><a href="#tab_2" data-toggle="tab">{ translate('manageResource.component') }</a></li>
                                 </ul>
                                 <div className="tab-content">
                                     <div className="tab-pane active" id="tab_1">

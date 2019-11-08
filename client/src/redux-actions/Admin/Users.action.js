@@ -35,3 +35,21 @@ export const create = (user) => {
             })
     }
 }
+
+export const destroy = (id) => {
+    return dispatch => {
+        usersService.destroy(id)
+            .then(res => {
+                dispatch({
+                    type: usersConstants.DELETE_USER_SUCCESS,
+                    payload: {
+                        id,
+                        msg: res.data.msg
+                    }
+                })
+            })
+            .catch(err => {
+                console.log("ERROR ROLES");
+            })
+    }
+}

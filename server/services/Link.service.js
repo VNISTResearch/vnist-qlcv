@@ -4,9 +4,8 @@ const UserRole = require('../models/UserRole.model');
 
 exports.get = (req, res) => {
     Link.find()
-        .then(links => res.status(200).json(links))
-        .catch(err => res.status(400).json({msg: err}));
-    console.log("Get All Link");
+    .then(result => res.status(200).json(result))
+    .catch(err => res.status(400).json(err));
 }
 
 exports.getById = async (req, res) => {
@@ -22,6 +21,7 @@ exports.getById = async (req, res) => {
             res.status(200).json({
                 id: pri.resource._id,
                 url: pri.resource.url,
+                description: pri.resource.description,
                 role: pri.role[0]
             });
         }else{
@@ -29,6 +29,7 @@ exports.getById = async (req, res) => {
             res.status(200).json({
                 id: link._id,
                 url: link.url,
+                description: link.description,
                 role: null
             });
         }
@@ -40,6 +41,7 @@ exports.getById = async (req, res) => {
 exports.getLinkByRole = async (req, res) => { //lay tat ca cac link ma role duoc truy cap
     try {
         var roleId = await Role.findById(req.params.id); //lấy id role hiện tại
+        // res.json(roleId);
         var roles = [roleId._id]; //thêm id role hiện tại vào 1 mảng
         roles = roles.concat(roleId.abstract); //thêm các role children vào mảng
         console.log("ARRAY: ", roles);
@@ -55,44 +57,77 @@ exports.getLinkByRole = async (req, res) => { //lay tat ca cac link ma role duoc
     console.log("Get Link By Role");
 }
 
-exports.create = (req, res) => {
-    Link.create({
-        url: req.body.url,
-        description: req.body.description
-    }).then(url => res.status(200).json({
-        tag: 'Success',
-        url
-    })).catch( err => res.status(400).json({
-        tag: 'Error',
-        msg: 'Cannot create url!'
-    }))
+exports.create = async (req, res) => {
+    try {
+        var link = await Link.create({
+            url: req.body.url,
+            description: req.body.description
+        });
+        await Privilege.create({
+            resource: link._id,
+            resource_type: 'Link',
+            role: [req.body.role]
+        });
+
+        res.status(200).json({
+            msg: "Create link success",
+            link
+        })
+    } catch (error) {
+        res.status(400).json({
+            msg: 'Cannot create url!'
+        });
+    }
 }
 
-exports.addRoleToLink = async (req, res) => {
+exports.edit = async (req, res) => {
     try {
-        var pri = await Privilege.findOne({ resource: req.body.url});
-        if(pri === null){
-            var link = Privilege.create({
-                resource: req.body.url,
-                resource_type: 'Link',
-                role: [req.body.role]
-            });
+        var link = await Link.updateOne(
 
-            res.status(200).json(link);
-        }else{
-            var link = await Privilege.updateOne({
-                resource: req.body.url,
+            { _id : req.params.id }, //id của link
+
+            { //giá trị được update
+                url: req.body.url,
+                description: req.body.description
+            }
+        );
+        await Privilege.updateOne(
+            { 
+                resource: req.params.id,
                 resource_type: 'Link'
-            },{
-                role: [req.body.role]
-            });
+            },
+            {
+            role: [req.body.role]
+            }
+        );
 
-            res.status(200).json(link);
-        }
-    } catch (err) {
+        res.status(200).json({
+            msg: "Edit success",
+            link
+        })
+    } catch (error) {
         res.status(400).json({
-            tag: 'Error',
             msg: 'Cannot create url!'
+        });
+    }
+}
+
+exports.delete = async(req, res) => {
+    try {
+        await Privilege.deleteOne({
+            resource: req.params.id,
+            resource_type: 'Link'
+        })
+        await Link.deleteOne({
+            _id: req.params.id
+        })
+
+        res.status(200).json({
+            msg: 'Delete successfully'
+        })
+    } catch (error) {
+        res.status(400).json({
+            msg: 'Delete error'
         });
     }
 }

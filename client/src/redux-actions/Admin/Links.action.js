@@ -31,9 +31,9 @@ export const getById = (id) => {
     }
 }
 
-export const create = (url, description) => {
+export const create = (url, description, role) => {
     return dispatch => {
-        linksService.create(url, description)
+        linksService.create(url, description, role)
             .then(res => {
                 dispatch({
                     type: linksConstants.CREATE_LINK_SUCCESS,
@@ -46,13 +46,34 @@ export const create = (url, description) => {
     }
 }
 
-export const addRoleToLink = (url, role) => {
+export const edit = (id, url, description, role) => {
     return dispatch => {
-        linksService.addRoleToLink(url, role)
+        linksService.edit(id, url, description, role)
             .then(res => {
                 dispatch({
-                    type: linksConstants.ADD_ROLE_TO_LINK_SUCCESS,
-                    payload: res.data
+                    type: linksConstants.EDIT_LINK_SUCCESS,
+                    payload: {
+                        id,
+                        link: res.data
+                    }
+                })
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+}
+
+export const destroy = (id) => {
+    return dispatch => {
+        linksService.destroy(id)
+            .then(res => {
+                dispatch({
+                    type: linksConstants.DELETE_LINK_SUCCESS,
+                    payload: {
+                        id,
+                        msg: res.data.msg
+                    }
                 })
             })
             .catch(err => {

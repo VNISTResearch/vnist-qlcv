@@ -77,10 +77,7 @@ exports.getAdmins = async (req, res) => {
     try {
         var admin = await Role.findOne({name: 'Admin'});
         var admins = await UserRole.findOne({id_role: admin._id}).populate('id_user');
-        res.status(200).json({
-            tag: 'Success',
-            admins
-        })
+        res.status(200).json(admins)
     } catch (error) {
         res.status(400).json({
             tag: 'Error',
@@ -110,6 +107,40 @@ exports.addAdmin = async (req, res) => {
                 msg: 'Not found email in system'
             })
         }
+    } catch (error) {
+        res.status(400).json({
+            tag: 'Error',
+            msg: error
+        })
+    }
+}
+
+exports.create = async(req, res) => {
+    try {
+        var role = await Role.create({
+            name: req.body.name,
+            abstract: req.body.abstract
+        });
+
+        res.status(200).json(role);
+    } catch (error) {
+        res.status(400).json({
+            tag: 'Error',
+            msg: error
+        })
+    }
+}
+
+exports.deleteRoleOfUser = async(req, res) => {
+    try {
+        await UserRole.updateOne(
+            { id_role: req.body.role },
+            {
+                $pull: { id_user: req.body.user}
+            }
+        );
+
+        res.status(200).json({msg: 'Delete role of user success'});
     } catch (error) {
         res.status(400).json({
             tag: 'Error',

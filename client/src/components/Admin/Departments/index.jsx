@@ -10,7 +10,6 @@ class Departments extends Component {
         super(props);
         this.state = { 
             name: null,
-            showForm: true,
             deleteAlert: true
         }
         this.toggleForm = this.toggleForm.bind(this);
@@ -41,9 +40,9 @@ class Departments extends Component {
         this.props.create({name});
     }
 
-    alert(id){
+    alert(id, title, name){
         Swal.fire({
-            title: 'You really want to delete this department?',
+            title: `${title} "${name}"`,
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -61,7 +60,6 @@ class Departments extends Component {
     }
 
     render() { 
-        const {showForm} = this.state;
         const {aDepartments, translate} = this.props;
         return ( 
             <div className="content-wrapper">
@@ -78,36 +76,29 @@ class Departments extends Component {
                 </section>
                 {/* Main content */}
                 <section className="content">
-                    {
-                        showForm ? 
-                        <button className="btn btn-success" onClick={this.toggleForm}>
-                            <i className="fa fa-plus"/>
-                            <span> { translate('manageDepartment.create') } </span>
-                        </button> : null
-                    }
-                    <div 
-                        className="row" 
-                        hidden={showForm}
-                    >
-                        <div className="col-sm-3"></div>
-                        <div className="col-sm-6">
-                            <div className="panel panel-default">
-                                <div className="panel-header">
-                                    <h3 style={{textAlign: 'center'}}>{ translate('manageDepartment.create') }</h3>
+                    <a className="btn btn-success" data-toggle="modal" href="#modal-id"><i className="fa fa-plus"/> { translate('manageDepartment.create') } </a>
+                    <div className="modal fade" id="modal-id">
+                        <div className="modal-dialog">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                <h4 className="modal-title">{ translate('manageDepartment.create') }</h4>
                                 </div>
-                                <div className="panel-body">
-                                    <form onSubmit={ this.save } style={{ marginBottom: '20px' }}>
+                                <div className="modal-body">
+                                    <form style={{ marginBottom: '20px' }}>
                                         <div className="form-group">
                                             <label>{ translate('table.name') }</label>
                                             <input type="text" className="form-control" name="name" onChange={ this.inputChange }/><br/>
                                         </div>
-                                        <button type="button" onClick={this.toggleForm} className="btn btn-danger"><i className="fa fa-close"></i> { translate('table.close') } </button>
-                                        <button type="submit" className="btn btn-primary pull-right"><i className="fa fa-save"></i> { translate('table.save') } </button>
                                     </form>
+                                </div>
+                                <div className="modal-footer">
+                                <button type="button" className="btn btn-danger" data-dismiss="modal"><i className="fa fa-close"></i> { translate('table.close') }</button>
+                                <button type="button" className="btn btn-primary" onClick={ this.save } data-dismiss="modal"><i className="fa fa-save"></i> { translate('table.save') }</button>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <div className="box" style={{ marginTop: '20px'}}>
                         <div className="box-header">
                             <h3 className="box-title">{ translate('manageDepartment.name') }</h3>
@@ -136,7 +127,7 @@ class Departments extends Component {
                                                     </Link>
                                                     <button 
                                                         className="btn btn-sm btn-danger"
-                                                        onClick={() => this.alert(department._id)}
+                                                        onClick={() => this.alert(department._id, translate('manageDepartment.delete'), department.name)}
                                                     >
                                                         <i className="fa fa-trash"></i>
                                                     </button>

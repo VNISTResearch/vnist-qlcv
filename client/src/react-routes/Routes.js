@@ -9,7 +9,7 @@ import Departments from '../components/Admin/Departments';
 import DepartmentDetail from '../components/Admin/Departments/Details';
 import Role from '../components/Admin/Role';
 import Resources from '../components/Admin/Resources';
-import EditLink from '../components/Admin/Resources/EditLink';
+import EditLink from '../components/Admin/Resources/Links/Edit';
 // import TaskTemplate from '../components/Content/TaskTemplate';
 
 import { Route } from "react-router-dom";

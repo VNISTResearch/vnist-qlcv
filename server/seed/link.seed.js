@@ -21,28 +21,18 @@ var links = [
         url: '/'
     },
     {
-        url: '/home'
-    },
-    {
         url: '/admin/user'
     },
     {
         url: '/admin/department'
     },
     {
-        url: '/admin/resource/link'
-    },
-    {
-        url: '/admin/resource/component'
+        url: '/admin/resource'
     },
     {
         url: '/admin/role'
-    },
-    {
-        url: '/task-template'
     }
 ];
-
 Link.insertMany(links, function(err, result){
     if(!err){
         console.log("Seed Link Data :\n" + result);
