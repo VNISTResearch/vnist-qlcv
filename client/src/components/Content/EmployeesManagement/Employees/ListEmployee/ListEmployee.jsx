@@ -1,31 +1,37 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { employeeActions } from '../../../../redux-actions/CombineActions';
-import { InfoEmployee } from './../../CombineContent';
+import { employeeActions } from '../../../../../redux-actions/EmployeeActions';
+import { InfoEmployee } from './InfoEmployee';
+import './listemployee.css';
+
 class ListEmployee extends Component {
     constructor(props) {
         super(props);
-        this.handleClick = this.handleClick.bind(this)
+        this.state = {
+            department: "-- Tất cả --"
+        }
     }
-    componentDidMount() {
+    UNSAFE_componentWillMount() {
         let script = document.createElement('script');
         script.src = 'main/js/ListEmployee.js';
         script.async = true;
         script.defer = true;
         document.body.appendChild(script);
+    }
+    componentDidMount() {
         this.props.getAllEmployee();
-
-    }
-    handleClick(event) {
-      
     }
 
+    handleClick = (employeeNumber) => {
+        this.props.getInformationEmployee(employeeNumber);
+    }
     render() {
-        var list;
+        var lists;
         const { employees } = this.props;
-        if (employees.items) list = employees.items;
-        console.log(list);
+        console.log(employees);
         
+        if (employees.items) lists = employees.items;
+        var { employee, employeeContact } = this.props.employees;
         return (
             <div className="content-wrapper">
                 {/* Content Header (Page header) */}
@@ -47,7 +53,8 @@ class ListEmployee extends Component {
                                     <div className="col-md-4">
                                         <div className="form-group">
                                             <label>Phòng ban:</label>
-                                            <select className="form-control" onChange={() => this.getAll()}>
+                                            <select className="form-control" id="department">
+                                                <option>-- Tất cả --</option>
                                                 <option>Phòng nhân sự</option>
                                                 <option>Phòng hành chính</option>
                                                 <option>Phòng kinh doanh</option>
@@ -68,20 +75,21 @@ class ListEmployee extends Component {
                                                     <th>Giới tính</th>
                                                     <th>Ngày sinh</th>
                                                     <th>Chức vụ</th>
+                                                    <th style={{ width: "18%" }}>Phòng ban</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {
-                                                    (typeof list === 'undefined' || list.length === 0) ? <tr><td colSpan={5}>No data</td></tr> :
-                                                        list.map((x,index) =>(
-                                                            <tr key={index} onClick={this.handleClick} >
-                                                                <td>{x.employeeNumber}</td>
-                                                                <td>{x.fullName}</td>
-                                                                <td>{x.gender}</td>
-                                                                <td>{x.brithday}</td>
-                                                                <td>nhân viên</td>
-                                                            </tr>
-                                                        )
+                                                {lists &&
+                                                    lists.map((x, index) => (
+                                                        <tr key={index} onClick={() => this.handleClick(x.employeeNumber)}>
+                                                            <td>{x.employeeNumber}</td>
+                                                            <td>{x.fullName}</td>
+                                                            <td>{x.gender}</td>
+                                                            <td>{x.brithday}</td>
+                                                            <td>nhân viên</td>
+                                                            <td>{x.department}</td>
+                                                        </tr>
+                                                    )
                                                     )}
                                             </tbody>
                                             <tfoot>
@@ -91,6 +99,7 @@ class ListEmployee extends Component {
                                                     <th>Giới tính</th>
                                                     <th>Ngày sinh</th>
                                                     <th>Chức vụ</th>
+                                                    <th>Phòng ban</th>
                                                 </tr>
                                             </tfoot>
                                         </table>
@@ -102,10 +111,9 @@ class ListEmployee extends Component {
                         </div>
                         {/* /.col */}
                     </div>
-                    <div >
-                        <InfoEmployee />
+                    <div id="detailEmployee" className="display">
+                        <InfoEmployee employee={employee} employeeContact={employeeContact} />
                     </div>
-
                 </section>
             </div>
         );
@@ -119,6 +127,7 @@ function mapState(state) {
 
 const actionCreators = {
     getAllEmployee: employeeActions.getAllEmployee,
+    getInformationEmployee: employeeActions.getInformationEmployee,
 };
 const connectedEmplyee = connect(mapState, actionCreators)(ListEmployee);
 

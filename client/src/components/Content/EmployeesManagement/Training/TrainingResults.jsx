@@ -27,11 +27,11 @@ class TrainingResults extends Component {
                                         <table className="table table-bordered table-hover list">
                                             <thead>
                                                 <tr>
-                                                    <th style={{width:"25%"}}>Tên khoá đào tạo</th>
+                                                    <th style={{ width: "25%" }}>Tên khoá đào tạo</th>
                                                     <th>Thời gian bắt đầu</th>
-                                                    <th>thời gian kết thúc</th>
+                                                    <th>Thời gian kết thúc</th>
                                                     <th>Địa điểm đào tạo</th>
-                                                    <th style={{width:"25%"}}>Đơn vị đào tạo</th>
+                                                    <th style={{ width: "25%" }}>Đơn vị đào tạo</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -76,7 +76,7 @@ class TrainingResults extends Component {
                                 <div className="nav-tabs-custom">
                                     <ul className="nav nav-tabs">
                                         <li className="active"><a data-toggle="tab" href="#ketquadaotao">Kết quả khoá đào tạo</a></li>
-                                        <li style={{marginRight:0}}><a data-toggle="tab" href="#thongke">Thống kê khoá đào tạo</a></li>
+                                        <li style={{ marginRight: 0 }}><a data-toggle="tab" href="#thongke">Thống kê khoá đào tạo</a></li>
                                     </ul>
                                     <div className="tab-content">
                                         <div id="ketquadaotao" className="tab-pane active">
@@ -84,11 +84,11 @@ class TrainingResults extends Component {
                                             <div className="box-body">
                                                 <div className="col-md-12">
                                                     <div className="col-md-6">
-                                                        <div className="form-group" style={{ marginTop: 20 }}>
+                                                        <div className="form-group" >
                                                             <strong>Tên khoá đào tạo:&emsp; </strong>
                                                             An toàn lao động 2019
                                                         </div>
-                                                        
+
                                                         <div className="form-group">
                                                             <strong>Thời gian bắt đầu:&emsp; </strong>
                                                             5/5/2018
@@ -99,7 +99,7 @@ class TrainingResults extends Component {
                                                         </div>
                                                     </div>
                                                     <div className="col-md-6">
-                                                        <div className="form-group"  style={{ marginTop: 20 }}>
+                                                        <div className="form-group"  >
                                                             <strong>Địa điểm đào tạo:&emsp; </strong>
                                                             P-901 Vnist
                                                         </div>
@@ -110,16 +110,16 @@ class TrainingResults extends Component {
                                                     </div>
                                                     <div className="box-header col-md-12">
                                                         <h3 className="box-title">Danh sách nhân viên tham gia khoá đào tạo:</h3>
-                                                        
+
                                                     </div>
                                                     <div className="col-md-12">
                                                         <table className="table table-bordered table-hover listcourse">
                                                             <thead>
                                                                 <tr>
-                                                                    <th style={{width:"18%"}}>Mã nhân viên</th>
+                                                                    <th style={{ width: "18%" }}>Mã nhân viên</th>
                                                                     <th>Tên nhân viên</th>
                                                                     <th>Phòng ban</th>
-                                                                    <th style={{width:'20%'}}>Kết quả</th>
+                                                                    <th style={{ width: '20%' }}>Kết quả</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -127,22 +127,20 @@ class TrainingResults extends Component {
                                                                     <td>VN123456</td>
                                                                     <td>Nguyễn Chí Thanh</td>
                                                                     <td>phòng hành chính</td>
-                                                                    <td>                          
-                                                                        <div className="form-group">
-                                                                            <div className="radio">
+                                                                    <td>
+                                                                        <div className="">
+                                                                            <div className="radio" style={{ marginTop: 0 }}>
                                                                                 <label>
-                                                                                <input type="radio" name="optionsRadios" id="optionsRadios1" defaultValue="Hoàn thành"/>
-                                                                                &emsp;Đạt&emsp;&emsp;
+                                                                                    <input type="radio" name="optionsRadios" id="optionsRadios1" defaultValue="Hoàn thành" />
+                                                                                    &nbsp;Đạt&emsp;&emsp;
                                                                                 </label>
-                                                                            </div>
-                                                                            <div className="radio">
                                                                                 <label>
-                                                                                <input type="radio" name="optionsRadios" id="optionsRadios2" defaultValue="Không hoàn thành" />
-                                                                                &emsp;Không đạt
+                                                                                    <input type="radio" name="optionsRadios" id="optionsRadios2" defaultValue="Không hoàn thành" />
+                                                                                    &nbsp;Không đạt
                                                                                 </label>
                                                                             </div>
                                                                         </div>
-                                                                        </td>
+                                                                    </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>VN123456</td>
@@ -168,39 +166,42 @@ class TrainingResults extends Component {
                                                                     <td>phòng hành chính</td>
                                                                     <td></td>
                                                                 </tr>
-                                                                
+
                                                             </tbody>
                                                         </table>
-                                                        
+
                                                     </div>
                                                 </div>
                                             </div>
                                             {/* /.box-body */}
                                             <div className="box-footer">
-                                                <button type="submit" title="Lưu lại các thay đổi" className="btn btn-success pull-right col-md-1" id="" style={{marginRight:32}}>Lưu lại</button>
+                                                <button type="submit" title="Lưu lại các thay đổi" className="btn btn-success pull-right col-md-1" id="" style={{ marginRight: 32 }}>Lưu lại</button>
                                             </div>
                                         </div>
                                         <div id="thongke" className="tab-pane">
                                             <div className="box-body">
                                                 <div className="col-md-12">
-                                                        <div className="form-group" style={{ marginTop: 20 }}>
-                                                            <strong>Số lượng tham gia :&emsp; </strong>
-                                                            25 nhân viên
+                                                    <div className="form-group" >
+                                                        <strong>Số lượng tham gia :&emsp; </strong>
+                                                        25 nhân viên
                                                         </div>
-                                                        <div className="form-group">
-                                                            <strong>Số lượng hoàn thành:&emsp; </strong>
-                                                            20 nhân viên
+                                                    <div className="form-group">
+                                                        <strong>Số lượng hoàn thành:&emsp; </strong>
+                                                        20 nhân viên
                                                         </div>
-                                                        <div className="form-group">
-                                                            <strong>Số lượng chưa hoàn thành:&emsp; </strong>
-                                                            25 nhân viên
+                                                    <div className="form-group">
+                                                        <strong>Số lượng chưa hoàn thành:&emsp; </strong>
+                                                        25 nhân viên
                                                         </div>
-                                                        <div className="form-group" style={{ marginTop: 20 }}></div>
+                                                    <div className="form-group" >
+                                                        <strong>Chi phí khoá đào tạo:&emsp; </strong>
+                                                        100.000.000VND
+                                                        </div>
 
                                                 </div>
                                             </div>
                                             <div className="box-footer">
-                                            <button type="submit" title="Lưu lại các thay đổi" className="btn btn-primary pull-right" id="" style={{marginRight:32}}>Xuất báo cáo</button>
+                                                <button type="submit" title="Lưu lại các thay đổi" className="btn btn-primary pull-right" id="" style={{ marginRight: 32 }}>Xuất báo cáo</button>
                                             </div>
 
                                         </div>
@@ -216,4 +217,4 @@ class TrainingResults extends Component {
     };
 };
 
-export {TrainingResults}
+export { TrainingResults }

@@ -7,7 +7,7 @@ class ListCourse extends Component {
                 {/* Content Header (Page header) */}
                 <section className="content-header">
                     <h1>
-                        Khoá đào tạo bắt buộc
+                        Chương trình đào tạo bắt buộc
                     </h1>
                     <ol className="breadcrumb">
                         <li><a href="#abc"><i className="fa fa-dashboard" /> Home</a></li>
@@ -42,13 +42,13 @@ class ListCourse extends Component {
                                     </div>
                                     <div className="col-md-12">
                                         <div className="box-header col-md-6" style={{paddingLeft:0}}>
-                                            <h3 className="box-title">Danh sách khoá đào tạo bắt buộc:</h3>
+                                            <h3 className="box-title">Danh sách chương trình đào tạo bắt buộc:</h3>
                                             </div>
                                             <button type="submit" className="btn btn-success pull-right" id="">Thêm khoá đào tạo</button>
                                         <table className="table table-bordered table-hover listcourse">
                                             <thead>
                                                 <tr>
-                                                    <th>Tên khoá đào tạo</th>
+                                                    <th>Tên chương trình đào tạo</th>
                                                     <th>Phòng ban</th>
                                                     <th>Vị trí</th>
                                                 </tr>

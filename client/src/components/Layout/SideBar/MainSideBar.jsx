@@ -92,7 +92,7 @@ class MainSideBar extends Component {
                                         </span>
                                     </a>
                                     <ul className="treeview-menu">
-                                        <li><a href="/listcourse">Khoá đào tạo bắt buộc</a></li>
+                                        <li><a href="/listcourse">Chương trình đào tạo bắt buộc</a></li>
                                         <li><a href="/trainingplan">Kế hoạch đào tạo</a></li>
                                         <li><a href="/trainingresults">Kết quả đào tạo</a></li>
 

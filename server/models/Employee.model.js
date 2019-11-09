@@ -5,122 +5,89 @@ const Schema = mongoose.Schema;
 const EmployeeSchema = new Schema({
     fullName: {
         type: String,
-        //required: true
+        required: true
     },
     employeeNumber: {
         type: String,
-        //required: true
+        required: true
     },
     MSCC: {
         type: String,
-        //required: true
+        required: true
     },
     gender: {
         type: String,
-        //required: true
+        required: true
     },
     brithday: {
-        type: Date,
-        //default: null,
-        //required: true
+        type: String,
+        required: true
     },
     birthplace: {
-        type: String,
-        //default: null,
-        // required: true
+        type: String
     },
     CMND: {
         type: Number,
-        //default: null,
-        //required: true
+        required: true
     },
     dateCMND: {
-        type: Date,
-        //default: null,
-        //required: true
+        type: String,
+        required: true
     },
     addressCMND: {
         type: String,
-        //default: null,
-        //required: true
+        required: true
     },
     phoneNumber: {
-        //type: Number,
-        //required: true
+        type: Number,
+        required: true
     },
     emailCompany: {
-        type: String,
-        //required: true
+        type: String
     },
     MST: {
         type: Number,
-        //default: null,
-        //required: true
+        required: true
     },
     ATM: {
         type: String,
-        //default: null,
-        //required: true
+        required: true
     },
     nameBank: {
         type: String,
-        //default: null,
-        //required: true
+        required: true
     },
     numberBHYT: {
-        type: String,
-        //default: null,
-        //required: true
+        type: String
     },
     national: {
-        type: String,
-        //default: null,
-        //required: true
+        type: String
     },
     religion: {
-        type: String,
-        //default: null,
-        //required: true
+        type: String
     },
     relationship: {
-        type: String,
-        //required: true
+        type: String
     },
     cultural: {
         type: String,
-        //default: null,
-        //required: true
+        required: true
     },
     foreignLanguage: {
-        type: String,
-        //default: null,
-        //required: true
+        type: String
     },
     educational: {
-        type: String,
-        //default: null,
-        //required: true
+        type: String
     },
     certificate: {
-        type: Schema.Types.ObjectId,
-        //default: {
-        // "abc": "dsad",
-        // "sdasd": "dssda"
-        //},
-        //required: true
+        type: Schema.Types.ObjectId
     },
     experience: {
-        type: Schema.Types.ObjectId,
-        //default: {
-        //"abc": "dsad",
-        // "sdasd": "dssda"
-        //},
-        //required: true
+        type: Schema.Types.ObjectId
     },
     department: {
         type: String,
-        //default: null,
-        //required: true
+        required: true
     },
     createDate: {
         type: Date,

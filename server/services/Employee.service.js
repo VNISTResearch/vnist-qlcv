@@ -18,14 +18,21 @@ exports.get = async (req, res) => {
     }
 }
 
-// add a new employee
-exports.getByDepartment = async (req, res) => {
+// get imformation employee by employeeNumber
+exports.getByEmployeeNumber = async (req, res) => {
     try {
-        var employee = await Employee.find(req.params.department);
-
+        var employee = await Employee.find({
+            employeeNumber: req.params.id
+        });
+        var employeeContact = await EmployeeContact.find({
+            employeeNumber: req.params.id
+        });
         res.json({
-            message: "Lấy danh sách nhân viên theo từng phòng ban thành công",
-            content: employee,
+            message: "Lấy thông tin nhân viên thành công",
+            content: {
+                employee,
+                employeeContact
+            }
         });
     } catch (error) {
         res.json({
@@ -34,10 +41,9 @@ exports.getByDepartment = async (req, res) => {
     }
 }
 
+// add a new employee
 exports.create = async (req, res) => {
     try {
-        //var brithday = req.body.time.split("-");
-        //var date = new Date(time[1], time[0], 0);
         var employees = await Employee.create({
             fullName: req.body.fullName,
             employeeNumber: req.body.employeeNumber,
@@ -60,18 +66,92 @@ exports.create = async (req, res) => {
             cultural: req.body.cultural,
             foreignLanguage: req.body.foreignLanguage,
             educational: req.body.educational,
-            certificate: null,
-            experience: null,
-            department: " ",
+            department: req.body.department,
         });
+        var employeeContact = await EmployeeContact.create({
+            employeeNumber: req.body.employeeNumber,
+            nowAddress: req.body.nowAddress,
+            localAddress: req.body.localAddress
+        })
+        var content = {
+            employees,
+            employeeContact
+        }
         res.json({
-            message: "Thêm mới thành công thông tin nhân viên",
-            content: employees
+            message: "Thêm mới thông tin nhân viên thành công",
+            content: content
         });
     } catch (error) {
         res.json({
             message: error
         });
 
+    }
+}
+
+// update information employee by employeeNumber
+
+exports.updateByEmployeeNumber = async (req, res) => {
+    try {
+        // new information employee contact 
+        var employeeContactUpdate = {
+            emailPersonal: req.body.emailPersonal,
+            phoneNumberAddress: req.body.phoneNumberAddress,
+            friendName: req.body.friendName,
+            relation: req.body.relation,
+            friendPhone: req.body.friendPhone,
+            friendEmail: req.body.friendEmail,
+            friendPhoneAddress: req.body.friendPhoneAddress,
+            friendAddress: req.body.friendAddress,
+            localAddress: req.body.localAddress,
+            localNational: req.body.localNational,
+            localCity: req.body.localCity,
+            localDistrict: req.body.localDistrict,
+            localCommune: req.body.localCommune,
+            nowAddress: req.body.nowAddress,
+            nowNational: req.body.nowNational,
+            nowCity: req.body.nowCity,
+            nowDistrict: req.body.nowDistrict,
+            nowCommune: req.body.nowCommune,
+            updateDate: req.body.updateDate
+        }
+
+        // new information employee
+        var employeeUpdate = {
+            gender: req.body.gender,
+            phoneNumber: req.body.phoneNumber,
+            national: req.body.national,
+            religion: req.body.religion,
+            relationship: req.body.relationship,
+            updateDate: req.body.updateDate
+        }
+
+        // update information employee contact
+        var employeeContact = await EmployeeContact.findOneAndUpdate({
+            employeeNumber: req.params.id
+        }, {
+            $set: employeeContactUpdate
+        });
+
+        // update information employee
+        var employee = await Employee.findOneAndUpdate({
+            employeeNumber: req.params.id
+        }, {
+            $set: employeeUpdate
+        });
+
+        var content = {
+            employeeContactUpdate,
+            employeeUpdate
+        }
+        res.json({
+            message: "Cập nhật thông tin nhân viên thành công",
+            content: content
+        })
+
+    } catch (error) {
+        res.json({
+            message: error
+        });
     }
 }
