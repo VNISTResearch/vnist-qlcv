@@ -8,7 +8,9 @@ const DepartmentSchema = new Schema({
         type: String,
         required: true
     },
-    
+    description: {
+        type: String
+    },
     dean: {
         type: Schema.Types.ObjectId,
         ref: Role   

@@ -4,15 +4,28 @@ import axios from 'axios';
 
 export const rolesService = {
     get,
+    getById,
     getSuperRole,
     getAdmin,
     addAdmin,
+    create,
+    destroy,
     deleteRoleOfUser
 };
 
 function get() { //lấy các super role
     const requestOptions = {
         url: `${LOCAL_SERVER_API}/roles`,
+        method: 'GET',
+        headers: authHeader()
+    };
+
+    return axios(requestOptions);
+}
+
+function getById(id) { //lấy các super role
+    const requestOptions = {
+        url: `${LOCAL_SERVER_API}/roles/info/${id}`,
         method: 'GET',
         headers: authHeader()
     };
@@ -45,6 +58,27 @@ function addAdmin(email) {
         url: `${LOCAL_SERVER_API}/roles/admin/add`,
         method: 'POST',
         data: {email: email},
+        headers: authHeader()
+    };
+
+    return axios(requestOptions);
+}
+
+function create(name, abstract) {
+    const requestOptions = {
+        url: `${LOCAL_SERVER_API}/roles`,
+        method: 'POST',
+        data: {name, abstract},
+        headers: authHeader()
+    };
+
+    return axios(requestOptions);
+}
+
+function destroy(id) {
+    const requestOptions = {
+        url: `${LOCAL_SERVER_API}/roles/${id}`,
+        method: 'DELETE',
         headers: authHeader()
     };
 

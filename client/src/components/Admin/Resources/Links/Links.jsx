@@ -5,6 +5,7 @@ import { get, create, destroy } from '../../../../redux-actions/Admin/Links.acti
 import { getSuperRole } from '../../../../redux-actions/Admin/Roles.action';
 import Swal from 'sweetalert2';
 import {Link} from 'react-router-dom';
+import LinkDetail from './LinkDetail';
 
 class Links extends Component {
     constructor(props) {
@@ -121,8 +122,12 @@ class Links extends Component {
                                     <td>{ link.url }</td>
                                     <td>{ link.description }</td>
                                     <td>
-                                        <Link className="btn btn-sm btn-primary" to={`/admin/resource/link/edit/${link.id}`}><i className="fa fa-eye"></i></Link>
+                                        {/* <a className="btn btn-sm btn-primary" to={`/admin/resource/link/edit/${link.id}`}><i className="fa fa-eye"></i></a> */}
+                                        <a className="btn btn-sm btn-primary" data-toggle="modal" href={`#${link.id}`}><i className="fa fa-edit"></i></a>
                                         <button className="btn btn-sm btn-danger" onClick={() => this.alert(link.id)}><i className="fa fa-trash"></i></button>
+                                        <LinkDetail 
+                                            id={ link.id }
+                                        />
                                     </td>
                                 </tr>
                             ): null

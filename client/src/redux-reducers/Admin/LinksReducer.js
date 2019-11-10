@@ -15,18 +15,15 @@ export function links(state = {}, action) {
     switch (action.type) {
 
         case linksConstants.GET_LINKS_SUCCESS:
-            console.log("DU LIEU LAY VE: ", action.payload)
             var list = []; //khởi tạo mảng link
             var linkArr = action.payload;
-            console.log("Link arr: ", linkArr);
-            action.payload.forEach(item => {
+            linkArr.forEach(item => {
                 list.push({
                     id: item._id,
                     url: item.url,
                     description: item.description
                 });
             });
-            console.log("link list: ", list);
             return {
                 ...state,
                 list
@@ -34,13 +31,14 @@ export function links(state = {}, action) {
 
         case linksConstants.GET_LINK_INFO_SUCCESS:
             console.log("link info:",action.payload);
+            var data = action.payload;
             return {
                 ...state,
                 item: {
-                    id: action.payload.id,
-                    url: action.payload.url,
-                    description: action.payload.description,
-                    role: action.payload.role
+                    id: data.id,
+                    url: data.url,
+                    description: data.description,
+                    role: data.role
                 }
             };
 

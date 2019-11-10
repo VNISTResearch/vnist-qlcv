@@ -16,6 +16,22 @@ export const get = () => {
     }
 }
 
+export const getById = (id) => {
+    return dispatch => {
+        rolesService.getById(id)
+            .then(res => {
+                dispatch({
+                    type: rolesConstants.GET_ROLE_BY_ID_SUCCESS,
+                    payload: res.data
+                })
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+}
+
+
 export const getSuperRole = () => {
     return dispatch => {
         rolesService.getSuperRole()
@@ -53,6 +69,40 @@ export const addAdmin = (email) => {
                 dispatch({
                     type: rolesConstants.ADD_ADMIN_SUCCESS,
                     payload: res.data
+                })
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+}
+
+export const create = (name, abstract) => {
+    return dispatch => {
+        rolesService.create(name, abstract)
+            .then(res => {
+                console.log("role vua tao moi: ",res.data);
+                dispatch({
+                    type: rolesConstants.CREATE_ROLE_SUCCESS,
+                    payload: res.data
+                })
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+}
+
+export const destroy = (id) => { //id cua role
+    return dispatch => {
+        rolesService.destroy(id)
+            .then(res => {
+                dispatch({
+                    type: rolesConstants.DELETE_ROLE_SUCCESS,
+                    payload: {
+                        id,
+                        msg: res.data.msg
+                    }
                 })
             })
             .catch(err => {

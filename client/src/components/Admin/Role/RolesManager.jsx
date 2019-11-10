@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import { withTranslate } from 'react-redux-multilingual';
-import { get } from '../../../redux-actions/Admin/Roles.action';
+import { get, create, destroy } from '../../../redux-actions/Admin/Roles.action';
+import RoleDetail from './RoleDetail';
+import Swal from 'sweetalert2';
 
 class RolesManager extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-            name: "",
-            abstract: []
+            name: ""
         }
         this.inputChange = this.inputChange.bind(this);
-        this.selectHandle = this.selectHandle.bind(this);
+        this.save = this.save.bind(this);
+        this.alert = this.alert.bind(this);
     }
 
     inputChange = (e) => {
@@ -23,17 +25,28 @@ class RolesManager extends Component {
         });
     }
 
-    selectHandle = (e) => {
-        console.log("Xu ly select");
+    alert(id){
+        Swal.fire({
+            title: `Delete role`,
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Delete'
+        }).then((res) => {
+            if(res.value){
+                this.props.destroy(id)
+            }
+        });
+    }
+
+    save(e){
         e.preventDefault();
-        var options = e.target.options;
-        var value = [];
-        for (var i = 0, l = options.length; i < l; i++) {
-          if (options[i].selected) {
-            value.push(options[i].value);
-          }
-        }
-        this.setState({ abstract: value });
+        let select = this.refs.abstract;
+        let abstract = [].filter.call(select.options, o => o.selected).map(o => o.value);
+
+        const { name } = this.state;
+        this.props.create(name, abstract);
     }
 
     componentDidMount(){
@@ -65,30 +78,30 @@ class RolesManager extends Component {
                             </div>
                             <div className="form-group">
                                 <label>{ translate('manageRole.abstract') }</label>
-                                    <select 
-                                        name="abstract" 
-                                        className="form-control" 
-                                        multiple="multiple" 
-                                        style={{ width: '100%' }} 
-                                        onChange={(e) => this.selectHandle(e)}
-                                    >
-                                        {
-                                            roles.list !== undefined ?
-                                            (
-                                                roles.list.map( role => 
-                                                        <option key={role._id} value={role._id}>{role.name}</option>
-                                                    )
-                                            ) : (
-                                                null
-                                            )
-                                        }
-                                    </select>
+                                <select 
+                                    name="abstract" 
+                                    className="form-control select2" 
+                                    multiple="multiple" 
+                                    style={{ width: '100%' }} 
+                                    ref="abstract"
+                                >
+                                    {
+                                        roles.list !== undefined ?
+                                        (
+                                            roles.list.map( role => 
+                                                    <option key={role._id} value={role._id}>{role.name}</option>
+                                                )
+                                        ) : (
+                                            null
+                                        )
+                                    }
+                                </select>
                             </div>
                         </form>
                         </div>
                         <div className="modal-footer">
                         <button type="button" className="btn btn-default" data-dismiss="modal">{ translate('table.close') }</button>
-                        <button type="button" className="btn btn-primary">{ translate('table.save') }</button>
+                        <button type="button" className="btn btn-primary" onClick={this.save} data-dismiss="modal">{ translate('table.save') }</button>
                         </div>
                     </div>
                     </div>
@@ -97,18 +110,38 @@ class RolesManager extends Component {
                 <table className="table table-bordered table-hover" style={{marginTop: '20px'}}>
                     <thead>
                         <tr>
-                            <th>id</th>
-                            <th>Hàng động</th>
+                            <th>{ translate('manageRole.roleName') }</th>
+                            <th>{ translate('table.action') }</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>id</td>
-                            <td>
-                                <button className="btn btn-sm btn-primary"><i className="fa fa-edit"></i></button>{' '}
-                                <button className="btn btn-sm btn-danger"><i className="fa fa-trash"></i></button>
-                            </td>
-                        </tr>
+                        {
+                            roles.list !== undefined ? 
+                            roles.list.map( role => 
+                                <tr key={ role._id }>
+                                    <td> { role.name } </td>
+                                    <td>
+                                        <a className="btn btn-primary" data-toggle="modal" href={`#${role._id}`}><i className="fa fa-info"></i></a>
+                                        <button className="btn btn-sm btn-danger" onClick={() =>this.alert(role._id)}><i className="fa fa-trash"></i></button>
+                                        <RoleDetail 
+                                            id={ role._id } 
+                                            name={ role.name}
+                                            abstract={ role.abstract}
+                                            roleInfoTitle={ translate('manageRole.roleTitle')}
+                                            labelRoleName={ translate('manageRole.roleName') }
+                                            labelAbstract={ translate('manageRole.abstract') }
+                                            close={ translate('table.close') }
+                                            save={ translate('table.save') }
+                                        />
+                                    </td>
+                                </tr>       
+                            ): 
+                            (
+                                <tr>
+                                    <td colSpan={'3'}>no data</td>
+                                </tr>
+                            )
+                        }
                     </tbody>
                 </table>
             </React.Fragment>   
@@ -122,7 +155,13 @@ const action = dispatch => {
     return {
         get: () => {
             dispatch(get())
-        }
+        },
+        create: (name, abstract) => {
+            dispatch(create(name, abstract))
+        },
+        destroy: (id) => {
+            dispatch(destroy(id))
+        },
     }
 }
  

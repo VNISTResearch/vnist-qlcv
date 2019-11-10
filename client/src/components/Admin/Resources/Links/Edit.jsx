@@ -26,6 +26,7 @@ class Edit extends Component {
 
     save = (e, id) => {
         e.preventDefault();
+        console.log("Chinh cua quyen cho link")
         const {role} = this.state;
         const {url, description } = this.props.links.item;
         if(role !== null){
@@ -40,6 +41,8 @@ class Edit extends Component {
 
     render() { 
         const { roles, links, translate } = this.props;
+        // console.log("link item infomation : ", links.item);
+        console.log(this.state);
         return ( 
             <div className="content-wrapper">
                 <section className="content-header">
@@ -54,44 +57,51 @@ class Edit extends Component {
                 </section>
                 {/* Main content */}
                 <section className="content">
-                <div className="panel panel-primary" style={{width: '50%', marginLeft: '25%', marginTop:'20px'}}>
+                <div className="panel panel-primary" style={{width: '70%', marginLeft: '15%', marginTop:'70px'}}>
                     <div className="panel-heading">
                     </div>
                     <div className="panel-body">
-                        <form onSubmit={() => this.save(this.props.match.params.id)}>
-                            <div className="box-body">
-                                <div className="form-group">
-                                    <label>{ translate('manageResource.url') }</label>
-                                    <input name="url" type="text" className="form-control" value={links.item !== undefined && links.item.url} disabled />
+                        {
+                            (links.item !== undefined && roles.super !== undefined) ? 
+                            <form>
+                                <div className="box-body">
+                                    <div className="form-group">
+                                        <label>{ translate('manageResource.url') }</label>
+                                        <input name="url" type="text" className="form-control" defaultValue={links.item.url} disabled />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>{ translate('manageResource.urlDescription') }</label>
+                                        <input name="description" type="text" className="form-control" defaultValue={links.item.description} disabled />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>{ translate('manageResource.roleTo') }</label>
+                                        <select 
+                                            className="form-control" 
+                                            style={{width: '100%'}} 
+                                            name="role" 
+                                            defaultValue={ links.item.role._id }
+                                            onChange={this.inputChange}>
+                                            {
+                                                
+                                                roles.super.map( role => 
+                                                    <option key={role._id} value={role._id}>
+                                                        { role.name }
+                                                    </option>
+                                                )
+                                            }
+                                        </select>
+                                    </div>
+                                    <div className="form-group">
+                                        <Link className="btn btn-danger pull-left" to="/admin/resource">{ translate('table.back') }</Link>
+                                        <button 
+                                            onClick={(e) => this.save(e,this.props.match.params.id)} 
+                                            className="btn btn-primary pull-right">
+                                                { translate('table.save') }
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className="form-group">
-                                    <label>{ translate('manageResource.urlDescription') }</label>
-                                    <input name="description" type="text" className="form-control" value={links.item !== undefined && links.item.description} disabled />
-                                </div>
-                                <div className="form-group">
-                                    <label>{ translate('manageResource.roleTo') }</label>
-                                    <select 
-                                        className="form-control select2" 
-                                        style={{width: '100%'}} 
-                                        name="role" 
-                                        defaultValue={ links.item !== undefined && links.item.role._id }
-                                        onChange={this.inputChange}>
-                                        {
-                                            roles.super !== undefined && 
-                                            roles.super.map( role => 
-                                                <option key={role._id} value={role._id}>
-                                                    { role.name}
-                                                </option>
-                                            )
-                                        }
-                                    </select>
-                                </div>
-                                <div className="form-group">
-                                    <Link className="btn btn-danger pull-left" to="/admin/resource">{ translate('table.back') }</Link>
-                                    <button className="btn btn-primary pull-right">{ translate('table.save') }</button>
-                                </div>
-                            </div>
-                        </form>
+                            </form> : null
+                        } 
                     </div>
                     <div className="panel-footer">
                     </div>

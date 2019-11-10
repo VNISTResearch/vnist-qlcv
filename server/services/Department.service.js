@@ -77,21 +77,22 @@ exports.createDepartment = async (req, res) => {
 		var superEmployee = await Role.findOne({name: 'Employee'});
 
 		var employee = await Role.create({ //create employee
-			name: "Employee of " + req.body.name,
+			name: req.body.employee,
 			abstract: [superEmployee]
 		});
 		
 		var vice_dean = await Role.create({ //create vice dean
-			name: "ViceDean of " + req.body.name,
+			name: req.body.vice_dean,
 			abstract: [superVicedean, superEmployee, employee]
 		});
 		var dean = await Role.create({//create dean
-			name: "Dean of " + req.body.name,
+			name: req.body.dean,
 			abstract: [superDean, superVicedean, superEmployee, vice_dean, employee]
 		});
 
 		var department = await Department.create({ 
 			name: req.body.name,
+			description: req.body.description,
 			dean: dean,
 			vice_dean: vice_dean,
 			employee: employee

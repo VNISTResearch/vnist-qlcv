@@ -12,21 +12,23 @@ export default {
             },
             manageDepartment: {
                 name: 'Quản lý phòng ban',
-                create: 'Tạo phòng ban mới',
-                dean: 'Trưởng phòng',
-                vicedean: 'Phó phòng',
-                employee: 'Nhân viên',
-                delete: 'Bạn muốn xóa phòng'
+                create: 'Tạo đơn vị mới',
+                dean: 'Trưởng đơn vị',
+                vicedean: 'Phó đơn vị',
+                employee: 'Nhân viên đơn vị',
+                delete: 'Bạn muốn xóa phòng',
+                description: 'Mô tả về đơn vị'
             },
             manageRole: {
                 name: 'Quản lý admin',
-                admins: 'Quản lý danh sách các tài khoản admin',
+                admins: 'Quản lý danh sách Super Admin',
                 roles: 'Quản lý các phân quyền khác',
                 add: 'Thêm',
                 create: 'Tạo thêm phân quyền mới',
-                roleName: 'Tên phân quyền mới',
+                roleName: 'Tên phân quyền',
                 abstract: 'Kế thừa các quyền',
-                select: 'Chọn role muốn kế thừa quyền'
+                select: 'Chọn role muốn kế thừa quyền',
+                roleTitle: 'Thông tin về phân quyền'
             },
             manageResource: {
                 name: 'Quản lý tài nguyên',
@@ -57,11 +59,11 @@ export default {
             mainSideBar: {
                 search: 'Tìm kiếm ...',
                 home: 'Trang chủ',
-                dashboard: 'BẢNG ĐIỀU KHIỂN',
-                adminManage: 'ADMIN QUẢN LÝ',
-                taskManage: 'QUẢN LÝ CÔNG VIỆC',
+                dashboard: 'Bảng điều khiển',
+                adminManage: 'Quản lý trang admin',
+                taskManage: 'Quản lý công việc',
                 user: 'Người dùng',
-                department: 'Phòng Ban',
+                department: 'Cơ cấu tổ chức',
                 role: 'Phân quyền',
                 resource: 'Tài nguyên',
                 tasktemplate: 'Mẫu Công Việc',
@@ -92,17 +94,19 @@ export default {
                 dean: 'Dean of',
                 vicedean: 'ViceDean of',
                 employee: 'Employee of',
-                delete: 'Delete department'
+                delete: 'Delete department',
+                description: 'Description of department'
             },
             manageRole: {
                 name: 'Manage Admin',
-                admins: 'Manage Admin Accounts',
+                admins: 'Manage Super Admin',
                 roles: 'Manage Different Role Accounts',
                 add: 'Add',
                 create: 'Create new role',
                 roleName: 'Name of role',
                 abstract: 'Abstract of roles',
-                select: 'Select abstract role'
+                select: 'Select abstract role',
+                roleTitle: 'Infomation of role'
             },
             manageResource: {
                 name: 'Manage Resource',
@@ -133,9 +137,9 @@ export default {
             mainSideBar: {
                 search: 'Search ...',
                 home: 'Home',
-                dashboard: 'DASHBOARD',
-                adminManage: 'ADMIN MANAGER',
-                taskManage: 'TASK MANAGER',
+                dashboard: 'Dashboard',
+                adminManage: 'Admin manager',
+                taskManage: 'Task manager',
                 user: 'User',
                 department: 'Department',
                 role: 'Role',

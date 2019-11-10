@@ -4,12 +4,17 @@ import { get, create, deleteD } from '../../../redux-actions/Admin/Departments.a
 import Swal from 'sweetalert2';
 import {Link} from 'react-router-dom';
 import { withTranslate } from 'react-redux-multilingual';
+import CreateDepartment from './CreateDepartment';
 
 class Departments extends Component {
     constructor(props) {
         super(props);
         this.state = { 
             name: null,
+            description: null,
+            dean: null,
+            vice_dean: null,
+            employee: null,
             deleteAlert: true
         }
         this.toggleForm = this.toggleForm.bind(this);
@@ -36,8 +41,14 @@ class Departments extends Component {
 
     save = (e) => {
         e.preventDefault();
-        var {name} = this.state;
-        this.props.create({name});
+        var {name, description, dean, vice_dean, employee} = this.state;
+        this.props.create({
+            name,
+            description,
+            dean,
+            vice_dean,
+            employee
+        });
     }
 
     alert(id, title, name){
@@ -61,6 +72,7 @@ class Departments extends Component {
 
     render() { 
         const {aDepartments, translate} = this.props;
+        console.log(this.state);
         return ( 
             <div className="content-wrapper">
                 {/* Content Header (Page header) */}
@@ -76,28 +88,18 @@ class Departments extends Component {
                 </section>
                 {/* Main content */}
                 <section className="content">
-                    <a className="btn btn-success" data-toggle="modal" href="#modal-id"><i className="fa fa-plus"/> { translate('manageDepartment.create') } </a>
-                    <div className="modal fade" id="modal-id">
-                        <div className="modal-dialog">
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                <h4 className="modal-title">{ translate('manageDepartment.create') }</h4>
-                                </div>
-                                <div className="modal-body">
-                                    <form style={{ marginBottom: '20px' }}>
-                                        <div className="form-group">
-                                            <label>{ translate('table.name') }</label>
-                                            <input type="text" className="form-control" name="name" onChange={ this.inputChange }/><br/>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div className="modal-footer">
-                                <button type="button" className="btn btn-danger" data-dismiss="modal"><i className="fa fa-close"></i> { translate('table.close') }</button>
-                                <button type="button" className="btn btn-primary" onClick={ this.save } data-dismiss="modal"><i className="fa fa-save"></i> { translate('table.save') }</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <CreateDepartment 
+                        create = { translate('manageDepartment.create') }
+                        name = { translate('table.name') }
+                        inputChange = { this.inputChange }
+                        saveDepartment = { this.save }
+                        description = { translate('manageDepartment.description') }
+                        dean = { translate('manageDepartment.dean') }
+                        vicedean = { translate('manageDepartment.vicedean') }
+                        employee = { translate('manageDepartment.employee') }
+                        close = { translate('table.close') }
+                        save = { translate('table.save') }
+                    />
 
                     <div className="box" style={{ marginTop: '20px'}}>
                         <div className="box-header">

@@ -5,7 +5,11 @@ const Department = require('../models/Department.model');
 
 exports.get = async (req, res) => {
     try {
-        var roles = await Role.find();
+        var roles = await Role.find({
+            name: { $ne: 'SuperAdmin'}
+        })
+        .sort({ name: 1 })
+        .populate('abstract');
 
         res.status(200).json(roles);
     } catch (error) {
@@ -17,8 +21,10 @@ exports.get = async (req, res) => {
 
 exports.getRoleById = async (req, res) => {
     try {
-        var role = await Role.findById(req.params.id).populate('id_role');
-
+        var role = await Role
+            .findById(req.params.id)
+            .populate('abstract');
+            
         res.status(200).json(role);
     } catch (error) {
         res.status(400).json({msg: error});
@@ -28,7 +34,7 @@ exports.getRoleById = async (req, res) => {
 exports.getSuperRole = async (req, res) => {
     try {
         var roles = await Role.find({
-            name: { $in: ["Admin", "Dean", "Vice_Dean", "Employee"]}
+            name: { $in: ["SuperAdmin", "Admin", "Dean", "Vice_Dean", "Employee"]}
         });
 
         res.status(200).json(roles);
@@ -141,6 +147,24 @@ exports.deleteRoleOfUser = async(req, res) => {
         );
 
         res.status(200).json({msg: 'Delete role of user success'});
+    } catch (error) {
+        res.status(400).json({
+            tag: 'Error',
+            msg: error
+        })
+    }
+}
+
+exports.deleteRole = async(req, res) => {
+    try {
+        var role = await Role.deleteOne({
+            _id: req.params.id //id cua role
+        });
+        var ur = await UserRole.deleteOne({
+            id_role: req.params.id 
+        });
+
+        res.json(200).json({ msg: "Delete role success" });
     } catch (error) {
         res.status(400).json({
             tag: 'Error',
