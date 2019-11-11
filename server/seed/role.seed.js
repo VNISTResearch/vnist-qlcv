@@ -2,7 +2,7 @@ const Role = require('../models/Role.model');
 const mongoose = require("mongoose");
 
 // DB Config
-const db = 'mongodb+srv://qlcv:thai135@cluster0-zqzcq.mongodb.net/test?retryWrites=true&w=majority';
+const db = 'mongodb://localhost/qlcv';
 
 // Connect to MongoDB
 mongoose
@@ -14,26 +14,32 @@ mongoose
   .catch(err => console.log(err));
 
 initRole = async () => {
-    var admin = await Role.create({
-        name: "Admin",
+    var systemAdmin = await Role.create({
+        name: "System Admin",
         abstract: []
     });
+
+    var superAdmin = await Role.create({
+        name: "Super Admin",
+        abstract: []
+    });
+
     var employee = await Role.create({
         name: "Employee",
         abstract: []
     });
 
     var vicedean = await Role.create({
-        name: "Vice_Dean",
-        abstract: []
+        name: "Vice Dean",
+        abstract: [employee]
     });
 
     var dean = await Role.create({
         name: "Dean",
-        abstract: []
+        abstract: [employee, vicedean]
     });
 
-    console.log("Load success Role Data: ", admin, dean, vicedean, employee);
+    console.log("Load success Role Data: ", systemAdmin, superAdmin, dean, vicedean, employee);
 }
 
 try {

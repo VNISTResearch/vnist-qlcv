@@ -2,7 +2,7 @@ const Link = require('../models/Link.model');
 const mongoose = require("mongoose");
 
 // DB Config
-const db = 'mongodb+srv://qlcv:thai135@cluster0-zqzcq.mongodb.net/test?retryWrites=true&w=majority';
+const db = 'mongodb://localhost/qlcv';
 
 // Connect to MongoDB
 mongoose

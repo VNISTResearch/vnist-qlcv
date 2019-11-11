@@ -34,7 +34,7 @@ exports.getRoleById = async (req, res) => {
 exports.getSuperRole = async (req, res) => {
     try {
         var roles = await Role.find({
-            name: { $in: ["SuperAdmin", "Admin", "Dean", "Vice_Dean", "Employee"]}
+            name: { $in: ["System Admin", "Super Admin", "Dean", "Vice Dean", "Employee"]}
         });
 
         res.status(200).json(roles);

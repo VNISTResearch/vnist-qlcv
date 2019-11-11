@@ -4,7 +4,7 @@ const Role = require('../models/Role.model');
 const mongoose = require("mongoose");
 
 // DB Config
-const db = 'mongodb+srv://qlcv:thai135@cluster0-zqzcq.mongodb.net/test?retryWrites=true&w=majority';
+const db = 'mongodb://localhost/qlcv';
 
 // Connect to MongoDB
 mongoose
@@ -17,8 +17,8 @@ mongoose
 
 initAdmin = async () => {
   try {
-    var admin = await Role.findOne({name: 'Admin'});
-    var user = await User.findOne({email: 'superadmin@gmail.com'});
+    var admin = await Role.findOne({name: 'System Admin'});
+    var user = await User.findOne({email: 'systemAdmin@gmail.com'});
     var ur = await UserRole.create({
       id_user: user._id,
       id_role: admin._id
