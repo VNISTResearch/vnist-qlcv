@@ -10,7 +10,7 @@ import DepartmentDetail from '../components/Admin/Departments/Details';
 import Role from '../components/Admin/Role';
 import Resources from '../components/Admin/Resources';
 import EditLink from '../components/Admin/Resources/Links/Edit';
-// import TaskTemplate from '../components/Content/TaskTemplate';
+import Company from '../components/SystemAdmin/Company/Company';
 
 import { Route } from "react-router-dom";
 import { RegisterPage } from '../components/Page/CombineComponentPages';
@@ -56,6 +56,8 @@ const privatePage = [
     { path: '/cocautochuc', exact: true, component: ({match}) => <CoCauToChuc match={match}/> },
     { path: '/privilege', exact: true, component: ({match}) => <Privilege match={match}/> },
     { path: '/organizationstructure', exact: true, component: ({match}) => <OrganizationStructure match={match}/> },
+
+    { path: '/system-admin/companies', exact: true, component: () => <Company/> },
 ]
 
 class Routes extends Component {

@@ -14,5 +14,6 @@ router.get('/role/:id', auth, DepartmentController.getRoleOfDepartment);
 router.get('/info/:id', auth, DepartmentController.getDepartmentInfo);
 router.delete('/:id', auth, DepartmentController.delete);
 router.post('/create', DepartmentController.create);
+router.get('/department-of-user/:id', DepartmentController.getDepartmentOfUser);
 
 module.exports = router;

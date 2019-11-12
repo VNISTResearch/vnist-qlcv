@@ -263,3 +263,25 @@ exports.create = async (req, res) => {
         res.json( {message: error});
     }
 }
+
+exports.getDepartmentOfUser = async (req, res) => {
+	console.log('get department of user')
+    try {
+		var roles = await UserRole.find({id_user: req.params.id});
+		// console.log(roles);
+		var newRoles = roles.map( role => role.id_role);
+		var departments = await Department.find({
+			$or: [
+				{'dean': { $in: newRoles }}, 
+				{'vice_dean':{ $in: newRoles }}, 
+				{'employee':{ $in: newRoles }}
+			]  
+		});
+		console.log(departments);
+
+        res.status(200).json(departments);
+    } catch (error) {
+
+        res.status(400).json({msg: error});
+    }
+}
