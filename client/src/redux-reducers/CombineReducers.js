@@ -9,7 +9,6 @@ import { tasktemplates } from './TaskTemplateReducers';
 import { departments } from './DepartmentReducers';
 import { kpiunits } from './KPIUnitReducers';
 import { kpipersonals } from './KPIPersonalReducer';
-import { errors } from './Err/ErrReducer';
 import { aUsers } from './Admin/UsersReducer';
 import { auth } from './Auth/AuthReducer';
 import { user } from './User/UserReducer';
@@ -29,7 +28,6 @@ const rootReducer = combineReducers(Object.assign({
   kpiunits,
   kpipersonals,
   
-  errors,
   auth,
   user,
   //State of admin page-------------------//

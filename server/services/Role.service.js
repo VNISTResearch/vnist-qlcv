@@ -70,7 +70,7 @@ exports.getRoleSameDepartment = async (req, res) => {
 			{path:'vice_dean'}, 
             {path:'employee'}]
         );
-        console.log(roles);
+        
         res.status(200).json(roles);
     } catch (error) {
 

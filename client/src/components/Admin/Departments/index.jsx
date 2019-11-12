@@ -15,7 +15,8 @@ class Departments extends Component {
             dean: null,
             vice_dean: null,
             employee: null,
-            deleteAlert: true
+            deleteAlert: true,
+            parent: null
         }
         this.toggleForm = this.toggleForm.bind(this);
         this.inputChange = this.inputChange.bind(this);
@@ -41,13 +42,14 @@ class Departments extends Component {
 
     save = (e) => {
         e.preventDefault();
-        var {name, description, dean, vice_dean, employee} = this.state;
+        var {name, description, dean, vice_dean, employee, parent} = this.state;
         this.props.create({
             name,
             description,
             dean,
             vice_dean,
-            employee
+            employee,
+            parent
         });
     }
 
@@ -97,10 +99,21 @@ class Departments extends Component {
                         dean = { translate('manageDepartment.dean') }
                         vicedean = { translate('manageDepartment.vicedean') }
                         employee = { translate('manageDepartment.employee') }
+                        sub_dean = { ` * ${translate('manageDepartment.sub_dean')}` }
+                        sub_vicedean = { ` * ${translate('manageDepartment.sub_vicedean')}` }
+                        sub_employee = { ` * ${translate('manageDepartment.sub_employee')}` }
+                        departmentParent = { translate('manageDepartment.departmentParent') }
+                        parent = { aDepartments.list }
                         close = { translate('table.close') }
                         save = { translate('table.save') }
                     />
-
+                    {
+                        aDepartments.success !== null && aDepartments.success !== undefined &&
+                        <div className="alert alert-success" style={{ marginTop: '20px'}}>
+                            <button type="button" className="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            <p>{ aDepartments.success }</p>
+                        </div>
+                    }
                     <div className="box" style={{ marginTop: '20px'}}>
                         <div className="box-header">
                             <h3 className="box-title">{ translate('manageDepartment.name') }</h3>

@@ -7,7 +7,8 @@ const email = localStorage.getItem('email');
 const initState = {
     loggedIn: token ? true : false,
     name: name ? name : null,
-    email: email ? email : null
+    email: email ? email : null,
+    error: null
 }
 
 export function auth(state = initState, action) {
@@ -17,7 +18,17 @@ export function auth(state = initState, action) {
                 ...state,
                 loggedIn: true,
                 name: action.payload.name,
-                email: action.payload.email
+                email: action.payload.email,
+                error: null
+            };
+
+        case authConstants.LOGIN_ERROR:
+            return {
+                ...state,
+                loggedIn: false,
+                name: null,
+                email: null,
+                error: action.payload.msg
             };
 
         case authConstants.LOGOUT:

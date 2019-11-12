@@ -13,11 +13,15 @@ export default {
             manageDepartment: {
                 name: 'Quản lý phòng ban',
                 create: 'Tạo đơn vị mới',
-                dean: 'Trưởng đơn vị',
-                vicedean: 'Phó đơn vị',
-                employee: 'Nhân viên đơn vị',
+                dean: 'Tên chức danh cho trưởng đơn vị',
+                vicedean: 'Tên chức danh cho phó đơn vị',
+                employee: 'Tên chức danh cho nhân viên đơn vị',
+                sub_dean: 'VD: Trưởng phòng tài chính, ...',
+                sub_vicedean: 'VD: Phó phòng tài chính, ...',
+                sub_employee: 'VD: Nhân viên phòng tài chính, ...',
                 delete: 'Bạn muốn xóa phòng',
-                description: 'Mô tả về đơn vị'
+                description: 'Mô tả về đơn vị',
+                departmentParent: 'Phòng ban cha'
             },
             manageRole: {
                 name: 'Quản lý admin',
@@ -94,8 +98,12 @@ export default {
                 dean: 'Dean of',
                 vicedean: 'ViceDean of',
                 employee: 'Employee of',
+                sub_dean: 'VD: Dean of financial department, ...',
+                sub_vicedean: 'VD: Vice Dean of financial department, ...',
+                sub_employee: 'VD: Employee of financial department, ...',
                 delete: 'Delete department',
-                description: 'Description of department'
+                description: 'Description of department',
+                departmentParent: 'Department Parent'
             },
             manageRole: {
                 name: 'Manage Admin',

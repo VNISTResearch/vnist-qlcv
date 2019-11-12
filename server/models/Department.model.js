@@ -22,6 +22,10 @@ const DepartmentSchema = new Schema({
     employee: {
         type: Schema.Types.ObjectId,
         ref: Role 
+    },
+    parent: {
+        type: Schema.Types.ObjectId,
+        replies: this
     }
 },{
     timestamps: true

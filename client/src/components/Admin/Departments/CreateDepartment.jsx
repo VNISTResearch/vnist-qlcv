@@ -6,7 +6,23 @@ class CreateDepartment extends Component {
         this.state = {  }
     }
     render() { 
-        const { create, name, inputChange, saveDepartment, description, dean, vicedean, employee, close, save } = this.props;
+        const { 
+            create, 
+            name, 
+            inputChange, 
+            saveDepartment, 
+            description, 
+            dean, 
+            vicedean, 
+            employee, 
+            close, 
+            save, 
+            departmentParent, 
+            parent,
+            sub_dean,
+            sub_vicedean,
+            sub_employee 
+        } = this.props;
         return ( 
             <React.Fragment>
                 <a className="btn btn-success" data-toggle="modal" href="#modal-id"><i className="fa fa-plus"/>{ create }</a>
@@ -27,17 +43,32 @@ class CreateDepartment extends Component {
                                             <label>{ description }</label>
                                             <textarea type="text" className="form-control" name="description" onChange={ inputChange }/><br/>
                                         </div>
-                                        <div className="form-group col-sm-6">
-                                            <label>{ dean }</label>
+                                        <div className="form-group col-sm-12">
+                                            <label>{ dean }</label><span><i> { sub_dean } </i></span>
                                             <input type="text" className="form-control" name="dean" onChange={ inputChange }/><br/>
                                         </div>
-                                        <div className="form-group col-sm-6">
-                                            <label>{ vicedean }</label>
+                                        <div className="form-group col-sm-12">
+                                            <label>{ vicedean }</label><span><i> {sub_vicedean } </i></span>
                                             <input type="text" className="form-control" name="vice_dean" onChange={ inputChange }/><br/>
                                         </div>
-                                        <div className="form-group col-sm-6">
-                                            <label>{ employee }</label>
+                                        <div className="form-group col-sm-12">
+                                            <label>{ employee }</label><span><i> { sub_employee } </i></span>
                                             <input type="text" className="form-control" name="employee" onChange={ inputChange }/><br/>
+                                        </div>
+                                        <div className="form-group col-sm-12">
+                                            <label>{ departmentParent }</label>
+                                            <select 
+                                                className="form-control" 
+                                                style={{width: '100%'}} 
+                                                name="parent" 
+                                                onChange={inputChange}>
+                                                {   
+                                                    parent !== undefined &&
+                                                    parent.map(department => 
+                                                        <option key={department._id} value={department._id}>{department.name}</option>    
+                                                    )
+                                                }
+                                            </select>
                                         </div>
                                     </div>
                                 </form>

@@ -1,6 +1,5 @@
 import { authService } from "../../service/Auth/Auth.service";
 import { authConstants } from "../../redux-constants/Auth/AuthConstants";
-import { errConstants } from "../../redux-constants/Err/ErrConstants";
 
 export const login = (user) => {
     return dispatch => {
@@ -22,7 +21,7 @@ export const login = (user) => {
             })
             .catch(err => {
                 dispatch({
-                    type: errConstants.LOGIN_ERROR,
+                    type: authConstants.LOGIN_ERROR,
                     payload: typeof(err.response) !== 'undefined' ? err.response.data : err
                 })
             })

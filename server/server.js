@@ -12,6 +12,7 @@ const worktemplates = require("./routes/api/worktemplates");
 const jobtitles = require("./routes/api/jobtitles");
 const kpiunits = require("./routes/api/kpiunits");
 const kpipersonals = require("./routes/api/kpipersonals");
+const companies = require("./routes/api/companies");
 
 const cors = require('cors');
 require('dotenv').config();
@@ -59,6 +60,7 @@ app.use("/worktemplates", worktemplates);
 app.use("/jobtitles", jobtitles);
 app.use("/kpiunits", kpiunits);
 app.use("/kpipersonals", kpipersonals);
+app.use("/companies", companies);
 
 const port = process.env.PORT || 5000;
 

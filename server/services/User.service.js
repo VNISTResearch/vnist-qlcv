@@ -1,5 +1,6 @@
 const User = require('../models/User.model');
 const Role = require('../models/Role.model');
+const UserRole = require('../models/UserRole.model');
 const bcrypt = require("bcryptjs");
 
 exports.get = (req, res) => {
@@ -26,6 +27,31 @@ exports.getById = async (req, res) => {
     }
     console.log("Get Users By Id");
 };
+
+//lấy tất cả các user cùng phòng ban với user hiện tại
+exports.getUsersSameDepartment = async(req, res) => {
+    console.log("get user of department");
+    try {
+        const id_role = req.params.id; //lấy id role hiện tại của user
+        var department = await Department.findOne({ 
+            $or:[
+                {'dean': id_role}, 
+                {'vice_dean': id_role}, 
+                {'employee': id_role}
+            ]  
+        });
+        
+        var dean = await UserRole.findOne({ id_role: department.dean}).populate('id_user');
+        var vice_dean = await UserRole.findOne({ id_role: department.vice_dean}).populate('id_user');
+        var employee = await UserRole.findOne({ id_role: department.employee}).populate('id_user');
+        var users = [];
+        users = users.concat(dean, vice_dean, employee);
+
+        res.status(200).json(users); //tra ve list cac user theo 3 chuc danh cua phong ban
+    } catch (error) {
+        res.status(400).json({msg: error});
+    }
+}
 
 exports.create = async (req, res) => {
     try {

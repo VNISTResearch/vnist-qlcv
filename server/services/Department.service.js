@@ -70,17 +70,14 @@ exports.getDepartmentInfo = async(req, res) => {
 }
 
 exports.createDepartment = async (req, res) => {
-	
     try {
 		var superDean = await Role.findOne({name: 'Dean'});
 		var superVicedean = await Role.findOne({name: 'Vice_Dean'});
 		var superEmployee = await Role.findOne({name: 'Employee'});
-
 		var employee = await Role.create({ //create employee
 			name: req.body.employee,
 			abstract: [superEmployee]
 		});
-		
 		var vice_dean = await Role.create({ //create vice dean
 			name: req.body.vice_dean,
 			abstract: [superVicedean, superEmployee, employee]
@@ -89,13 +86,13 @@ exports.createDepartment = async (req, res) => {
 			name: req.body.dean,
 			abstract: [superDean, superVicedean, superEmployee, vice_dean, employee]
 		});
-
 		var department = await Department.create({ 
 			name: req.body.name,
 			description: req.body.description,
 			dean: dean,
 			vice_dean: vice_dean,
-			employee: employee
+			employee: employee,
+			parent: req.body.parent 
 		}); 
 
 		res.status(200).json({ 

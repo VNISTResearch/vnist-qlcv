@@ -33,13 +33,19 @@ class LoginPage extends Component {
     }
 
     render() {
-        
+        const { auth } = this.props;
         return (
             <div className="hold-transition login-page" style={{ minHeight: '100vh' }}>
                 <div className="login-box" style={{ marginTop: 0, marginBottom: 0, paddingTop: '7vh' }}>
                     <div className="login-logo">
                         <a href="/index2.html"><b>VNIST</b>-QLCV</a>
                     </div>
+                    {
+                        auth.error !== null &&
+                        <div className="alert alert-danger alert-dismissible">
+                            <p><i className="icon fa fa-ban" />{ auth.error }</p>
+                        </div>
+                    }
                     <div className="login-box-body">
                         <p className="login-box-msg">Sign in to start your session</p>
                         <form onSubmit={this.handleSubmit}>
