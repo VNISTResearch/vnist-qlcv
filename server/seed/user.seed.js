@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
 // DB Config
-const db = 'mongodb://localhost/test';
+const db = 'mongodb://localhost/qlcv';
 
 // Connect to MongoDB
 mongoose

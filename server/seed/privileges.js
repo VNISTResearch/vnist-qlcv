@@ -4,7 +4,7 @@ const Link = require('../models/Link.model');
 const mongoose = require("mongoose");
 
 // DB Config
-const db = 'mongodb://localhost/test';
+const db = 'mongodb://localhost/qlcv';
 
 // Connect to MongoDB
 mongoose
