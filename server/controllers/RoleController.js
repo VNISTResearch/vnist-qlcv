@@ -28,3 +28,12 @@ exports.getAdmins = (req, res) => {
 exports.addAdmin = (req, res) => {
     return RoleService.addAdmin(req, res);
 };
+
+exports.create = (req, res) => {
+    return RoleService.create(req, res);
+};
+
+exports.deleteRole = (req, res) => {
+    return RoleService.deleteRole(req, res);
+};
+

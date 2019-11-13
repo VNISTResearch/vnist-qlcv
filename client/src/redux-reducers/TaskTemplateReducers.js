@@ -41,6 +41,20 @@ export function tasktemplates(state = {}, action) {
             return {
                 error: action.error
             };
+        case taskTemplateConstants.GETTEMPLATE_BYUSER_REQUEST:
+            return {
+                loadingMany: true
+            };
+        case taskTemplateConstants.GETTEMPLATE_BYUSER_SUCCESS:
+            return {
+                ...state,
+                items: action.tasktemplates.message,
+                pageTotal: action.tasktemplates.pages
+            };
+        case taskTemplateConstants.GETTEMPLATE_BYUSER_FAILURE:
+            return {
+                error: action.error
+            };
         case taskTemplateConstants.ADDNEW_TEMPLATE_REQUEST:
             return {
                 ...state,

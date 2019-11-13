@@ -4,7 +4,8 @@ import axios from 'axios';
 
 export const usersService = {
     get,
-    create
+    create,
+    destroy
 };
 
 function get() {
@@ -22,6 +23,16 @@ function create(user) {
         url: `${LOCAL_SERVER_API}/users/create`,
         method: 'POST',
         data: user,
+        headers: authHeader()
+    };
+
+    return axios(requestOptions);
+}
+
+function destroy(id) {
+    const requestOptions = {
+        url: `${LOCAL_SERVER_API}/users/${id}`,
+        method: 'DELETE',
         headers: authHeader()
     };
 

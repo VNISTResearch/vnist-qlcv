@@ -63,9 +63,15 @@ const TaskSchema = new Schema({
     }],
     responsible: [{
         type: Schema.Types.ObjectId,
-        ref: User
+        ref: User,
+        required:  true
     }],
     accounatable: [{
+        type: Schema.Types.ObjectId,
+        ref: User,
+        required: true
+    }],
+    consulted: [{
         type: Schema.Types.ObjectId,
         ref: User
     }],

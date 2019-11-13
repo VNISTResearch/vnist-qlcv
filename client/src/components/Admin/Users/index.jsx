@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { get, create } from '../../../redux-actions/Admin/Users.action';
+import { get, create, destroy } from '../../../redux-actions/Admin/Users.action';
 import { withTranslate } from 'react-redux-multilingual';
+import Swal from 'sweetalert2';
 
 class Users extends Component {
     constructor(props) {
@@ -9,12 +10,10 @@ class Users extends Component {
         this.state = { 
             name: null,
             email: null,
-            password: null,
-            showForm: true
+            password: null
          }
         this.inputChange = this.inputChange.bind(this);
         this.save = this.save.bind(this);
-        this.toggleForm = this.toggleForm.bind(this);
     }
 
     componentDidMount(){
@@ -30,6 +29,21 @@ class Users extends Component {
         });
     }
 
+    alert(id, title, email){
+        Swal.fire({
+            title: `${title} "${email}"`,
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Delete'
+        }).then((res) => {
+            if(res.value){
+                this.props.destroy(id)
+            }
+        });
+    }
+
     save = (e) => {
         e.preventDefault();
         var {name , email, password} = this.state;
@@ -40,15 +54,7 @@ class Users extends Component {
         });
     }
 
-    toggleForm(){
-        const {showForm} = this.state;
-        this.setState({
-            showForm: !showForm 
-        });
-    }
-
     render() { 
-        const { showForm } =this.state;
         const { aUsers, translate } = this.props;
         return ( 
             <div className="content-wrapper">
@@ -65,25 +71,16 @@ class Users extends Component {
                 </section>
                 {/* Main content */}
                 <section className="content">
-                    {
-                        showForm ? 
-                        <button className="btn btn-success" onClick={this.toggleForm}>
-                            <i className="fa fa-plus"/>
-                            <span> { translate('manageUser.create') } </span>
-                        </button> : null
-                    }
-                    <div 
-                        className="row" 
-                        hidden={showForm}
-                    >
-                        <div className="col-sm-3"></div>
-                        <div className="col-sm-6">
-                            <div className="panel panel-default">
-                                <div className="panel-header">
-                                    <h3 style={{textAlign: 'center'}}>{ translate('manageUser.name') }</h3>
+                    <a className="btn btn-success" data-toggle="modal" href='#modal-id'><i className="fa fa-plus"/>{ translate('manageUser.create') }</a>
+                    <div className="modal fade" id="modal-id">
+                        <div className="modal-dialog">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <button type="button" className="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                    <h4 className="modal-title">{ translate('manageUser.name') }</h4>
                                 </div>
-                                <div className="panel-body">
-                                    <form onSubmit={ this.save } style={{ marginBottom: '20px' }} >
+                                <div className="modal-body">
+                                    <form style={{ marginBottom: '20px' }} >
                                         <div className="form-group">
                                             <label>{ translate('table.name') }</label>
                                             <input type="text" className="form-control" name="name" onChange={ this.inputChange }/>
@@ -96,14 +93,16 @@ class Users extends Component {
                                             <label>{ translate('table.password') }</label>
                                             <input type="password" className="form-control" name="password" onChange={ this.inputChange }/>
                                         </div>
-                                        <button type="button" onClick={this.toggleForm} className="btn btn-danger"><i className="fa fa-close"></i> { translate('table.close') } </button>
-                                        <button type="submit" className="btn btn-primary pull-right"><i className="fa fa-save"></i> { translate('table.save') } </button>
                                     </form>
+                                </div>
+                                <div className="modal-footer">
+                                    <button className="btn btn-danger" data-dismiss="modal"><i className="fa fa-close"></i> { translate('table.close') }</button>
+                                    <button className="btn btn-primary" onClick={ this.save } data-dismiss="modal"><i className="fa fa-save"></i> { translate('table.save') }</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-
+                    
                     <div className="box" style={{marginTop: '20px'}}>
                         <div className="box-header">
                             <h3 className="box-title">{ translate('manageUser.name') }</h3>
@@ -116,7 +115,6 @@ class Users extends Component {
                                     <table className="table table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <th>{ translate('table.id') }</th>
                                                 <th>{ translate('table.name') }</th>
                                                 <th>{ translate('table.email') }</th>
                                                 <th>{ translate('table.action') }</th>
@@ -126,12 +124,11 @@ class Users extends Component {
                                             {
                                                 aUsers.list.map( user => (
                                                     <tr key={user._id}>
-                                                        <td>{user._id}</td>
                                                         <td>{user.name}</td>
                                                         <td>{user.email}</td>
                                                         <td>
                                                             <button className="btn btn-sm btn-primary"><i className="fa fa-edit"></i></button>{' '}
-                                                            <button className="btn btn-sm btn-danger"><i className="fa fa-trash"></i></button>
+                                                            <button className="btn btn-sm btn-danger" onClick={() => this.alert(user._id, translate('manageUser.delete'), user.email)}><i className="fa fa-trash"></i></button>
                                                         </td>
                                                     </tr>
                                                 ))
@@ -160,6 +157,9 @@ const mapDispatchToProps = (dispatch, props) => {
         },
         create: (user) => {
             dispatch(create(user));
+        },
+        destroy: (id) => {
+            dispatch(destroy(id));
         }
     }
 }

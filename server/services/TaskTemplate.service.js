@@ -1,6 +1,7 @@
 const TaskTemplate = require('../models/TaskTemplate.model');
 const Privilege = require('../models/Privilege.model');
 const Role = require('../models/Role.model');
+const UserRole = require('../models/UserRole.model');
 const Action = require('../models/Action.model');
 const ActionTask = require('../models/ActionTask.model');
 const InformationTaskTemplate = require('../models/InformationTaskTemplate.model');
@@ -22,7 +23,7 @@ exports.getById = (req, res) => {
 }
 
 //Lấy mẫu công việc theo chức danh
-exports.getByRole = async(req, res) => {
+exports.getByRole = async (req, res) => {
     try {
         var roleId = await Role.findById(req.params.id); //lấy id role hiện tại
         var roles = [roleId._id]; //thêm id role hiện tại vào 1 mảng
@@ -38,16 +39,47 @@ exports.getByRole = async(req, res) => {
     }
 }
 
+// lấy tất cả mẫu công việc theo id user
+exports.getByUser = async (req, res) => {
+    try {
+        // Lấy tất cả các role người dùng có
+        var roles = await UserRole.find({ id_user: req.params.id }).populate({path: "id_role"});
+        var newRoles = roles.map(role => role.id_role);
+        // lấy tất cả các role con của role người dùng có
+        var allRole = [];
+        newRoles.map(item => {
+            allRole = allRole.concat(item._id); //thêm id role hiện tại vào 1 mảng
+            allRole = allRole.concat(item.abstract); //thêm các role children vào mảng
+        })
+        var tasktemplates = await Privilege.find({
+            role: { $in: allRole },
+            resource_type: 'TaskTemplate'
+        }).sort({'createdAt': 'desc'}).skip(2*(req.params.number-1)).limit(2).populate({ path: 'resource', model: TaskTemplate, populate: { path: 'creator unit' } });
+
+        var totalCount = await Privilege.count({
+            role: { $in: allRole },
+            resource_type: 'TaskTemplate'
+        });
+        var totalPages = Math.ceil(totalCount / 2);
+        res.status(200).json({"message" : tasktemplates,"pages": totalPages})
+    } catch (error) {
+        res.status(400).json({ msg: error });
+    }
+}
+
+
 //Tạo mẫu công việc
-exports.create = async(req, res) => {
+exports.create = async (req, res) => {
 
     try {
         // console.log(req.body);
         var tasktemplate = await TaskTemplate.create({ //Tạo dữ liệu mẫu công việc
+            unit: req.body.unit,
             name: req.body.name,
             creator: req.body.creator, //id của người tạo
             responsible: req.body.responsible,
             accounatable: req.body.accounatable,
+            consulted: req.body.consulted,
             informed: req.body.informed,
             description: req.body.description,
             formula: req.body.formula
@@ -60,24 +92,24 @@ exports.create = async(req, res) => {
             resource_type: "TaskTemplate",
             action: read //quyền READ
         });
-        var actions = req.body.listAction.map(item => {
-            ActionTask.create({
-                owner: tasktemplate._id,
-                name: item.name,
-                description: item.description,
-                mandatary: item.mandatary,
-                type: "TaskTemplate"
-            })
-        });
-        var information = req.body.listInfo.map(item => {
-            InformationTaskTemplate.create({
-                tasktemplate: tasktemplate._id,
-                name: item.name,
-                description: item.description,
-                mandatary: item.mandatary,
-                type: item.type
-            })
-        });
+        // var actions = req.body.listAction.map(item => {
+        //     ActionTask.create({
+        //         owner: tasktemplate._id,
+        //         name: item.name,
+        //         description: item.description,
+        //         mandatary: item.mandatary,
+        //         type: "TaskTemplate"
+        //     })
+        // });
+        // var information = req.body.listInfo.map(item => {
+        //     InformationTaskTemplate.create({
+        //         tasktemplate: tasktemplate._id,
+        //         name: item.name,
+        //         description: item.description,
+        //         mandatary: item.mandatary,
+        //         type: item.type
+        //     })
+        // });
         console.log(privilege);
         var newTask = await Privilege.findById(privilege._id).populate({ path: 'resource', model: TaskTemplate, populate: { path: 'creator' } });
 
@@ -93,7 +125,7 @@ exports.create = async(req, res) => {
 }
 
 //Xóa mẫu công việc
-exports.delete = async() => {
+exports.delete = async () => {
     try {
         var template = await WorkTemplate.findByIdAndDelete(req.params.id); // xóa mẫu công việc theo id
         var privileges = await Privilege.deleteMany({

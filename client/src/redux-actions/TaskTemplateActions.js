@@ -4,6 +4,7 @@ import { taskTemplateService } from "../service/CombineService";
 export const taskTemplateActions = {
     getAll,
     getAllTaskTemplateByRole,
+    getAllTaskTemplateByUser,
     getTaskTemplateById,
     addTaskTemplate,
     editTaskTemplate,
@@ -42,6 +43,23 @@ function getAllTaskTemplateByRole(id) {
     function request(id) { return { type: taskTemplateConstants.GETTEMPLATE_BYROLE_REQUEST, id } }
     function success(tasktemplates) { return { type: taskTemplateConstants.GETTEMPLATE_BYROLE_SUCCESS, tasktemplates } }
     function failure(error) { return { type: taskTemplateConstants.GETTEMPLATE_BYROLE_FAILURE, error } }
+}
+
+// Get all task template by user
+function getAllTaskTemplateByUser(id, pageNumber) {
+    return dispatch => {
+        dispatch(request(id));
+
+        taskTemplateService.getAllTaskTemplateByUser(id, pageNumber)
+            .then(
+                tasktemplates => dispatch(success(tasktemplates)),
+                error => dispatch(failure(error.toString()))
+            );
+    };
+
+    function request(id) { return { type: taskTemplateConstants.GETTEMPLATE_BYUSER_REQUEST, id } }
+    function success(tasktemplates) { return { type: taskTemplateConstants.GETTEMPLATE_BYUSER_SUCCESS, tasktemplates } }
+    function failure(error) { return { type: taskTemplateConstants.GETTEMPLATE_BYUSER_FAILURE, error } }
 }
 
 // Get task template by id

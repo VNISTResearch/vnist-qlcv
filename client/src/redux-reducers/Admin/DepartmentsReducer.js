@@ -10,7 +10,11 @@ var findIndex = (array, id) => {
     return result;
 }
 
-export function aDepartments(state = {}, action) {
+const initState = {
+    success: null
+}
+
+export function aDepartments(state = initState, action) {
     var index = -1;
     switch (action.type) {
 
@@ -25,8 +29,9 @@ export function aDepartments(state = {}, action) {
                 ...state,
                 list: [
                     ...state.list,
-                    action.payload.department
-                ]
+                    action.payload.department,
+                ],
+                success: action.payload.msg
             }
 
         case departmentsConstants.GET_DEPARTMENT_INFO_SUCCESS:

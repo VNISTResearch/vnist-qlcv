@@ -3,6 +3,7 @@ export const taskTemplateService = {
     getAll,
     getById,
     getAllTaskTemplateByRole,
+    getAllTaskTemplateByUser,
     addNewTaskTemplate,
     editTaskTemplate,
     deleteTaskTemplateById
@@ -32,6 +33,15 @@ function getAllTaskTemplateByRole(id) {
     };
 
     return fetch(`/tasktemplates/role/${id}`, requestOptions).then(handleResponse);
+}
+
+// get all task template by User
+function getAllTaskTemplateByUser(id, pageNumber) {
+    const requestOptions = {
+        method: 'GET',
+    };
+
+    return fetch(`/tasktemplates/user/${id}/${pageNumber}`, requestOptions).then(handleResponse);
 }
 
 // add new task template

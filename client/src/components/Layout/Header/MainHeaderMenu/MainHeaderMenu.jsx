@@ -96,15 +96,15 @@ class MainHeaderMenu extends Component {
                         </button>
                     </li>
                 </ul>
-                <div className="control-sidebar control-sidebar-light" style={{display: 'none', marginTop: '52px', width: '220px'}}>
+                <div className="control-sidebar control-sidebar-light" style={{display: 'none', marginTop: '52px', width: '135px'}}>
                     <div style={{marginTop: '-40px'}}>
                         <i onClick={this.props.setLanguageEnglish}>
                             <img src="/en.png" className="img-circle" alt="img" style={{width: '30px', height: '30px', marginLeft: '5px'}} />
-                            <span className="badge">ENGLISH</span>
+                            <span className="badge">EN</span>
                         </i>
                         <i onClick={this.props.setLanguageVietNam}>
                             <img src="/vn.png" className="img-circle" alt="img" style={{width: '30px', height: '30px', marginLeft: '5px'}} />
-                            <span className="badge">VIETNAME</span>
+                            <span className="badge">VN</span>
                         </i>
                     </div>
                 </div>

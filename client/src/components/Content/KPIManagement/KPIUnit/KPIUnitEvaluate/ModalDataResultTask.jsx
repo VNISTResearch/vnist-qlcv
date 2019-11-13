@@ -21,7 +21,7 @@ class ModalDataResultTask extends Component {
         const { editing } = this.state;
         return (
             <div className="modal fade" id={"myModalHorizontal" + this.props.index} tabIndex={-1} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div className="modal-dialog">
+                <div className="modal-dialog modal-tasktemplate">
                     <div className="modal-content">
                         {/* Modal Header */}
                         <div className="modal-header">

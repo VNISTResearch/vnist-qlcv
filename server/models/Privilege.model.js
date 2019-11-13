@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const Role = require('./Role.model');
 const Action = require('./Action.model');
-
+var mongoosePaginate = require('mongoose-paginate');
 // Create Schema
 const PrivilegeSchema = new Schema({
     resource: {
@@ -27,6 +27,8 @@ const PrivilegeSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: Action
     }
+}, {
+    timestamps: true
 });
 
 module.exports = Privilege = mongoose.model("privileges", PrivilegeSchema);

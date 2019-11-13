@@ -1,21 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { taskTemplateActions, jobTitleActions } from '../../../redux-actions/CombineActions';
+import { taskTemplateActions, departmentActions } from '../../../redux-actions/CombineActions';
 import Sortable from 'sortablejs';
 
 class ModalAddTaskTemplate extends Component {
     componentDidMount() {
-        this.props.getJobTitle();
         //Load js for form
         this.handleLoadJS();
         //Load library for sort action table
         this.handleSortable();
+        //get department of current user
+        this.props.getDepartment(localStorage.getItem('id'));
     }
     constructor(props) {
         super(props);
 
         this.state = {
             newTemplate: {
+                unit: '',
                 name: '',
                 read: [localStorage.getItem('currentRole')],
                 responsible: [],
@@ -404,16 +406,16 @@ class ModalAddTaskTemplate extends Component {
         window.$("#myModalHorizontal").modal("hide");
     }
     render() {
-        var course, listAction, listInfo;
+        var units, listAction, listInfo;
         const { newTemplate, submitted, action, information, member, addAction, addInfo } = this.state;
-        const { jobtitles } = this.props;
+        const { departments } = this.props;
         if (newTemplate.listAction) listAction = newTemplate.listAction;
         if (newTemplate.listInfo) listInfo = newTemplate.listInfo;
-        if (jobtitles.items) course = jobtitles.items.content;
+        if (departments.unitofuser) units = departments.unitofuser;
         console.log(this.state);
         return (
             <div className="modal fade" id="myModalHorizontal" tabIndex={-1} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div className="modal-dialog">
+                <div className="modal-dialog-full">
                     <div className="modal-content">
                         {/* Modal Header */}
                         <div className="modal-header">
@@ -428,6 +430,20 @@ class ModalAddTaskTemplate extends Component {
                             <form className="form-horizontal">
                                 <div className="row">
                                     <div className="col-sm-6">
+                                        <div className={'form-group has-feedback' + (submitted && newTemplate.unit ? ' has-error' : '')}>
+                                            <label className="col-sm-5 control-label" style={{ width: '100%', textAlign: 'left' }}>Đơn vị*:</label>
+                                            <div className="col-sm-10" style={{ width: '100%' }}>
+                                                {units &&
+                                                    <select defaultValue={units[0]._id} className="form-control select2" ref="unit" data-placeholder="Chọn đơn vị quản lý mẫu" style={{ width: '100%' }}>
+                                                        {units.map(x => {
+                                                            return <option key={x._id} value={x._id}>{x.name}</option>
+                                                        })}
+                                                </select>}
+                                            </div>
+                                            {submitted && newTemplate.read === [] &&
+                                                <div className="col-sm-4 help-block">Hãy đơn vị quản lý mẫu</div>
+                                            }
+                                        </div>
                                         <div className={'form-group has-feedback' + (submitted && !newTemplate.name ? ' has-error' : '')}>
                                             <label className="col-sm-4 control-label" htmlFor="inputName3" style={{ width: '100%', textAlign: 'left' }}>Tên mẫu*</label>
                                             <div className="col-sm-10" style={{ width: '100%' }}>
@@ -441,10 +457,10 @@ class ModalAddTaskTemplate extends Component {
                                             <label className="col-sm-5 control-label" style={{ width: '100%', textAlign: 'left' }}>Những người được phép xem*</label>
                                             <div className="col-sm-10" style={{ width: '100%' }}>
                                                 <select defaultValue={newTemplate.read} className="form-control select2" multiple="multiple" ref="read" data-placeholder="Chọn vị trí được xem" style={{ width: '100%' }}>
-                                                    {course &&
+                                                    {/* {course &&
                                                         course.map(x => {
                                                             return <option key={x._id} value={x._id}>{x.name}</option>
-                                                        })}
+                                                        })} */}
                                                 </select>
                                             </div>
                                             {submitted && newTemplate.read === [] &&
@@ -528,10 +544,10 @@ class ModalAddTaskTemplate extends Component {
                                                     </thead>
                                                     <tbody id="actions">
                                                         {
-                                                            (typeof listAction === 'undefined' || listAction.length === 0) ? <tr><td colSpan={4}><center>Chưa có dữ liệu</center></td></tr> :
+                                                            (typeof listAction === 'undefined' || listAction.length === 0) ? <tr><td colSpan={5}><center>Chưa có dữ liệu</center></td></tr> :
                                                                 listAction.map((item, index) =>
                                                                     <tr key={index + 1}>
-                                                                        <td>{index+1}</td>
+                                                                        <td>{index + 1}</td>
                                                                         <td>{item.name}</td>
                                                                         <td>{item.description}</td>
                                                                         <td>{item.mandatary ? "Có" : "Không"}</td>
@@ -663,14 +679,14 @@ class ModalAddTaskTemplate extends Component {
 }
 
 function mapState(state) {
-    const { jobtitles } = state;
+    const { departments } = state;
     const adding = state.tasktemplates;
-    return { adding, jobtitles };
+    return { adding, departments };
 }
 
 const actionCreators = {
     addNewTemplate: taskTemplateActions.addTaskTemplate,
-    getJobTitle: jobTitleActions.getAll
+    getDepartment: departmentActions.getDepartmentOfUser
 };
 const connectedModalAddTaskTemplate = connect(mapState, actionCreators)(ModalAddTaskTemplate);
 export { connectedModalAddTaskTemplate as ModalAddTaskTemplate };

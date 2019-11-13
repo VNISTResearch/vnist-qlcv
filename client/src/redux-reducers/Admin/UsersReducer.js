@@ -1,6 +1,18 @@
 import { usersConstants } from "../../redux-constants/Admin/UsersConstants";
 
+var findIndex = (array, id) => {
+    var result = -1;
+    array.forEach((value, index) => {
+        if(value._id === id){
+            result = index;
+        }
+    });
+    return result;
+}
+
+
 export function aUsers(state = {}, action) {
+    var index = -1;
     switch (action.type) {
 
         case usersConstants.GET_USERS_SUCCESS:
@@ -17,6 +29,11 @@ export function aUsers(state = {}, action) {
                     action.payload.user
                 ]
             }
+
+        case usersConstants.DELETE_USER_SUCCESS:
+            index = findIndex(state.list, action.payload.id);
+            state.list.splice(index, 1);
+            return {...state};
 
         default:
             return state;

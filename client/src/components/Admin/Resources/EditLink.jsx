@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import { withTranslate } from 'react-redux-multilingual';
 import { getSuperRole } from '../../../redux-actions/Admin/Roles.action';
-import { addRoleToLink, getById } from '../../../redux-actions/Admin/Links.action';
+import { getById } from '../../../redux-actions/Admin/Links.action';
 
 class EditLink extends Component {
     constructor(props) {
@@ -119,9 +119,9 @@ const getState = (dispatch, props) => {
         getById: (id) => {
             dispatch(getById(id));
         },
-        addRoleToLink: (url, role) => {
-            dispatch(addRoleToLink(url, role));
-        }
+        // addRoleToLink: (url, role) => {
+        //     dispatch(addRoleToLink(url, role));
+        // }
     }
 }
  

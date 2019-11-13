@@ -27,6 +27,10 @@ const TaskTemplateSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: User
     }],
+    consulted: [{
+        type: Schema.Types.ObjectId,
+        ref: User
+    }],
     informed: [{
         type: Schema.Types.ObjectId,
         ref: User
@@ -52,5 +56,4 @@ const TaskTemplateSchema = new Schema({
 }, {
     timestamps: true
 });
-
 module.exports = TaskTemplate = mongoose.model("tasktemplates", TaskTemplateSchema);

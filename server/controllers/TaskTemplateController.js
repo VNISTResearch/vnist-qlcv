@@ -12,6 +12,10 @@ exports.getByRole = (req, res) => {
     return TaskTemplateService.getByRole(req, res);
 }
 
+exports.getByUser = (req, res) => {
+    return TaskTemplateService.getByUser(req, res);
+}
+
 exports.create = (req, res) => {
     return TaskTemplateService.create(req, res);
 }

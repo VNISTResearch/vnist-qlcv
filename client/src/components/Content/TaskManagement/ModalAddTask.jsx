@@ -106,7 +106,7 @@ class ModalAddTask extends Component {
         console.log(listTasks);
         return (
             <div className="modal fade" id="myModalHorizontal" tabIndex={-1} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div className="modal-dialog">
+                <div className="modal-dialog-full">
                     <div className="modal-content">
                         {/* Modal Header */}
                         <div className="modal-header">
