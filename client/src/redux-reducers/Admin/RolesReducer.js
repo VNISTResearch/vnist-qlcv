@@ -28,7 +28,6 @@ export function roles(state = {}, action) {
             };
 
         case rolesConstants.CREATE_ROLE_SUCCESS:
-            console.log("Buoc thêm role vào mảng ở reducer",action.payload);
             return {
                 ...state,
                 list: [
@@ -51,6 +50,15 @@ export function roles(state = {}, action) {
                     action.payload.user
                 ]
             };
+        
+        case rolesConstants.ASSIGN_ROLE_TO_USER_SUCCESS:
+            return {
+                ...state,
+                admins: [
+                    ...state.admins,
+                    action.payload.user
+                ]
+            };    
 
         case rolesConstants.GET_SUPER_ROLE_SUCCESS:
             return {

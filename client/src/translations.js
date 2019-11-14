@@ -21,7 +21,11 @@ export default {
                 sub_employee: 'VD: Nhân viên phòng tài chính, ...',
                 delete: 'Bạn muốn xóa phòng',
                 description: 'Mô tả về đơn vị',
-                departmentParent: 'Phòng ban cha'
+                departmentParent: 'Phòng ban cha',
+                selectDepartment: '--Chọn một đơn vị cha --',
+                relationDepartment: 'Xem mối quan hệ giữa các đơn vị',
+                tableDepartment: 'Bảng danh sách các đơn vị'
+
             },
             manageRole: {
                 name: 'Quản lý admin',
@@ -103,7 +107,10 @@ export default {
                 sub_employee: 'VD: Employee of financial department, ...',
                 delete: 'Delete department',
                 description: 'Description of department',
-                departmentParent: 'Department Parent'
+                departmentParent: 'Department Parent',
+                selectDepartment: '--Select parent department --',
+                relationDepartment: 'Relations between departments',
+                tableDepartment: 'Department Table'
             },
             manageRole: {
                 name: 'Manage Admin',

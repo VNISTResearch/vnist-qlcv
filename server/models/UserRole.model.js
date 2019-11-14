@@ -15,7 +15,7 @@ const UserRoleSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: Role,
         required: true
-    }  
+    }
 });
 
 UserRoleSchema.plugin(findOrCreate);

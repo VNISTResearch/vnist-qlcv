@@ -13,6 +13,6 @@ router.get('/:id', auth, RoleController.getRoleOfUser); //id của users
 router.post('/admin/add', auth, RoleController.addAdmin); //id của users
 router.post('/', auth, RoleController.create);// them role moi
 router.delete('/:id', auth, RoleController.deleteRole);// them role moi
-
+router.post('/:id/add-user', auth, RoleController.assignRoleToUser); //id của users
 
 module.exports = router;

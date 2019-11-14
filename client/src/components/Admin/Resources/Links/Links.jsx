@@ -56,6 +56,7 @@ class Links extends Component {
 
     render() { 
         const { translate, links, roles } = this.props;
+        console.log("link create :", this.state);
         return ( 
             <React.Fragment>
                 <a className="btn btn-primary" data-toggle="modal" href="#modal-id">{ translate('manageResource.createLink') }</a>
@@ -79,7 +80,7 @@ class Links extends Component {
                                     <div className="form-group">
                                     <label>{ translate('manageResource.roleTo') }</label>
                                         <select 
-                                            className="form-control select2" 
+                                            className="form-control" 
                                             style={{width: '100%'}} 
                                             name="role" 
                                             onChange={this.inputChange}>

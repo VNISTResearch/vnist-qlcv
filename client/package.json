@@ -10,6 +10,7 @@
     "jquery": "^3.4.1",
     "js-cookie": "^2.2.1",
     "js-localStorage": "^2.2.1",
+    "material-ui-treeview": "^4.0.0",
     "mdbootstrap": "^4.8.10",
     "mdbreact": "^4.20.0",
     "moment": "^2.24.0",

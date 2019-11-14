@@ -70,7 +70,7 @@ class LinkDetail extends Component {
                                                 className="form-control" 
                                                 style={{width: '100%'}} 
                                                 name="role" 
-                                                defaultValue={ links.item.role._id }
+                                                defaultValue={ links.item.role !== null && links.item.role._id }
                                                 onChange={this.inputChange}>
                                                 {
                                                     

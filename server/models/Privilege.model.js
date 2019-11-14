@@ -10,19 +10,16 @@ const PrivilegeSchema = new Schema({
         refPath: 'resource_type',
         required: true
     },
-
     resource_type: {
         type: String,
         enum: ['Link', 'TaskTemplate','Component'],
         required: true
     },
-    
     role: [{
         type: Schema.Types.ObjectId,
         ref: Role,
         required: true
     }],
-
     action: { //luu id cua hanh dong tuong ung
         type: Schema.Types.ObjectId,
         ref: Action

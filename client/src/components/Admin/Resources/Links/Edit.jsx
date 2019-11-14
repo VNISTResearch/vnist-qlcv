@@ -42,7 +42,7 @@ class Edit extends Component {
     render() { 
         const { roles, links, translate } = this.props;
         // console.log("link item infomation : ", links.item);
-        console.log(this.state);
+        console.log("edit link", this.state);
         return ( 
             <div className="content-wrapper">
                 <section className="content-header">

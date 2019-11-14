@@ -110,3 +110,18 @@ export const destroy = (id) => { //id cua role
             })
     }
 }
+
+export const assignRoleToUser = (id, email) => {
+    return dispatch => {
+        rolesService.assignRoleToUser(id, email)
+            .then(res => {
+                dispatch({
+                    type: rolesConstants.ASSIGN_ROLE_TO_USER_SUCCESS,
+                    payload: res.data
+                })
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+}

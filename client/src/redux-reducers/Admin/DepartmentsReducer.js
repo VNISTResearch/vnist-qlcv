@@ -10,6 +10,35 @@ var findIndex = (array, id) => {
     return result;
 }
 
+var unflatten = (arr) => {
+    var tree = [],
+        mappedArr = {},
+        arrElem,
+        mappedElem;
+
+    // First map the nodes of the array to an object -> create a hash table.
+    for(var i = 0, len = arr.length; i < len; i++) {
+        arrElem = arr[i];
+        mappedArr[arrElem._id] = arrElem;
+        mappedArr[arrElem._id]['nodes'] = [];
+    }
+
+    for (var _id in mappedArr) {
+        if (mappedArr.hasOwnProperty(_id)) {
+            mappedElem = mappedArr[_id];
+            // If the element is not at the root level, add it to its parent array of children.
+            if (mappedElem.parent) {
+                mappedArr[mappedElem['parent']]['nodes'].push(mappedElem);
+            }
+            // If the element is at the root level, add it to first level elements array.
+            else {
+                tree.push(mappedElem);
+            }
+        }
+    }
+    return tree;
+}
+
 const initState = {
     success: null
 }
@@ -19,9 +48,19 @@ export function aDepartments(state = initState, action) {
     switch (action.type) {
 
         case departmentsConstants.GET_DEPARTMENTS_SUCCESS:
+            var arr = action.payload.map( item => {
+                return {
+                    _id: item._id,
+                    value: item.name,
+                    parent: item.parent
+                }
+            });
+            var tree = unflatten(arr);
+            console.log("TREE: ", tree)
             return {
                 ...state,
-                list: action.payload //array users
+                list: action.payload, //array users
+                tree: tree
             }
 
         case departmentsConstants.CREATE_DEPARTMENTS_SUCCESS:

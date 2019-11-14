@@ -2,6 +2,8 @@ const User = require('../models/User.model');
 const Role = require('../models/Role.model');
 const UserRole = require('../models/UserRole.model');
 const bcrypt = require("bcryptjs");
+const nodemailer = require("nodemailer");
+const generator = require("generate-password");
 
 exports.get = (req, res) => {
     User.find()
@@ -55,9 +57,41 @@ exports.getUsersSameDepartment = async(req, res) => {
 
 exports.create = async (req, res) => {
     try {
+
         bcrypt.genSalt(10, (err, salt) => {
             if (err) throw err;
-            bcrypt.hash(req.body.password, salt, async(err, hash) => {
+            var transporter = nodemailer.createTransport({
+                service: 'Gmail',
+                auth: {
+                    user: 'vnist.qlcv@gmail.com',
+                    pass: 'qlcv123@'
+                }
+            });
+
+            const password = generator.generate({
+                length: 10,
+                numbers: true
+            })
+
+            var mainOptions = { // thiết lập đối tượng, nội dung gửi mail
+                from: 'Hệ thống quản lý công việc - VNIST',
+                to: req.body.email,
+                subject: 'Xác thực tạo tài khoản trên hệ thống quản lý công việc',
+                text: 'Yêu cầu xác thực tài khoản đã đăng kí trên hệ thống với email là : ' + req.body.email,
+                html:   
+                        '<p>Tài khoản dùng để đăng nhập của bạn là : </p' + 
+                        '<ul>' + 
+                            '<li>Tài khoản :' + req.body.email + '</li>' +
+                            '<li>Mật khẩu :' + password + '</li>' + 
+                        '</ul>' +
+                        '<p>Your account use to login in system : </p' + 
+                        '<ul>' + 
+                            '<li>Account :' + req.body.email + '</li>' +
+                            '<li>Password :' + password + '</li>' + 
+                        '</ul>'
+            }
+
+            bcrypt.hash(password, salt, async(err, hash) => {
                 if (err) throw err;
                 var user = {
                     name: req.body.name,
@@ -65,6 +99,7 @@ exports.create = async (req, res) => {
                     password: hash
                 };
                 var user = await User.create(user);
+                await transporter.sendMail(mainOptions);
 
                 res.status(200).json({
                     msg: "Create user successfully",

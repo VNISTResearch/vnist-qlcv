@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import { withTranslate } from 'react-redux-multilingual';
 import { get, create, destroy } from '../../../redux-actions/Admin/Roles.action';
+import { get as getUser} from '../../../redux-actions/Admin/Users.action';
 import RoleDetail from './RoleDetail';
 import Swal from 'sweetalert2';
 
@@ -51,6 +52,7 @@ class RolesManager extends Component {
 
     componentDidMount(){
         this.props.get();
+        this.props.getUser();
         let script = document.createElement('script');
         script.src = '/main/js/CoCauToChuc.js';
         script.async = true;
@@ -59,8 +61,8 @@ class RolesManager extends Component {
     }
 
     render() { 
-        const {translate, roles} = this.props;
-        console.log("rolemana:", this.state);
+        const {translate, roles , aUsers} = this.props;
+        console.log("rolemana:", roles);
         return ( 
             <React.Fragment>
                 <a className="btn btn-primary" data-toggle="modal" href="#modal-add-role">{ translate('manageRole.add') }</a>
@@ -89,7 +91,7 @@ class RolesManager extends Component {
                                         roles.list !== undefined ?
                                         (
                                             roles.list.map( role => 
-                                                    <option key={role._id} value={role._id}>{role.name}</option>
+                                                    <option key={role.id_role._id} value={role.id_role._id}>{role.id_role.name}</option>
                                                 )
                                         ) : (
                                             null
@@ -116,30 +118,23 @@ class RolesManager extends Component {
                     </thead>
                     <tbody>
                         {
-                            roles.list !== undefined ? 
+                            roles.list !== undefined && aUsers.list !== undefined &&
                             roles.list.map( role => 
-                                <tr key={ role._id }>
-                                    <td> { role.name } </td>
+                                <tr key={ role.id_role._id }>
+                                    <td> { role.id_role.name } </td>
                                     <td>
-                                        <a className="btn btn-primary" data-toggle="modal" href={`#${role._id}`}><i className="fa fa-info"></i></a>
-                                        <button className="btn btn-sm btn-danger" onClick={() =>this.alert(role._id)}><i className="fa fa-trash"></i></button>
+                                        <a className="btn btn-primary" data-toggle="modal" href={`#${role.id_role._id}`}><i className="fa fa-info"></i></a>
+                                        <button className="btn btn-sm btn-danger" onClick={() =>this.alert(role.id_role._id)}><i className="fa fa-trash"></i></button>
                                         <RoleDetail 
-                                            id={ role._id } 
-                                            name={ role.name}
-                                            abstract={ role.abstract}
-                                            roleInfoTitle={ translate('manageRole.roleTitle')}
-                                            labelRoleName={ translate('manageRole.roleName') }
-                                            labelAbstract={ translate('manageRole.abstract') }
-                                            close={ translate('table.close') }
-                                            save={ translate('table.save') }
+                                            id={ role.id_role._id } 
+                                            name={ role.id_role.name }
+                                            abstract={ role.id_role.abstract }
+                                            roles={ roles.list }
+                                            usersWithRole={ role.id_user }
+                                            listUser={ aUsers.list }
                                         />
                                     </td>
                                 </tr>       
-                            ): 
-                            (
-                                <tr>
-                                    <td colSpan={'3'}>no data</td>
-                                </tr>
                             )
                         }
                     </tbody>
@@ -161,6 +156,9 @@ const action = dispatch => {
         },
         destroy: (id) => {
             dispatch(destroy(id))
+        },
+        getUser: () => {
+            dispatch(getUser())
         },
     }
 }

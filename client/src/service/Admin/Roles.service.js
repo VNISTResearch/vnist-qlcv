@@ -8,6 +8,7 @@ export const rolesService = {
     getSuperRole,
     getAdmin,
     addAdmin,
+    assignRoleToUser,
     create,
     destroy,
     deleteRoleOfUser
@@ -90,6 +91,17 @@ function deleteRoleOfUser(role, user) {
         url: `${LOCAL_SERVER_API}/roles/admin/add`,
         method: 'DELETE',
         data: {role,user},
+        headers: authHeader()
+    };
+
+    return axios(requestOptions);
+}
+
+function assignRoleToUser(id, email) {
+    const requestOptions = {
+        url: `${LOCAL_SERVER_API}/roles/${id}/add-user`,
+        method: 'POST',
+        data: {email},
         headers: authHeader()
     };
 

@@ -37,3 +37,6 @@ exports.deleteRole = (req, res) => {
     return RoleService.deleteRole(req, res);
 };
 
+exports.assignRoleToUser = (req, res) => {
+    return RoleService.assignRoleToUser(req, res);
+};

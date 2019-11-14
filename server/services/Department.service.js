@@ -72,20 +72,18 @@ exports.getDepartmentInfo = async(req, res) => {
 exports.createDepartment = async (req, res) => {
     try {
 		var superDean = await Role.findOne({name: 'Dean'});
-		var superVicedean = await Role.findOne({name: 'Vice_Dean'});
-		var superEmployee = await Role.findOne({name: 'Employee'});
-		var employee = await Role.create({ //create employee
-			name: req.body.employee,
-			abstract: [superEmployee]
-		});
-		var vice_dean = await Role.create({ //create vice dean
-			name: req.body.vice_dean,
-			abstract: [superVicedean, superEmployee, employee]
-		});
-		var dean = await Role.create({//create dean
-			name: req.body.dean,
-			abstract: [superDean, superVicedean, superEmployee, vice_dean, employee]
-		});
+		var superVicedean = await Role.findOne({ name: 'Vice Dean'});
+		var superEmployee = await Role.findOne({ name: 'Employee'});
+
+		var employee = await Role.create({ name: req.body.employee, abstract: [superEmployee]});
+		await UserRole.create({ id_user: [], id_role: employee._id });
+
+		var vice_dean = await Role.create({ name: req.body.vice_dean, abstract: [superVicedean, superEmployee, employee] });
+		await UserRole.create({ id_user: [], id_role: vice_dean._id });
+
+		var dean = await Role.create({ name: req.body.dean, abstract: [superDean, superVicedean, superEmployee, vice_dean, employee] });
+		await UserRole.create({ id_user: [], id_role: dean._id });
+		
 		var department = await Department.create({ 
 			name: req.body.name,
 			description: req.body.description,
@@ -268,7 +266,6 @@ exports.getDepartmentOfUser = async (req, res) => {
 	console.log('get department of user')
     try {
 		var roles = await UserRole.find({id_user: req.params.id});
-		// console.log(roles);
 		var newRoles = roles.map( role => role.id_role);
 		var departments = await Department.find({
 			$or: [
@@ -277,7 +274,6 @@ exports.getDepartmentOfUser = async (req, res) => {
 				{'employee':{ $in: newRoles }}
 			]  
 		});
-		console.log(departments);
 
         res.status(200).json(departments);
     } catch (error) {

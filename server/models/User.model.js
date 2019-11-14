@@ -24,6 +24,11 @@ const UserSchema = new Schema({
         type: Number,
         required: true,
         default: 0
+    },
+    delete_soft: {
+        type: Boolean,
+        required: true,
+        default: false
     }
 },{
     timestamps: true
