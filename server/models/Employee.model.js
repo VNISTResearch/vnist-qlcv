@@ -109,16 +109,10 @@ const EmployeeSchema = new Schema({
         unit: String,
         status: String
     }],
-    department: {
-        type: String,
-        required: true,
-        default: ""
-    },
-    position: {
-        type: String,
-        required: true,
-        default: ""
-    },
+    department: [{
+        nameDepartment: String,
+        position: String
+    }],
     createDate: {
         type: Date,
         default: Date.now

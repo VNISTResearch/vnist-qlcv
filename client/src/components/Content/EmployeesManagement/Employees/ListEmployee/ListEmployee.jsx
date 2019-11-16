@@ -12,7 +12,7 @@ class ListEmployee extends Component {
             view: "display",
             department: " các đơn vị",
             truong: "",
-            pho: "",
+            pho: [],
             unit: "Đơn vị",
         }
         this.handleChangeUnit = this.handleChangeUnit.bind(this)
@@ -34,10 +34,26 @@ class ListEmployee extends Component {
     }
     // function change unit show 
     handleChangeUnit(event) {
-        var lists, truong = "", pho = "";
+        var lists, truong = "", pho = [];
         var { value } = event.target;
         const { employees } = this.props;
-        if (employees.items) lists = employees.items;
+        if (employees.items) {
+            lists = employees.items;
+            lists.map(function (x, index) {
+                x.department.map(function (y) {
+                    if (y.nameDepartment === value && y.position === "Trưởng phòng") {
+                        truong = x.employeeNumber
+                    }
+                    if (y.nameDepartment === value && y.position === "Phó phòng") {
+                        pho[index] = x.fullName + " - " + x.employeeNumber
+                    }
+                })
+            })
+            this.setState({
+                truong: truong,
+                pho: [...pho]
+            })
+        }
         if (value !== "-- Tất cả --") {
             this.setState({
                 show: "",
@@ -50,9 +66,9 @@ class ListEmployee extends Component {
         }
     }
     render() {
-        var lists, check;
+        var lists;
         const { employees } = this.props;
-        var { department } = this.state;
+        var { department, truong, pho } = this.state;
         console.log(this.state);
 
         if (employees.items) lists = employees.items;
@@ -95,23 +111,16 @@ class ListEmployee extends Component {
                                                 <select className="form-control select2" style={{ width: '100%' }} >
                                                     {lists &&
                                                         lists.map(function (x, index) {
-                                                            if (x.department === department && x.position === "Trưởng phòng") {
-
-                                                                check = true;
-                                                                return < option key={index} selected> {x.fullName} - {x.employeeNumber}</option>
-                                                            } else {
-                                                                check = "";
+                                                            if (x.employeeNumber === truong) {
+                                                                return <option key={index} selected="selected">{x.fullName} - {x.employeeNumber}</option>
                                                             }
-                                                        }
-                                                        )}
-                                                    <option className={check === true ? "display" : ""}></option>
+                                                        })}
                                                     {lists &&
                                                         lists.map(function (x, index) {
-                                                            if (x.department !== department && x.position !== "Trưởng phòng") {
+                                                            if (x.employeeNumber !== truong) {
                                                                 return <option key={index}>{x.fullName} - {x.employeeNumber}</option>
                                                             }
                                                         })}
-
                                                 </select>
                                             </div>
                                         </div>
@@ -119,19 +128,16 @@ class ListEmployee extends Component {
                                             <div className="form-group col-md-6">
                                                 <label>Phó {department.toLowerCase()}:</label>
                                                 <select className="form-control select2" multiple="multiple" style={{ width: '100%' }}>
+                                                    {pho &&
+                                                        pho.map((x, index) => (
+                                                            <option key={index} selected="selected">{x}</option>
+                                                        ))
+                                                    }
                                                     {lists &&
                                                         lists.map(function (x, index) {
-                                                            if (x.department === department && x.position === "Phó phòng") {
-                                                                return < option key={index} selected> {x.fullName} - {x.employeeNumber}</option>
-                                                            }
-                                                        }
-                                                        )}
-                                                    {lists &&
-                                                        lists.map(function (x, index) {
-                                                            if (x.department !== department && x.position !== "Phó phòng") {
-                                                                return <option key={index}>{x.fullName} - {x.employeeNumber}</option>
-                                                            }
-                                                        })}
+                                                            return <option key={index} value={x.employeeNumber}>{x.fullName} - {x.employeeNumber}</option>
+                                                        })
+                                                    })}
                                                 </select>
                                             </div>
 
@@ -142,7 +148,7 @@ class ListEmployee extends Component {
                                                 <select className="form-control select2" multiple="multiple" style={{ width: '100%' }}>
                                                     {lists &&
                                                         lists.map((x, index) => (
-                                                            <option>{x.fullName} - {x.employeeNumber}</option>
+                                                            <option key={index}>{x.fullName} - {x.employeeNumber}</option>
                                                         ))}
                                                 </select>
                                             </div>
@@ -179,7 +185,7 @@ class ListEmployee extends Component {
                                                             <td>{x.gender}</td>
                                                             <td>{x.brithday}</td>
                                                             <td>nhân viên</td>
-                                                            <td>{x.department}</td>
+                                                            <td></td>
                                                             <td>
                                                                 <center>
                                                                     <a href="#view" className="view" title="Xem chi tiết" data-toggle="tooltip" onClick={() => this.view(x.employeeNumber)}><i className="material-icons">visibility</i></a>
