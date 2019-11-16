@@ -3,10 +3,12 @@ import { usersConstants } from "../../redux-constants/Admin/UsersConstants";
 import { errConstants } from "../../redux-constants/Err/ErrConstants";
 
 export const get = () => {
+    
     return dispatch => {
-        usersService.get()
+        dispatch({ type: usersConstants.GET_USERS_REQUEST});
+        usersService
+            .get()
             .then(res => {
-                console.log("Users: ",res.data)
                 dispatch({
                     type: usersConstants.GET_USERS_SUCCESS,
                     payload: res.data
@@ -22,7 +24,9 @@ export const get = () => {
 }
 
 export const create = (user) => {
+
     return dispatch => {
+        dispatch({ type: usersConstants.CREATE_USER_REQUEST});
         usersService.create(user)
             .then(res => {
                 dispatch({

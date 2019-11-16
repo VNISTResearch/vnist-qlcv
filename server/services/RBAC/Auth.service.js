@@ -1,8 +1,8 @@
-const User = require('../models/User.model');
-const {registerValidation, loginValidation} = require('../validation/checkInputValue');
+const User = require('../../models/User.model');
+const {registerValidation, loginValidation} = require('../../validation/checkInputValue');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { authLogger } = require('../logs');
+const { authLogger } = require('../../logs');
 
 exports.register = async (req, res) => {
     //validate the data

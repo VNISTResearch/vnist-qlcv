@@ -1,4 +1,4 @@
-const DepartmentService = require('../services/Department.service');
+const DepartmentService = require('../services/SystemManagement/Department.service');
 
 exports.get = (req, res) => {
     return DepartmentService.get(req, res);

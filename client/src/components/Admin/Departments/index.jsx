@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { get } from '../../../redux-actions/Admin/Departments.action';
-import Swal from 'sweetalert2';
 import { withTranslate } from 'react-redux-multilingual';
 import DepartmentTable from './DepartmentTable';
 import DepartmentTree from './DepartmentTree';

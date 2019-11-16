@@ -1,5 +1,5 @@
-const Component = require('../models/Component.model');
-const Privilege = require('../models/Privilege.model');
+const Component = require('../../models/Component.model');
+const Privilege = require('../../models/Privilege.model');
 
 exports.get = (req, res) => {
     Component.find()

@@ -1,4 +1,4 @@
-const WorkTemplateService = require('../services/WorkTemplate.service');
+const WorkTemplateService = require('../services/KPI/WorkTemplate.service');
 
 exports.get = (req, res) => {
     return WorkTemplateService.get(req, res);

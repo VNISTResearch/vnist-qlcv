@@ -1,7 +1,7 @@
-const WorkTemplate = require('../models/WorkTemplate.model');
-const Privilege = require('../models/Privilege.model');
-const JobTitle = require('../models/JobTitle.model');
-const Action = require('../models/Action.model')
+const WorkTemplate = require('../../models/WorkTemplate.model');
+const Privilege = require('../../models/Privilege.model');
+const JobTitle = require('../../models/JobTitle.model');
+const Action = require('../../models/Action.model')
 
 //Lấy tất cả các mẫu công việc
 exports.get = async (req, res) => {

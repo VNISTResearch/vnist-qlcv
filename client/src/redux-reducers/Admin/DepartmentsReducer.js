@@ -16,7 +16,6 @@ var unflatten = (arr) => {
         arrElem,
         mappedElem;
 
-    // First map the nodes of the array to an object -> create a hash table.
     for(var i = 0, len = arr.length; i < len; i++) {
         arrElem = arr[i];
         mappedArr[arrElem._id] = arrElem;
@@ -26,11 +25,9 @@ var unflatten = (arr) => {
     for (var _id in mappedArr) {
         if (mappedArr.hasOwnProperty(_id)) {
             mappedElem = mappedArr[_id];
-            // If the element is not at the root level, add it to its parent array of children.
             if (mappedElem.parent) {
                 mappedArr[mappedElem['parent']]['nodes'].push(mappedElem);
             }
-            // If the element is at the root level, add it to first level elements array.
             else {
                 tree.push(mappedElem);
             }
@@ -56,7 +53,6 @@ export function aDepartments(state = initState, action) {
                 }
             });
             var tree = unflatten(arr);
-            console.log("TREE: ", tree)
             return {
                 ...state,
                 list: action.payload, //array users

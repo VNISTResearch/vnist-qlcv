@@ -1,4 +1,4 @@
-const JobTitle = require('../models/JobTitle.model');
+const JobTitle = require('../../models/JobTitle.model');
 
 exports.get = async (req, res) => {
     try {

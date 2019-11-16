@@ -1,12 +1,12 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const keys = require("../config/keys");
+const keys = require("../../config/keys");
 
-const validateLoginInput = require("../validation/login");
-const validateRegisterInput = require("../validation/register");
+const validateLoginInput = require("../../validation/login");
+const validateRegisterInput = require("../../validation/register");
 
-const User = require("../models/User.model");
-const UserJobTitle = require("../models/UserJobTitle.model");
+const User = require("../../models/User.model");
+const UserJobTitle = require("../../models/UserJobTitle.model");
 
 
 //Handle for login and register service--------------------------//

@@ -1,4 +1,4 @@
-const ComponentService = require('../services/Component.service');
+const ComponentService = require('../services/SystemManagement/Component.service');
 
 exports.get = (req, res) => {
     return ComponentService.get(req, res);

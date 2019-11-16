@@ -1,4 +1,4 @@
-const AuthService = require('../services/Auth.service');
+const AuthService = require('../services/RBAC/Auth.service');
 
 exports.login = (req, res) => {
     return AuthService.login(req, res);

@@ -1,4 +1,4 @@
-const TaskTemplateService = require('../services/TaskTemplate.service');
+const TaskTemplateService = require('../services/SystemManagement/TaskTemplate.service');
 
 exports.get = (req, res) => {
     return TaskTemplateService.get(req, res);

@@ -34,81 +34,82 @@ class MainHeaderMenu extends Component {
     render() {
         const { auth, user, translate } = this.props; 
         const { currentRole } = this.state;
-        console.log( "current role: ", currentRole);
         return (
-            <div className="navbar-custom-menu">
-                <ul className="nav navbar-nav">
-                    <li>
-                        {
-                            typeof(user.roles) !== 'undefined' ?
-                            <select 
-                                style={{ padding: '8px' , marginTop: '5px'}} 
-                                onChange={this.selectHandle}
-                                name='currentRole'
-                                defaultValue={currentRole}>
-                                { 
-                                    user.roles.map( data => {
-                                        return (
-                                            <option key={ data.id } value={ data.id }>
-                                                { data.name }
-                                            </option>
-                                        )
-                                    })
-                                }
-                            </select> : null
-                        }
-                    </li>
-                    <li className="dropdown user user-menu">
-                        <a href="#abc" className="dropdown-toggle" data-toggle="dropdown">
-                            <img src="/adminLTE/dist/img/user2-160x160.jpg" className="user-image" alt="User Avatar" />
-                            <span className="hidden-xs"> { auth.name }</span>
-                        </a>
-                        <ul className="dropdown-menu">
-                            {/* User image */}
-                            <li className="user-header">
-                                <img src="/adminLTE/dist/img/user2-160x160.jpg" className="img-circle" alt="User Avatar" />
-                                <p>
-                                    { auth.name }
-                                    <small>{ auth.email }</small>
-                                </p>
-                            </li>
-                            <li className="user-footer">
-                                <div className="pull-left">
-                                    <a href="#abc" className="btn btn-default btn-flat">{ translate('profile') }</a>
-                                </div>
-                                <div className="pull-right">
-                                    <button type="button" className="btn btn-default btn-flat" onClick={this.props.logout}>{ translate('logout') }</button>
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <button 
-                            className="btn" 
-                            data-toggle="control-sidebar" 
-                            title="language translate"
-                            style={{
-                                padding: '15px 15px 15px 15px', 
-                                backgroundColor: '#605CA8',
-                                color: 'white'
-                            }}>
-                            <i className="fa fa-language"></i>
-                        </button>
-                    </li>
-                </ul>
-                <div className="control-sidebar control-sidebar-light" style={{display: 'none', marginTop: '52px', width: '135px'}}>
-                    <div style={{marginTop: '-40px'}}>
-                        <i onClick={this.props.setLanguageEnglish}>
-                            <img src="/en.png" className="img-circle" alt="img" style={{width: '30px', height: '30px', marginLeft: '5px'}} />
-                            <span className="badge">EN</span>
-                        </i>
-                        <i onClick={this.props.setLanguageVietNam}>
-                            <img src="/vn.png" className="img-circle" alt="img" style={{width: '30px', height: '30px', marginLeft: '5px'}} />
-                            <span className="badge">VN</span>
-                        </i>
+            <React.Fragment>
+                <div className="navbar-custom-menu">
+                    <ul className="nav navbar-nav">
+                        <li>
+                            {
+                                typeof(user.roles) !== 'undefined' ?
+                                <select 
+                                    style={{ padding: '8px' , marginTop: '5px'}} 
+                                    onChange={this.selectHandle}
+                                    name='currentRole'
+                                    defaultValue={currentRole}>
+                                    { 
+                                        user.roles.map( data => {
+                                            return (
+                                                <option key={ data.id } value={ data.id }>
+                                                    { data.name }
+                                                </option>
+                                            )
+                                        })
+                                    }
+                                </select> : null
+                            }
+                        </li>
+                        <li className="dropdown user user-menu">
+                            <a href="#abc" className="dropdown-toggle" data-toggle="dropdown">
+                                <img src="/adminLTE/dist/img/user2-160x160.jpg" className="user-image" alt="User Avatar" />
+                                <span className="hidden-xs"> { auth.name }</span>
+                            </a>
+                            <ul className="dropdown-menu">
+                                {/* User image */}
+                                <li className="user-header">
+                                    <img src="/adminLTE/dist/img/user2-160x160.jpg" className="img-circle" alt="User Avatar" />
+                                    <p>
+                                        { auth.name }
+                                        <small>{ auth.email }</small>
+                                    </p>
+                                </li>
+                                <li className="user-footer">
+                                    <div className="pull-left">
+                                        <a href="#modal-profile" data-toggle="modal" className="btn btn-default btn-flat">{ translate('profile') }</a>
+                                    </div>
+                                    <div className="pull-right">
+                                        <button type="button" className="btn btn-default btn-flat" onClick={this.props.logout}>{ translate('logout') }</button>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <button 
+                                className="btn" 
+                                data-toggle="control-sidebar" 
+                                title="language translate"
+                                style={{
+                                    padding: '15px 15px 15px 15px', 
+                                    backgroundColor: '#605CA8',
+                                    color: 'white'
+                                }}>
+                                <i className="fa fa-language"></i>
+                            </button>
+                        </li>
+                    </ul>
+                    <div className="control-sidebar control-sidebar-light" style={{display: 'none', marginTop: '52px', width: '135px'}}>
+                        <div style={{marginTop: '-40px'}}>
+                            <i onClick={this.props.setLanguageEnglish}>
+                                <img src="/en.png" className="img-circle" alt="img" style={{width: '30px', height: '30px', marginLeft: '5px'}} />
+                                <span className="badge">EN</span>
+                            </i>
+                            <i onClick={this.props.setLanguageVietNam}>
+                                <img src="/vn.png" className="img-circle" alt="img" style={{width: '30px', height: '30px', marginLeft: '5px'}} />
+                                <span className="badge">VN</span>
+                            </i>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </React.Fragment>
         );
     }
 }

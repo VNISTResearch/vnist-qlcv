@@ -1,6 +1,6 @@
-const Link = require('../models/Link.model');
-const Privilege = require('../models/Privilege.model');
-const UserRole = require('../models/UserRole.model');
+const Link = require('../../models/Link.model');
+const Privilege = require('../../models/Privilege.model');
+const UserRole = require('../../models/UserRole.model');
 
 exports.get = (req, res) => {
     Link.find()

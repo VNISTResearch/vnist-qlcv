@@ -14,6 +14,8 @@ const kpiunits = require("./routes/api/kpiunits");
 const kpipersonals = require("./routes/api/kpipersonals");
 const companies = require("./routes/api/companies");
 
+const Logger = require('./models/Logger.model');
+
 const cors = require('cors');
 require('dotenv').config();
 
@@ -22,9 +24,9 @@ const app = express();
 // Bodyparser middleware
 app.use(cors());
 app.use(
-  bodyParser.urlencoded({
-    extended: false
-  })
+    bodyParser.urlencoded({
+        extended: false
+    })
 );
 app.use(bodyParser.json());
 
@@ -33,15 +35,15 @@ const db = process.env.DATABASE;
 
 // Connect to MongoDB
 mongoose
-  .connect(
+.connect(
     db,
     { 
-      useNewUrlParser: true,
-      useUnifiedTopology: true
+    useNewUrlParser: true,
+    useUnifiedTopology: true
     }
-  )
-  .then(() => console.log("MongoDB successfully connected"))
-  .catch(err => console.log(err));
+)
+.then(() => console.log("MongoDB successfully connected"))
+.catch(err => console.log(err));
 
 // Passport middleware
 app.use(passport.initialize());

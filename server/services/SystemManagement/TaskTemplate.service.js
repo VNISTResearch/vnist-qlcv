@@ -1,7 +1,7 @@
-const TaskTemplate = require('../models/TaskTemplate.model');
-const Privilege = require('../models/Privilege.model');
-const Role = require('../models/Role.model');
-const Action = require('../models/Action.model')
+const TaskTemplate = require('../../models/TaskTemplate.model');
+const Privilege = require('../../models/Privilege.model');
+const Role = require('../../models/Role.model');
+const Action = require('../../models/Action.model')
 
 //Lấy tất cả các mẫu công việc
 exports.get = (req, res) => {

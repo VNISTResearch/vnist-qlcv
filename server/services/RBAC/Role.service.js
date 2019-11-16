@@ -1,7 +1,7 @@
-const Role = require('../models/Role.model');
-const UserRole = require('../models/UserRole.model');
-const User = require('../models/User.model');
-const Department = require('../models/Department.model');
+const Role = require('../../models/Role.model');
+const UserRole = require('../../models/UserRole.model');
+const User = require('../../models/User.model');
+const Department = require('../../models/Department.model');
 
 exports.get = async (req, res) => {
     try {

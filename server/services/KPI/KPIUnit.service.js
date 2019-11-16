@@ -1,7 +1,7 @@
-const KPIUnit = require('../models/KPIUnit.model');
-const Department = require('../models/Department.model');
+const KPIUnit = require('../../models/KPIUnit.model');
+const Department = require('../../models/Department.model');
 const mongoose = require("mongoose");
-const rootid = require("../config/rootid").rootIdKpiUnit;
+const rootid = require("../../config/rootid").rootIdKpiUnit;
 // get all kpi unit
 exports.get = async (req, res) => {
     try {

@@ -1,4 +1,4 @@
-const Company = require('../models/Company.model');
+const Company = require('../../models/Company.model');
 
 exports.get = (req, res) => {
     Company.find()

@@ -1,11 +1,11 @@
-const Department = require('../models/Department.model');
-const Role = require('../models/Role.model');
-const UserRole = require('../models/UserRole.model');
-const User = require('../models/User.model');
-const Privilege = require('../models/Privilege.model');
-const JobTitle = require('../models/JobTitle.model');
+const Department = require('../../models/Department.model');
+const Role = require('../../models/Role.model');
+const UserRole = require('../../models/UserRole.model');
+const User = require('../../models/User.model');
+const Privilege = require('../../models/Privilege.model');
+const JobTitle = require('../../models/JobTitle.model');
 const mongoose = require("mongoose");
-const rootid = require("../config/rootid").rootIdDepartment;
+const rootid = require("../../config/rootid").rootIdDepartment;
 
 exports.get = (req, res) => {
 	Department.find()

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import MuiTreeView from 'material-ui-treeview';
 
 class DepartmentTree extends Component {
     constructor(props) {
@@ -9,16 +10,22 @@ class DepartmentTree extends Component {
         const { tree } = this.props;
         return ( 
             <React.Fragment>
-                {
-                    // tree !== null ?
-                    // <MuiTreeView 
-                    //     tree={ tree } 
-                    //     style={{  
-                    //         padding: '10px 10px 10px 10px',
-                    //         border: '2px solid #A7BDC3'
-                    //     }}
-                    // /> : null
-                }
+                 <div className="row">
+                    <div className="col-sm-2">
+                    </div>
+                    <div className="col-sm-8">
+                        {
+                            tree !== null ?
+                            <MuiTreeView 
+                                tree={ tree } 
+                                style={{  
+                                    padding: '15px 15px 15px 15px',
+                                    border: '2px solid #A7BDC3'
+                                }}
+                            /> : null
+                        }
+                    </div>
+                </div>
             </React.Fragment>
          );
     }

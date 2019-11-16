@@ -4,7 +4,6 @@ import { withTranslate } from 'react-redux-multilingual';
 import { get, create, destroy } from '../../../../redux-actions/Admin/Links.action';
 import { getSuperRole } from '../../../../redux-actions/Admin/Roles.action';
 import Swal from 'sweetalert2';
-import {Link} from 'react-router-dom';
 import LinkDetail from './LinkDetail';
 
 class Links extends Component {

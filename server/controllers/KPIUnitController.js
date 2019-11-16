@@ -1,4 +1,4 @@
-const KPIUnitService = require('../services/KPIUnit.service');
+const KPIUnitService = require('../services/KPI/KPIUnit.service');
 
 // get all target of unit kpi
 exports.get = (req, res) => {

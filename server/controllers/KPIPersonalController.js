@@ -1,4 +1,4 @@
-const KPIPersonalService = require('../services/KPIPersonal.service');
+const KPIPersonalService = require('../services/KPI/KPIPersonal.service');
 
 // get all target of personal kpi
 exports.get = (req, res) => {

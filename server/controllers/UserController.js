@@ -1,4 +1,4 @@
-const UserService = require('../services/User.service');
+const UserService = require('../services/RBAC/User.service');
 
 exports.get = (req, res) => {
     return UserService.get(req, res);

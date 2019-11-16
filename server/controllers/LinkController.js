@@ -1,4 +1,4 @@
-const LinkService = require('../services/Link.service');
+const LinkService = require('../services/SystemManagement/Link.service');
 
 exports.get = (req, res) => {
     return LinkService.get(req, res);

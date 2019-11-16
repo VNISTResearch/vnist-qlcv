@@ -10,16 +10,25 @@ class Departments extends Component {
     constructor(props) {
         super(props);
         this.state = { 
-            deleteAlert: true
+            name: null,
+            description: null,
+            dean: null,
+            vice_dean: null,
+            employee: null,
+            parent: null, 
+            deleteAlert: true,
+            notification: false,
         }
-        
         this.alert = this.alert.bind(this);
+        this.inputChange = this.inputChange.bind(this);
+        this.save = this.save.bind(this);
+        this.thongbao = this.thongbao.bind(this);
     }
 
     alert(id, title, name){
         Swal.fire({
             title: `${title} "${name}"`,
-            type: 'warning',
+            type: 'warning', 
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
@@ -29,6 +38,33 @@ class Departments extends Component {
                 this.props.delete(id)
             }
         });
+    }
+
+    thongbao(content){
+        this.setState({ notification: false });
+        Swal.fire({
+            type: 'success',
+            title: content,
+            showConfirmButton: false,
+            timer: 1800
+        });
+    }
+
+    inputChange = (e) => {
+        const target = e.target;
+        const name = target.name;
+        const value = target.value;
+        this.setState({
+            [name]: value
+        });
+    }
+
+    save = (e) => {
+        e.preventDefault();
+        this.setState({ notification: true });
+        var {name, description, dean, vice_dean, employee, parent} = this.state;
+        const department = {name, description, dean, vice_dean, employee, parent};
+        this.props.create(department);
     }
 
     componentDidMount(){
@@ -42,14 +78,10 @@ class Departments extends Component {
                 <div className="box-body">
                     <CreateDepartment 
                         parent = { aDepartments.list }
+                        inputChange = { this.inputChange }
+                        save = { this.save }
                     />
-                    {
-                        aDepartments.success !== null && aDepartments.success !== undefined &&
-                        <div className="alert alert-success" style={{ marginTop: '20px'}}>
-                            <button type="button" className="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <p>{ aDepartments.success }</p>
-                        </div>
-                    }
+                    { aDepartments.success !== null && this.state.notification && this.thongbao(aDepartments.success) }
                     {
                         typeof(aDepartments.list) !== 'undefined' ?
                         <table className="table table-bordered table-hover" style={{ marginTop: '20px'}}>

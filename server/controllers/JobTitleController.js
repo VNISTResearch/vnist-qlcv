@@ -1,4 +1,4 @@
-const JobTitleService = require('../services/JobTitle.service');
+const JobTitleService = require('../services/KPI/JobTitle.service');
 
 exports.get = (req, res) => {
     return JobTitleService.get(req, res);

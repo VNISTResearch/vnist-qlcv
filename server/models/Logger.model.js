@@ -3,7 +3,11 @@ const Schema = mongoose.Schema;
 
 // Create Schema
 const LoggerSchema = new Schema({
-    log: {
+    name: {
+        type: String,
+        required: true
+    },
+    status: {
         type: Boolean,
         required: true
     }

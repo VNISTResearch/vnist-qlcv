@@ -3,17 +3,18 @@ import { connect } from 'react-redux';
 import { get, create, destroy } from '../../../redux-actions/Admin/Users.action';
 import { withTranslate } from 'react-redux-multilingual';
 import Swal from 'sweetalert2';
+import ReactLoading from 'react-loading';
 
 class Users extends Component {
     constructor(props) {
         super(props);
         this.state = { 
             name: null,
-            email: null,
-            password: null
+            email: null
          }
         this.inputChange = this.inputChange.bind(this);
         this.save = this.save.bind(this);
+        this.addUserSuccess = this.addUserSuccess.bind(this);
     }
 
     componentDidMount(){
@@ -46,11 +47,19 @@ class Users extends Component {
 
     save = (e) => {
         e.preventDefault();
-        var {name , email, password} = this.state;
+        var {name , email } = this.state;
         this.props.create({
             name,
-            email,
-            password
+            email
+        });
+    }
+
+    addUserSuccess(content){
+        Swal.fire({
+            type: 'success',
+            title: content,
+            showConfirmButton: false,
+            timer: 2200
         });
     }
 
@@ -69,78 +78,83 @@ class Users extends Component {
                         <li className="active">{ translate('manageUser.name') }</li>
                     </ol>
                 </section>
-                {/* Main content */}
-                <section className="content">
-                    <a className="btn btn-success" data-toggle="modal" href='#modal-id'><i className="fa fa-plus"/>{ translate('manageUser.create') }</a>
-                    <div className="modal fade" id="modal-id">
-                        <div className="modal-dialog">
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <button type="button" className="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h4 className="modal-title">{ translate('manageUser.name') }</h4>
-                                </div>
-                                <div className="modal-body">
-                                    <form style={{ marginBottom: '20px' }} >
-                                        <div className="form-group">
-                                            <label>{ translate('table.name') }</label>
-                                            <input type="text" className="form-control" name="name" onChange={ this.inputChange }/>
-                                        </div>
-                                        <div className="form-group">
-                                            <label>{ translate('table.email') }</label>
-                                            <input type="email" className="form-control" name="email" onChange={ this.inputChange }/>
-                                        </div>
-                                        <div className="form-group">
-                                            <label>{ translate('table.password') }</label>
-                                            <input type="password" className="form-control" name="password" onChange={ this.inputChange }/>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div className="modal-footer">
-                                    <button className="btn btn-danger" data-dismiss="modal"><i className="fa fa-close"></i> { translate('table.close') }</button>
-                                    <button className="btn btn-primary" onClick={ this.save } data-dismiss="modal"><i className="fa fa-save"></i> { translate('table.save') }</button>
+                {
+                    ( aUsers.isLoading !== undefined && aUsers.isLoading ) ? 
+                    <section className="content">
+                        <div style={{ marginLeft: '45%', marginTop: '12%'}}>
+                            <ReactLoading type={"spinningBubbles"} color={"#605CA8"} height={'auto'} width={'10%'} />
+                        </div>
+                    </section> :
+                    <section className="content">
+                        <a className="btn btn-success" data-toggle="modal" href='#modal-id'><i className="fa fa-plus"/>{ translate('manageUser.create') }</a>
+                        <div className="modal fade" id="modal-id">
+                            <div className="modal-dialog">
+                                <div className="modal-content">
+                                    <div className="modal-header">
+                                        <button type="button" className="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h4 className="modal-title">{ translate('manageUser.name') }</h4>
+                                    </div>
+                                    <div className="modal-body">
+                                        <form style={{ marginBottom: '20px' }} >
+                                            <div className="form-group">
+                                                <label>{ translate('table.name') }</label>
+                                                <input type="text" className="form-control" name="name" onChange={ this.inputChange }/>
+                                            </div>
+                                            <div className="form-group">
+                                                <label>{ translate('table.email') }</label>
+                                                <input type="email" className="form-control" name="email" onChange={ this.inputChange }/>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div className="modal-footer">
+                                        <button className="btn btn-danger" data-dismiss="modal"><i className="fa fa-close"></i> { translate('table.close') }</button>
+                                        <button className="btn btn-primary" onClick={ this.save } data-dismiss="modal"><i className="fa fa-save"></i> { translate('table.save') }</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div className="box" style={{marginTop: '20px'}}>
-                        <div className="box-header">
-                            <h3 className="box-title">{ translate('manageUser.name') }</h3>
+                        
+                        <div className="box" style={{marginTop: '20px'}}>
+                            <div className="box-header">
+                                <h3 className="box-title">{ translate('manageUser.name') }</h3>
+                            </div>
+                            {/* /.box-header */}
+                            <div className="box-body">
+                                {
+                                    aUsers.success !== null && aUsers.success !== undefined && this.createUserSuccess(aUsers.success )
+                                }
+                                {
+                                    typeof(aUsers.list) !== 'undefined' ?
+                                    (
+                                        <table className="table table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>{ translate('table.name') }</th>
+                                                    <th>{ translate('table.email') }</th>
+                                                    <th>{ translate('table.action') }</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {
+                                                    aUsers.list.map( user => (
+                                                        <tr key={user._id}>
+                                                            <td>{user.name}</td>
+                                                            <td>{user.email}</td>
+                                                            <td>
+                                                                <button className="btn btn-sm btn-primary"><i className="fa fa-edit"></i></button>{' '}
+                                                                <button className="btn btn-sm btn-danger" onClick={() => this.alert(user._id, translate('manageUser.delete'), user.email)}><i className="fa fa-trash"></i></button>
+                                                            </td>
+                                                        </tr>
+                                                    ))
+                                                }
+                                            </tbody>
+                                        </table>
+                                    ) : null
+                                }
+                            </div>
                         </div>
-                        {/* /.box-header */}
-                        <div className="box-body">
-                            {
-                                typeof(aUsers.list) !== 'undefined' ?
-                                (
-                                    <table className="table table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>{ translate('table.name') }</th>
-                                                <th>{ translate('table.email') }</th>
-                                                <th>{ translate('table.action') }</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {
-                                                aUsers.list.map( user => (
-                                                    <tr key={user._id}>
-                                                        <td>{user.name}</td>
-                                                        <td>{user.email}</td>
-                                                        <td>
-                                                            <button className="btn btn-sm btn-primary"><i className="fa fa-edit"></i></button>{' '}
-                                                            <button className="btn btn-sm btn-danger" onClick={() => this.alert(user._id, translate('manageUser.delete'), user.email)}><i className="fa fa-trash"></i></button>
-                                                        </td>
-                                                    </tr>
-                                                ))
-                                            }
-                                        </tbody>
-                                    </table>
-                                ) : null
-                            }
-                        </div>
-                    </div>
-                </section>
-                
+                    </section>
+                }
             </div>
          );
     }

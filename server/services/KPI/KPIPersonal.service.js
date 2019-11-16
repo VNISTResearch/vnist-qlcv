@@ -1,5 +1,5 @@
-const KPIPersonal = require('../models/KPIPersonal.model');
-const KPIUnit = require('../models/KPIUnit.model');
+const KPIPersonal = require('../../models/KPIPersonal.model');
+const KPIUnit = require('../../models/KPIUnit.model');
 
 // get all kpi personal
 exports.get = async (req, res) => {

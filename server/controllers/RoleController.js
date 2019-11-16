@@ -1,4 +1,4 @@
-const RoleService = require('../services/Role.service');
+const RoleService = require('../services/RBAC/Role.service');
 
 exports.get = (req, res) => {
     return RoleService.get(req, res);
