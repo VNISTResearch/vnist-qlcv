@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class ListCourse extends Component {
     render() {
-        return(
+        return (
             <div className="content-wrapper">
                 {/* Content Header (Page header) */}
                 <section className="content-header">
@@ -41,10 +41,10 @@ class ListCourse extends Component {
                                         </div>
                                     </div>
                                     <div className="col-md-12">
-                                        <div className="box-header col-md-6" style={{paddingLeft:0}}>
+                                        <div className="box-header col-md-6" style={{ paddingLeft: 0 }}>
                                             <h3 className="box-title">Danh sách chương trình đào tạo bắt buộc:</h3>
-                                            </div>
-                                            <button type="submit" className="btn btn-success pull-right" id="">Thêm khoá đào tạo</button>
+                                        </div>
+                                        <button type="submit" className="btn btn-success pull-right" id="">Thêm khoá đào tạo</button>
                                         <table className="table table-bordered table-hover listcourse">
                                             <thead>
                                                 <tr>
@@ -90,4 +90,4 @@ class ListCourse extends Component {
     };
 };
 
-export {ListCourse};
+export { ListCourse };

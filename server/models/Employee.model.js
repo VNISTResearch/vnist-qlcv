@@ -3,6 +3,9 @@ const Schema = mongoose.Schema;
 
 // Create Schema
 const EmployeeSchema = new Schema({
+    avatar: {
+        type: String
+    },
     fullName: {
         type: String,
         required: true
@@ -79,15 +82,42 @@ const EmployeeSchema = new Schema({
     educational: {
         type: String
     },
-    certificate: {
-        type: Schema.Types.ObjectId
-    },
-    experience: {
-        type: Schema.Types.ObjectId
-    },
+    certificate: [{
+        nameCertificate: String,
+        urlCertificate: String
+    }],
+    experience: [{
+        startDate: String,
+        endDate: String,
+        unit: String,
+        position: String
+    }],
+    contract: [{
+        startDate: String,
+        endDate: String,
+        urlContract: String
+    }],
+    insurrance: [{
+        startDate: String,
+        endDate: String,
+        cost: String
+    }],
+    course: [{
+        nameCourse: String,
+        startDate: String,
+        endDate: String,
+        unit: String,
+        status: String
+    }],
     department: {
         type: String,
-        required: true
+        required: true,
+        default: ""
+    },
+    position: {
+        type: String,
+        required: true,
+        default: ""
     },
     createDate: {
         type: Date,

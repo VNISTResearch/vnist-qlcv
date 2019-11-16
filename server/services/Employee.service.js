@@ -45,6 +45,7 @@ exports.getByEmployeeNumber = async (req, res) => {
 exports.create = async (req, res) => {
     try {
         var employees = await Employee.create({
+            avatar: req.body.avatar,
             fullName: req.body.fullName,
             employeeNumber: req.body.employeeNumber,
             MSCC: req.body.MSCC,
@@ -66,12 +67,33 @@ exports.create = async (req, res) => {
             cultural: req.body.cultural,
             foreignLanguage: req.body.foreignLanguage,
             educational: req.body.educational,
-            department: req.body.department,
+            experience: req.body.experience,
+            certificate: req.body.certificate,
+            contract: req.body.contract,
+            insurrance: req.body.insurrance,
+            course: req.body.course
+
         });
         var employeeContact = await EmployeeContact.create({
             employeeNumber: req.body.employeeNumber,
+            emailPersonal: req.body.emailPersonal,
+            phoneNumberAddress: req.body.phoneNumberAddress,
+            friendName: req.body.friendName,
+            relation: req.body.relation,
+            friendPhone: req.body.friendPhone,
+            friendEmail: req.body.friendEmail,
+            friendPhoneAddress: req.body.friendPhoneAddress,
+            friendAddress: req.body.friendAddress,
+            localAddress: req.body.localAddress,
+            localNational: req.body.localNational,
+            localCity: req.body.localCity,
+            localDistrict: req.body.localDistrict,
+            localCommune: req.body.localCommune,
             nowAddress: req.body.nowAddress,
-            localAddress: req.body.localAddress
+            nowNational: req.body.nowNational,
+            nowCity: req.body.nowCity,
+            nowDistrict: req.body.nowDistrict,
+            nowCommune: req.body.nowCommune,
         })
         var content = {
             employees,

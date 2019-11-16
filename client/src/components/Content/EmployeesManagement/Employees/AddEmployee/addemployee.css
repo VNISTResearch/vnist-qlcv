@@ -68,6 +68,22 @@ input.upload {
     top: 0;
 }
 
+input#file {
+    position: absolute;
+    font-size: 50px;
+    opacity: 0;
+    right: 0;
+    top: 0;
+}
+
+input#file1 {
+    position: absolute;
+    font-size: 50px;
+    opacity: 0;
+    right: 0;
+    top: 0;
+}
+
 span.required {
     color: #E34724;
 }

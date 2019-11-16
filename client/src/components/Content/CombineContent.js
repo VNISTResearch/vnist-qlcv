@@ -21,5 +21,5 @@ export * from './EmployeesManagement/Employees/ListEmployee/InfoEmployee';
 export * from './EmployeesManagement/Employees/UpdateEmployee';
 export * from './EmployeesManagement/Search/DetailSalary';
 export * from './EmployeesManagement/Training/TrainingResults';
-export * from './EmployeesManagement/Training/TrainingPlan';
+export * from './EmployeesManagement/Training/TrainingPlan/TrainingPlan';
 export * from './EmployeesManagement/Training/ListCourse';

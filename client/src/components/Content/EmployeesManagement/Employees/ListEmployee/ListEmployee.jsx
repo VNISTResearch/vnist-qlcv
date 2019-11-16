@@ -8,28 +8,53 @@ class ListEmployee extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            department: "-- Tất cả --"
+            show: "display",
+            view: "display",
+            department: " các đơn vị",
+            truong: "",
+            pho: "",
+            unit: "Đơn vị",
         }
+        this.handleChangeUnit = this.handleChangeUnit.bind(this)
     }
-    UNSAFE_componentWillMount() {
+    componentDidMount() {
         let script = document.createElement('script');
         script.src = 'main/js/ListEmployee.js';
         script.async = true;
         script.defer = true;
         document.body.appendChild(script);
-    }
-    componentDidMount() {
         this.props.getAllEmployee();
     }
-
-    handleClick = (employeeNumber) => {
+    // function click a row in table list employee
+    view = (employeeNumber) => {
         this.props.getInformationEmployee(employeeNumber);
+        this.setState({
+            view: "",
+        })
+    }
+    // function change unit show 
+    handleChangeUnit(event) {
+        var lists, truong = "", pho = "";
+        var { value } = event.target;
+        const { employees } = this.props;
+        if (employees.items) lists = employees.items;
+        if (value !== "-- Tất cả --") {
+            this.setState({
+                show: "",
+                department: value,
+            })
+        } else {
+            this.setState({
+                show: "display",
+            })
+        }
     }
     render() {
-        var lists;
+        var lists, check;
         const { employees } = this.props;
-        console.log(employees);
-        
+        var { department } = this.state;
+        console.log(this.state);
+
         if (employees.items) lists = employees.items;
         var { employee, employeeContact } = this.props.employees;
         return (
@@ -37,57 +62,131 @@ class ListEmployee extends Component {
                 {/* Content Header (Page header) */}
                 <section className="content-header">
                     <h1>
-                        Danh sách nhân viên
+                        Nhân sự các đơn vị
                     </h1>
                     <ol className="breadcrumb">
-                        <li><a href="#abc"><i className="fa fa-dashboard" /> Home</a></li>
+                        <li><a href="/"><i className="fa fa-dashboard" /> Home</a></li>
                         <li className="active">Quản lý nhân sự</li>
                     </ol>
                 </section>
                 <section className="content">
                     <div className="row">
                         <div className="col-xs-12">
-                            <div className="box">
+                            <div className="box box-info">
                                 {/* /.box-header */}
                                 <div className="box-body">
-                                    <div className="col-md-4">
-                                        <div className="form-group">
-                                            <label>Phòng ban:</label>
-                                            <select className="form-control" id="department">
+                                    <div className="col-md-12" style={{ paddingLeft: 0 }}>
+                                        <div className="form-group col-md-6">
+                                            <label>Tên đơn vị:</label>
+                                            <select className="form-control" id="department" onChange={this.handleChangeUnit}>
                                                 <option>-- Tất cả --</option>
                                                 <option>Phòng nhân sự</option>
                                                 <option>Phòng hành chính</option>
                                                 <option>Phòng kinh doanh</option>
                                                 <option>Phòng Marketing</option>
+                                                <option>Ban hành chính</option>
                                             </select>
                                         </div>
-                                        <div className="box-header" style={{ paddingLeft: 0 }}>
-                                            <h3 className="box-title">Danh sách nhân viên:</h3>
+                                    </div>
+                                    <div className={this.state.show} >
+                                        <div className="col-md-12" style={{ paddingLeft: 0 }}>
+                                            <div className="form-group col-md-6">
+                                                <label>Trưởng {department.toLowerCase()}:</label>
+                                                <select className="form-control select2" style={{ width: '100%' }} >
+                                                    {lists &&
+                                                        lists.map(function (x, index) {
+                                                            if (x.department === department && x.position === "Trưởng phòng") {
+
+                                                                check = true;
+                                                                return < option key={index} selected> {x.fullName} - {x.employeeNumber}</option>
+                                                            } else {
+                                                                check = "";
+                                                            }
+                                                        }
+                                                        )}
+                                                    <option className={check === true ? "display" : ""}></option>
+                                                    {lists &&
+                                                        lists.map(function (x, index) {
+                                                            if (x.department !== department && x.position !== "Trưởng phòng") {
+                                                                return <option key={index}>{x.fullName} - {x.employeeNumber}</option>
+                                                            }
+                                                        })}
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-12" style={{ paddingLeft: 0 }}>
+                                            <div className="form-group col-md-6">
+                                                <label>Phó {department.toLowerCase()}:</label>
+                                                <select className="form-control select2" multiple="multiple" style={{ width: '100%' }}>
+                                                    {lists &&
+                                                        lists.map(function (x, index) {
+                                                            if (x.department === department && x.position === "Phó phòng") {
+                                                                return < option key={index} selected> {x.fullName} - {x.employeeNumber}</option>
+                                                            }
+                                                        }
+                                                        )}
+                                                    {lists &&
+                                                        lists.map(function (x, index) {
+                                                            if (x.department !== department && x.position !== "Phó phòng") {
+                                                                return <option key={index}>{x.fullName} - {x.employeeNumber}</option>
+                                                            }
+                                                        })}
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                        <div className="col-md-12" style={{ paddingLeft: 0 }}>
+                                            <div className="form-group col-md-6" >
+                                                <label>Thêm nhân viên vào {department.toLowerCase()}:</label>
+                                                <select className="form-control select2" multiple="multiple" style={{ width: '100%' }}>
+                                                    {lists &&
+                                                        lists.map((x, index) => (
+                                                            <option>{x.fullName} - {x.employeeNumber}</option>
+                                                        ))}
+                                                </select>
+                                            </div>
+                                            <button style={{ marginTop: 25 }} type="submit" className="btn btn-primary" id="" title="Lưu các thay đổi">Lưu lại</button>
+
                                         </div>
                                     </div>
+                                    <div className="col-md-12">
+                                        <div className="col-md-12" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                            <div className="box-header col-md-6" style={{ paddingLeft: 0 }}>
+                                                <h3 className="box-title">Danh sách nhân viên {department.toLowerCase()}:</h3>
+                                            </div>
+                                            <button style={{ marginBottom: 10 }} type="submit" className="btn btn-success pull-right" id="" title="Thêm một nhân viên mới">Thêm nhân viên</button>
+                                        </div>
 
-                                    <div className="col-md-12" style={{ paddingLeft: 20 }}>
                                         <table id="listexample" className="table table-bordered" >
                                             <thead>
                                                 <tr>
-                                                    <th>Mã nhân viên</th>
+                                                    <th style={{ width: "15%" }}>Mã nhân viên</th>
                                                     <th>Họ và tên</th>
-                                                    <th>Giới tính</th>
-                                                    <th>Ngày sinh</th>
-                                                    <th>Chức vụ</th>
-                                                    <th style={{ width: "18%" }}>Phòng ban</th>
+                                                    <th style={{ width: "10%" }}>Giới tính</th>
+                                                    <th style={{ width: "12%" }}>Ngày sinh</th>
+                                                    <th style={{ width: "12%" }}>Chức vụ</th>
+                                                    <th style={{ width: "13%" }}>Đơn vị</th>
+                                                    <th style={{ width: "12%" }}>Hành động</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {lists &&
                                                     lists.map((x, index) => (
-                                                        <tr key={index} onClick={() => this.handleClick(x.employeeNumber)}>
+                                                        <tr key={index}>
                                                             <td>{x.employeeNumber}</td>
                                                             <td>{x.fullName}</td>
                                                             <td>{x.gender}</td>
                                                             <td>{x.brithday}</td>
                                                             <td>nhân viên</td>
                                                             <td>{x.department}</td>
+                                                            <td>
+                                                                <center>
+                                                                    <a href="#view" className="view" title="Xem chi tiết" data-toggle="tooltip" onClick={() => this.view(x.employeeNumber)}><i className="material-icons">visibility</i></a>
+                                                                    <a href="#abc" className="edit" title="Chỉnh sửa thông tin " data-toggle="tooltip"><i className="material-icons"></i></a>
+                                                                    <a href="#abc" className="delete" title="Xoá nhân viên khỏi đơn vị" data-toggle="tooltip"><i className="material-icons"></i></a>
+                                                                </center>
+                                                            </td>
                                                         </tr>
                                                     )
                                                     )}
@@ -99,7 +198,8 @@ class ListEmployee extends Component {
                                                     <th>Giới tính</th>
                                                     <th>Ngày sinh</th>
                                                     <th>Chức vụ</th>
-                                                    <th>Phòng ban</th>
+                                                    <th>Đơn vị</th>
+                                                    <th>Hành động</th>
                                                 </tr>
                                             </tfoot>
                                         </table>
@@ -111,11 +211,11 @@ class ListEmployee extends Component {
                         </div>
                         {/* /.col */}
                     </div>
-                    <div id="detailEmployee" className="display">
+                    <div id="view" className={this.state.view}>
                         <InfoEmployee employee={employee} employeeContact={employeeContact} />
                     </div>
                 </section>
-            </div>
+            </div >
         );
     };
 }
