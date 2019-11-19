@@ -4,6 +4,7 @@ export function tasks(state = {}, action) {
     switch (action.type) {
         case taskManagementConstants.GETALL_TASK_REQUEST:
             return {
+                ...state,
                 loading: true
             };
         case taskManagementConstants.GETALL_TASK_SUCCESS:
@@ -17,6 +18,7 @@ export function tasks(state = {}, action) {
             };
         case taskManagementConstants.GETTASK_BYID_REQUEST:
             return {
+                ...state,
                 loading: true
             };
         case taskManagementConstants.GETTASK_BYID_SUCCESS:
@@ -30,6 +32,7 @@ export function tasks(state = {}, action) {
             };
         case taskManagementConstants.GETTASK_BYROLE_REQUEST:
             return {
+                ...state,
                 loadingMany: true
             };
         case taskManagementConstants.GETTASK_BYROLE_SUCCESS:
@@ -38,6 +41,24 @@ export function tasks(state = {}, action) {
                 items: action.tasks
             };
         case taskManagementConstants.GETTASK_BYROLE_FAILURE:
+            return {
+                error: action.error
+            };
+        case taskManagementConstants.GETTASK_BYUSER_REQUEST:
+            return {
+                ...state,
+                loadingMany: true
+            };
+        case taskManagementConstants.GETTASK_BYUSER_SUCCESS:
+            return {
+                ...state,
+                taskCreators: action.tasks.taskCreators,
+                taskResponsibles: action.tasks.taskResponsibles,
+                taskAccounatables: action.tasks.taskAccounatables,
+                taskConsulteds: action.tasks.taskConsulteds,
+                taskInformeds: action.tasks.taskInformeds,
+            };
+        case taskManagementConstants.GETTASK_BYUSER_FAILURE:
             return {
                 error: action.error
             };

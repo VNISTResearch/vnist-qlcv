@@ -4,6 +4,7 @@ export function tasktemplates(state = {}, action) {
     switch (action.type) {
         case taskTemplateConstants.GETALL_TEMPLATE_REQUEST:
             return {
+                ...state,
                 loading: true
             };
         case taskTemplateConstants.GETALL_TEMPLATE_SUCCESS:
@@ -15,22 +16,10 @@ export function tasktemplates(state = {}, action) {
             return {
                 error: action.error
             };
-        case taskTemplateConstants.GETTEMPLATE_BYID_REQUEST:
-            return {
-                loading: true
-            };
-        case taskTemplateConstants.GETTEMPLATE_BYID_SUCCESS:
-            return {
-                ...state,
-                template: action.template
-            };
-        case taskTemplateConstants.GETTEMPLATE_BYID_FAILURE:
-            return {
-                error: action.error
-            };
         case taskTemplateConstants.GETTEMPLATE_BYROLE_REQUEST:
             return {
-                loadingMany: true
+                ...state,
+                loadingByRole: true
             };
         case taskTemplateConstants.GETTEMPLATE_BYROLE_SUCCESS:
             return {
@@ -43,7 +32,8 @@ export function tasktemplates(state = {}, action) {
             };
         case taskTemplateConstants.GETTEMPLATE_BYUSER_REQUEST:
             return {
-                loadingMany: true
+                ...state,
+                loadingByUser: true
             };
         case taskTemplateConstants.GETTEMPLATE_BYUSER_SUCCESS:
             return {
@@ -52,6 +42,20 @@ export function tasktemplates(state = {}, action) {
                 pageTotal: action.tasktemplates.pages
             };
         case taskTemplateConstants.GETTEMPLATE_BYUSER_FAILURE:
+            return {
+                error: action.error
+            };
+        case taskTemplateConstants.GETTEMPLATE_BYID_REQUEST:
+            return {
+                ...state,
+                loadingById: true
+            };
+        case taskTemplateConstants.GETTEMPLATE_BYID_SUCCESS:
+            return {
+                ...state,
+                template: action.tasktemplate
+            };
+        case taskTemplateConstants.GETTEMPLATE_BYID_FAILURE:
             return {
                 error: action.error
             };

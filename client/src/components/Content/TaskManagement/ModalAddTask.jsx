@@ -7,7 +7,7 @@ class ModalAddTask extends Component {
     componentDidMount() {
         this.props.getJobTitle();
         // get id current role
-        this.props.getTaskTemplateByRole(localStorage.getItem('currentRole'));
+        this.props.getTaskByUser(localStorage.getItem('id'), 1, "[]");
         // load js for form
         this.handleLoadjs();
     }
@@ -97,15 +97,18 @@ class ModalAddTask extends Component {
     }
 
     render() {
-        var course, listTaskTemplate, listTasks;
+        var course, listTaskTemplate, taskCreators, taskResponsibles, taskAccounatables, taskConsulteds, taskInformeds;
         const { newTask, submitted, member } = this.state;
         const { jobtitles, tasktemplates, tasks } = this.props;
         if (tasktemplates.items) listTaskTemplate = tasktemplates.items;
         if (jobtitles.items) course = jobtitles.items.content;
-        if (tasks.items) listTasks = tasks.items;
-        console.log(listTasks);
+        if (tasks.taskCreators) taskCreators = tasks.taskCreators;
+        if (tasks.taskResponsibles) taskResponsibles = tasks.taskResponsibles;
+        if (tasks.taskAccounatables) taskAccounatables = tasks.taskAccounatables;
+        if (tasks.taskConsulteds) taskConsulteds = tasks.taskConsulteds;
+        if (tasks.taskInformeds) taskInformeds = tasks.taskInformeds;
         return (
-            <div className="modal fade" id="myModalHorizontal" tabIndex={-1} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div className="modal modal-full fade" id={`addNewTask${this.props.id}`} tabIndex={-1} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div className="modal-dialog-full">
                     <div className="modal-content">
                         {/* Modal Header */}
@@ -139,7 +142,7 @@ class ModalAddTask extends Component {
                                             <div className="col-sm-4 help-block">Hãy điền mô tả công việc</div>
                                         }
                                     </div>
-                                    <div className={'form-group has-feedback' + (submitted && (!newTask.startdate ||!newTask.enddate) ? ' has-error' : '')}>
+                                    <div className={'form-group has-feedback' + (submitted && (!newTask.startdate || !newTask.enddate) ? ' has-error' : '')}>
                                         <div className="col-sm-6">
                                             <label className="col-sm-4 control-label" style={{ width: '100%', textAlign: 'left', marginLeft: "-14px" }}>Ngày bắt đầu*:</label>
                                             <div className={'input-group date has-feedback col-sm-10'} style={{ width: '100%' }}>
@@ -189,8 +192,8 @@ class ModalAddTask extends Component {
                                             </select>
                                         </div>
                                         {submitted && !newTask.tasktemplate &&
-                                                <div className="col-sm-4 help-block">Hãy chọn đơn vị</div>
-                                            }
+                                            <div className="col-sm-4 help-block">Hãy chọn đơn vị</div>
+                                        }
                                     </div>
                                     <div className="form-group  has-feedback">
                                         <label className="col-sm-4 control-label" style={{ width: '100%', textAlign: 'left' }}>Chọn mẫu công việc</label>
@@ -211,14 +214,38 @@ class ModalAddTask extends Component {
                                     <div className="form-group  has-feedback">
                                         <label className="col-sm-4 control-label" style={{ width: '100%', textAlign: 'left' }}>Chọn công việc cha</label>
                                         <div className="col-sm-10" style={{ width: '100%' }}>
-                                            <select className="form-control select2" style={{ width: '100%' }} ref={input => this.parent = input}>
+                                            <select className="form-control select2" style={{ width: '100%' }} ref={input => this.parent = input} defaultValue={this.props.id!==""?this.props.id:null}>
                                                 <option>--Hãy chọn công việc cha--</option>
-                                                {
-                                                    (typeof listTasks !== 'undefined' && listTasks.length !== 0) ?
-                                                        listTasks.map(item => {
+                                                {(typeof taskResponsibles !== 'undefined' && taskResponsibles.length !== 0) ?
+                                                    <optgroup label="Thực hiện chính">
+                                                        {taskResponsibles.map(item => {
                                                             return <option key={item._id} value={item._id}>{item.name}</option>
-                                                        }) : null
-                                                }
+                                                        })}
+                                                    </optgroup> : null}
+                                                {(typeof taskAccounatables !== 'undefined' && taskAccounatables.length !== 0) ?
+                                                    <optgroup label="Phê duyệt">
+                                                        {taskAccounatables.map(item => {
+                                                            return <option key={item._id} value={item._id}>{item.name}</option>
+                                                        })}
+                                                    </optgroup> : null}
+                                                {(typeof taskConsulteds !== 'undefined' && taskConsulteds.length !== 0) ?
+                                                    <optgroup label="Hỗ trợ thực hiện">
+                                                        {taskConsulteds.map(item => {
+                                                            return <option key={item._id} value={item._id}>{item.name}</option>
+                                                        })}
+                                                    </optgroup> : null}
+                                                {(typeof taskCreators !== 'undefined' && taskCreators.length !== 0) ?
+                                                    <optgroup label="Thiết lập">
+                                                        {taskCreators.map(item => {
+                                                            return <option key={item._id} value={item._id}>{item.name}</option>
+                                                        })}
+                                                    </optgroup> : null}
+                                                {(typeof taskInformeds !== 'undefined' && taskInformeds.length !== 0) ?
+                                                    <optgroup label="Quan sát">
+                                                        {taskInformeds.map(item => {
+                                                            return <option key={item._id} value={item._id}>{item.name}</option>
+                                                        })}
+                                                    </optgroup> : null}
                                             </select>
                                         </div>
                                     </div>
@@ -233,8 +260,8 @@ class ModalAddTask extends Component {
                                             </select>
                                         </div>
                                         {submitted && !newTask.kpi &&
-                                                <div className="col-sm-4 help-block">Hãy chọn kpi mục tiêu</div>
-                                            }
+                                            <div className="col-sm-4 help-block">Hãy chọn kpi mục tiêu</div>
+                                        }
                                     </div>
                                 </fieldset>
                                 <fieldset className="scheduler-border">
@@ -311,7 +338,7 @@ function mapState(state) {
 
 const actionCreators = {
     getJobTitle: jobTitleActions.getAll,
-    getTaskTemplateByRole: taskTemplateActions.getAllTaskTemplateByRole,
+    getTaskByUser: taskTemplateActions.getAllTaskTemplateByUser,
     addTask: taskManagementActions.addTask
 };
 

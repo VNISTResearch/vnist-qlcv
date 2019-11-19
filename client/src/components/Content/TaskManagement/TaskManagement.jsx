@@ -1,24 +1,73 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ModalAddTask } from './ModalAddTask';
-import { taskManagementActions } from '../../../redux-actions/CombineActions';
+import { taskManagementActions, departmentActions } from '../../../redux-actions/CombineActions';
+import { ModalPerformTask } from './ModalPerformTask';
 
 class TaskManagement extends Component {
-    UNSAFE_componentWillMount() {
-        this.props.getTaskByRole(localStorage.getItem('id'), localStorage.getItem('currentRole'))
-        let script = document.createElement('script');
-        script.src = 'main/js/GridTable.js';
-        script.async = true;
-        script.defer = true;
-        document.body.appendChild(script);
+    componentDidMount() {
+        this.props.getDepartment(localStorage.getItem('id'));
+        this.props.getTaskByUser(localStorage.getItem('id'), "[]", 1);
+        this.defindMultiSelect();
+        this.loadJS();
+        this.handleResizeColumn();
+        // this.showModal();
+        // this.handleDisableOnClickFisrtLast();
     }
     constructor(props) {
         super(props);
         this.state = {
-            role: []
+            perPage: 10,
+            extendProperties: false
         };
     }
+    showModal = (id) => {
+        // window.$('#taskTable').on('click', 'td:not(last-child),td:not(first-child)', function (e) {
+        // var id = e.target.getAttribute("data-id");
+        // console.log(id);
+        window.$(`#modelPerformTask${id}`).modal('show');
+        // });
+    }
+    loadJS = () => {
+        let script = document.createElement('script');
+        script.src = 'main/js/GridTableVers2.js';
+        script.async = true;
+        script.defer = true;
+        document.body.appendChild(script);
+        let script1 = document.createElement('script');
+        script1.src = 'main/js/defindMultiSelect.js';
+        script1.async = true;
+        script1.defer = true;
+        document.body.appendChild(script1);
+    }
+    handleResizeColumn = () => {
+        window.$(function () {
+            var pressed = false;
+            var start = undefined;
+            var startX, startWidth;
 
+            window.$("table thead tr th").mousedown(function (e) {
+                start = window.$(this);
+                pressed = true;
+                startX = e.pageX;
+                startWidth = window.$(this).width();
+                window.$(start).addClass("resizing");
+            });
+
+            window.$(document).mousemove(function (e) {
+                if (pressed) {
+                    window.$(start).width(startWidth + (e.pageX - startX));
+                }
+            });
+
+            window.$(document).mouseup(function () {
+                if (pressed) {
+                    window.$(start).removeClass("resizing");
+                    pressed = false;
+                }
+            });
+        });
+    }
     formatDate(date) {
         var d = new Date(date),
             month = '' + (d.getMonth() + 1),
@@ -32,7 +81,40 @@ class TaskManagement extends Component {
 
         return [day, month, year].join('-');
     }
-
+    defindMultiSelect = () => {
+        window.$(document).ready(function () {
+            window.$('#multiSelectShowColumn1').multiselect({
+                buttonWidth: '160px',
+                //   includeSelectAllOption : true,
+                nonSelectedText: 'Chọn cột muốn ẩn',
+                allSelectedText: 'Ẩn tất cả các cột'
+            });
+        });
+        window.$(document).ready(function () {
+            window.$('#multiSelectStatus').multiselect({
+                buttonWidth: '160px',
+                //   includeSelectAllOption : true,
+                nonSelectedText: 'Chọn trạng thái',
+                allSelectedText: 'Tất cả trạng thái'
+            });
+        });
+        window.$(document).ready(function () {
+            window.$('#multiSelectPriority').multiselect({
+                buttonWidth: '160px',
+                //   includeSelectAllOption : true,
+                nonSelectedText: 'Chọn độ ưu tiên',
+                allSelectedText: 'Tất cả độ ưu tiên'
+            });
+        });
+        window.$(document).ready(function () {
+            window.$('#multiSelectCharacteristic').multiselect({
+                buttonWidth: '160px',
+                //   includeSelectAllOption : true,
+                nonSelectedText: 'Chọn đặc tính',
+                allSelectedText: 'Tất cả đặc tính'
+            });
+        });
+    }
     list_to_tree = (list) => {
         var map = {}, node, roots = [], i, newarr = [];
         for (i = 0; i < list.length; i += 1) {
@@ -42,7 +124,7 @@ class TaskManagement extends Component {
         // console.log(map);
         for (i = 0; i < list.length; i += 1) {
             node = list[i];
-            if (node.parent !== "") {
+            if (node.parent !== null) {
                 // if you have dangling branches check that map[node.parentId] exists
                 list[map[node.parent]].children.push(node);
             } else {
@@ -61,12 +143,60 @@ class TaskManagement extends Component {
         console.log(flat);
         return flat;
     }
-
+    handleCheckClick = (event) => {
+        if (event.stopPropagation) {
+            event.stopPropagation();
+        }
+        event.catteryBubble = true;
+        return true;
+    }
+    handleDisableOnClickFisrtLast = () => {
+        window.$('#taskTable').on('click', 'td:first-child, td:last-child', function (e) {
+            e.stopPropagation();
+        });
+    }
+    handleSetting = async () => {
+        console.log("àdgfhgfhfg");
+        // Cập nhật cột muốn ấn
+        var test = window.$("#multiSelectShowColumn1").val();
+        window.$("td").show();
+        window.$("th").show();
+        for (var j = 0, len = test.length; j < len; j++) {
+            window.$('td:nth-child(' + test[j] + ')').hide();
+            window.$('th:nth-child(' + test[j] + ')').hide();
+        }
+        // Cập nhật số dòng trang trên một trang hiển thị
+        await this.setState(state => {
+            return {
+                ...state,
+                perPage: this.perPage.value
+            }
+        })
+        // Đóng cửa sổ cài đặt
+        var element = document.getElementById("setting-table");
+        element.classList.remove("in");
+        element.setAttribute("aria-expanded", "false");
+    }
+    handleExtendProperties = async () => {
+        await this.defindMultiSelect();
+        await this.setState(state => {
+            return {
+                ...state,
+                extendProperties: !state.extendProperties
+            }
+        })
+    }
     render() {
-        var listTasks;
-        const { tasks } = this.props;
-        if (tasks.items) listTasks = tasks.items;
-        console.log(listTasks);
+        var taskCreators, taskResponsibles, taskAccounatables, taskConsulteds, taskInformeds, units;
+        const { tasks, departments } = this.props;
+        const { extendProperties } = this.state;
+        if (tasks.taskCreators) taskCreators = tasks.taskCreators;
+        if (tasks.taskResponsibles) taskResponsibles = tasks.taskResponsibles;
+        if (tasks.taskAccounatables) taskAccounatables = tasks.taskAccounatables;
+        if (tasks.taskConsulteds) taskConsulteds = tasks.taskConsulteds;
+        if (tasks.taskInformeds) taskInformeds = tasks.taskInformeds;
+        if (departments.unitofuser) units = departments.unitofuser;
+        console.log(taskResponsibles);
         return (
             <div className="content-wrapper">
                 <section className="content-header">
@@ -74,82 +204,141 @@ class TaskManagement extends Component {
                         Danh sách công việc
                     </h1>
                     <ol className="breadcrumb">
-                        <li><a href="#abc"><i className="fa fa-dashboard" /> Home</a></li>
-                        <li><a href="#abc">TaskTemplate</a></li>
-                        <li className="active">Data tables</li>
+                        <li><a href="/"><i className="fa fa-dashboard" /> Trang chủ</a></li>
+                        <li><a href="/task-management">Quản lý công việc</a></li>
                     </ol>
                 </section>
                 <section className="content">
                     <div className="nav-tabs-custom">
                         <ul className="nav nav-tabs">
-                            <li className="active"><a href="#all" data-toggle="tab">Tất cả</a></li>
-                            <li><a href="#timeline" data-toggle="tab">Ưu tiên</a></li>
-                            <li><a href="#activity" data-toggle="tab">Đang thực hiện</a></li>
-                            <li><a href="#settings" data-toggle="tab">Theo quy trình</a></li>
-                            <li><a href="#settings" data-toggle="tab">Chờ</a></li>
-                            <li><a href="#settings" data-toggle="tab">Quá hạn</a></li>
-                            <li><a href="#settings" data-toggle="tab">Hoàn thành</a></li>
-                            <li><a href="#settings" data-toggle="tab">Tạm dừng</a></li>
-                            <li><a href="#settings" data-toggle="tab">Đã hủy</a></li>
-                            <li><a href="#settings" data-toggle="tab">Kho lưu</a></li>
+                            <li className="active"><a href="#responsible" data-toggle="tab">Thực hiện chính</a></li>
+                            <li><a href="#accountable" data-toggle="tab">Phê duyệt</a></li>
+                            <li><a href="#consulted " data-toggle="tab">Hỗ trợ thực hiện</a></li>
+                            <li><a href="#creator" data-toggle="tab">Thiết lập</a></li>
+                            <li><a href="#informed" data-toggle="tab">Quan sát</a></li>
                         </ul>
                         <div className="tab-content">
-                            <div className="active tab-pane" id="all">
-                                <div className="form-group">
-                                    <label className="col-sm-12 control-label">Vai trò của bạn:</label>
-                                    <div style={{ marginLeft: "5%" }}>
-                                        <div className="col-sm-10">
-                                            <label className="col-sm-3 control-label" style={{ width: "18%", fontWeight: "400" }}>Người tạo</label>
-                                            <input type="checkbox" className="flat-red col-sm-8" defaultChecked />
-                                        </div>
-                                        <div className="col-sm-10">
-                                            <label className="col-sm-3 control-label" style={{ width: "18%", fontWeight: "400" }}>Người thực hiện</label>
-                                            <input type="checkbox" className="flat-red col-sm-8" defaultChecked />
-                                        </div>
-                                        <div className="col-sm-10">
-                                            <label className="col-sm-3 control-label" style={{ width: "18%", fontWeight: "400" }}>Người phê duyệt</label>
-                                            <input type="checkbox" className="flat-red col-sm-8" defaultChecked />
-                                        </div>
-                                        <div className="col-sm-10">
-                                            <label className="col-sm-3 control-label" style={{ width: "18%", fontWeight: "400" }}>Người quan sát</label>
-                                            <input type="checkbox" className="flat-red col-sm-8" defaultChecked />
-                                        </div>
-                                        <div className="col-sm-2">
-                                            <button type="button" className="btn btn-success" data-toggle="modal" data-target="#myModalHorizontal" data-backdrop="static" data-keyboard="false" style={{ marginTop: "-25%" }}>Thêm công việc</button>
-                                            <ModalAddTask />
-                                        </div>
+                            <div className="active tab-pane" id="responsible">
+                                <div className="col-xs-7">
+                                    <div className="col-xs-6 item-container">
+                                        <label>Đơn vị:</label>
+                                        {units &&
+                                            <select id="multiSelectUnit1" multiple="multiple" defaultValue={units.map(item => item._id)}>
+                                                {units.map(item => {
+                                                    return <option key={item._id} value={item._id}>{item.name}</option>
+                                                })}
+                                            </select>
+                                        }
+                                    </div>
+                                    <div className="col-xs-6 item-container">
+                                        <label style={{ width: "48%" }}>Tên công việc:</label>
+                                        <input className="form-control" type="text" placeholder="Tìm kiếm theo tên" />
+                                    </div>
+                                    <div className="col-xs-6 item-container">
+                                        <label>Trạng thái:</label>
+                                        <select id="multiSelectStatus" style={{ marginLeft: "0" }} multiple="multiple" defaultValue={["Đang chờ", "Đang thực hiện", "Quá hạn", "Đã hoàn thành", "Đã hủy", "Tạm dừng"]}>
+                                            <option value="Đang chờ">Đang chờ</option>
+                                            <option value="Đang thực hiện">Đang thực hiện</option>
+                                            <option value="Quá hạn">Quá hạn</option>
+                                            <option value="Đã hoàn thành">Đã hoàn thành</option>
+                                            <option value="Đã hủy">Đã hủy</option>
+                                            <option value="Tạm dừng">Tạm dừng</option>
+                                        </select>
+                                    </div>
+                                    {extendProperties &&
+                                        <React.Fragment>
+                                            <div className="col-xs-6 item-container">
+                                                <label style={{ marginRight: "9%" }}>Độ ưu tiên:</label>
+                                                <select id="multiSelectPriority" style={{ marginLeft: "0" }} multiple="multiple" defaultValue={["Đang chờ", "Đang thực hiện", "Quá hạn", "Đã hoàn thành", "Đã hủy", "Tạm dừng"]}>
+                                                    <option value="Cao">Cao</option>
+                                                    <option value="Trung bình">Trung bình</option>
+                                                    <option value="Thấp">Thấp</option>
+                                                </select>
+                                            </div>
+                                            <div className="col-xs-6 item-container">
+                                                <label>Đặc tính:</label>
+                                                <select id="multiSelectCharacteristic" style={{ marginLeft: "0" }} multiple="multiple" defaultValue={["Đang chờ", "Đang thực hiện", "Quá hạn", "Đã hoàn thành", "Đã hủy", "Tạm dừng"]}>
+                                                    <option value="1">Lưu trong kho</option>
+                                                    <option value="2">Tháng hiện tại</option>
+                                                </select>
+                                            </div>
+                                        </React.Fragment>}
+                                    <div className="col-xs-6 item-container">
+                                        <button type="button" className="btn btn-success" onClick={this.handleUpdateData} style={{ width: "135%" }}>Tìm kiếm</button>
+                                    </div>
+
+                                    <div className="col-xs-8 col-xs-offset-2">
+                                        <button className="btn btn-default" style={{ background: "none", border: "none", marginTop: "-5%" }} onClick={this.handleExtendProperties}><i className="fa fa-chevron-circle-down"></i>{extendProperties ? "Rút gọn" : "Mở rộng"}</button>
                                     </div>
                                 </div>
+                                <div className="col-xs-3" style={{ marginTop: "4.5%", marginLeft: "13%" }}>
+                                    <button type="button" className="btn btn-success" data-toggle="modal" data-target="#addNewTask" data-backdrop="static" data-keyboard="false" style={{ width: "100%" }}>Thêm công việc</button>
+                                    <ModalAddTask id="" />
+                                </div>
+                                <div className="setting-table">
+                                    <button type="button" data-toggle="collapse" data-target="#setting-table" className="btn btn-default" style={{ marginTop: "4.5%", marginLeft: "-1%" }}><i className="fa fa-gears"></i></button>
+                                </div>
+                                <div id="setting-table" className="row collapse" style={{ right: "30px", width: "23%" }}>
+                                    <fieldset className="scheduler-border">
+                                        <legend className="scheduler-border">Bảng cấu hình</legend>
+                                        <div className="col-xs-12">
+                                            <label style={{ marginRight: "15px" }}>Ẩn cột:</label>
+                                            <select id="multiSelectShowColumn1" multiple="multiple">
+                                                <option value="1">Tên công việc</option>
+                                                <option value="2">Đơn vị</option>
+                                                <option value="3">Độ ưu tiên</option>
+                                                <option value="4">Thời gian bắt đầu</option>
+                                                <option value="5">Thời gian kết thúc</option>
+                                                <option value="6">Trạng thái</option>
+                                                <option value="7">Tiến độ</option>
+                                                <option value="8">Thời gian</option>
+                                                <option value="9">Hành động</option>
+                                            </select>
+                                        </div>
+                                        <div className="col-xs-12" style={{ marginTop: "10px" }}>
+                                            <label style={{ marginRight: "15px" }}>Số dòng/trang:</label>
+                                            <input className="form-control" type="text" defaultValue={10} ref={input => this.perPage = input} />
+                                        </div>
+                                        <div className="col-xs-2 col-xs-offset-6 update" >
+                                            <button type="button" className="btn btn-success" onClick={this.handleSetting}>Cập nhật</button>
+                                        </div>
+                                    </fieldset>
+                                </div>
+
                                 <table id="tree-table" className="table table-hover table-bordered">
                                     <thead>
-                                        <tr>
-                                            <th style={{ width: "20%" }}>Tên công việc</th>
-                                            <th>Trạng thái</th>
-                                            <th>Tiến độ</th>
-                                            <th>Độ ưu tiên</th>
-                                            <th>Bắt đầu</th>
-                                            <th>Kết thúc</th>
-                                            <th>Thời gian</th>
-                                            <th style={{width: "15%"}}><center>Hành động</center></th>
+                                        <tr id="task">
+                                            <th style={{ width: "15%" }}>Tên công việc</th>
+                                            <th style={{ width: "16%" }}>Đơn vị</th>
+                                            <th style={{ width: "8%" }}>Độ ưu tiên</th>
+                                            <th style={{ width: "8%" }}>Bắt đầu</th>
+                                            <th style={{ width: "8%" }}>Kết thúc</th>
+                                            <th style={{ width: "8%" }}>Trạng thái</th>
+                                            <th style={{ width: "6%" }}>Tiến độ</th>
+                                            <th style={{ width: "7%" }}>Thời gian</th>
+                                            <th style={{ width: "13%" }}><center>Hành động</center></th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="taskTable">
                                         {
-                                            (typeof listTasks !== 'undefined' && listTasks.length !== 0) ?
-                                                this.list_to_tree(listTasks).map(item =>
+                                            (typeof taskResponsibles !== 'undefined' && taskResponsibles.length !== 0) ?
+                                                this.list_to_tree(taskResponsibles).map(item =>
                                                     <tr key={item._id} data-id={item._id} data-parent={item.parent} data-level={item.level}>
                                                         <td data-column="name">{item.name}</td>
-                                                        <td>{item.status === 1 ? "Đang chờ" : "Đang thực hiện"}</td>
-                                                        <td>0%</td>
+                                                        <td>{item.unit.name}</td>
                                                         <td>{item.priority}</td>
                                                         <td>{this.formatDate(item.startdate)}</td>
                                                         <td>{this.formatDate(item.enddate)}</td>
+                                                        <td>{item.status}</td>
+                                                        <td>0%</td>
                                                         <td>0</td>
-                                                        <td>
-                                                            <a href="#abc" className="star" title="Ưu tiên"><i className="material-icons">star</i></a>
-                                                            <a href="#abc" className="timer" title="Bấm giờ"><i className="material-icons">timer</i></a>
-                                                            <a href="#abc" className="add_circle" title="Thêm mới"><i className="material-icons">add_circle</i></a>
-                                                            <a href="#abc" className="all_inbox" title="Kho"><i className="material-icons">all_inbox</i></a>
+                                                        <td >
+                                                            <a href={`#modelPerformTask${item._id}`} data-toggle="modal" title="Bắt đầu thực hiện"><i className="material-icons">play_arrow</i></a>
+                                                            <a href="#abc" className="timer" title="Bắt đầu bấm giờ"><i className="material-icons">timer</i></a>
+                                                            <a href={`#addNewTask${item._id}`} onClick={this.handleCheckClick} data-toggle="modal" className="add_circle" title="Thêm công việc con cho công việc này"><i className="material-icons">add_circle</i></a>
+                                                            <ModalAddTask id={item._id} />
+                                                            <a href="#abc" className="all_inbox" title="Lưu công việc này vào kho"><i className="material-icons">all_inbox</i></a>
+                                                            <ModalPerformTask id={item._id} />
                                                         </td>
                                                     </tr>
                                                 ) : null
@@ -157,7 +346,7 @@ class TaskManagement extends Component {
                                     </tbody>
                                 </table>
                             </div>
-                            <div className="tab-pane" id="activity">
+                            <div className="tab-pane" id="accountable">
                                 {/* Post */}
                                 <div className="post">
                                     <div className="user-block">
@@ -265,18 +454,13 @@ class TaskManagement extends Component {
                                 </div>
                                 {/* /.post */}
                             </div>
-                            {/* /.tab-pane */}
-                            <div className="tab-pane" id="timeline">
-                                {/* The timeline */}
+                            <div className="tab-pane" id="consulted">
                                 <ul className="timeline timeline-inverse">
-                                    {/* timeline time label */}
                                     <li className="time-label">
                                         <span className="bg-red">
                                             10 Feb. 2014
-          </span>
+                                        </span>
                                     </li>
-                                    {/* /.timeline-label */}
-                                    {/* timeline item */}
                                     <li>
                                         <i className="fa fa-envelope bg-blue" />
                                         <div className="timeline-item">
@@ -349,8 +533,7 @@ class TaskManagement extends Component {
                                     </li>
                                 </ul>
                             </div>
-                            {/* /.tab-pane */}
-                            <div className="tab-pane" id="settings">
+                            <div className="tab-pane" id="creator">
                                 <form className="form-horizontal">
                                     <div className="form-group">
                                         <label htmlFor="inputName" className="col-sm-2 control-label">Name</label>
@@ -398,12 +581,56 @@ class TaskManagement extends Component {
                                     </div>
                                 </form>
                             </div>
-                            {/* /.tab-pane */}
+                            <div className="tab-pane" id="informed">
+                                <form className="form-horizontal">
+                                    <div className="form-group">
+                                        <label htmlFor="inputName" className="col-sm-2 control-label">Name</label>
+                                        <div className="col-sm-10">
+                                            <input type="email" className="form-control" id="inputName" placeholder="Name" />
+                                        </div>
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="inputEmail" className="col-sm-2 control-label">Email</label>
+                                        <div className="col-sm-10">
+                                            <input type="email" className="form-control" id="inputEmail" placeholder="Email" />
+                                        </div>
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="inputName" className="col-sm-2 control-label">Name</label>
+                                        <div className="col-sm-10">
+                                            <input type="text" className="form-control" id="inputName" placeholder="Name" />
+                                        </div>
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="inputExperience" className="col-sm-2 control-label">Experience</label>
+                                        <div className="col-sm-10">
+                                            <textarea className="form-control" id="inputExperience" placeholder="Experience" defaultValue={""} />
+                                        </div>
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="inputSkills" className="col-sm-2 control-label">Skills</label>
+                                        <div className="col-sm-10">
+                                            <input type="text" className="form-control" id="inputSkills" placeholder="Skills" />
+                                        </div>
+                                    </div>
+                                    <div className="form-group">
+                                        <div className="col-sm-offset-2 col-sm-10">
+                                            <div className="checkbox">
+                                                <label>
+                                                    <input type="checkbox" /> I agree to the <a href="#abc">terms and conditions</a>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="form-group">
+                                        <div className="col-sm-offset-2 col-sm-10">
+                                            <button type="submit" className="btn btn-danger">Submit</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                        {/* /.tab-content */}
                     </div>
-                    {/* /.nav-tabs-custom */}
-
                 </section>
             </div>
         );
@@ -411,12 +638,13 @@ class TaskManagement extends Component {
 }
 
 function mapState(state) {
-    const { tasks } = state;
-    return { tasks };
+    const { tasks, departments } = state;
+    return { tasks, departments };
 }
 
 const actionCreators = {
-    getTaskByRole: taskManagementActions.getAllTaskByRole
+    getTaskByUser: taskManagementActions.getAllTaskByUser,
+    getDepartment: departmentActions.getDepartmentOfUser
 };
 const connectedTaskManagement = connect(mapState, actionCreators)(TaskManagement);
 export { connectedTaskManagement as TaskManagement };

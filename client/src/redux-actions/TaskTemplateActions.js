@@ -46,11 +46,11 @@ function getAllTaskTemplateByRole(id) {
 }
 
 // Get all task template by user
-function getAllTaskTemplateByUser(id, pageNumber) {
+function getAllTaskTemplateByUser(id, pageNumber, arrayUnit) {
     return dispatch => {
         dispatch(request(id));
 
-        taskTemplateService.getAllTaskTemplateByUser(id, pageNumber)
+        taskTemplateService.getAllTaskTemplateByUser(id, pageNumber,arrayUnit)
             .then(
                 tasktemplates => dispatch(success(tasktemplates)),
                 error => dispatch(failure(error.toString()))

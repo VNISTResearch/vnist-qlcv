@@ -1,8 +1,10 @@
 import {handleResponse} from '../helpers/HandleResponse';
+import { authHeader } from '../helpers/AuthHeader';
 export const taskManagementService = {
     getAll,
     getById,
     getAllTaskByRole,
+    getAllTaskByUser,
     addNewTask,
     editTask,
     deleteTaskById
@@ -11,6 +13,7 @@ export const taskManagementService = {
 function getAll() {
     const requestOptions = {
         method: 'GET',
+        headers: authHeader()
     };
 
     return fetch('/tasks', requestOptions).then(handleResponse);
@@ -20,6 +23,7 @@ function getAll() {
 function getById(id) {
     const requestOptions = {
         method: 'GET',
+        headers: authHeader()
     };
 
     return fetch(`/tasks/${id}`, requestOptions).then(handleResponse);
@@ -29,16 +33,27 @@ function getById(id) {
 function getAllTaskByRole(id, role) {
     const requestOptions = {
         method: 'GET',
+        headers: authHeader()
     };
 
     return fetch(`/tasks/role/${id}/${role}`, requestOptions).then(handleResponse);
+
+}
+// get all task by Role
+function getAllTaskByUser(user, unit, number) {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+
+    return fetch(`/tasks/user/${unit}/${user}/${number}`, requestOptions).then(handleResponse);
 }
 
 // add new task
 function addNewTask(newTask) {
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: authHeader(),
         body: JSON.stringify(newTask)
     };
 
@@ -49,7 +64,7 @@ function addNewTask(newTask) {
 function editTask(id, newTask) {
     const requestOptions = {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: authHeader(),
         body: JSON.stringify(newTask)
     };
 
@@ -60,6 +75,7 @@ function editTask(id, newTask) {
 function deleteTaskById(id) {
     const requestOptions = {
         method: 'DELETE',
+        headers: authHeader()
     };
 
     return fetch(`/tasks/${id}`, requestOptions).then(handleResponse);

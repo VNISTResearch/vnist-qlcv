@@ -42,6 +42,7 @@ exports.getByRole = async (req, res) => {
 // lấy tất cả mẫu công việc theo id user
 exports.getByUser = async (req, res) => {
     try {
+        console.log(req.params.unit);
         // Lấy tất cả các role người dùng có
         var roles = await UserRole.find({ id_user: req.params.id }).populate({path: "id_role"});
         var newRoles = roles.map(role => role.id_role);
@@ -51,10 +52,26 @@ exports.getByUser = async (req, res) => {
             allRole = allRole.concat(item._id); //thêm id role hiện tại vào 1 mảng
             allRole = allRole.concat(item.abstract); //thêm các role children vào mảng
         })
-        var tasktemplates = await Privilege.find({
-            role: { $in: allRole },
-            resource_type: 'TaskTemplate'
-        }).sort({'createdAt': 'desc'}).skip(2*(req.params.number-1)).limit(2).populate({ path: 'resource', model: TaskTemplate, populate: { path: 'creator unit' } });
+        var tasktemplates;
+        if(req.params.unit === "[]"){
+            tasktemplates = await Privilege.find({
+                role: { $in: allRole },
+                resource_type: 'TaskTemplate'
+            }).sort({'createdAt': 'desc'}).skip(2*(req.params.number-1)).limit(2).populate({ path: 'resource', model: TaskTemplate, populate: { path: 'creator unit' } });
+        } else {
+            tasktemplates = await Privilege.find({
+                role: { $in: allRole },
+                resource_type: 'TaskTemplate'})
+                .sort({'createdAt': 'desc'})
+                .skip(2*(req.params.number-1))
+                .limit(2)
+                .populate({ 
+                    path: 'resource', 
+                    model: TaskTemplate, 
+                    match: { unit: { $in: req.params.unit.split(",") }},
+                    populate: { path: 'creator unit' } });
+        }
+        
 
         var totalCount = await Privilege.count({
             role: { $in: allRole },

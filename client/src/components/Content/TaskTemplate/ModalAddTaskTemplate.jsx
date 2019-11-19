@@ -5,12 +5,12 @@ import Sortable from 'sortablejs';
 
 class ModalAddTaskTemplate extends Component {
     componentDidMount() {
+        //get department of current user
+        this.props.getDepartment(localStorage.getItem('id'));
         //Load js for form
         this.handleLoadJS();
         //Load library for sort action table
         this.handleSortable();
-        //get department of current user
-        this.props.getDepartment(localStorage.getItem('id'));
     }
     constructor(props) {
         super(props);
@@ -414,7 +414,7 @@ class ModalAddTaskTemplate extends Component {
         if (departments.unitofuser) units = departments.unitofuser;
         console.log(this.state);
         return (
-            <div className="modal fade" id="myModalHorizontal" tabIndex={-1} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div className="modal modal-full fade" id="addTaskTemplate" tabIndex={-1} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div className="modal-dialog-full">
                     <div className="modal-content">
                         {/* Modal Header */}
@@ -423,7 +423,7 @@ class ModalAddTaskTemplate extends Component {
                                 <span aria-hidden="true">×</span>
                                 <span className="sr-only">Close</span>
                             </button>
-                            <h3 className="modal-title" id="myModalLabel"><b>Thêm mẫu công việc</b></h3>
+                            <h3 className="modal-title" id="myModalLabel">Thêm mẫu công việc</h3>
                         </div>
                         {/* Modal Body */}
                         <div className="modal-body" >

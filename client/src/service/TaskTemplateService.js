@@ -1,4 +1,5 @@
 import {handleResponse} from '../helpers/HandleResponse';
+import { authHeader } from '../helpers/AuthHeader';
 export const taskTemplateService = {
     getAll,
     getById,
@@ -12,6 +13,7 @@ export const taskTemplateService = {
 function getAll() {
     const requestOptions = {
         method: 'GET',
+        headers: authHeader()
     };
 
     return fetch('/tasktemplates', requestOptions).then(handleResponse);
@@ -21,6 +23,7 @@ function getAll() {
 function getById(id) {
     const requestOptions = {
         method: 'GET',
+        headers: authHeader()
     };
 
     return fetch(`/tasktemplates/${id}`, requestOptions).then(handleResponse);
@@ -30,25 +33,27 @@ function getById(id) {
 function getAllTaskTemplateByRole(id) {
     const requestOptions = {
         method: 'GET',
+        headers: authHeader()
     };
 
     return fetch(`/tasktemplates/role/${id}`, requestOptions).then(handleResponse);
 }
 
 // get all task template by User
-function getAllTaskTemplateByUser(id, pageNumber) {
+function getAllTaskTemplateByUser(id, pageNumber,arrayUnit) {
     const requestOptions = {
         method: 'GET',
+        headers: authHeader()
     };
 
-    return fetch(`/tasktemplates/user/${id}/${pageNumber}`, requestOptions).then(handleResponse);
+    return fetch(`/tasktemplates/user/${id}/${pageNumber}/${arrayUnit}`, requestOptions).then(handleResponse);
 }
 
 // add new task template
 function addNewTaskTemplate(newTaskTemplate) {
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: authHeader(),
         body: JSON.stringify(newTaskTemplate)
     };
 
@@ -59,7 +64,7 @@ function addNewTaskTemplate(newTaskTemplate) {
 function editTaskTemplate(id, newTaskTemplate) {
     const requestOptions = {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: authHeader(),
         body: JSON.stringify(newTaskTemplate)
     };
 
@@ -70,6 +75,7 @@ function editTaskTemplate(id, newTaskTemplate) {
 function deleteTaskTemplateById(id) {
     const requestOptions = {
         method: 'DELETE',
+        headers: authHeader()
     };
 
     return fetch(`/tasktemplates/${id}`, requestOptions).then(handleResponse);

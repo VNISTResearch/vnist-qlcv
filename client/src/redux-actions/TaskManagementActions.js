@@ -4,6 +4,7 @@ import { taskManagementService } from "../service/CombineService";
 export const taskManagementActions = {
     getAll,
     getAllTaskByRole,
+    getAllTaskByUser,
     getTaskById,
     addTask,
     editTask,
@@ -42,6 +43,23 @@ function getAllTaskByRole(id, role) {
     function request(id) { return { type: taskManagementConstants.GETTASK_BYROLE_REQUEST, id } }
     function success(tasks) { return { type: taskManagementConstants.GETTASK_BYROLE_SUCCESS, tasks } }
     function failure(error) { return { type: taskManagementConstants.GETTASK_BYROLE_FAILURE, error } }
+}
+
+// Get all task by user
+function getAllTaskByUser(user, unit, number) {
+    return dispatch => {
+        dispatch(request(user));
+
+        taskManagementService.getAllTaskByUser(user, unit, number)
+            .then(
+                tasks => dispatch(success(tasks)),
+                error => dispatch(failure(error.toString()))
+            );
+    };
+
+    function request(user) { return { type: taskManagementConstants.GETTASK_BYUSER_REQUEST, user } }
+    function success(tasks) { return { type: taskManagementConstants.GETTASK_BYUSER_SUCCESS, tasks } }
+    function failure(error) { return { type: taskManagementConstants.GETTASK_BYUSER_FAILURE, error } }
 }
 
 // Get task template by id

@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 const User = require('./User.model');
 const KPIPersonal = require('./KPIPersonal.model');
 const Department = require('./Department.model');
+const TaskTemplate = require('./TaskTemplate.model');
 
 // Create Schema
 const TaskSchema = new Schema({
@@ -42,7 +43,8 @@ const TaskSchema = new Schema({
         required: true
     },
     tasktemplate: {
-        type: String,
+        type: Schema.Types.ObjectId,
+        ref: TaskTemplate,
     },
     role: {
         type: Schema.Types.ObjectId,
@@ -50,7 +52,8 @@ const TaskSchema = new Schema({
         required: true
     },
     parent: {
-        type: String,
+        type: Schema.Types.ObjectId,
+        replies: this
     },
     level: {
         type: Number,
