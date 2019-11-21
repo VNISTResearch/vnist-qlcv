@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { ModalAddTask } from './ModalAddTask';
 import { taskManagementActions, departmentActions } from '../../../redux-actions/CombineActions';
 import { ModalPerformTask } from './ModalPerformTask';
+import Swal from 'sweetalert2';
 
 class TaskManagement extends Component {
     componentDidMount() {
@@ -18,7 +19,9 @@ class TaskManagement extends Component {
         super(props);
         this.state = {
             perPage: 10,
-            extendProperties: false
+            extendProperties: false,
+            startTimer: false,
+            currentTimer: "",
         };
     }
     showModal = (id) => {
@@ -39,6 +42,16 @@ class TaskManagement extends Component {
         script1.async = true;
         script1.defer = true;
         document.body.appendChild(script1);
+        let script2 = document.createElement('script');
+        script2.src = 'main/js/uploadfile/custom.js';
+        script2.async = true;
+        script2.defer = true;
+        document.body.appendChild(script2);
+        let script3 = document.createElement('script');
+        script3.src = 'main/js/CoCauToChuc.js';
+        script3.async = true;
+        script3.defer = true;
+        document.body.appendChild(script3);
     }
     handleResizeColumn = () => {
         window.$(function () {
@@ -186,17 +199,38 @@ class TaskManagement extends Component {
             }
         })
     }
+    handleCountTime = async (id) => {
+        const { startTimer } = this.state;
+        if (startTimer) {
+            Swal.fire({
+                title: "Thời gian đã làm: 120'",
+                type: 'success',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Lưu'
+            }).then((res) => {
+                console.log("okokokok");
+            });
+        }
+        await this.setState(state => {
+            return {
+                ...state,
+                startTimer: !state.startTimer,
+                currentTimer: id
+            }
+        })
+    }
     render() {
         var taskCreators, taskResponsibles, taskAccounatables, taskConsulteds, taskInformeds, units;
         const { tasks, departments } = this.props;
-        const { extendProperties } = this.state;
+        const { extendProperties, startTimer, currentTimer } = this.state;
         if (tasks.taskCreators) taskCreators = tasks.taskCreators;
         if (tasks.taskResponsibles) taskResponsibles = tasks.taskResponsibles;
         if (tasks.taskAccounatables) taskAccounatables = tasks.taskAccounatables;
         if (tasks.taskConsulteds) taskConsulteds = tasks.taskConsulteds;
         if (tasks.taskInformeds) taskInformeds = tasks.taskInformeds;
         if (departments.unitofuser) units = departments.unitofuser;
-        console.log(taskResponsibles);
         return (
             <div className="content-wrapper">
                 <section className="content-header">
@@ -308,15 +342,15 @@ class TaskManagement extends Component {
                                 <table id="tree-table" className="table table-hover table-bordered">
                                     <thead>
                                         <tr id="task">
-                                            <th style={{ width: "15%" }}>Tên công việc</th>
-                                            <th style={{ width: "16%" }}>Đơn vị</th>
-                                            <th style={{ width: "8%" }}>Độ ưu tiên</th>
-                                            <th style={{ width: "8%" }}>Bắt đầu</th>
-                                            <th style={{ width: "8%" }}>Kết thúc</th>
-                                            <th style={{ width: "8%" }}>Trạng thái</th>
-                                            <th style={{ width: "6%" }}>Tiến độ</th>
-                                            <th style={{ width: "7%" }}>Thời gian</th>
-                                            <th style={{ width: "13%" }}><center>Hành động</center></th>
+                                            <th style={{ width: "15%" }} title="Tên công việc">Tên công việc</th>
+                                            <th style={{ width: "16%" }} title="Đơn vị">Đơn vị</th>
+                                            <th style={{ width: "8%" }} title="Độ ưu tiên">Độ ưu tiên</th>
+                                            <th style={{ width: "8%" }} title="Ngày bắt đầu">Bắt đầu</th>
+                                            <th style={{ width: "8%" }} title="Ngày kết thúc">Kết thúc</th>
+                                            <th style={{ width: "8%" }} title="Trạng thái">Trạng thái</th>
+                                            <th style={{ width: "6%" }} title="Tiến độ">Tiến độ</th>
+                                            <th style={{ width: "7%" }} title="Thời gian thực hiện">Thời gian</th>
+                                            <th style={{ width: "9%" }}><center>Hành động</center></th>
                                         </tr>
                                     </thead>
                                     <tbody id="taskTable">
@@ -324,21 +358,25 @@ class TaskManagement extends Component {
                                             (typeof taskResponsibles !== 'undefined' && taskResponsibles.length !== 0) ?
                                                 this.list_to_tree(taskResponsibles).map(item =>
                                                     <tr key={item._id} data-id={item._id} data-parent={item.parent} data-level={item.level}>
-                                                        <td data-column="name">{item.name}</td>
-                                                        <td>{item.unit.name}</td>
-                                                        <td>{item.priority}</td>
-                                                        <td>{this.formatDate(item.startdate)}</td>
-                                                        <td>{this.formatDate(item.enddate)}</td>
-                                                        <td>{item.status}</td>
-                                                        <td>0%</td>
-                                                        <td>0</td>
+                                                        <td title={item.name} data-column="name">{item.name}</td>
+                                                        <td title={item.unit.name}>{item.unit.name}</td>
+                                                        <td title={item.priority}>{item.priority}</td>
+                                                        <td title={this.formatDate(item.startdate)}>{this.formatDate(item.startdate)}</td>
+                                                        <td title={this.formatDate(item.enddate)}>{this.formatDate(item.enddate)}</td>
+                                                        <td title={item.status}>{item.status}</td>
+                                                        <td title="0%">0%</td>
+                                                        <td title="0">0</td>
                                                         <td >
                                                             <a href={`#modelPerformTask${item._id}`} data-toggle="modal" title="Bắt đầu thực hiện"><i className="material-icons">play_arrow</i></a>
-                                                            <a href="#abc" className="timer" title="Bắt đầu bấm giờ"><i className="material-icons">timer</i></a>
-                                                            <a href={`#addNewTask${item._id}`} onClick={this.handleCheckClick} data-toggle="modal" className="add_circle" title="Thêm công việc con cho công việc này"><i className="material-icons">add_circle</i></a>
-                                                            <ModalAddTask id={item._id} />
-                                                            <a href="#abc" className="all_inbox" title="Lưu công việc này vào kho"><i className="material-icons">all_inbox</i></a>
                                                             <ModalPerformTask id={item._id} />
+                                                            <a href="#abc" className={startTimer && currentTimer === item._id ? "edit" : "timer"} id="task-timer" title="Bắt đầu bấm giờ" onClick={() => this.handleCountTime(item._id)}><i className="material-icons">timer</i></a>
+                                                            <button type="button" data-toggle="collapse" data-target={`#actionTask${item._id}`} style={{ border: "none", background: "none" }}><i className="fa fa-ellipsis-v"></i></button>
+                                                            <div id={`actionTask${item._id}`} className="collapse action-template">
+                                                                <a href={`#addNewTask${item._id}`} onClick={this.handleCheckClick} data-toggle="modal" className="add_circle" title="Thêm công việc con cho công việc này"><i className="material-icons">add_circle</i></a>
+                                                                <a href="#abc" className="all_inbox" title="Lưu công việc này vào kho"><i className="material-icons">all_inbox</i></a>
+                                                                <a href="#abc" className="delete" onClick={() => this.handleAction(item._id)} title="Xóa mẫu công việc này"><i className="material-icons"></i></a>
+                                                            </div>
+                                                            <ModalAddTask id={item._id} />
                                                         </td>
                                                     </tr>
                                                 ) : null

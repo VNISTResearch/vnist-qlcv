@@ -10,7 +10,6 @@ class ModalEditTaskTemplate extends Component {
     componentDidMount() {
         this.props.getTaskTemplate(this.props.id);
     }
-
     render() {
         var template;
         const { tasktemplates } = this.props;
@@ -22,7 +21,7 @@ class ModalEditTaskTemplate extends Component {
                         <div className="modal-content">
                             <div className="modal-header">
                                 <button type="button" className="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                <h3 className="modal-title">Chỉnh sửa {template&&template.name}</h3>
+                                <h3 className="modal-title">Chỉnh sửa {template && template.name}</h3>
                             </div>
                             <div className="modal-body">
                                 {

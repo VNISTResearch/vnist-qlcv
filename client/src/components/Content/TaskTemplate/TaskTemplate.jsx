@@ -25,13 +25,12 @@ class TaskTemplate extends Component {
             status: 'start',
             currentPage: 1,
             perPage: 15,
-            unit: []
+            unit: [],
         };
         this.handleUpdateData = this.handleUpdateData.bind(this);
     }
 
     handleSetting = async () => {
-        console.log("àdgfhgfhfg");
         // Cập nhật cột muốn ấn
         var test = window.$("#multiSelectShowColumn").val();
         window.$("td").show();
@@ -47,12 +46,15 @@ class TaskTemplate extends Component {
                 perPage: this.perPage.value
             }
         })
-        // Đóng cửa sổ cài đặt
-        var element = document.getElementById("setting-table");
-        element.classList.remove("in");
-        element.setAttribute("aria-expanded","false");
+
     }
 
+    handleAction = (id) => {
+        // Đóng cửa sổ cài đặt
+        var element = document.getElementById(`action${id}`);
+        element.classList.remove("in");
+        element.setAttribute("aria-expanded", "false");
+    }
 
     loadJSMultiSelect = () => {
         window.$(document).ready(function () {
@@ -71,10 +73,6 @@ class TaskTemplate extends Component {
     //     console.log(selectedVal);
     // }
     //
-
-    // pressed: Nhập dữ liệu
-    // started
-    // startX
     handleResizeColumn = () => {
         window.$(function () {
             var pressed = false;
@@ -284,12 +282,12 @@ class TaskTemplate extends Component {
                                     <table className="table table-bordered table-striped" id="myTable">
                                         <thead>
                                             <tr>
-                                                <th>Tên mẫu công việc</th>
-                                                <th>Mô tả</th>
-                                                <th>Số lần sử dụng</th>
-                                                <th>Người tạo mẫu</th>
-                                                <th>Đơn vị</th>
-                                                <th style={{ width: "120px" }}>Hoạt động</th>
+                                                <th title="Tên mẫu công việc">Tên mẫu công việc</th>
+                                                <th title="Mô tả">Mô tả</th>
+                                                <th title="Số lần sử dụng">Số lần sử dụng</th>
+                                                <th title="Người tạo mẫu">Người tạo mẫu</th>
+                                                <th title="Đơn vị">Đơn vị</th>
+                                                <th style={{ width: "88px" }}>Hoạt động</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -297,17 +295,20 @@ class TaskTemplate extends Component {
                                                 (typeof list !== 'undefined' && list.length !== 0) ?
                                                     list.map(item =>
                                                         item.resource && <tr key={item.resource._id}>
-                                                            <td>{item.resource.name}</td>
-                                                            <td>{item.resource.description}</td>
-                                                            <td>{item.resource.count}</td>
-                                                            <td>{item.resource.creator.name}</td>
-                                                            <td>{item.resource.unit.name}</td>
+                                                            <td title={item.resource.name}>{item.resource.name}</td>
+                                                            <td title={item.resource.description}>{item.resource.description}</td>
+                                                            <td title={item.resource.count}>{item.resource.count}</td>
+                                                            <td title={item.resource.creator.name}>{item.resource.creator.name}</td>
+                                                            <td title={item.resource.unit.name}>{item.resource.unit.name}</td>
                                                             <td>
-                                                                <a href={`#viewTaskTemplate${item.resource._id}`} data-toggle="modal" className="view" title="Xem chi tiết mẫu công việc này"><i className="material-icons">view_list</i></a>
-                                                                <ModalViewTaskTemplate id={item.resource._id} />
-                                                                <a href={`#editTaskTemplate${item.resource._id}`} data-toggle="modal" className="edit" title="Sửa mẫu công việc này"><i className="material-icons"></i></a>
+                                                                <center><button type="button" data-toggle="collapse" data-target={`#action${item._id}`} style={{ border: "none", background: "none" }}><i className="fa fa-ellipsis-v"></i></button></center>
+                                                                <div id={`action${item._id}`} className="collapse action-template">
+                                                                    <a href={`#viewTaskTemplate${item.resource._id}`} onClick={() => this.handleAction(item._id)} data-toggle="modal" className="view" title="Xem chi tiết mẫu công việc này"><i className="material-icons">view_list</i></a>
+                                                                    <a href={`#editTaskTemplate${item.resource._id}`} onClick={() => this.handleAction(item._id)} data-toggle="modal" className="edit" title="Sửa mẫu công việc này"><i className="material-icons"></i></a>
+                                                                    <a href="#abc" className="delete" onClick={() => this.handleAction(item._id)} title="Xóa mẫu công việc này"><i className="material-icons"></i></a>
+                                                                </div>
                                                                 <ModalEditTaskTemplate id={item.resource._id} />
-                                                                <a href="#abc" className="delete" title="Xóa mẫu công việc này"><i className="material-icons"></i></a>
+                                                                <ModalViewTaskTemplate id={item.resource._id} />
                                                             </td>
                                                         </tr>
                                                     ) : <tr><td colSpan={6}><center>Không có dữ liệu</center></td></tr>

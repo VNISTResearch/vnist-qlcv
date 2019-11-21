@@ -105,8 +105,8 @@ class MainSideBar extends Component {
                                         </span>
                                     </a>
                                     <ul className="treeview-menu">
+                                        <li><a href="/task-management/dashboard">Thống kê công việc</a></li>
                                         <li><a href="/task-management">Xem danh sách công việc</a></li>
-                                        <li><a href="/kpi-member/approve">Thực hiện công việc</a></li>
                                     </ul>
                                 </li>
                             }

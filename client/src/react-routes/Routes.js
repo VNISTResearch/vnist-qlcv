@@ -28,7 +28,8 @@ import {
     KPIPersonalEvaluate,
     KPIMember,
     MemberApprove,
-    TaskManagement
+    TaskManagement,
+    TaskDashboard
 } from '../components/Content/CombineContent';
 import Privilege from '../components/Content/Privilege/Privilege';
 
@@ -45,6 +46,7 @@ const privatePage = [
     { path: '/task-template', exact: true, component: ({match}) => <TaskTemplate match={match}/> },
     { path: '/target', exact: true, component: ({match}) => <Target match={match}/> },
     { path: '/task-management', exact: true, component: ({match}) => <TaskManagement match={match}/> },
+    { path: '/task-management/dashboard', exact: true, component: ({match}) => <TaskDashboard match={match}/> },
     { path: '/kpi-unit/create', exact: true, component: ({match}) => <KPIUnitCreate match={match}/> },
     { path: '/kpi-unit/overview', exact: true, component: ({match}) => <KPIUnitOverview match={match}/> },
     { path: '/kpi-unit/evaluate', exact: true, component: ({match}) => <KPIUnitEvaluate match={match}/> },
