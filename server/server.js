@@ -12,9 +12,17 @@ const worktemplates = require("./routes/api/worktemplates");
 const jobtitles = require("./routes/api/jobtitles");
 const kpiunits = require("./routes/api/kpiunits");
 const kpipersonals = require("./routes/api/kpipersonals");
-const companies = require("./routes/api/companies");
+const companies = require('./routes/api/companies');
+const system = require('./routes/api/system');
 
+global.isLog = "Ghi log";
 const Logger = require('./models/Logger.model');
+Logger.findOne({name: 'Logger history'})
+    .then(result => {
+        result.status ? isLog = true : isLog = false;
+        console.log("Logger status: ", isLog);
+    })
+    .catch(err => console.log("msg: ", err));
 
 const cors = require('cors');
 require('dotenv').config();
@@ -63,6 +71,7 @@ app.use("/jobtitles", jobtitles);
 app.use("/kpiunits", kpiunits);
 app.use("/kpipersonals", kpipersonals);
 app.use("/companies", companies);
+app.use("/system", system);
 
 const port = process.env.PORT || 5000;
 

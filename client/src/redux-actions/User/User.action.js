@@ -38,3 +38,18 @@ export const getLinkOfRole = () => {
             })
     }
 }
+
+export const resetPassword = (email) => {
+    return dispatch => {
+        userService.resetPassword(email)
+            .then(res => {
+                dispatch({
+                    type: userConstants.RESET_PASSWORD_SUCCESS,
+                    payload: res.data
+                })
+            })
+            .catch(err => {
+                console.log("ERROR ROLES");
+            })
+    }
+}

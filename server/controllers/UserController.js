@@ -27,3 +27,7 @@ exports.edit = (req, res) => {
 exports.delete = (req, res) => {
     return UserService.delete(req, res);
 };
+
+exports.resetPassword = (req, res) => {
+    return UserService.resetPassword(req, res);
+};

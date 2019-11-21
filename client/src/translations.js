@@ -21,15 +21,16 @@ export default {
                 sub_employee: 'VD: Nhân viên phòng tài chính, ...',
                 delete: 'Bạn muốn xóa phòng',
                 description: 'Mô tả về đơn vị',
-                departmentParent: 'Phòng ban cha',
+                departmentParent: 'Đơn vị cha',
                 selectDepartment: '--Chọn một đơn vị cha --',
                 relationDepartment: 'Xem mối quan hệ giữa các đơn vị',
-                tableDepartment: 'Bảng danh sách các đơn vị'
+                tableDepartment: 'Bảng danh sách các đơn vị',
+                info: 'Thông tin về đơn vị'
 
             },
             manageRole: {
                 name: 'Quản lý admin',
-                admins: 'Quản lý danh sách Super Admin',
+                admins: 'Quản lý danh sách dmin',
                 roles: 'Quản lý các phân quyền khác',
                 add: 'Thêm',
                 create: 'Tạo thêm phân quyền mới',
@@ -110,7 +111,8 @@ export default {
                 departmentParent: 'Department Parent',
                 selectDepartment: '--Select parent department --',
                 relationDepartment: 'Relations between departments',
-                tableDepartment: 'Department Table'
+                tableDepartment: 'Department Table',
+                info: 'Information of department'
             },
             manageRole: {
                 name: 'Manage Admin',

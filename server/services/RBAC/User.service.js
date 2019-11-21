@@ -14,6 +14,8 @@ exports.get = (req, res) => {
         .catch(err => {
             res.status(400).json({msg: err});
         })
+    
+        console.log("ex: ", isLog);
     console.log("Get Users");
 };
 
@@ -24,7 +26,6 @@ exports.getById = async (req, res) => {
         userlogger.info(`User: ${req.params.id} Id: ${result.name} - Get user by id`);
         res.status(200).json(result);
     } catch (error) {
-        userlogger.error('get all user error');
         res.status(400).json({msg: error});
     }
     console.log("Get Users By Id");
@@ -71,7 +72,7 @@ exports.create = async (req, res) => {
             const password = generator.generate({
                 length: 10,
                 numbers: true
-            })
+            });
 
             var mainOptions = { // thiết lập đối tượng, nội dung gửi mail
                 from: 'Hệ thống quản lý công việc - VNIST',
@@ -156,4 +157,58 @@ exports.delete = async (req, res) => {
         res.status(400).json({msg: error});
     }
     console.log("DELETE USER")
+};
+
+exports.resetPassword = async (req, res) => {
+    try {
+
+        bcrypt.genSalt(10, (err, salt) => {
+            if (err) throw err;
+            var transporter = nodemailer.createTransport({
+                service: 'Gmail',
+                auth: {
+                    user: 'vnist.qlcv@gmail.com',
+                    pass: 'qlcv123@'
+                }
+            });
+
+            const password = generator.generate({
+                length: 10,
+                numbers: true
+            });
+
+            var mainOptions = { // thiết lập đối tượng, nội dung gửi mail
+                from: 'Hệ thống quản lý công việc - VNIST',
+                to: req.body.email,
+                subject: 'Yêu cầu reset mật khẩu tài khoản',
+                text: 'Tài khoản yêu cầu reset  : ' + req.body.email,
+                html:   
+                        '<p>Tài khoản dùng để đăng nhập của bạn là : </p' + 
+                        '<ul>' + 
+                            '<li>Tài khoản :' + req.body.email + '</li>' +
+                            '<li>Mật khẩu mới :' + password + '</li>' + 
+                        '</ul>' +
+                        '<p>Your account use to login in system : </p' + 
+                        '<ul>' + 
+                            '<li>Account :' + req.body.email + '</li>' +
+                            '<li>New password :' + password + '</li>' + 
+                        '</ul>'
+            }
+
+            bcrypt.hash(password, salt, async(err, hash) => {
+                if (err) throw err;
+                var user = await User.findOne({email: req.body.email});
+                if(user === null) res.status(400).json({msg: "No account found corresponding to this email"});
+                user.password = hash;
+                user.save();
+                await transporter.sendMail(mainOptions);
+
+                res.status(200).json({
+                    msg: "Request ok! Please check your email"
+                });
+            });
+        });
+    } catch (error) {
+        res.status(400).json({msg: "Canot reset user! Try again"});
+    }
 };

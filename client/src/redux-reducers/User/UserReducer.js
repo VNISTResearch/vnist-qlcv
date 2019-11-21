@@ -14,6 +14,12 @@ export function user (state = {}, action) {
                 links: action.payload
             }
 
+        case userConstants.RESET_PASSWORD_SUCCESS:
+            return {
+                ...state,
+                msg: action.payload.msg
+            }
+
         default:
             return {...state};
     }

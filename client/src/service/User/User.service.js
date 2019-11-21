@@ -4,7 +4,8 @@ import axios from 'axios';
 
 export const userService = {
     getRoles,
-    getLinkOfRole
+    getLinkOfRole,
+    resetPassword
 };
 
 function getRoles() {
@@ -23,6 +24,17 @@ function getLinkOfRole() {
     const requestOptions = {
         url: `${LOCAL_SERVER_API}/links/role/${currentRole}`,
         method: 'GET',
+        headers: authHeader()
+    };
+
+    return axios(requestOptions);
+}
+
+function resetPassword(email) {
+    const requestOptions = {
+        url: `${LOCAL_SERVER_API}/users/reset-password`,
+        method: 'POST',
+        data: { email },
         headers: authHeader()
     };
 

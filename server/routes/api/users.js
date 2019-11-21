@@ -16,5 +16,7 @@ router.post("/create", UserController.create);
 router.post("/create-job-title", UserController.createJobTitle);
 router.patch("/:id", UserController.edit);
 router.delete("/:id", UserController.delete);
+router.post("/reset-password", UserController.resetPassword);
+
 
 module.exports = router;

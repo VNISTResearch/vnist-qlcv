@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import MainHeaderMenu from './MainHeaderMenu/MainHeaderMenu';
+import {connect} from 'react-redux';
+import { withTranslate } from 'react-redux-multilingual';
 
 class MainHeader extends Component {
     render() {
@@ -27,7 +29,7 @@ class MainHeader extends Component {
                     <div className="modal-content">
                     <div className="modal-header">
                         <button type="button" className="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h4 className="modal-title">Modal title</h4>
+                        <h4 className="modal-title">Profile of user</h4>
                     </div>
                     <div className="modal-body">
                     </div>
@@ -43,4 +45,6 @@ class MainHeader extends Component {
     }
 }
 
-export {MainHeader};
+const mapState = state => state;
+ 
+export default connect(mapState, null) (withTranslate(MainHeader));

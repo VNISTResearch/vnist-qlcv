@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import {Link} from 'react-router-dom';
 import { withTranslate } from 'react-redux-multilingual';
 import CreateDepartment from './CreateDepartment';
+import DepartmentDetail from './DepartmentDetail';
 
 class Departments extends Component {
     constructor(props) {
@@ -88,6 +89,7 @@ class Departments extends Component {
                             <thead>
                                 <tr>
                                     <th>{ translate('table.name') }</th>
+                                    <th>{ translate('table.description') }</th>
                                     <th style={{width: '12%'}}>{ translate('table.action') }</th>
                                 </tr>
                             </thead>
@@ -96,18 +98,25 @@ class Departments extends Component {
                                 aDepartments.list.map( department => (
                                     <tr key={department._id}>
                                         <td>{ department.name }</td>
+                                        <td>{ department.description }</td>
                                         <td>
-                                            <Link 
+                                            {/* <Link 
                                                 to={`/admin/department/detail/${department._id}`}
                                                 className="btn btn-sm btn-primary">
                                                     <i className="fa fa-edit"></i>
-                                            </Link>
+                                            </Link> */}
+                                            <a className="btn btn-sm btn-primary" data-toggle="modal" href={`#modal-id-department-${department._id}`}><i className="fa fa-edit"></i></a>
                                             <button 
                                                 className="btn btn-sm btn-danger"
                                                 onClick={() => this.alert(department._id, translate('manageDepartment.delete'), department.name)}
                                             >
                                                 <i className="fa fa-trash"></i>
                                             </button>
+                                            <DepartmentDetail 
+                                                idDepartment={department._id}
+                                                nameDepartment={department.name}
+                                                descriptionDepartment={department.description}
+                                            />
                                         </td>
                                     </tr>
                                 ))

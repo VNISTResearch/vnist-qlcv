@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { MainHeader } from './Header/MainHeader';
+import MainHeader from './Header/MainHeader';
 import MainSideBar from './SideBar/MainSideBar';
 import MainFooter from './Footer/MainFooter';
 import Middleware from './Middleware';
