@@ -48,9 +48,8 @@ const EmployeeSchema = new Schema({
     emailCompany: {
         type: String
     },
-    MST: {
-        type: Number,
-        required: true
+    nation: {
+        type: String
     },
     ATM: {
         type: String,
@@ -60,8 +59,9 @@ const EmployeeSchema = new Schema({
         type: String,
         required: true
     },
-    numberBHYT: {
-        type: String
+    addressBank: {
+        type: String,
+        required: true
     },
     national: {
         type: String
@@ -82,9 +82,37 @@ const EmployeeSchema = new Schema({
     educational: {
         type: String
     },
+    numberBHYT: {
+        type: String
+    },
+    startDateBHYT: {
+        type: String
+    },
+    endDateBHYT: {
+        type: String
+    },
+    numberBHXH: {
+        type: String,
+    },
+    Tax: [{
+        numberTax: String,
+        userTax: String,
+        startDate: String,
+        unitTax: String,
+    }],
     certificate: [{
         nameCertificate: String,
+        addressCertificate: String,
+        yearCertificate: String,
+        typeCertificate: String,
         urlCertificate: String
+    }],
+    certificateShort: [{
+        nameCertificateShort: String,
+        unit: String,
+        startDate: String,
+        endDate: String,
+        urlCertificateShort: String
     }],
     experience: [{
         startDate: String,
@@ -93,19 +121,23 @@ const EmployeeSchema = new Schema({
         position: String
     }],
     contract: [{
+        nameContract: String,
+        typeContract: String,
         startDate: String,
         endDate: String,
         urlContract: String
     }],
-    insurrance: [{
+    BHXH: [{
         startDate: String,
         endDate: String,
-        cost: String
+        position: String,
+        unit: String
     }],
     course: [{
         nameCourse: String,
         startDate: String,
         endDate: String,
+        typeCourse: String,
         unit: String,
         status: String
     }],

@@ -39,17 +39,14 @@ class InfoEmployee extends Component {
                                     <li style={{ marginRight: 0 }}><a data-toggle="tab" href="#hocvan">Trình độ Học vấn</a></li>
                                     <li style={{ marginRight: 0 }}><a data-toggle="tab" href="#kinhnghiem">Kinh nghiệm làm việc</a></li>
                                     <li style={{ marginRight: 0 }}><a data-toggle="tab" href="#hopdong">Hợp đồng - Bảo hiểm</a></li>
-                                    <li className="dropdown pull-left">
-                                        <a className="dropdown-toggle" data-toggle="dropdown" href="#abc">
-                                            Xem thêm...<span className="caret"></span>
+                                    <li className="dropdown">
+                                        <a className="dropdown-toggle" data-toggle="dropdown" href="#abc" aria-expanded="false">
+                                            Xem thêm ... <span className="caret" />
                                         </a>
                                         <ul className="dropdown-menu">
-                                            <div>
-                                                <li><a data-toggle="tab" href="#daotao">Quá trình đào tạo</a></li>
-                                                <li role="presentation"><a role="menuitem" tabIndex={-1} href="#abc" >Khen thưởng-Kỷ luật</a></li>
-                                                <li role="presentation"><a role="menuitem" data-toggle="tab" tabIndex={-1} href="#daotao">Quá trình đào tạo</a></li>
-                                            </div>
-
+                                            <li role="presentation"><a data-toggle="tab" role="menuitem" tabIndex={-1} href="#daotao">Quá trình đào tạo</a></li>
+                                            <li role="presentation"><a data-toggle="tab" role="menuitem" tabIndex={-1} href="#abc">Another action</a></li>
+                                            <li role="presentation"><a data-toggle="tab" role="menuitem" tabIndex={-1} href="#abc">Something else here</a></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -100,7 +97,7 @@ class InfoEmployee extends Component {
                                                         </div>
                                                         <div className="form-group">
                                                             <strong>Bộ phận:&emsp; </strong>
-                                                            {x.department}
+
                                                         </div>
                                                         <div className="form-group">
                                                             <strong>Chức vụ:&emsp;</strong>

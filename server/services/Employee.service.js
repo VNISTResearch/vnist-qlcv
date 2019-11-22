@@ -4,14 +4,74 @@ const EmployeeContact = require('../models/EmployeeContact.model');
 // get all list employee
 exports.get = async (req, res) => {
     try {
-        var allEmployees = await Employee.find();
+        var allEmployee = await Employee.find();
 
         res.json({
             message: "Lấy danh sách nhân viên của tất cả các phòng ban thành công",
-            content: allEmployees
+            content: {
+                allEmployee
+            }
         });
     } catch (error) {
 
+        res.json({
+            message: error
+        });
+    }
+}
+
+// get list employee by nameDepartment and position
+exports.getBydepartment = async (req, res) => {
+
+    try {
+        var chiefDepartment = await Employee.find({
+            $and: [{
+                department: {
+                    $elemMatch: {
+                        nameDepartment: req.params.nameDepartment,
+                    },
+                }
+            }, {
+                department: {
+                    $elemMatch: {
+                        position: req.params.chief,
+                    },
+                }
+
+            }]
+        });
+        var deputyDepartment = await Employee.find({
+            $and: [{
+                department: {
+                    $elemMatch: {
+                        nameDepartment: req.params.nameDepartment,
+                    },
+                }
+            }, {
+                department: {
+                    $elemMatch: {
+                        position: req.params.deputy,
+                    },
+                }
+
+            }]
+        });
+        var listEmployee = await Employee.find({
+            department: {
+                $elemMatch: {
+                    nameDepartment: req.params.nameDepartment
+                }
+            }
+        }).populate('employeeContact');
+        res.json({
+            message: "Lấy thông tin nhân viên theo phong ban thành công",
+            content: {
+                chiefDepartment,
+                deputyDepartment,
+                listEmployee
+            }
+        });
+    } catch (error) {
         res.json({
             message: error
         });
@@ -57,10 +117,16 @@ exports.create = async (req, res) => {
             addressCMND: req.body.addressCMND,
             phoneNumber: req.body.phoneNumber,
             emailCompany: req.body.emailCompany,
-            MST: req.body.MST,
+            Tax: req.body.Tax,
             ATM: req.body.ATM,
             nameBank: req.body.nameBank,
+            addressBank: req.body.addressBank,
+            BHYT: req.body.BHYT,
             numberBHYT: req.body.numberBHYT,
+            startDateBHYT: req.body.startDateBHYT,
+            endDateBHYT: req.body.endDateBHYT,
+            numberBHXH: req.body.numberBHXH,
+            BHXH: req.body.BHXH,
             national: req.body.national,
             religion: req.body.religion,
             relationship: req.body.relationship,
@@ -69,10 +135,11 @@ exports.create = async (req, res) => {
             educational: req.body.educational,
             experience: req.body.experience,
             certificate: req.body.certificate,
+            certificateShort: req.body.certificateShort,
             contract: req.body.contract,
             insurrance: req.body.insurrance,
-            course: req.body.course
-
+            course: req.body.course,
+            nation: req.body.nation
         });
         var employeeContact = await EmployeeContact.create({
             employeeNumber: req.body.employeeNumber,

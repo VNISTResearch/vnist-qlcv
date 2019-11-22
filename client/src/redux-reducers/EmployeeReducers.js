@@ -12,9 +12,26 @@ export function employees(state = {}, action) {
         case employeeConstants.GETALL_SUCCESS:
             return {
                 ...state,
-                items: action.employees.content
+                allEmployee: action.employees.content.allEmployee
             };
         case employeeConstants.GETALL_FAILURE:
+            return {
+                error: action.error
+            };
+        case employeeConstants.GETLIST_EMPLOYEE_REQUEST:
+            return {
+                ...state,
+                loadingList: true
+            };
+        case employeeConstants.GETLIST_EMPLOYEE_SUCCESS:
+            return {
+                ...state,
+                chiefDepartment: action.employees.content.chiefDepartment,
+                    deputyDepartment: action.employees.content.deputyDepartment,
+                    listEmployee: action.employees.content.listEmployee,
+
+            };
+        case employeeConstants.GETLIST_EMPLOYEE_FAILURE:
             return {
                 error: action.error
             };

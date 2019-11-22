@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { employeeActions } from '../../../../../redux-actions/EmployeeActions';
 import { InfoEmployee } from './InfoEmployee';
+import { ModalEditOrganizational } from './ModalEditOrganizational ';
+import { ModalAddEmployee } from './ModalAddEmployee';
+import { ModalEditEmployee } from './ModalEditEmployee';
 import './listemployee.css';
+import { from } from 'rxjs';
 
 class ListEmployee extends Component {
     constructor(props) {
@@ -10,12 +14,14 @@ class ListEmployee extends Component {
         this.state = {
             show: "display",
             view: "display",
-            department: " các đơn vị",
-            truong: "",
-            pho: [],
+            department: "các đơn vị",
+            chiefSelected: "",
+            deputySelected: [],
             unit: "Đơn vị",
         }
-        this.handleChangeUnit = this.handleChangeUnit.bind(this)
+        this.handleChangeUnit = this.handleChangeUnit.bind(this);
+        // this.handleChangeChief = this.handleChangeChief.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
     componentDidMount() {
         let script = document.createElement('script');
@@ -24,54 +30,68 @@ class ListEmployee extends Component {
         script.defer = true;
         document.body.appendChild(script);
         this.props.getAllEmployee();
+
     }
-    // function click a row in table list employee
+    // function click a employee in table list employee
     view = (employeeNumber) => {
         this.props.getInformationEmployee(employeeNumber);
         this.setState({
             view: "",
         })
     }
+    edit = (employeeNumber) => {
+        this.props.getInformationEmployee(employeeNumber);
+    }
+
+    // function click edit information a employee
+
     // function change unit show 
     handleChangeUnit(event) {
-        var lists, truong = "", pho = [];
         var { value } = event.target;
-        const { employees } = this.props;
-        if (employees.items) {
-            lists = employees.items;
-            lists.map(function (x, index) {
-                x.department.map(function (y) {
-                    if (y.nameDepartment === value && y.position === "Trưởng phòng") {
-                        truong = x.employeeNumber
-                    }
-                    if (y.nameDepartment === value && y.position === "Phó phòng") {
-                        pho[index] = x.fullName + " - " + x.employeeNumber
-                    }
-                })
-            })
+        this.setState({
+            department: value
+        })
+        if (value !== "các đơn vị") {
+            this.props.getListEmployee(value, "Trưởng phòng", "Phó phòng");
             this.setState({
-                truong: truong,
-                pho: [...pho]
-            })
-        }
-        if (value !== "-- Tất cả --") {
-            this.setState({
-                show: "",
-                department: value,
+                show: ""
             })
         } else {
+            this.props.getListEmployee("", "", "");
             this.setState({
-                show: "display",
+                show: "display"
             })
         }
+        let script = document.createElement('script');
+        script.src = 'main/js/ListEmployee.js';
+        script.async = true;
+        script.defer = true;
+        document.body.appendChild(script);
+    }
+
+    handleSubmit(event) {
     }
     render() {
-        var lists;
-        const { employees } = this.props;
-        var { department, truong, pho } = this.state;
-        console.log(this.state);
-
-        if (employees.items) lists = employees.items;
+        var lists, chief, deputy, listAll;
+        var option = [], chiefs = [], deputys = [];
+        var { employees } = this.props;
+        var { department } = this.state;
+        if (employees.allEmployee) {
+            listAll = employees.allEmployee;
+        }
+        if (employees.listEmployee && employees.listEmployee !== []) {
+            lists = employees.listEmployee;
+        } else {
+            if (employees.allEmployee) {
+                lists = employees.allEmployee;
+            }
+        }
+        if (employees.chiefDepartment && employees.chiefDepartment !== []) {
+            chief = employees.chiefDepartment;
+        }
+        if (employees.deputyDepartment && employees.deputyDepartment !== []) {
+            deputy = employees.deputyDepartment;
+        }
         var { employee, employeeContact } = this.props.employees;
         return (
             <div className="content-wrapper">
@@ -95,73 +115,66 @@ class ListEmployee extends Component {
                                         <div className="form-group col-md-6">
                                             <label>Tên đơn vị:</label>
                                             <select className="form-control" id="department" onChange={this.handleChangeUnit}>
-                                                <option>-- Tất cả --</option>
-                                                <option>Phòng nhân sự</option>
-                                                <option>Phòng hành chính</option>
-                                                <option>Phòng kinh doanh</option>
-                                                <option>Phòng Marketing</option>
-                                                <option>Ban hành chính</option>
+                                                <option value="các đơn vị">-- Tất cả --</option>
+                                                <option value="Phòng nhân sự">Phòng nhân sự</option>
+                                                <option value="Phòng hành chính">Phòng hành chính</option>
+                                                <option value="Phòng kinh doanh">Phòng kinh doanh</option>
+                                                <option value="Phòng Marketing">Phòng Marketing</option>
+                                                <option value="Ban hành chính">Ban hành chính</option>
                                             </select>
                                         </div>
-                                    </div>
-                                    <div className={this.state.show} >
-                                        <div className="col-md-12" style={{ paddingLeft: 0 }}>
-                                            <div className="form-group col-md-6">
-                                                <label>Trưởng {department.toLowerCase()}:</label>
-                                                <select className="form-control select2" style={{ width: '100%' }} >
-                                                    {lists &&
-                                                        lists.map(function (x, index) {
-                                                            if (x.employeeNumber === truong) {
-                                                                return <option key={index} selected="selected">{x.fullName} - {x.employeeNumber}</option>
-                                                            }
-                                                        })}
-                                                    {lists &&
-                                                        lists.map(function (x, index) {
-                                                            if (x.employeeNumber !== truong) {
-                                                                return <option key={index}>{x.fullName} - {x.employeeNumber}</option>
-                                                            }
-                                                        })}
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-12" style={{ paddingLeft: 0 }}>
-                                            <div className="form-group col-md-6">
-                                                <label>Phó {department.toLowerCase()}:</label>
-                                                <select className="form-control select2" multiple="multiple" style={{ width: '100%' }}>
-                                                    {pho &&
-                                                        pho.map((x, index) => (
-                                                            <option key={index} selected="selected">{x}</option>
-                                                        ))
+                                        <div className={this.state.show} >
+                                            <div className="col-md-12" style={{ paddingLeft: 0 }}>
+                                                <div className="form-group col-md-6">
+                                                    <label>Trưởng {department.toLowerCase()}:</label>
+                                                    {chief &&
+                                                        <select className="form-control select2" style={{ width: '100%' }} disabled>
+                                                            {chief.map((x, index) => (
+                                                                <option key={index} value={x.employeeNumber} style={{ height: 30 }}>{x.fullName} - {x.employeeNumber}</option>
+                                                            ))}
+                                                        </select>
                                                     }
-                                                    {lists &&
-                                                        lists.map(function (x, index) {
-                                                            return <option key={index} value={x.employeeNumber}>{x.fullName} - {x.employeeNumber}</option>
-                                                        })
-                                                    })}
-                                                </select>
+                                                </div>
                                             </div>
-
+                                            <div className="col-md-12" style={{ paddingLeft: 0 }}>
+                                                <div className="form-group col-md-6">
+                                                    <label>Phó {department.toLowerCase()}:</label>
+                                                    {deputy &&
+                                                        <select className="form-control select2" multiple="multiple" value={deputy.map(x => x.employeeNumber)} style={{ width: '100%' }} disabled>
+                                                            {deputy.map((x, index) => (
+                                                                <option key={index} value={x.employeeNumber} style={{ height: 30 }}>{x.fullName} - {x.employeeNumber}</option>
+                                                            ))}
+                                                        </select>
+                                                    }
+                                                </div>
+                                                <div className="form-group col-md-6" style={{ paddingLeft: 0 }} >
+                                                    <button style={{ marginTop: 25 }} type="submit" className="btn btn-primary pull-left" data-toggle="modal" data-target="#modal-editOrganizational" title="Thay đổi cơ cấu đơn vị">Thay đổi</button>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="col-md-12" style={{ paddingLeft: 0 }}>
+
+                                        {/* <div className="col-md-12" style={{ paddingLeft: 0 }}>
                                             <div className="form-group col-md-6" >
                                                 <label>Thêm nhân viên vào {department.toLowerCase()}:</label>
-                                                <select className="form-control select2" multiple="multiple" style={{ width: '100%' }}>
-                                                    {lists &&
-                                                        lists.map((x, index) => (
-                                                            <option key={index}>{x.fullName} - {x.employeeNumber}</option>
-                                                        ))}
-                                                </select>
-                                            </div>
-                                            <button style={{ marginTop: 25 }} type="submit" className="btn btn-primary" id="" title="Lưu các thay đổi">Lưu lại</button>
+                                                {listAll &&
 
-                                        </div>
+                                                    <select className="form-control select2" multiple="multiple" style={{ width: '100%' }}>
+                                                        {listAll.map((x, index) => (
+                                                            <option key={index} value={x.employeeNumber} style={{ height: 30 }}>{x.fullName} - {x.employeeNumber}</option>
+                                                        ))}
+                                                    </select>
+                                                }
+                                            </div>
+                                            <button style={{ marginTop: 25 }} type="submit" className="btn btn-primary" id="" title="Lưu các thay đổi" onClick={this.handleSubmit}>Lưu lại</button>
+
+                                        </div> */}
                                     </div>
                                     <div className="col-md-12">
                                         <div className="col-md-12" style={{ paddingLeft: 0, paddingRight: 0 }}>
                                             <div className="box-header col-md-6" style={{ paddingLeft: 0 }}>
                                                 <h3 className="box-title">Danh sách nhân viên {department.toLowerCase()}:</h3>
                                             </div>
-                                            <button style={{ marginBottom: 10 }} type="submit" className="btn btn-success pull-right" id="" title="Thêm một nhân viên mới">Thêm nhân viên</button>
+                                            <button style={{ marginBottom: 10 }} type="submit" className="btn btn-success pull-right" id="" title="Thêm nhân viên mới" data-toggle="modal" data-target="#modal-addEmployee">Thêm nhân viên</button>
                                         </div>
 
                                         <table id="listexample" className="table table-bordered" >
@@ -173,7 +186,7 @@ class ListEmployee extends Component {
                                                     <th style={{ width: "12%" }}>Ngày sinh</th>
                                                     <th style={{ width: "12%" }}>Chức vụ</th>
                                                     <th style={{ width: "13%" }}>Đơn vị</th>
-                                                    <th style={{ width: "12%" }}>Hành động</th>
+                                                    <th style={{ width: "13%" }}>Hành động</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -188,8 +201,8 @@ class ListEmployee extends Component {
                                                             <td></td>
                                                             <td>
                                                                 <center>
-                                                                    <a href="#view" className="view" title="Xem chi tiết" data-toggle="tooltip" onClick={() => this.view(x.employeeNumber)}><i className="material-icons">visibility</i></a>
-                                                                    <a href="#abc" className="edit" title="Chỉnh sửa thông tin " data-toggle="tooltip"><i className="material-icons"></i></a>
+                                                                    <a href="#view" className="view" title="Xem chi tiết nhân viên" data-toggle="tooltip" onClick={() => this.view(x.employeeNumber)}><i className="material-icons">visibility</i></a>
+                                                                    <a href="#abc" className="edit" title="Chỉnh sửa thông tin nhân viên " data-toggle="modal" data-target="#modal-editEmployee" onClick={() => this.edit(x.employeeNumber)} ><i className="material-icons"></i></a>
                                                                     <a href="#abc" className="delete" title="Xoá nhân viên khỏi đơn vị" data-toggle="tooltip"><i className="material-icons"></i></a>
                                                                 </center>
                                                             </td>
@@ -220,6 +233,9 @@ class ListEmployee extends Component {
                     <div id="view" className={this.state.view}>
                         <InfoEmployee employee={employee} employeeContact={employeeContact} />
                     </div>
+                    <ModalEditOrganizational department={department.toLowerCase()} />
+                    <ModalAddEmployee />
+                    <ModalEditEmployee employee={employee} employeeContact={employeeContact} />
                 </section>
             </div >
         );
@@ -234,6 +250,7 @@ function mapState(state) {
 const actionCreators = {
     getAllEmployee: employeeActions.getAllEmployee,
     getInformationEmployee: employeeActions.getInformationEmployee,
+    getListEmployee: employeeActions.getListEmployee,
 };
 const connectedEmplyee = connect(mapState, actionCreators)(ListEmployee);
 

@@ -22,3 +22,18 @@ legend.scheduler-border {
 .display {
     display: none;
 }
+
+li.select2-selection__choice {
+    min-width: 47% !important;
+    /* height: 25px !important; */
+}
+
+.select2-selection__rendered {
+    padding-left: 13px !important;
+}
+
+.select2-search--inline {
+    display: none !important;
+}
+
+/* background: #3c8dbc; */

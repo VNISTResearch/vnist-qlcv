@@ -5,8 +5,9 @@ export const employeeService = {
     getAll,
     addNewEmployee,
     getByEmployeeNumber,
-    updateInformationEmpoyee
-    
+    updateInformationEmpoyee,
+    getByNameDepartment,
+
 }
 
 // get all imformaltion employee
@@ -16,6 +17,14 @@ function getAll() {
     }
 
     return fetch(`/employees/`, requestOptions).then(handleResponse);
+}
+
+// get list employee by namedepartment and position
+function getByNameDepartment(nameDepartment, chief, deputy) {
+    const requestOptions = {
+        method: 'GET',
+    }
+    return fetch(`/employees/${nameDepartment}/${chief}/${deputy}`, requestOptions).then(handleResponse);
 }
 
 // get information employee by employeeNumber
@@ -50,5 +59,5 @@ function updateInformationEmpoyee(id, information) {
         },
         body: JSON.stringify(information)
     };
-    return fetch(`employees/${id}`,requestOptions).then(handleResponse)
+    return fetch(`employees/${id}`, requestOptions).then(handleResponse)
 }
