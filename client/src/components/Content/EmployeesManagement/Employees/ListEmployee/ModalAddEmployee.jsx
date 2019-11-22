@@ -574,20 +574,24 @@ class ModalAddEmployee extends Component {
             this.notifyerror("Bạn chưa nhập tên nhân viên");
         } else if (!employeeNew.MSCC) {
             this.notifyerror("Bạn chưa nhập mã chấm công");
-        } else if (!employeeNew.phoneNumber) {
-            this.notifyerror("Bạn chưa nhập số điện thoại");
-        } else if (!employeeNew.nowAddress) {
-            this.notifyerror("Bạn chưa nhập nơi ở hiện tại");
-        } else if (!employeeNew.Tax.numberTax) {
-            this.notifyerror("Bạn chưa nhập mã số thuế");
-        } else if (!employeeNew.ATM) {
-            this.notifyerror("Bạn chưa nhập số tài khoản");
+        } else if (!employeeNew.brithday) {
+            this.notifyerror("Bạn chưa nhập ngày sinh");
         } else if (!employeeNew.CMND) {
             this.notifyerror("Bạn chưa nhập số CMND/ Hộ chiếu");
         } else if (!employeeNew.dateCMND) {
             this.notifyerror("Bạn chưa nhập ngày cấp CMND/ Hộ chiếu");
         } else if (!employeeNew.addressCMND) {
             this.notifyerror("Bạn chưa nhập nơi cấp CMND/ Hộ chiếu");
+        } else if (!employeeNew.phoneNumber) {
+            this.notifyerror("Bạn chưa nhập số điện thoại");
+        } else if (!employeeNew.nowAddress) {
+            this.notifyerror("Bạn chưa nhập nơi ở hiện tại");
+        } else if (!employeeNew.ATM || !employeeNew.nameBank || !employeeNew.addressBank) {
+            this.notifyerror("Bạn chưa nhập đủ thông tin tài khoản ngân hàng");
+        } else if (!employeeNew.Tax) {
+            this.notifyerror("Bạn chưa nhập mã số thuế");
+        } else if (!employeeNew.Tax.numberTax || !employeeNew.Tax.userTax || !employeeNew.Tax.startDate || !employeeNew.Tax.unitTax) {
+            this.notifyerror("Bạn chưa nhập đủ thông tin thuế");
         } else {
             this.props.addNewEmployee(employeeNew);
             this.notifysuccess("Thêm thành công");
@@ -1005,22 +1009,22 @@ class ModalAddEmployee extends Component {
                                             <fieldset className="scheduler-border">
                                                 <legend className="scheduler-border" style={{ marginBottom: 0 }} ><h4 className="box-title">Bảo hiểm y tế</h4></legend>
                                                 <div className="form-group col-md-4">
-                                                    <label htmlFor="numberBHYT">Mã số BHYT:<span className="required">&#42;</span></label>
+                                                    <label htmlFor="numberBHYT">Mã số BHYT:</label>
                                                     <input type="text" className="form-control" name="numberBHYT" onChange={this.handleChangeAdd} />
                                                 </div>
                                                 <div className="form-group col-md-4">
-                                                    <label htmlFor="startDateBHYT">Ngày có hiệu lực:<span className="required">&#42;</span></label>
+                                                    <label htmlFor="startDateBHYT">Ngày có hiệu lực:</label>
                                                     <input type="text" className="form-control" name="startDateBHYT" onChange={this.handleChangeAdd} />
                                                 </div>
                                                 <div className="form-group col-md-4">
-                                                    <label htmlFor="endDateBHYT">Ngày hết hạn:<span className="required">&#42;</span></label>
+                                                    <label htmlFor="endDateBHYT">Ngày hết hạn:</label>
                                                     <input type="text" className="form-control" name="endDateBHYT" onChange={this.handleChangeAdd} />
                                                 </div>
                                             </fieldset>
                                             <fieldset className="scheduler-border">
                                                 <legend className="scheduler-border" style={{ marginBottom: 0 }} ><h4 className="box-title">Bảo hiểm Xã hội</h4></legend>
                                                 <div className="form-group col-md-4">
-                                                    <label htmlFor="numberBHXH">Mã số BHXH:<span className="required">&#42;</span></label>
+                                                    <label htmlFor="numberBHXH">Mã số BHXH:</label>
                                                     <input type="text" className="form-control" name="numberBHXH" onChange={this.handleChangeAdd} />
                                                 </div>
                                                 <div className="col-md-12">
@@ -1130,7 +1134,7 @@ class ModalAddEmployee extends Component {
                                         <div className="box-body">
                                             <div className="col-md-4">
                                                 <div className="form-group" style={{ paddingTop: 3 }}>
-                                                    <label htmlFor="numberFile">Mã hồ sơ:<span className="required">&#42;</span></label>
+                                                    <label htmlFor="numberFile">Mã hồ sơ:</label>
                                                     <input type="text" className="form-control" name="numberFile" onChange={this.handleChangeAdd} />
                                                 </div>
                                             </div>

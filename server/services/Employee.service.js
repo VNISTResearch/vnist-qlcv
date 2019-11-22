@@ -139,7 +139,10 @@ exports.create = async (req, res) => {
             contract: req.body.contract,
             insurrance: req.body.insurrance,
             course: req.body.course,
-            nation: req.body.nation
+            nation: req.body.nation,
+            numberFile: req.body.numberFile,
+            file: req.body.file,
+            createDate: req.body.createDate,
         });
         var employeeContact = await EmployeeContact.create({
             employeeNumber: req.body.employeeNumber,
@@ -161,6 +164,7 @@ exports.create = async (req, res) => {
             nowCity: req.body.nowCity,
             nowDistrict: req.body.nowDistrict,
             nowCommune: req.body.nowCommune,
+            createDate: req.body.createDate,
         })
         var content = {
             employees,

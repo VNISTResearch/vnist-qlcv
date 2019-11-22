@@ -36,4 +36,8 @@ li.select2-selection__choice {
     display: none !important;
 }
 
+.lockscreen-item {
+    background: #cecece !important;
+}
+
 /* background: #3c8dbc; */

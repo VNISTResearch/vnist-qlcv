@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { employeeActions } from '../../../../redux-actions/EmployeeActions';
 class DetailEmployee extends Component {
     componentDidMount() {
-        this.props.getInformationEmployee("20150535");
+        this.props.getInformationEmployee("123654");
     }
     render() {
         //console.log(this.props.employees);
@@ -32,13 +32,14 @@ class DetailEmployee extends Component {
                             <div className="box">
                                 <div className="nav-tabs-custom">
                                     <ul className="nav nav-tabs">
-                                        <li className="active"><a data-toggle="tab" href="#thongtinchung">Thông tin chung</a></li>
-                                        <li style={{ marginRight: 0 }}><a data-toggle="tab" href="#lienhe">Thông tin liên hệ</a></li>
-                                        <li style={{ marginRight: 0 }}><a data-toggle="tab" href="#taikhoan">Số thẻ - Tài khoản</a></li>
-                                        <li style={{ marginRight: 0 }}><a data-toggle="tab" href="#hocvan">Trình độ học vấn</a></li>
-                                        <li style={{ marginRight: 0 }}><a data-toggle="tab" href="#kinhnghiem">Kinh nghiệm làm việc</a></li>
-                                        <li style={{ marginRight: 0 }}><a data-toggle="tab" href="#hopdong">Hợp đồng - Bảo hiểm</a></li>
-                                        <li style={{ marginRight: 0 }}><a data-toggle="tab" href="#daotao">Quá trình đào tạo</a></li>
+                                        <li className="active"><a style={{ paddingLeft: 5, paddingRight: 8 }} title="Thông tin chung của nhân viên" data-toggle="tab" href="#thongtinchung">Thông tin chung</a></li>
+                                        <li><a style={{ paddingLeft: 5, paddingRight: 8 }} title="Thông tin liên hệ của nhân viên" data-toggle="tab" href="#thongtinlienhe">Thông tin liên hệ</a></li>
+                                        <li><a style={{ paddingLeft: 5, paddingRight: 8 }} title="Trình độ học vấn - Khinh nghiệm làm việc" data-toggle="tab" href="#kinhnghiem"> Học vấn - Kinh nghiệm</a></li>
+                                        <li><a style={{ paddingLeft: 5, paddingRight: 8 }} title="Bằng cấp - Chứng chỉ" data-toggle="tab" href="#bangcap">Bằng cấp - Chứng chỉ</a></li>
+                                        <li><a style={{ paddingLeft: 5, paddingRight: 8 }} title="Tài khoản ngân hành - Thuế thu nhập các nhân" data-toggle="tab" href="#taikhoan">Tài khoản - Thuế</a></li>
+                                        <li><a style={{ paddingLeft: 5, paddingRight: 8 }} title="Thông tin bảo hiểm" data-toggle="tab" href="#baohiem">Thông tin bảo hiểm</a></li>
+                                        <li><a style={{ paddingLeft: 5, paddingRight: 8 }} title="Hợp đồng lao động - Quá trình đào tạo" data-toggle="tab" href="#hopdong">Hợp đồng - Đào tạo</a></li>
+                                        <li><a style={{ paddingLeft: 5, }} title="Tài liệu đính kèm" data-toggle="tab" href="#tailieu">Tài liệu</a></li>
                                     </ul>
                                     {employee && employee.map((x, index) => (
                                         <div className="tab-content" key={index}>
@@ -50,7 +51,7 @@ class DetailEmployee extends Component {
                                                                 <img className="attachment-img avarta" src="adminLTE/dist/img/avatar5.png" alt="Attachment" />
                                                             </div>
                                                         </div>
-                                                        <div className="col-sm-5">
+                                                        <div className="col-sm-4">
                                                             <div className="form-group" style={{ marginTop: 20 }}>
                                                                 <strong>Mã nhân viên:&emsp; </strong>
                                                                 {x.employeeNumber}
@@ -72,28 +73,6 @@ class DetailEmployee extends Component {
                                                                 {x.birthplace}
                                                             </div>
                                                             <div className="form-group">
-                                                                <strong>Số điện thoại:&emsp; </strong>
-                                                                {x.phoneNumber ? "0" + x.phoneNumber : ""}
-                                                            </div>
-                                                            <div className="form-group">
-                                                                <strong>Email công ty:&emsp; </strong>
-                                                                {x.emailCompany}
-                                                            </div>
-                                                        </div>
-                                                        <div className="col-sm-4">
-                                                            <div className="form-group" style={{ marginTop: 20 }}>
-                                                                <strong>Mã số chấm công:&emsp; </strong>
-                                                                {x.MSCC}
-                                                            </div>
-                                                            <div className="form-group">
-                                                                <strong>Bộ phận:&emsp; </strong>
-                                                                {x.department}
-                                                            </div>
-                                                            <div className="form-group">
-                                                                <strong>Chức vụ:&emsp;</strong>
-                                                                Giam đốc
-                                                                </div>
-                                                            <div className="form-group">
                                                                 <strong>Dân tộc:&emsp; </strong>
                                                                 {x.national}
                                                             </div>
@@ -102,33 +81,73 @@ class DetailEmployee extends Component {
                                                                 {x.religion}
                                                             </div>
                                                             <div className="form-group">
+                                                                <strong>Quốc tịch:&emsp; </strong>
+                                                                {x.nation}
+                                                            </div>
+                                                        </div>
+                                                        <div className="col-sm-5">
+                                                            <div className="form-group" style={{ marginTop: 20 }}>
+                                                                <strong>Mã số chấm công:&emsp; </strong>
+                                                                {x.MSCC}
+                                                            </div>
+                                                            <div className="form-group">
+                                                                <strong>Bộ phận:&emsp; </strong>
+
+                                                            </div>
+                                                            <div className="form-group">
+                                                                <strong>Chức vụ:&emsp;</strong>
+                                                                Giam đốc
+                                                            </div>
+                                                            <div className="form-group" >
+                                                                <strong>Số CMND/Hộ chiếu:&emsp; </strong>
+                                                                {x.CMND}
+
+                                                            </div>
+                                                            <div className="form-group" >
+                                                                <strong>Ngày cấp:&emsp; </strong>
+                                                                {x.dateCMND}
+                                                            </div>
+                                                            <div className="form-group">
+                                                                <strong>Nơi cấp:&emsp; </strong>
+                                                                {x.addressCMND}
+                                                            </div>
+                                                            <div className="form-group">
                                                                 <strong>Tình trạng hôn nhân:&emsp; </strong>
                                                                 {x.relationship}
+                                                            </div>
+                                                            <div className="form-group">
+                                                                <strong>Email công ty:&emsp; </strong>
+                                                                {x.emailCompany}
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className="box-footer">
-
-                                                </div>
                                             </div>
                                             {employeeContact && employeeContact.map((y, indexs) => (
-                                                <div id="lienhe" className="tab-pane" key={indexs}>
+                                                <div id="thongtinlienhe" className="tab-pane" key={indexs}>
                                                     <div className="box-body">
                                                         <div className="col-sm-12">
-                                                            <div className="form-group" style={{ marginLeft: 35, marginTop: 20 }}>
-                                                                <strong>Điện thoại nhà riêng:&emsp; </strong>
-                                                                {y.phoneNumberAddress ? "0" + y.phoneNumberAddress : ""}
+                                                            <div className="form-group col-md-4" style={{ marginTop: 20 }}>
+                                                                <strong>Điện thoại di động:&emsp; </strong>
+                                                                {x.phoneNumber ? "0" + x.phoneNumber : ""}
                                                             </div>
-                                                            <div className="form-group" style={{ marginLeft: 35 }}>
-                                                                <strong>Email cá nhân:&emsp; </strong>
-                                                                {y.emailPersonal}
+                                                            <div className="col-md-12" style={{ padding: 0 }}>
+                                                                <div className="form-group col-md-4">
+                                                                    <strong>Điện thoại nhà riêng:&emsp; </strong>
+                                                                    {y.phoneNumberAddress ? "0" + y.phoneNumberAddress : ""}
+                                                                </div>
+                                                                <div className="form-group col-md-8">
+                                                                    <strong>Email cá nhân:&emsp; </strong>
+                                                                    {y.emailPersonal}
+                                                                </div>
+
                                                             </div>
+
                                                         </div>
                                                         <div className="col-sm-12">
                                                             <fieldset className="scheduler-border">
-                                                                <legend className="scheduler-border">Liên hệ khẩn cấp</legend>
-                                                                <div className="col-sm-6">
+                                                                <legend className="scheduler-border"><h4 className="box-title">Liên hệ khẩn cấp</h4></legend>
+                                                                <div className="col-sm-6" style={{ padding: 0 }}>
                                                                     <div className="form-group" >
                                                                         <strong>Họ và tên:&emsp; </strong>
                                                                         {y.friendName}
@@ -146,7 +165,7 @@ class DetailEmployee extends Component {
                                                                         {y.friendPhoneAddress ? "0" + y.phoneNumberAddress : ""}
                                                                     </div>
                                                                 </div>
-                                                                <div className="col-sm-6">
+                                                                <div className="col-sm-6" style={{ paddingLeft: 35 }}>
                                                                     <div className="form-group" >
                                                                         <strong>Email:&emsp; </strong>
                                                                         {y.friendEmail}
@@ -160,7 +179,7 @@ class DetailEmployee extends Component {
                                                         </div>
                                                         <div className="col-sm-6">
                                                             <fieldset className="scheduler-border">
-                                                                <legend className="scheduler-border">Hộ khẩu thường trú</legend>
+                                                                <legend className="scheduler-border"><h4 className="box-title">Hộ khẩu thường trú</h4></legend>
                                                                 <div className="form-group" >
                                                                     <strong>Địa chỉ:&emsp; </strong>
                                                                     {y.localAddress}
@@ -185,7 +204,7 @@ class DetailEmployee extends Component {
                                                         </div>
                                                         <div className="col-sm-6">
                                                             <fieldset className="scheduler-border">
-                                                                <legend className="scheduler-border">Chỗ ở hiện tại</legend>
+                                                                <legend className="scheduler-border"><h4 className="box-title">Chỗ ở hiện tại</h4></legend>
                                                                 <div className="form-group" >
                                                                     <strong>Địa chỉ:&emsp; </strong>
                                                                     {y.nowAddress}
@@ -214,231 +233,325 @@ class DetailEmployee extends Component {
 
                                             <div id="taikhoan" className="tab-pane">
                                                 <div className="box-body">
-                                                    <div className="form-group" style={{ marginLeft: 35, marginTop: 20 }}>
-                                                        <strong>Mã số thuế:&emsp; </strong>
-                                                        8463259876
-                                                    </div>
-                                                    <div className="col-sm-4">
-                                                        <div className="form-group" style={{ marginLeft: 20 }}>
-                                                            <strong>Số tài khoản ngân hàng:&emsp; </strong>
-                                                            12213259876
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-sm-8">
-                                                        <div className="form-group" style={{ marginLeft: 35 }}>
-                                                            <strong>Tên ngân hàng:&emsp; </strong>
-                                                            ViettinBank
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="col-sm-4">
-                                                        <div className="form-group" style={{ marginLeft: 20 }}>
-                                                            <strong>Số CMND/Hộ chiếu:&emsp; </strong>
-                                                            163987698
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-sm-4">
-                                                        <div className="form-group" style={{ marginLeft: 35 }}>
-                                                            <strong>Ngày cấp:&emsp; </strong>
-                                                            12/10/2015
-                                                        </div>
-                                                    </div>
-                                                    <div className="col-sm-4">
-                                                        <div className="form-group" style={{ marginLeft: 35 }}>
-                                                            <strong>Nơi cấp:&emsp; </strong>
-                                                            CA Nam Định
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="box-footer">
-                                                </div>
-                                            </div>
-                                            <div id="hocvan" className="tab-pane">
-                                                <div className="box-body">
-                                                    <div className="col-sm-12">
-                                                        <div className="form-group" style={{ marginLeft: 35, marginTop: 20 }}>
-                                                            <strong>Trình độ học vấn:&emsp; </strong>
-                                                            12 &frasl; 12
-                                                        </div>
-                                                        <div className="form-group" style={{ marginLeft: 35 }}>
-                                                            <strong>Trình độ ngoại ngữ:&emsp; </strong>
-                                                            Toeic 500
-                                                        </div>
-                                                        <div className="form-group" style={{ marginLeft: 35 }}>
-                                                            <strong>Trình độ chuyên môn:&emsp; </strong>
-                                                            Kỹ sư công nghệ thông tin - Đại học Bách khoa Hà Nội
-                                                        </div>
-                                                    </div>
                                                     <div className="col-sm-12">
                                                         <fieldset className="scheduler-border">
-                                                            <legend className="scheduler-border">Chứng chỉ - Bằng cấp</legend>
-                                                            <table className="table table-bordered ">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th style={{ width: "50%", paddingLeft: 20 }}>Tên bằng (chứng chỉ)</th>
-                                                                        <th style={{ width: "50%", paddingLeft: 20 }}>File đính kèm</th>
-                                                                    </tr>
-
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td>Chứng chỉ lập trình PHP</td>
-                                                                        <td><a href="#abc">chungchiPHP.pdf</a></td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Bằn đại học Bách khoa Hà Nội</td>
-                                                                        <td><a href="#abc">bangdaihoc.pdf</a></td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Chứng chỉ lập trình Java</td>
-                                                                        <td><a href="#abc">chungchijava.pdf</a></td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </fieldset>
-                                                    </div>
-                                                </div>
-                                                <div className="box-footer">
-
-                                                </div>
-                                            </div>
-                                            <div id="kinhnghiem" className="tab-pane">
-                                                <div className="box-body">
-                                                    <table className="table table-bordered table-hover" style={{ marginTop: 20 }}>
-                                                        <thead>
-                                                            <tr>
-                                                                <th style={{ width: '14%' }}>Từ tháng/năm</th>
-                                                                <th style={{ width: '14%' }}>Đến tháng/năm</th>
-                                                                <th>Đơn vị công tác</th>
-                                                                <th style={{ width: '25%' }}>Chức vụ</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>5/2018</td>
-                                                                <td>8/2019</td>
-                                                                <td>Công ty A</td>
-                                                                <td>Giám đốc</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                <div className="box-footer">
-
-                                                </div>
-                                            </div>
-                                            <div id="hopdong" className="tab-pane">
-                                                <div className="box-body">
-                                                    <div className="col-sm-12" style={{ marginTop: 20 }}>
-                                                        <fieldset className="scheduler-border" >
-                                                            <legend className="scheduler-border">Bảo hiểm</legend>
-                                                            <div className="form-group">
-                                                                <strong>Mã số BHYT:&emsp; </strong>
-                                                                12568463259876
+                                                            <legend className="scheduler-border"><h4 className="box-title">Tài khoản ngân hàng</h4></legend>
+                                                            <div className="form-group col-md-4" style={{ marginLeft: 20 }}>
+                                                                <strong>Số tài khoản :&emsp; </strong>
+                                                                {x.ATM}
                                                             </div>
-                                                            <table className="table table-bordered ">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th style={{ width: "30%" }}>Ngày gia hạn</th>
-                                                                        <th style={{ width: "30%" }}>Ngày hết hạn</th>
-                                                                        <th style={{ width: "30%" }}>Chi phí</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td>1/1/2017</td>
-                                                                        <td>30/12/2017</td>
-                                                                        <td>500.000 nghìn đồng</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>1/1/2018</td>
-                                                                        <td>30/12/2018</td>
-                                                                        <td>530.000 nghìn đồng</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>1/1/2019</td>
-                                                                        <td>30/12/2019</td>
-                                                                        <td>535.000 nghìn đồng</td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
+                                                            <div className="form-group col-md-4" style={{ marginLeft: 20 }}>
+                                                                <strong>Tên ngân hàng:&emsp; </strong>
+                                                                {x.nameBank}
+                                                            </div>
+                                                            <div className="form-group col-md-4" style={{ marginLeft: 20 }}>
+                                                                <strong>Chi nhánh:&emsp; </strong>
+                                                                {x.addressBank}
+                                                            </div>
                                                         </fieldset>
                                                     </div>
                                                     <div className="col-sm-12">
                                                         <fieldset className="scheduler-border">
-                                                            <legend className="scheduler-border">Hợp đồng lao động</legend>
-                                                            <table className="table table-bordered ">
+                                                            <legend className="scheduler-border"><h4 className="box-title">Thuế thu nhập cá nhân</h4></legend>
+                                                            {x.Tax && x.Tax.map((x, index) => (
+                                                                <div key={index}>
+                                                                    <div className="form-group" style={{ marginLeft: 20 }}>
+                                                                        <strong>Mã số thuế:&emsp; </strong>
+                                                                        {x.numberTax}
+                                                                    </div>
+                                                                    <div className="form-group" style={{ marginLeft: 20 }}>
+                                                                        <strong>Người đại diện:&emsp; </strong>
+                                                                        {x.userTax}
+                                                                    </div>
+                                                                    <div className="form-group" style={{ marginLeft: 20 }}>
+                                                                        <strong>Ngày hoạt động:&emsp; </strong>
+                                                                        {x.startDate}
+                                                                    </div>
+                                                                    <div className="form-group" style={{ marginLeft: 20 }}>
+                                                                        <strong>Quản lý bởi:&emsp; </strong>
+                                                                        {x.unitTax}
+                                                                    </div>
+                                                                </div>
+
+                                                            ))}
+
+                                                        </fieldset>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="bangcap" className="tab-pane">
+                                                <div className="box-body">
+                                                    <div className="col-sm-12">
+                                                        <fieldset className="scheduler-border">
+                                                            <legend className="scheduler-border"><h4 className="box-title">Bằng cấp</h4></legend>
+                                                            <table className="table table-bordered " >
                                                                 <thead>
                                                                     <tr>
-                                                                        <th style={{ width: "30%" }}>Ngày ký( gia hạn) hợp đồng</th>
-                                                                        <th style={{ width: "30%" }}>Ngày hết hạn</th>
+                                                                        <th style={{ width: "18%" }}>Tên bằng</th>
+                                                                        <th style={{ width: "18%" }}>Nơi đào tạo</th>
+                                                                        <th style={{ width: "13%" }}>Năm tốt nghiệp</th>
+                                                                        <th style={{ width: "15%" }}>Xếp loại</th>
                                                                         <th style={{ width: "30%" }}>File đính kèm</th>
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody>
+                                                                    {
+                                                                        (typeof x.certificate === 'undefined' || x.certificate.length === 0) ? <tr><td colSpan={5}><center> Không có dữ liệu</center></td></tr> :
+                                                                            x.certificate.map((x, index) => (
+                                                                                <tr key={index}>
+                                                                                    <td>{x.nameCertificate}</td>
+                                                                                    <td>{x.addressCertificate}</td>
+                                                                                    <td>{x.yearCertificate}</td>
+                                                                                    <td>{x.typeCertificate}</td>
+                                                                                    <td><a href={x.urlCertificate ? x.urlCertificate : "#abc"}><u>{x.urlCertificate ? x.nameCertificate : ""}</u></a></td>
+                                                                                </tr>
+                                                                            ))
+                                                                    }
+                                                                </tbody>
+                                                            </table>
+                                                        </fieldset>
+                                                    </div>
+                                                    <div className="col-sm-12">
+                                                        <fieldset className="scheduler-border">
+                                                            <legend className="scheduler-border"><h4 className="box-title">Chứng chỉ</h4></legend>
+                                                            <table className="table table-bordered " >
+                                                                <thead>
                                                                     <tr>
-                                                                        <td>1/1/2017</td>
-                                                                        <td>30/12/2017</td>
-                                                                        <td><a href="#abc">hợp đồng năm đầu.pdf</a></td>
+                                                                        <th style={{ width: "22%" }}>Tên chứng chỉ</th>
+                                                                        <th style={{ width: "22%" }}>Nơi cấp</th>
+                                                                        <th style={{ width: "9%" }}>Ngày cấp</th>
+                                                                        <th style={{ width: "12%" }}>Ngày hết hạn</th>
+                                                                        <th style={{ width: "30%" }}>File đính kèm</th>
                                                                     </tr>
-                                                                    <tr>
-                                                                        <td>1/1/2018</td>
-                                                                        <td>30/12/2018</td>
-                                                                        <td><a href="#abc">hợp đồng năm đầu.pdf</a></td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>1/1/2019</td>
-                                                                        <td>30/12/2019</td>
-                                                                        <td><a href="#abc">hợp đồng năm đầu.pdf</a></td>
-                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {
+                                                                        (typeof x.certificateShort === 'undefined' || x.certificateShort.length === 0) ? <tr><td colSpan={5}><center> Không có dữ liệu</center></td></tr> :
+                                                                            x.certificateShort.map((x, index) => (
+                                                                                <tr key={index}>
+                                                                                    <td>{x.nameCertificateShort}</td>
+                                                                                    <td>{x.unit}</td>
+                                                                                    <td>{x.startDate}</td>
+                                                                                    <td>{x.endDate}</td>
+                                                                                    <td><a href={x.urlCertificateShort ? x.urlCertificateShort : "#abc"}><u>{x.urlCertificateShort ? x.nameCertificateShort : ""}</u></a></td>
+                                                                                </tr>
+                                                                            ))
+                                                                    }
                                                                 </tbody>
                                                             </table>
                                                         </fieldset>
                                                     </div>
                                                 </div>
-                                                <div className="box-footer">
 
+                                            </div>
+                                            <div id="kinhnghiem" className="tab-pane">
+                                                <div className="box-body">
+                                                    <div className="col-sm-12">
+                                                        <fieldset className="scheduler-border">
+                                                            <legend className="scheduler-border"><h4 className="box-title">Trình độ học vấn</h4></legend>
+                                                            <div className="form-group">
+                                                                <strong>Trình độ văn hoá:&emsp; </strong>
+                                                                {x.cultural}
+                                                            </div>
+                                                            <div className="form-group" >
+                                                                <strong>Trình độ ngoại ngữ:&emsp; </strong>
+                                                                {x.foreignLanguage}
+                                                            </div>
+                                                            <div className="form-group">
+                                                                <strong>Trình độ chuyên môn:&emsp; </strong>
+                                                                {x.educational}
+                                                            </div>
+                                                        </fieldset>
+                                                    </div>
+                                                    <div className="col-sm-12">
+                                                        <fieldset className="scheduler-border">
+                                                            <legend className="scheduler-border"><h4 className="box-title">Kinh nghiệm làm việc</h4></legend>
+                                                            <table className="table table-bordered table-hover">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th style={{ width: '14%' }}>Từ tháng/năm</th>
+                                                                        <th style={{ width: '14%' }}>Đến tháng/năm</th>
+                                                                        <th>Đơn vị công tác</th>
+                                                                        <th style={{ width: '25%' }}>Chức vụ</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {
+                                                                        (typeof x.experience === 'undefined' || x.experience.length === 0) ? <tr><td colSpan={4}><center> Không có dữ liệu</center></td></tr> :
+                                                                            x.experience.map((x, index) => (
+                                                                                <tr key={index}>
+                                                                                    <td>{x.startDate}</td>
+                                                                                    <td>{x.endDate}</td>
+                                                                                    <td>{x.unit}</td>
+                                                                                    <td>{x.position}</td>
+                                                                                </tr>
+
+                                                                            ))
+                                                                    }
+
+                                                                </tbody>
+                                                            </table>
+                                                        </fieldset>
+                                                    </div>
+
+
+                                                </div>
+
+                                            </div>
+                                            <div id="hopdong" className="tab-pane">
+                                                <div className="box-body">
+                                                    <div className="col-sm-12">
+                                                        <fieldset className="scheduler-border">
+                                                            <legend className="scheduler-border"><h4 className="box-title">Hợp đồng lao động</h4></legend>
+                                                            <table className="table table-bordered " >
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th style={{ width: "25%" }}>Tên hợp đồng</th>
+                                                                        <th style={{ width: "13%" }}>Loại hợp đồng</th>
+                                                                        <th style={{ width: "14%" }}>Ngày có hiệu lực</th>
+                                                                        <th style={{ width: "13%" }}>Ngày hết hạn</th>
+                                                                        <th style={{ width: "30%" }}>File đính kèm</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {
+                                                                        (typeof x.contract === 'undefined' || x.contract.length === 0) ? <tr><td colSpan={5}><center> Không có dữ liệu</center></td></tr> :
+                                                                            x.contract.map((x, index) => (
+                                                                                <tr key={index}>
+                                                                                    <td>{x.nameContract}</td>
+                                                                                    <td>{x.typeContract}</td>
+                                                                                    <td>{x.startDate}</td>
+                                                                                    <td>{x.endDate}</td>
+                                                                                    <td><a href={x.urlContract ? x.urlContract : "#abc"}><u>{x.urlContract ? x.nameContract : ""}</u></a></td>
+                                                                                </tr>
+                                                                            ))
+                                                                    }
+                                                                </tbody>
+                                                            </table>
+                                                        </fieldset>
+                                                    </div>
+                                                    <div className="col-sm-12">
+                                                        <fieldset className="scheduler-border">
+                                                            <legend className="scheduler-border"><h4 className="box-title">Quá trình đào tạo</h4></legend>
+                                                            <table className="table table-bordered " >
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th style={{ width: '20%' }}>Tên khoá học</th>
+                                                                        <th style={{ width: '13%' }}>Ngày bắt đầu</th>
+                                                                        <th style={{ width: '13%' }}>Ngày kết thúc</th>
+                                                                        <th style={{ width: '20%' }}>Nơi đào tạo</th>
+                                                                        <th style={{ width: '%12' }}>Loại đào tạo</th>
+                                                                        <th style={{ width: '17%' }}>Trạng thái</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {
+                                                                        (typeof x.course === 'undefined' || x.course.length === 0) ? <tr><td colSpan={6}><center> Không có dữ liệu</center></td></tr> :
+                                                                            x.course.map((x, index) => (
+                                                                                <tr key={index}>
+                                                                                    <td>{x.nameCourse}</td>
+                                                                                    <td>{x.startDate}</td>
+                                                                                    <td>{x.endDate}</td>
+                                                                                    <td>{x.typeCourse}</td>
+                                                                                    <td>{x.unit}</td>
+                                                                                    <td>{x.status}</td>
+                                                                                </tr>
+                                                                            ))
+                                                                    }
+                                                                </tbody>
+                                                            </table>
+                                                        </fieldset>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div id="daotao" className="tab-pane">
+                                            <div id="baohiem" className="tab-pane">
                                                 <div className="box-body">
-                                                    <table className="table table-bordered table-hover" style={{ marginTop: 20 }}>
-                                                        <thead>
-                                                            <tr>
-                                                                <th style={{ width: '33%' }}>Tên khoá học</th>
-                                                                <th style={{ width: '11%' }}>Ngày bắt đầu</th>
-                                                                <th style={{ width: '11%' }}>Ngày kết thúc</th>
-                                                                <th style={{ width: '32' }}>Đơn vị đào tạo</th>
-                                                                <th style={{ width: '13%' }}>Trạng thái</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>An toàn lao động</td>
-                                                                <td>5/5/2019</td>
-                                                                <td>10/9/2019</td>
-                                                                <td>Công ty Vnist</td>
-                                                                <td>Hoàn thành</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>Kinh nghiệm làm việc</td>
-                                                                <td>5/5/2019</td>
-                                                                <td>10/12/2019</td>
-                                                                <td>Công ty Vnist</td>
-                                                                <td>Chưa hoàn thành</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td>ky năng giao tiếp</td>
-                                                                <td></td>
-                                                                <td></td>
-                                                                <td>Công ty Vnist</td>
-                                                                <td>Hoàn thành</td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
+                                                    <div className="col-sm-12">
+                                                        <fieldset className="scheduler-border">
+                                                            <legend className="scheduler-border"><h4 className="box-title">Bảo hiểm y tế</h4></legend>
+                                                            <div className="form-group col-md-4" >
+                                                                <strong>Mã số BHYT:&emsp; </strong>
+                                                                {x.numberBHXH}
+                                                            </div>
+                                                            <div className="form-group col-md-4" >
+                                                                <strong>Ngày có hiệu lực:&emsp; </strong>
+                                                                {x.startDateBHYT}
+                                                            </div>
+                                                            <div className="form-group col-md-4" >
+                                                                <strong>Ngày hết hạn:&emsp; </strong>
+                                                                {x.endDateBHYT}
+                                                            </div>
+                                                        </fieldset>
+                                                    </div>
+                                                    <div className="col-sm-12">
+                                                        <fieldset className="scheduler-border">
+                                                            <legend className="scheduler-border"><h4 className="box-title">Bảo hiểm xã hội</h4></legend>
+                                                            <div className="form-group">
+                                                                <strong>Mã số BHXH:&emsp; </strong>
+                                                                {x.numberBHXH}
+                                                            </div>
+                                                            <h4 className="col-md-6" style={{ paddingLeft: 0, fontSize: 16 }}>Quá trình đóng bảo hiểm xã hội:</h4>
+                                                            <table className="table table-bordered " >
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th style={{ width: "16%" }}>Từ tháng</th>
+                                                                        <th style={{ width: "16%" }}>Đến thánh</th>
+                                                                        <th style={{ width: "30%" }}>Chức vụ</th>
+                                                                        <th style={{ width: "30%" }}>Đơn vị công tác</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {
+                                                                        (typeof x.BHXH === 'undefined' || x.BHXH.length === 0) ? <tr><td colSpan={4}><center> Không có dữ liệu</center></td></tr> :
+                                                                            x.BHXH.map((x, index) => (
+                                                                                <tr key={index}>
+                                                                                    <td>{x.startDate}</td>
+                                                                                    <td>{x.endDate}</td>
+                                                                                    <td>{x.position}</td>
+                                                                                    <td>{x.unit}</td>
+                                                                                </tr>
+                                                                            ))
+                                                                    }
+                                                                </tbody>
+                                                            </table>
+                                                        </fieldset>
+                                                    </div>
                                                 </div>
-                                                <div className="box-footer">
-
+                                            </div>
+                                            <div id="tailieu" className="tab-pane">
+                                                <div className="box-body">
+                                                    <div className="form-group" style={{ paddingLeft: 15 }}>
+                                                        <strong>Mã hồ sơ:&emsp;</strong>
+                                                        {x.numberFile}
+                                                    </div>
+                                                    <div className="col-sm-12">
+                                                        <h4 style={{ paddingLeft: 0, fontSize: 16 }}>Danh sách tài liệu đính kèm:</h4>
+                                                        <table className="table table-bordered " >
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style={{ width: "22%" }}>Tên tài liệu</th>
+                                                                    <th style={{ width: "22%" }}>Mô tả</th>
+                                                                    <th style={{ width: "9%" }}>Số lượng</th>
+                                                                    <th style={{ width: "12%" }}>Trạng thái</th>
+                                                                    <th style={{ width: "30%" }}>File đính kèm</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {
+                                                                    (typeof x.file === 'undefined' || x.file.length === 0) ? <tr><td colSpan={5}><center> Không có dữ liệu</center></td></tr> :
+                                                                        x.file.map((x, index) => (
+                                                                            <tr key={index}>
+                                                                                <td>{x.nameFile}</td>
+                                                                                <td>{x.discFile}</td>
+                                                                                <td>{x.number}</td>
+                                                                                <td>{x.status}</td>
+                                                                                <td><a href={x.urlFile ? x.urlFile : "#abc"}><u>{x.urlFile ? x.nameFile : ""}</u></a></td>
+                                                                            </tr>
+                                                                        ))
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

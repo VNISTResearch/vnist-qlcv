@@ -463,20 +463,24 @@ class AddEmployee extends Component {
             this.notifyerror("Bạn chưa nhập tên nhân viên");
         } else if (!employeeNew.MSCC) {
             this.notifyerror("Bạn chưa nhập mã chấm công");
-        } else if (!employeeNew.phoneNumber) {
-            this.notifyerror("Bạn chưa nhập số điện thoại");
-        } else if (!employeeNew.nowAddress) {
-            this.notifyerror("Bạn chưa nhập nơi ở hiện tại");
-        } else if (!employeeNew.Tax.numberTax) {
-            this.notifyerror("Bạn chưa nhập mã số thuế");
-        } else if (!employeeNew.ATM) {
-            this.notifyerror("Bạn chưa nhập số tài khoản");
+        } else if (!employeeNew.brithday) {
+            this.notifyerror("Bạn chưa nhập ngày sinh");
         } else if (!employeeNew.CMND) {
             this.notifyerror("Bạn chưa nhập số CMND/ Hộ chiếu");
         } else if (!employeeNew.dateCMND) {
             this.notifyerror("Bạn chưa nhập ngày cấp CMND/ Hộ chiếu");
         } else if (!employeeNew.addressCMND) {
             this.notifyerror("Bạn chưa nhập nơi cấp CMND/ Hộ chiếu");
+        } else if (!employeeNew.phoneNumber) {
+            this.notifyerror("Bạn chưa nhập số điện thoại");
+        } else if (!employeeNew.nowAddress) {
+            this.notifyerror("Bạn chưa nhập nơi ở hiện tại");
+        } else if (!employeeNew.ATM || !employeeNew.nameBank || !employeeNew.addressBank) {
+            this.notifyerror("Bạn chưa nhập đủ thông tin tài khoản ngân hàng");
+        } else if (!employeeNew.Tax) {
+            this.notifyerror("Bạn chưa nhập mã số thuế");
+        } else if (!employeeNew.Tax.numberTax || !employeeNew.Tax.userTax || !employeeNew.Tax.startDate || !employeeNew.Tax.unitTax) {
+            this.notifyerror("Bạn chưa nhập đủ thông tin thuế");
         } else {
             this.props.addNewEmployee(employeeNew);
             this.notifysuccess("Thêm thành công");
@@ -537,7 +541,7 @@ class AddEmployee extends Component {
                                                             <input type="text" className="form-control" name="fullName" id="fullname" placeholder="Họ và tên" onChange={this.handleChange} />
                                                         </div>
                                                         <div className="form-group">
-                                                            <label htmlFor="brithday">Ngày sinh:</label>
+                                                            <label htmlFor="brithday">Ngày sinh:<span className="required">&#42;</span></label>
                                                             <input type="Date" className="form-control" id="brithday" name="brithday" onChange={this.handleChange} autoComplete="off" />
                                                         </div>
                                                         <div className="form-group">
@@ -622,7 +626,7 @@ class AddEmployee extends Component {
                                                 </div>
                                                 <div className="col-md-4">
                                                     <div className="form-group">
-                                                        <label htmlFor="emailPersonal">Email cá nhân<span className="required">&#42;</span></label>
+                                                        <label htmlFor="emailPersonal">Email cá nhân</label>
                                                         <input type="text" className="form-control" id="emailPersonal" name="emailPersonal" onChange={this.handleChange} />
                                                     </div>
                                                 </div>
@@ -936,26 +940,26 @@ class AddEmployee extends Component {
                                                 <fieldset className="scheduler-border">
                                                     <legend className="scheduler-border" style={{ marginBottom: 0 }} ><h4 className="box-title">Bảo hiểm y tế</h4></legend>
                                                     <div className="form-group col-md-4">
-                                                        <label htmlFor="numberBHYT">Mã số BHYT:<span className="required">&#42;</span></label>
+                                                        <label htmlFor="numberBHYT">Mã số BHYT:</label>
                                                         <input type="text" className="form-control" name="numberBHYT" onChange={this.handleChange} />
                                                     </div>
                                                     <div className="form-group col-md-4">
-                                                        <label htmlFor="startDateBHYT">Ngày có hiệu lực:<span className="required">&#42;</span></label>
+                                                        <label htmlFor="startDateBHYT">Ngày có hiệu lực:</label>
                                                         <input type="text" className="form-control" name="startDateBHYT" onChange={this.handleChange} />
                                                     </div>
                                                     <div className="form-group col-md-4">
-                                                        <label htmlFor="endDateBHYT">Ngày hết hạn:<span className="required">&#42;</span></label>
+                                                        <label htmlFor="endDateBHYT">Ngày hết hạn:</label>
                                                         <input type="text" className="form-control" name="endDateBHYT" onChange={this.handleChange} />
                                                     </div>
                                                 </fieldset>
                                                 <fieldset className="scheduler-border">
-                                                    <legend className="scheduler-border" style={{ marginBottom: 0 }} ><h4 className="box-title">Bảo hiểm Xã hội</h4></legend>
+                                                    <legend className="scheduler-border" style={{ marginBottom: 0 }} ><h4 className="box-title">Bảo hiểm xã hội</h4></legend>
                                                     <div className="form-group col-md-4">
-                                                        <label htmlFor="numberBHXH">Mã số BHXH:<span className="required">&#42;</span></label>
+                                                        <label htmlFor="numberBHXH">Mã số BHXH:</label>
                                                         <input type="text" className="form-control" name="numberBHXH" onChange={this.handleChange} />
                                                     </div>
                                                     <div className="col-md-12">
-                                                        <h4 className="col-md-6" style={{ paddingLeft: 0 }}>Quá trình đóng bảo hiểm xã hội:</h4>
+                                                        <h4 className="col-md-6" style={{ paddingLeft: 0, fontSize: 16 }}>Quá trình đóng bảo hiểm xã hội:</h4>
                                                         <button style={{ marginBottom: 5 }} type="submit" className="btn btn-success pull-right" id="BHXH" title="Thêm mới bảo hiểm" onClick={this.handleAddNew}>Thêm mới</button>
                                                         <table className="table table-bordered " >
                                                             <thead>
@@ -1075,7 +1079,7 @@ class AddEmployee extends Component {
                                             <div className="box-body">
                                                 <div className="col-md-4">
                                                     <div className="form-group" style={{ paddingTop: 3 }}>
-                                                        <label htmlFor="numberFile">Mã hồ sơ:<span className="required">&#42;</span></label>
+                                                        <label htmlFor="numberFile">Mã hồ sơ:</label>
                                                         <input type="text" className="form-control" id="numberFile" name="numberFile" onChange={this.handleChange} />
                                                     </div>
                                                 </div>
@@ -1128,8 +1132,6 @@ class AddEmployee extends Component {
                                             </div>
                                         </div>
                                     </div>
-
-
                                 </div>
                                 {/* general form elements */}
                                 {/*<div className="box box-info">

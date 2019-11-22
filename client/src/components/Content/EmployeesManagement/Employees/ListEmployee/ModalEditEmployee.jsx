@@ -466,7 +466,7 @@ class ModalEditEmployee extends Component {
                                 <div className="modal-header">
                                     <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">×</span></button>
-                                    <h4 className="modal-title">Cập nhật thông tin nhân viên:  {employee.fullName} - {employee.employeeNumber} </h4>
+                                    <h4 className="modal-title">Cập nhật thông tin:  {employee.fullName} - {employee.employeeNumber} </h4>
                                 </div>
                                 <div className="modal-body" style={{ paddingTop: 0 }}>
                                     {/* <div className="col-md-12"> */}

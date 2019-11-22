@@ -145,6 +145,16 @@ const EmployeeSchema = new Schema({
         nameDepartment: String,
         position: String
     }],
+    numberFile: {
+        type: String
+    },
+    file: [{
+        nameFile: String,
+        discFile: String,
+        number: String,
+        status: String,
+        urlFile: String
+    }],
     createDate: {
         type: Date,
         default: Date.now
