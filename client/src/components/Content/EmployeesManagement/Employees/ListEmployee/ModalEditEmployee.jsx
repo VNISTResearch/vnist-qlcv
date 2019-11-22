@@ -455,7 +455,6 @@ class ModalEditEmployee extends Component {
         this.notifysuccess("Sửa thành công");
     }
     render() {
-        console.log(this.state);
         var employee = this.props.employee;
         var employeeContact = this.props.employeeContact;
         return (

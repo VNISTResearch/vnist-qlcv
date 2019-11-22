@@ -9,22 +9,27 @@ class ModalAddEmployee extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            adding: false,
-            employeeNew: {
-                avatar: 'adminLTE/dist/img/avatar5.png',
-                gender: "Nam",
-                relationship: "Độc thân",
-                department: "Phòng nhân sự",
-                cultural: "12/12",
-                nameBank: "Techcombank",
-                certificate: [],
-                certificateShort: [],
-                experience: [],
-                contract: [],
-                BHXH: [],
-                course: [],
-                file: []
+            ...this.props.state,
+            addEmployee: {
+                adding: false,
+                employeeNew: {
+                    avatar: 'adminLTE/dist/img/avatar5.png',
+                    gender: "Nam",
+                    relationship: "Độc thân",
+                    department: "Phòng nhân sự",
+                    cultural: "12/12",
+                    nameBank: "Techcombank",
+                    certificate: [],
+                    certificateShort: [],
+                    experience: [],
+                    contract: [],
+                    BHXH: [],
+                    course: [],
+                    file: []
+                }
+
             }
+
 
         };
         this.handleSubmitAdd = this.handleSubmitAdd.bind(this);
@@ -51,217 +56,280 @@ class ModalAddEmployee extends Component {
     handleUploadAdd(event) {
         var file = event.target.files[0];
         var fileLoad = new FileReader();
-        const { employeeNew } = this.state;
+        const { employeeNew } = this.state.addEmployee;
         fileLoad.readAsDataURL(file);
         fileLoad.onload = () => {
             this.setState({
-                employeeNew: {
-                    ...employeeNew,
-                    avatar: fileLoad.result
+                addEmployee: {
+                    ...this.state.addEmployee,
+                    employeeNew: {
+                        ...employeeNew,
+                        avatar: fileLoad.result
+                    }
                 }
+
             })
         };
     }
     // function save data of all fields of the target of employee
     handleChangeAdd(event) {
         const { name, value } = event.target;
-        const { employeeNew } = this.state;
+        const { employeeNew } = this.state.addEmployee;
         this.setState({
-            employeeNew: {
-                ...employeeNew,
-                [name]: value
+            addEmployee: {
+                ...this.state.addEmployee,
+                employeeNew: {
+                    ...employeeNew,
+                    [name]: value
+                }
             }
         });
     }
     // function save data of Tax fields of the target of employee
     handleChangeTaxAdd(event) {
         const { name, value } = event.target;
-        const { employeeNew } = this.state;
+        const { employeeNew } = this.state.addEmployee;
         this.setState({
-            employeeNew: {
-                ...employeeNew,
-                Tax: {
-                    ...employeeNew.Tax,
-                    [name]: value
-                },
+            addEmployee: {
+                ...this.state.addEmployee,
+                employeeNew: {
+                    ...employeeNew,
+                    Tax: {
+                        ...employeeNew.Tax,
+                        [name]: value
+                    },
+                }
             }
         });
     }
     // function save EmployeeNumber
     handleChangeEmployeeNumberAdd(event) {
         const { name, value } = event.target;
-        const { employeeNew } = this.state;
+        const { employeeNew } = this.state.addEmployee;
         this.props.getInformationEmployee(value);
         this.setState({
-            employeeNew: {
-                ...employeeNew,
-                [name]: value
+            addEmployee: {
+                ...this.state.addEmployee,
+                employeeNew: {
+                    ...employeeNew,
+                    [name]: value
+                }
             }
         });
+
+    }
+    addNewEmployee = () => {
+        if (this.props.department === "các đơn vị") {
+            this.getAllEmployee();
+        } else {
+            this.props.getListEmployee(this.props.department, "Trưởng phòng", "Phó phòng")
+        }
 
     }
     // function add new fields certificate, experience, contract, BHXH, course,File
     handleAddNewAdd(event) {
         var check;
-        const { employeeNew } = this.state;
+        const { employeeNew } = this.state.addEmployee;
         event.preventDefault();
         if (event.target.id === "addcertificate") {
-            if (this.state.employeeNew.certificate !== []) {
-                check = this.state.employeeNew.certificate.map(function (x, check) {
+            if (this.state.addEmployee.employeeNew.certificate !== []) {
+                check = this.state.addEmployee.employeeNew.certificate.map(function (x, check) {
                     if (x.nameCertificate === "" || x.urlCertificate === "" || x.addressCertificate === "" || x.yearCertificate === "" || x.typeCertificate === "") check = true;
                     return check;
                 })
                 if (check.toString() !== 'true') {
                     this.setState({
-                        employeeNew: {
-                            ...employeeNew,
-                            certificate: [...employeeNew.certificate, { nameCertificate: "", addressCertificate: "", yearCertificate: "", typeCertificate: "Suất sắc", urlCertificate: "" }]
+                        addEmployee: {
+                            ...this.state.addEmployee,
+                            employeeNew: {
+                                ...employeeNew,
+                                certificate: [...employeeNew.certificate, { nameCertificate: "", addressCertificate: "", yearCertificate: "", typeCertificate: "Suất sắc", urlCertificate: "" }]
+                            }
                         }
                     })
                 } else this.notifywarning("Hãy nhập đủ các trường Bằng cấp");
             } else {
                 this.setState({
-                    employeeNew: {
-                        ...employeeNew,
-                        certificate: [...employeeNew.certificate, { nameCertificate: "", addressCertificate: "", yearCertificate: "", typeCertificate: "Suất sắc", urlCertificate: "" }]
+                    addEmployee: {
+                        ...this.state.addEmployee,
+                        employeeNew: {
+                            ...employeeNew,
+                            certificate: [...employeeNew.certificate, { nameCertificate: "", addressCertificate: "", yearCertificate: "", typeCertificate: "Suất sắc", urlCertificate: "" }]
+                        }
                     }
                 })
             }
         }
         if (event.target.id === "addcertificateShort") {
-            if (this.state.employeeNew.certificateShort !== []) {
-                check = this.state.employeeNew.certificateShort.map(function (x, check) {
+            if (this.state.addEmployee.employeeNew.certificateShort !== []) {
+                check = this.state.addEmployee.employeeNew.certificateShort.map(function (x, check) {
                     if (x.nameCertificateShort === "" || x.urlCertificateShort === "" || x.unit === "" || x.startDate === "" || x.endDate === "") check = true;
                     return check;
                 })
                 if (check.toString() !== 'true') {
                     this.setState({
-                        employeeNew: {
-                            ...employeeNew,
-                            certificateShort: [...employeeNew.certificateShort, { nameCertificateShort: "", urlCertificateShort: "", unit: "", startDate: "", endDate: "" }]
+                        addEmployee: {
+                            ...this.state.addEmployee,
+                            employeeNew: {
+                                ...employeeNew,
+                                certificateShort: [...employeeNew.certificateShort, { nameCertificateShort: "", urlCertificateShort: "", unit: "", startDate: "", endDate: "" }]
+                            }
                         }
                     })
                 } else this.notifywarning("Hãy nhập đủ các trường Chứng chỉ");
             } else {
                 this.setState({
-                    employeeNew: {
-                        ...employeeNew,
-                        certificateShort: [...employeeNew.certificateShort, { nameCertificateShort: "", urlCertificateShort: "", unit: "", startDate: "", endDate: "" }]
+                    addEmployee: {
+                        ...this.state.addEmployee,
+                        employeeNew: {
+                            ...employeeNew,
+                            certificateShort: [...employeeNew.certificateShort, { nameCertificateShort: "", urlCertificateShort: "", unit: "", startDate: "", endDate: "" }]
+                        }
                     }
                 })
             }
         }
         if (event.target.id === "addexperience") {
-            if (this.state.employeeNew.experience !== []) {
-                check = this.state.employeeNew.experience.map(function (x, check) {
+            if (this.state.addEmployee.employeeNew.experience !== []) {
+                check = this.state.addEmployee.employeeNew.experience.map(function (x, check) {
                     if (x.startDate === "" || x.endDate === "" || x.unit === "" || x.position === "") check = true;
                     return check;
                 })
                 if (check.toString() !== 'true') {
                     this.setState({
-                        employeeNew: {
-                            ...employeeNew,
-                            experience: [...employeeNew.experience, { startDate: "", endDate: "", unit: "", position: "" }]
+                        addEmployee: {
+                            ...this.state.addEmployee,
+                            employeeNew: {
+                                ...employeeNew,
+                                experience: [...employeeNew.experience, { startDate: "", endDate: "", unit: "", position: "" }]
+                            }
                         }
                     })
                 } else this.notifywarning("Hãy nhập đủ các trường Kinh nghiệm làm việc");
             } else {
                 this.setState({
-                    employeeNew: {
-                        ...employeeNew,
-                        experience: [...employeeNew.experience, { startDate: "", endDate: "", unit: "", position: "" }]
+                    addEmployee: {
+                        ...this.state.addEmployee,
+                        employeeNew: {
+                            ...employeeNew,
+                            experience: [...employeeNew.experience, { startDate: "", endDate: "", unit: "", position: "" }]
+                        }
                     }
                 })
             }
         }
         if (event.target.id === "addcontract") {
-            if (this.state.employeeNew.contract !== []) {
-                check = this.state.employeeNew.contract.map(function (x, check) {
+            if (this.state.addEmployee.employeeNew.contract !== []) {
+                check = this.state.addEmployee.employeeNew.contract.map(function (x, check) {
                     if (x.nameContract === "" || x.typeContract === "" || x.startDate === "" || x.endDate === "" || x.urlContract === "") check = true;
                     return check;
                 })
                 if (check.toString() !== 'true') {
                     this.setState({
-                        employeeNew: {
-                            ...employeeNew,
-                            contract: [...employeeNew.contract, { nameContract: "", typeContract: "", startDate: "", endDate: "", urlContract: "" }]
+                        addEmployee: {
+                            ...this.state.addEmployee,
+                            employeeNew: {
+                                ...employeeNew,
+                                contract: [...employeeNew.contract, { nameContract: "", typeContract: "", startDate: "", endDate: "", urlContract: "" }]
+                            }
                         }
                     })
                 } else this.notifywarning("Hãy nhập đủ các trường Hợp đồng lao động");
             } else {
                 this.setState({
-                    employeeNew: {
-                        ...employeeNew,
-                        contract: [...employeeNew.contract, { nameContract: "", typeContract: "", startDate: "", endDate: "", urlContract: "" }]
+                    addEmployee: {
+                        ...this.state.addEmployee,
+                        employeeNew: {
+                            ...employeeNew,
+                            contract: [...employeeNew.contract, { nameContract: "", typeContract: "", startDate: "", endDate: "", urlContract: "" }]
+                        }
                     }
                 })
             }
         }
         if (event.target.id === "addBHXH") {
-            if (this.state.employeeNew.BHXH !== []) {
-                check = this.state.employeeNew.BHXH.map(function (x, check) {
+            if (this.state.addEmployee.employeeNew.BHXH !== []) {
+                check = this.state.addEmployee.employeeNew.BHXH.map(function (x, check) {
                     if (x.startDate === "" || x.endDate === "" || x.position === "" || x.unit === "") check = true;
                     return check;
                 })
                 if (check.toString() !== 'true') {
                     this.setState({
-                        employeeNew: {
-                            ...employeeNew,
-                            BHXH: [...employeeNew.BHXH, { startDate: "", endDate: "", position: "", unit: "" }]
+                        addEmployee: {
+                            ...this.state.addEmployee,
+                            employeeNew: {
+                                ...employeeNew,
+                                BHXH: [...employeeNew.BHXH, { startDate: "", endDate: "", position: "", unit: "" }]
+                            }
                         }
                     })
                 } else this.notifywarning("Hãy nhập đủ các trường Bảo hiểm y tế");
             } else {
                 this.setState({
-                    employeeNew: {
-                        ...employeeNew,
-                        BHXH: [...employeeNew.BHXH, { startDate: "", endDate: "", position: "", unit: "" }]
+                    addEmployee: {
+                        ...this.state.addEmployee,
+                        employeeNew: {
+                            ...employeeNew,
+                            BHXH: [...employeeNew.BHXH, { startDate: "", endDate: "", position: "", unit: "" }]
+                        }
                     }
                 })
             }
         }
         if (event.target.id === "addcourse") {
-            if (this.state.employeeNew.course !== []) {
-                check = this.state.employeeNew.course.map(function (x, check) {
+            if (this.state.addEmployee.employeeNew.course !== []) {
+                check = this.state.addEmployee.employeeNew.course.map(function (x, check) {
                     if (x.nameCourse === "" || x.startDate === "" || x.endDate === "" || x.unit === "" || x.status === "" || x.typeCourse === "") check = true;
                     return check;
                 })
                 if (check.toString() !== 'true') {
                     this.setState({
-                        employeeNew: {
-                            ...employeeNew,
-                            course: [...employeeNew.course, { nameCourse: "", startDate: "", endDate: "", unit: "", status: "Chưa hoàn thành", typeCourse: "Nội bộ" }]
+                        addEmployee: {
+                            ...this.state.addEmployee,
+                            employeeNew: {
+                                ...employeeNew,
+                                course: [...employeeNew.course, { nameCourse: "", startDate: "", endDate: "", unit: "", status: "Chưa hoàn thành", typeCourse: "Nội bộ" }]
+                            }
                         }
                     })
                 } else this.notifywarning("Hãy nhập đủ các trường Quá trình đào tạo");
             } else {
                 this.setState({
-                    employeeNew: {
-                        ...employeeNew,
-                        course: [...employeeNew.course, { nameCourse: "", startDate: "", endDate: "", unit: "", status: "Chưa hoàn thành", typeCourse: "Nội bộ" }]
+                    addEmployee: {
+                        ...this.state.addEmployee,
+                        employeeNew: {
+                            ...employeeNew,
+                            course: [...employeeNew.course, { nameCourse: "", startDate: "", endDate: "", unit: "", status: "Chưa hoàn thành", typeCourse: "Nội bộ" }]
+                        }
                     }
                 })
             }
         }
         if (event.target.id === "addfile") {
-            if (this.state.employeeNew.file !== []) {
-                check = this.state.employeeNew.file.map(function (x, check) {
+            if (this.state.addEmployee.employeeNew.file !== []) {
+                check = this.state.addEmployee.employeeNew.file.map(function (x, check) {
                     if (x.nameFile === "" || x.discFile === "" || x.number === "" || x.status === "") check = true;
                     return check;
                 })
                 if (check.toString() !== 'true') {
                     this.setState({
-                        employeeNew: {
-                            ...employeeNew,
-                            file: [...employeeNew.file, { nameFile: "", urlFile: "", discFile: "", number: "", status: "Chưa nộp" }]
+                        addEmployee: {
+                            ...this.state.addEmployee,
+                            employeeNew: {
+                                ...employeeNew,
+                                file: [...employeeNew.file, { nameFile: "", urlFile: "", discFile: "", number: "", status: "Chưa nộp" }]
+                            }
                         }
                     })
                 } else this.notifywarning("Hãy nhập đủ các trường Tài liệu đính kèm");
             } else {
                 this.setState({
-                    employeeNew: {
-                        ...employeeNew,
-                        file: [...employeeNew.file, { nameFile: "", urlFile: "", discFile: "", number: "", status: "Chưa nộp" }]
+                    addEmployee: {
+                        ...this.state.addEmployee,
+                        employeeNew: {
+                            ...employeeNew,
+                            file: [...employeeNew.file, { nameFile: "", urlFile: "", discFile: "", number: "", status: "Chưa nộp" }]
+                        }
                     }
                 })
             }
@@ -274,13 +342,16 @@ class ModalAddEmployee extends Component {
         if (type === "file") {
             value = value.slice(12);
         }
-        const { employeeNew } = this.state;
+        const { employeeNew } = this.state.addEmployee;
         var certificate = employeeNew.certificate;
         certificate[className] = { ...certificate[className], [name]: value }
         this.setState({
-            employeeNew: {
-                ...employeeNew,
-                certificate: certificate
+            addEmployee: {
+                ...this.state.addEmployee,
+                employeeNew: {
+                    ...employeeNew,
+                    certificate: certificate
+                }
             }
         })
     }
@@ -290,26 +361,32 @@ class ModalAddEmployee extends Component {
         if (type === "file") {
             value = value.slice(12);
         }
-        const { employeeNew } = this.state;
+        const { employeeNew } = this.state.addEmployee;
         var certificateShort = employeeNew.certificateShort;
         certificateShort[className] = { ...certificateShort[className], [name]: value }
         this.setState({
-            employeeNew: {
-                ...employeeNew,
-                certificateShort: certificateShort
+            addEmployee: {
+                ...this.state.addEmployee,
+                employeeNew: {
+                    ...employeeNew,
+                    certificateShort: certificateShort
+                }
             }
         })
     }
     // function save change experience
     handleChangeExperienceAdd(event) {
         var { name, value, className } = event.target;
-        const { employeeNew } = this.state;
+        const { employeeNew } = this.state.addEmployee;
         var experience = employeeNew.experience;
         experience[className] = { ...experience[className], [name]: value }
         this.setState({
-            employeeNew: {
-                ...employeeNew,
-                experience: experience
+            addEmployee: {
+                ...this.state.addEmployee,
+                employeeNew: {
+                    ...employeeNew,
+                    experience: experience
+                }
             }
         })
     }
@@ -319,39 +396,48 @@ class ModalAddEmployee extends Component {
         if (type === "file") {
             value = value.slice(12);
         }
-        const { employeeNew } = this.state;
+        const { employeeNew } = this.state.addEmployee;
         var contract = employeeNew.contract;
         contract[className] = { ...contract[className], [name]: value }
         this.setState({
-            employeeNew: {
-                ...employeeNew,
-                contract: contract
+            addEmployee: {
+                ...this.state.addEmployee,
+                employeeNew: {
+                    ...employeeNew,
+                    contract: contract
+                }
             }
         })
     }
     // function save change BHXH
     handleChangeBHXHAdd(event) {
         var { name, value, className } = event.target;
-        const { employeeNew } = this.state;
+        const { employeeNew } = this.state.addEmployee;
         var BHXH = employeeNew.BHXH;
         BHXH[className] = { ...BHXH[className], [name]: value }
         this.setState({
-            employeeNew: {
-                ...employeeNew,
-                BHXH: BHXH
+            addEmployee: {
+                ...this.state.addEmployee,
+                employeeNew: {
+                    ...employeeNew,
+                    BHXH: BHXH
+                }
             }
         })
     }
     //function save change course 
     handleChangeCourseAdd(event) {
         var { name, value, className } = event.target;
-        const { employeeNew } = this.state;
+        const { employeeNew } = this.state.addEmployee;
         var course = employeeNew.course;
         course[className] = { ...course[className], [name]: value }
         this.setState({
-            employeeNew: {
-                ...employeeNew,
-                course: course
+            addEmployee: {
+                ...this.state.addEmployee,
+                employeeNew: {
+                    ...employeeNew,
+                    course: course
+                }
             }
         })
     }
@@ -360,26 +446,32 @@ class ModalAddEmployee extends Component {
         if (type === "file") {
             value = value.slice(12);
         }
-        const { employeeNew } = this.state;
+        const { employeeNew } = this.state.addEmployee;
         var file = employeeNew.file;
         file[className] = { ...file[className], [name]: value }
         this.setState({
-            employeeNew: {
-                ...employeeNew,
-                file: file
+            addEmployee: {
+                ...this.state.addEmployee,
+                employeeNew: {
+                    ...employeeNew,
+                    file: file
+                }
             }
         })
     }
     // function delete fields certificate, experience, contract, BHXH, course
     deleteAdd = (key, index) => {
-        const { employeeNew } = this.state;
+        const { employeeNew } = this.state.addEmployee;
         if (key === "certificate") {
             var certificate = employeeNew.certificate;
             certificate.splice(index, 1);
             this.setState({
-                employeeNew: {
-                    ...employeeNew,
-                    certificate: [...certificate]
+                addEmployee: {
+                    ...this.state.addEmployee,
+                    employeeNew: {
+                        ...employeeNew,
+                        certificate: [...certificate]
+                    }
                 }
             })
         };
@@ -387,9 +479,12 @@ class ModalAddEmployee extends Component {
             var certificateShort = employeeNew.certificateShort;
             certificateShort.splice(index, 1);
             this.setState({
-                employeeNew: {
-                    ...employeeNew,
-                    certificateShort: [...certificateShort]
+                addEmployee: {
+                    ...this.state.addEmployee,
+                    employeeNew: {
+                        ...employeeNew,
+                        certificateShort: [...certificateShort]
+                    }
                 }
             })
         };
@@ -397,9 +492,12 @@ class ModalAddEmployee extends Component {
             var experience = employeeNew.experience;
             experience.splice(index, 1);
             this.setState({
-                employeeNew: {
-                    ...employeeNew,
-                    experience: [...experience]
+                addEmployee: {
+                    ...this.state.addEmployee,
+                    employeeNew: {
+                        ...employeeNew,
+                        experience: [...experience]
+                    }
                 }
             })
         };
@@ -407,9 +505,12 @@ class ModalAddEmployee extends Component {
             var contract = employeeNew.contract;
             contract.splice(index, 1);
             this.setState({
-                employeeNew: {
-                    ...employeeNew,
-                    contract: [...contract]
+                addEmployee: {
+                    ...this.state.addEmployee,
+                    employeeNew: {
+                        ...employeeNew,
+                        contract: [...contract]
+                    }
                 }
             })
         };
@@ -417,9 +518,12 @@ class ModalAddEmployee extends Component {
             var BHXH = employeeNew.BHXH;
             BHXH.splice(index, 1);
             this.setState({
-                employeeNew: {
-                    ...employeeNew,
-                    BHXH: [...BHXH]
+                addEmployee: {
+                    ...this.state.addEmployee,
+                    employeeNew: {
+                        ...employeeNew,
+                        BHXH: [...BHXH]
+                    }
                 }
             })
         };
@@ -427,9 +531,12 @@ class ModalAddEmployee extends Component {
             var course = employeeNew.course;
             course.splice(index, 1);
             this.setState({
-                employeeNew: {
-                    ...employeeNew,
-                    course: [...course]
+                addEmployee: {
+                    ...this.state.addEmployee,
+                    employeeNew: {
+                        ...employeeNew,
+                        course: [...course]
+                    }
                 }
             })
         };
@@ -437,9 +544,12 @@ class ModalAddEmployee extends Component {
             var file = employeeNew.file;
             file.splice(index, 1);
             this.setState({
-                employeeNew: {
-                    ...employeeNew,
-                    file: [...file]
+                addEmployee: {
+                    ...this.state.addEmployee,
+                    employeeNew: {
+                        ...employeeNew,
+                        file: [...file]
+                    }
                 }
             })
         };
@@ -453,7 +563,7 @@ class ModalAddEmployee extends Component {
         if (employee) {
             employeeNumber = employee.map(x => x.employeeNumber).toString();
         }
-        const { employeeNew } = this.state;
+        const { employeeNew } = this.state.addEmployee;
 
         // kiểm tra việc nhập các trường bắt buộc
         if (!employeeNew.employeeNumber) {
@@ -484,7 +594,6 @@ class ModalAddEmployee extends Component {
         }
     }
     render() {
-        console.log(this.state)
         return (
             <div className="modal fade" id="modal-addEmployee" tabIndex={-1} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
@@ -515,7 +624,7 @@ class ModalAddEmployee extends Component {
                                             <div className="col-md-12">
                                                 <div className="col-md-4">
                                                     <div className="form-group">
-                                                        <img className="attachment-img avarta" src={this.state.employeeNew.avatar} alt="Attachment" />
+                                                        <img className="attachment-img avarta" src={this.state.addEmployee.employeeNew.avatar} alt="Attachment" />
                                                         <div className="upload btn btn-default" style={{ marginLeft: 55 }}>
                                                             Chọn ảnh
                                                         <input className="upload" type="file" name="file" onChange={this.handleUpload} />
@@ -786,7 +895,7 @@ class ModalAddEmployee extends Component {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {this.state.employeeNew.certificate !== [] && this.state.employeeNew.certificate.map((x, index) => (
+                                                        {this.state.addEmployee.employeeNew.certificate !== [] && this.state.addEmployee.employeeNew.certificate.map((x, index) => (
                                                             <tr key={index}>
                                                                 <td><input className={index} type="text" value={x.nameCertificate} name="nameCertificate" style={{ width: "100%" }} onChange={this.handleChangeCertificateAdd} /></td>
                                                                 <td><input className={index} type="text" value={x.addressCertificate} name="addressCertificate" style={{ width: "100%" }} onChange={this.handleChangeCertificateAdd} /></td>
@@ -822,7 +931,7 @@ class ModalAddEmployee extends Component {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {this.state.employeeNew.certificateShort !== [] && this.state.employeeNew.certificateShort.map((x, index) => (
+                                                        {this.state.addEmployee.employeeNew.certificateShort !== [] && this.state.addEmployee.employeeNew.certificateShort.map((x, index) => (
                                                             <tr key={index}>
                                                                 <td><input className={index} type="text" value={x.nameCertificateShort} name="nameCertificateShort" style={{ width: "100%" }} onChange={this.handleChangeCertificateShortAdd} /></td>
                                                                 <td><input className={index} type="text" value={x.unit} name="unit" style={{ width: "100%" }} onChange={this.handleChangeCertificateShortAdd} /></td>
@@ -875,7 +984,7 @@ class ModalAddEmployee extends Component {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {this.state.employeeNew.experience !== "" && this.state.employeeNew.experience.map((x, index) => (
+                                                        {this.state.addEmployee.employeeNew.experience !== "" && this.state.addEmployee.employeeNew.experience.map((x, index) => (
                                                             <tr key={index}>
                                                                 <td><input className={index} value={x.startDate} type="text" name="startDate" style={{ width: "100%" }} data-date-format="mm-yyyy" onChange={this.handleChangeExperienceAdd} /></td>
                                                                 <td><input className={index} value={x.endDate} type="text" name="endDate" style={{ width: "100%" }} data-date-format="mm-yyyy" onChange={this.handleChangeExperienceAdd} /></td>
@@ -928,7 +1037,7 @@ class ModalAddEmployee extends Component {
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            {this.state.employeeNew.BHXH !== "" && this.state.employeeNew.BHXH.map((x, index) => (
+                                                            {this.state.addEmployee.employeeNew.BHXH !== "" && this.state.addEmployee.employeeNew.BHXH.map((x, index) => (
                                                                 <tr key={index}>
                                                                     <td><input className={index} value={x.startDate} type="text" name="startDate" style={{ width: "100%", height: 26 }} onChange={this.handleChangeBHXHAdd} /></td>
                                                                     <td><input className={index} value={x.endDate} type="text" name="endDate" style={{ width: "100%", height: 26 }} onChange={this.handleChangeBHXHAdd} /></td>
@@ -962,7 +1071,7 @@ class ModalAddEmployee extends Component {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {this.state.employeeNew.contract !== "" && this.state.employeeNew.contract.map((x, index) => (
+                                                        {this.state.addEmployee.employeeNew.contract !== "" && this.state.addEmployee.employeeNew.contract.map((x, index) => (
                                                             <tr key={index}>
                                                                 <td><input className={index} value={x.nameContract} type="text" name="nameContract" style={{ width: "100%" }} onChange={this.handleChangeContractAdd} /></td>
                                                                 <td><input className={index} value={x.typeContract} type="text" name="typeContract" style={{ width: "100%" }} onChange={this.handleChangeContractAdd} /></td>
@@ -993,7 +1102,7 @@ class ModalAddEmployee extends Component {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {this.state.employeeNew.course !== "" && this.state.employeeNew.course.map((x, index) => (
+                                                        {this.state.addEmployee.employeeNew.course !== "" && this.state.addEmployee.employeeNew.course.map((x, index) => (
                                                             <tr key={index}>
                                                                 <td><input className={index} value={x.nameCourse} type="text" name="nameCourse" style={{ width: "100%" }} onChange={this.handleChangeCourseAdd} /></td>
                                                                 <td><input className={index} value={x.startDate} type="date" name="startDate" style={{ width: "100%" }} onChange={this.handleChangeCourseAdd} /></td>
@@ -1040,7 +1149,7 @@ class ModalAddEmployee extends Component {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {this.state.employeeNew.file !== "" && this.state.employeeNew.file.map((x, index) => (
+                                                        {this.state.addEmployee.employeeNew.file !== "" && this.state.addEmployee.employeeNew.file.map((x, index) => (
                                                             <tr key={index}>
                                                                 <td><input className={index} value={x.nameFile} type="text" name="nameFile" style={{ width: "100%", height: 26 }} onChange={this.handleChangeFileAdd} /></td>
                                                                 <td><input className={index} value={x.discFile} type="text" name="discFile" style={{ width: "100%", height: 26 }} onChange={this.handleChangeFileAdd} /></td>
@@ -1087,14 +1196,9 @@ class ModalAddEmployee extends Component {
 
                             </div>
                             <div className="col-md-12">
-                                <button type="submit" title="Huỷ thêm mới nhân viên " className="btn btn-default pull-right btnuser" data-dismiss="modal" >Đóng</button>
+                                <button type="submit" title="Huỷ thêm mới nhân viên " className="btn btn-default pull-right btnuser" data-dismiss="modal" onClick={() => this.addNewEmployee()} >Đóng</button>
                                 <button type="submit" title="Thêm nhân viên mới" className="btn btn-success pull-right btnuser" onClick={this.handleSubmitAdd} htmlFor="form">Thêm nhân viên</button>
-
-
                             </div>
-
-
-
                         </div>
                     </div>
                     {/* /.modal-content */}
@@ -1112,6 +1216,8 @@ function mapState(state) {
 const actionCreators = {
     addNewEmployee: employeeActions.addNewEmployee,
     getInformationEmployee: employeeActions.getInformationEmployee,
+    getListEmployee: employeeActions.getListEmployee,
+    getAllEmployee: employeeActions.getAllEmployee,
 };
 
 const connectedAddEmplyee = connect(mapState, actionCreators)(ModalAddEmployee);

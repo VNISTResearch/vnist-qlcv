@@ -68,10 +68,20 @@ class ListEmployee extends Component {
         script.defer = true;
         document.body.appendChild(script);
     }
-
+    click = () => {
+        var { employees } = this.props;
+        this.setState({
+            chiefSelected: employees.chiefDepartment,
+        })
+    }
     handleSubmit(event) {
+        var { employees } = this.props;
+        this.setState({
+            chiefSelected: employees.chiefDepartment,
+        })
     }
     render() {
+        console.log(this.state)
         var lists, chief, deputy, listAll;
         var option = [], chiefs = [], deputys = [];
         var { employees } = this.props;
@@ -147,27 +157,11 @@ class ListEmployee extends Component {
                                                         </select>
                                                     }
                                                 </div>
-                                                <div className="form-group col-md-6" style={{ paddingLeft: 0 }} >
-                                                    <button style={{ marginTop: 25 }} type="submit" className="btn btn-primary pull-left" data-toggle="modal" data-target="#modal-editOrganizational" title="Thay đổi cơ cấu đơn vị">Thay đổi</button>
+                                                <div className="form-group col-md-2" style={{ paddingLeft: 0 }} >
+                                                    <button style={{ marginTop: 25 }} type="submit" className="btn btn-primary pull-left" data-toggle="modal" data-target="#modal-editOrganizational" title="Thay đổi cơ cấu đơn vị" onClick={this.handleSubmit}>Thay đổi</button>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        {/* <div className="col-md-12" style={{ paddingLeft: 0 }}>
-                                            <div className="form-group col-md-6" >
-                                                <label>Thêm nhân viên vào {department.toLowerCase()}:</label>
-                                                {listAll &&
-
-                                                    <select className="form-control select2" multiple="multiple" style={{ width: '100%' }}>
-                                                        {listAll.map((x, index) => (
-                                                            <option key={index} value={x.employeeNumber} style={{ height: 30 }}>{x.fullName} - {x.employeeNumber}</option>
-                                                        ))}
-                                                    </select>
-                                                }
-                                            </div>
-                                            <button style={{ marginTop: 25 }} type="submit" className="btn btn-primary" id="" title="Lưu các thay đổi" onClick={this.handleSubmit}>Lưu lại</button>
-
-                                        </div> */}
                                     </div>
                                     <div className="col-md-12">
                                         <div className="col-md-12" style={{ paddingLeft: 0, paddingRight: 0 }}>
@@ -233,8 +227,8 @@ class ListEmployee extends Component {
                     <div id="view" className={this.state.view}>
                         <InfoEmployee employee={employee} employeeContact={employeeContact} />
                     </div>
-                    <ModalEditOrganizational department={department.toLowerCase()} />
-                    <ModalAddEmployee />
+                    <ModalEditOrganizational department={department} listAll={listAll} />
+                    <ModalAddEmployee state={this.state} department={department} />
                     <ModalEditEmployee employee={employee} employeeContact={employeeContact} />
                 </section>
             </div >
