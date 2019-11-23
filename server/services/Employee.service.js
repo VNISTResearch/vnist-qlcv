@@ -214,6 +214,7 @@ exports.updateByEmployeeNumber = async (req, res) => {
             gender: req.body.gender,
             phoneNumber: req.body.phoneNumber,
             national: req.body.national,
+            nation: req.body.nation,
             religion: req.body.religion,
             relationship: req.body.relationship,
             updateDate: req.body.updateDate

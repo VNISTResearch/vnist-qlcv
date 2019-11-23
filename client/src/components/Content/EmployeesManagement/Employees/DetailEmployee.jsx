@@ -2,8 +2,20 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { employeeActions } from '../../../../redux-actions/EmployeeActions';
 class DetailEmployee extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            tracuu: "Tra cứu"
+        }
+        //this.handleClickMenu = this.handleClickMenu.bind(this);
+    }
     componentDidMount() {
         this.props.getInformationEmployee("123654");
+    }
+    handleClickMenu = (event) => {
+        this.setState({
+            tracuu: event
+        })
     }
     render() {
         //console.log(this.props.employees);
@@ -20,8 +32,8 @@ class DetailEmployee extends Component {
                         Thông tin nhân viên
                     </h1>
                     <ol className="breadcrumb">
-                        <li><a href="#abc"><i className="fa fa-dashboard" /> Home</a></li>
-                        <li className="active">Quản lý nhân sự</li>
+                        <li><a href="/"><i className="fa fa-dashboard" /> Home</a></li>
+                        <li className="active">Tài khoản</li>
                     </ol>
                     <a href="/updateemployee"><button type="submit" className="btn btn-primary pull-right " id="" style={{ marginTop: 20, marginBottom: 10 }}>Cập nhật thông tin</button></a>
                 </section>
@@ -39,7 +51,18 @@ class DetailEmployee extends Component {
                                         <li><a style={{ paddingLeft: 5, paddingRight: 8 }} title="Tài khoản ngân hành - Thuế thu nhập các nhân" data-toggle="tab" href="#taikhoan">Tài khoản - Thuế</a></li>
                                         <li><a style={{ paddingLeft: 5, paddingRight: 8 }} title="Thông tin bảo hiểm" data-toggle="tab" href="#baohiem">Thông tin bảo hiểm</a></li>
                                         <li><a style={{ paddingLeft: 5, paddingRight: 8 }} title="Hợp đồng lao động - Quá trình đào tạo" data-toggle="tab" href="#hopdong">Hợp đồng - Đào tạo</a></li>
-                                        <li><a style={{ paddingLeft: 5, }} title="Tài liệu đính kèm" data-toggle="tab" href="#tailieu">Tài liệu</a></li>
+                                        {/* <li><a style={{ paddingLeft: 5, }} title="Tài liệu đính kèm" data-toggle="tab" href="#tailieu">Tài liệu</a></li> */}
+                                        <li className="dropdown">
+                                            <a className="dropdown-toggle" data-toggle="dropdown" style={{ paddingLeft: 5, paddingRight: 8 }} href="#abc">
+                                                {this.state.tracuu} <span className="caret" />
+                                            </a>
+                                            <ul className="dropdown-menu">
+                                                <li role="presentation"><a role="menuitem" tabIndex={-1} data-toggle="tab" href="#historySalary" onClick={() => this.handleClickMenu("Lịch sử lương")}>Lịch sử lương</a></li>
+                                                <li role="presentation"><a role="menuitem" tabIndex={-1} data-toggle="tab" href="#khenthuong" onClick={() => this.handleClickMenu("Khen thưởng")}>Khen thưởng</a></li>
+                                            </ul>
+                                        </li>
+
+
                                     </ul>
                                     {employee && employee.map((x, index) => (
                                         <div className="tab-content" key={index}>
@@ -518,7 +541,7 @@ class DetailEmployee extends Component {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div id="tailieu" className="tab-pane">
+                                            {/* <div id="tailieu" className="tab-pane">
                                                 <div className="box-body">
                                                     <div className="form-group" style={{ paddingLeft: 15 }}>
                                                         <strong>Mã hồ sơ:&emsp;</strong>
@@ -551,6 +574,74 @@ class DetailEmployee extends Component {
                                                                 }
                                                             </tbody>
                                                         </table>
+                                                    </div>
+                                                </div>
+                                            </div> */}
+                                            <div id="historySalary" className="tab-pane">
+                                                <div className="box-body">
+                                                    <div className="col-sm-12">
+                                                        {/* <h4 style={{ paddingLeft: 0, fontSize: 16 }}>Danh sách tài liệu đính kèm:</h4>
+                                                        <table className="table table-bordered " >
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style={{ width: "22%" }}>Tên tài liệu</th>
+                                                                    <th style={{ width: "22%" }}>Mô tả</th>
+                                                                    <th style={{ width: "9%" }}>Số lượng</th>
+                                                                    <th style={{ width: "12%" }}>Trạng thái</th>
+                                                                    <th style={{ width: "30%" }}>File đính kèm</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {
+                                                                    (typeof x.file === 'undefined' || x.file.length === 0) ? <tr><td colSpan={5}><center> Không có dữ liệu</center></td></tr> :
+                                                                        x.file.map((x, index) => (
+                                                                            <tr key={index}>
+                                                                                <td>{x.nameFile}</td>
+                                                                                <td>{x.discFile}</td>
+                                                                                <td>{x.number}</td>
+                                                                                <td>{x.status}</td>
+                                                                                <td><a href={x.urlFile ? x.urlFile : "#abc"}><u>{x.urlFile ? x.nameFile : ""}</u></a></td>
+                                                                            </tr>
+                                                                        ))
+                                                                }
+                                                            </tbody>
+                                                        </table> */}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="khenthuong" className="tab-pane">
+                                                <div className="box-body">
+                                                    {/* <div className="form-group" style={{ paddingLeft: 15 }}>
+                                                        <strong>Mã hồ sơ:&emsp;</strong>
+                                                        {x.numberFile}
+                                                    </div> */}
+                                                    <div className="col-sm-12">
+                                                        {/* <h4 style={{ paddingLeft: 0, fontSize: 16 }}>Danh sách tài liệu đính kèm:</h4>
+                                                        <table className="table table-bordered " >
+                                                            <thead>
+                                                                <tr>
+                                                                    <th style={{ width: "22%" }}>Tên tài liệu</th>
+                                                                    <th style={{ width: "22%" }}>Mô tả</th>
+                                                                    <th style={{ width: "9%" }}>Số lượng</th>
+                                                                    <th style={{ width: "12%" }}>Trạng thái</th>
+                                                                    <th style={{ width: "30%" }}>File đính kèm</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {
+                                                                    (typeof x.file === 'undefined' || x.file.length === 0) ? <tr><td colSpan={5}><center> Không có dữ liệu</center></td></tr> :
+                                                                        x.file.map((x, index) => (
+                                                                            <tr key={index}>
+                                                                                <td>{x.nameFile}</td>
+                                                                                <td>{x.discFile}</td>
+                                                                                <td>{x.number}</td>
+                                                                                <td>{x.status}</td>
+                                                                                <td><a href={x.urlFile ? x.urlFile : "#abc"}><u>{x.urlFile ? x.nameFile : ""}</u></a></td>
+                                                                            </tr>
+                                                                        ))
+                                                                }
+                                                            </tbody>
+                                                        </table> */}
                                                     </div>
                                                 </div>
                                             </div>

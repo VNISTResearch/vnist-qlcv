@@ -77,6 +77,21 @@ class MainSideBar extends Component {
                                     <ul className="treeview-menu">
                                         <li><a href="/addemployee">Thêm nhân viên </a></li>
                                         <li><a href="/listemployee">Nhân sự các đơn vị</a></li>
+                                        <li><a href="/salaryemployee">Lương nhân viên</a></li>
+                                        <li><a href="/timekeeping">Chấm công nhân viên</a></li>
+                                    </ul>
+                                </li>
+                            }
+                            {
+                                this.checkURL("/target") &&
+                                <li className="treeview">
+                                    <a href="#abc">
+                                        <i className="fa fa-dashboard" /> <span>Tài khoản</span>
+                                        <span className="pull-right-container">
+                                            <i className="fa fa-angle-left pull-right" />
+                                        </span>
+                                    </a>
+                                    <ul className="treeview-menu">
                                         <li><a href="/detailemployee">Thông tin cá nhân</a></li>
                                         <li><a href="/updateemployee">Cập nhật thông tin nhân viên</a></li>
                                     </ul>
@@ -96,23 +111,6 @@ class MainSideBar extends Component {
                                         <li><a href="/trainingplan">Kế hoạch đào tạo</a></li>
                                         <li><a href="/trainingresults">Kết quả đào tạo</a></li>
 
-                                    </ul>
-                                </li>
-                            }
-                            {
-                                this.checkURL("/target") &&
-                                <li className="treeview">
-                                    <a href="#abc">
-                                        <i className="fa fa-dashboard" /> <span>Tra cứu</span>
-                                        <span className="pull-right-container">
-                                            <i className="fa fa-angle-left pull-right" />
-                                        </span>
-                                    </a>
-                                    <ul className="treeview-menu">
-                                        <li><a href="/detailsalary">Lịch sử tăng - giảm lương</a></li>
-                                        <li><a href="#abc">Lịch sử khen thưởng-kỷ luật</a></li>
-                                        <li><a href="#abc">Kết quả đánh giá định kỳ</a></li>
-                                        <li><a href="#abc">Lịch sử công việc</a></li>
                                     </ul>
                                 </li>
                             }

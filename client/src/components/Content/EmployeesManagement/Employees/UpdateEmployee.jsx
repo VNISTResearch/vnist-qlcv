@@ -18,7 +18,7 @@ class UpdateEmployee extends Component {
     }
 
     componentDidMount() {
-        this.props.getInformationEmployee("20150535");
+        this.props.getInformationEmployee("123654");
 
     }
 
@@ -29,6 +29,7 @@ class UpdateEmployee extends Component {
         const content2 = this.props.employees.employeeContact;
         var old = {
             national: (content1.map(x => x.national)).toString(),
+            nation: (content1.map(x => x.nation)).toString(),
             gender: (content1.map(x => x.gender)).toString(),
             relationship: (content1.map(x => x.relationship)).toString(),
             religion: (content1.map(x => x.religion)).toString(),
@@ -85,7 +86,7 @@ class UpdateEmployee extends Component {
             this.notifywarning("Không có thông tin nào được thay đổi");
         } else {
             if (check === true) {
-                this.props.updateInformationEmployee("20150535", informationEmployee)
+                this.props.updateInformationEmployee("123654", informationEmployee)
                 this.notifysuccess("Cập nhật thông tin thành công");
             } else {
                 this.notifyerror("Thất bại! Xin hãy xác nhận thông tin");
@@ -113,8 +114,8 @@ class UpdateEmployee extends Component {
                         Cập nhật thông tin nhân viên
                     </h1>
                     <ol className="breadcrumb">
-                        <li><a href="#abc"><i className="fa fa-dashboard" /> Home</a></li>
-                        <li className="active">Quản lý nhân sự</li>
+                        <li><a href="/"><i className="fa fa-dashboard" /> Home</a></li>
+                        <li className="active">Tài khoản</li>
                     </ol>
                 </section>
                 {
@@ -146,7 +147,7 @@ class UpdateEmployee extends Component {
                                                                 <label htmlFor="fullname">Họ và tên:</label>
                                                                 <input type="text" className="form-control " id="fullname" defaultValue={x.fullName} disabled />
                                                             </div>
-                                                            <div className="form-group">
+                                                            <div className="form-group" style={{ height: 59 }}>
                                                                 <label style={{ display: 'block', paddingBottom: 4 }}>Giới tính:</label>
                                                                 {
                                                                     x.gender === "Nam" ?
@@ -165,6 +166,10 @@ class UpdateEmployee extends Component {
                                                             <div className="form-group">
                                                                 <label htmlFor="national">Dân tộc:</label>
                                                                 <input type="text" className="form-control " id="national" name="national" defaultValue={x.national} onChange={this.handleChange} />
+                                                            </div>
+                                                            <div className="form-group">
+                                                                <label htmlFor="phoneNumber">Điện thoại di động:</label>
+                                                                <input type="text" className="form-control " name="phoneNumber" id="phoneNumber" defaultValue={x.phoneNumber ? "0" + x.phoneNumber : ""} onChange={this.handleChange} />
                                                             </div>
                                                         </div>
                                                         <div className=" col-md-4">
@@ -196,6 +201,10 @@ class UpdateEmployee extends Component {
                                                                 <label htmlFor="religion">Tôn giáo:</label>
                                                                 <input type="text" className="form-control " name="religion" id="religion" defaultValue={x.religion} onChange={this.handleChange} />
                                                             </div>
+                                                            <div className="form-group">
+                                                                <label htmlFor="nation">Quốc tịch:</label>
+                                                                <input type="text" className="form-control " id="nation" name="nation" defaultValue={x.nation} onChange={this.handleChange} />
+                                                            </div>
                                                         </div>
                                                     </fieldset>
                                                 </div>
@@ -205,12 +214,7 @@ class UpdateEmployee extends Component {
                                                             <fieldset className="scheduler-border">
                                                                 <legend className="scheduler-border"><h4 className="box-title">Thông tin liên hệ</h4></legend>
 
-                                                                <div className="col-md-4">
-                                                                    <div className="form-group">
-                                                                        <label htmlFor="phoneNumber">Điện thoại di động:</label>
-                                                                        <input type="text" className="form-control " name="phoneNumber" id="phoneNumber" defaultValue={x.phoneNumber ? "0" + x.phoneNumber : ""} onChange={this.handleChange} />
-                                                                    </div>
-                                                                </div>
+
                                                                 <div className="col-md-4">
                                                                     <div className="form-group">
                                                                         <label htmlFor="emailPersonal">Email cá nhân:</label>
