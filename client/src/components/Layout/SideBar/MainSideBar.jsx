@@ -9,23 +9,23 @@ const menu = [
         name: 'user',
         path: '/admin/user',
         icon: 'fa fa-users'
-    },{
+    }, {
         name: 'department',
         path: '/admin/department',
         icon: 'fa fa-building'
-    },{
+    }, {
         name: 'resource',
         path: '/admin/resource',
         icon: 'fa fa-file'
-    },{
+    }, {
         name: 'role',
         path: '/admin/role',
         icon: 'fa fa-key'
-    },{
+    }, {
         name: 'tasktemplate',
         path: '/task-template',
         icon: 'fa fa-tasks'
-    },{
+    }, {
         name: 'cocautochuc',
         path: '/cocautochuc',
         icon: 'fa fa-th'
@@ -34,8 +34,8 @@ const menu = [
 
 class MainSideBar extends Component {
 
-    componentDidMount(){
-        if(localStorage.getItem('currentRole')){
+    componentDidMount() {
+        if (localStorage.getItem('currentRole')) {
             this.props.getLinkOfRole();
         }
     }
@@ -64,7 +64,7 @@ class MainSideBar extends Component {
                         {/* search form */}
                         <form action="#" method="get" className="sidebar-form">
                             <div className="input-group">
-                                <input type="text" name="q" className="form-control" placeholder={ translate('mainSideBar.search') } />
+                                <input type="text" name="q" className="form-control" placeholder={translate('mainSideBar.search')} />
                                 <span className="input-group-btn">
                                     <button type="submit" name="search" id="search-btn" className="btn btn-flat"><i className="fa fa-search" />
                                     </button>
@@ -75,24 +75,24 @@ class MainSideBar extends Component {
                             <li className="header">MENU</li>
                             <li>
                                 <a href="/">
-                                    <i className="fa fa-home" /> <span>{ translate('mainSideBar.home') }</span>
+                                    <i className="fa fa-home" /> <span>{translate('mainSideBar.home')}</span>
                                 </a>
                             </li>
                             {
-                                typeof(user.links) !== 'undefined' ? 
-                                (
-                                    user.links.map( link => (
-                                        menu.map( item => 
-                                            (link.resource.url === item.path) ?
-                                            <Item
-                                                key={ item.name }
-                                                name={ translate('mainSideBar.'+item.name) }
-                                                path={ item.path }
-                                                icon={ item.icon }
-                                            /> : null
-                                        )
-                                    ))
-                                ) : null
+                                typeof (user.links) !== 'undefined' ?
+                                    (
+                                        user.links.map(link => (
+                                            menu.map(item =>
+                                                (link.resource.url === item.path) ?
+                                                    <Item
+                                                        key={item.name}
+                                                        name={translate('mainSideBar.' + item.name)}
+                                                        path={item.path}
+                                                        icon={item.icon}
+                                                    /> : null
+                                            )
+                                        ))
+                                    ) : null
                             }
                             <li className="header">MAIN NAVIGATION</li>
                             {
@@ -105,7 +105,7 @@ class MainSideBar extends Component {
                                         </span>
                                     </a>
                                     <ul className="treeview-menu">
-                                        <li><a href="/task-management/dashboard">Thống kê công việc</a></li>
+                                        <li><a href="/task-management/dashboard">Dashboard công việc</a></li>
                                         <li><a href="/task-management">Xem danh sách công việc</a></li>
                                     </ul>
                                 </li>
@@ -119,6 +119,7 @@ class MainSideBar extends Component {
                                         </span>
                                     </a>
                                     <ul className="treeview-menu">
+                                        {/* <li><a href="/kpi-statistical">Dashboard KPI</a></li> */}
                                         <li className="treeview">
                                             <a href="#kpiunit"> KPI đơn vị
                                                 <span className="pull-right-container">
@@ -143,9 +144,9 @@ class MainSideBar extends Component {
                                                 <li><a href="/kpi-personal/evaluate">Dữ liệu KPI cá nhân</a></li>
                                             </ul>
                                         </li>
-                                        <li><a href="/kpi-member/overview">Phê duyệt kpi nhân viên</a></li>
+                                        <li><a href="/kpi-member/overview">Quản lý kpi nhân viên</a></li>
                                         <li><a href="/kpi-member/approve">Đánh giá kpi nhân viên</a></li>
-                                        <li><a href="/kpi-statistical">Thống kê KPI</a></li>
+
                                     </ul>
                                 </li>
                             }
@@ -169,4 +170,4 @@ const dispatchStateToProps = (dispatch, props) => {
     }
 }
 
-export default connect(mapStates, dispatchStateToProps) ( withTranslate(MainSideBar) );
+export default connect(mapStates, dispatchStateToProps)(withTranslate(MainSideBar));

@@ -17,6 +17,7 @@ import { aDepartments} from './Admin/DepartmentsReducer';
 import { roles} from './Admin/RolesReducer';
 import { links} from './Admin/LinksReducer';
 import { tasks} from './TaskManagementReducers';
+import { performtasks} from './PerformTaskReducer';
 
 const rootReducer = combineReducers(Object.assign({
   authentication,
@@ -36,7 +37,8 @@ const rootReducer = combineReducers(Object.assign({
   aDepartments,
   roles,
   links,
-  tasks
+  tasks,
+  performtasks
 }, { Intl }));
 
 export default rootReducer;

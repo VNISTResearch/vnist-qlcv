@@ -6,3 +6,4 @@ export * from './DepartmentActions';
 export * from './KPIUnitActions';
 export * from './KPIPersonalActions';
 export * from './TaskManagementActions';
+export * from './PerformTaskAction';

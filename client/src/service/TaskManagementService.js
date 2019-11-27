@@ -4,7 +4,7 @@ export const taskManagementService = {
     getAll,
     getById,
     getAllTaskByRole,
-    getAllTaskByUser,
+    getResponsibleTaskByUser,
     addNewTask,
     editTask,
     deleteTaskById
@@ -40,13 +40,13 @@ function getAllTaskByRole(id, role) {
 
 }
 // get all task by Role
-function getAllTaskByUser(user, unit, number) {
+function getResponsibleTaskByUser(user, unit, number, perpage, status, priority, specical, name) {
     const requestOptions = {
         method: 'GET',
         headers: authHeader()
     };
 
-    return fetch(`/tasks/user/${unit}/${user}/${number}`, requestOptions).then(handleResponse);
+    return fetch(`/tasks/user/task-responsible/${unit}/${user}/${number}/${perpage}/${status}/${priority}/${specical}/${name}`, requestOptions).then(handleResponse);
 }
 
 // add new task

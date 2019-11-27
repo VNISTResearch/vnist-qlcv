@@ -19,7 +19,8 @@ export function tasks(state = {}, action) {
         case taskManagementConstants.GETTASK_BYID_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                task: null
             };
         case taskManagementConstants.GETTASK_BYID_SUCCESS:
             return {
@@ -44,21 +45,18 @@ export function tasks(state = {}, action) {
             return {
                 error: action.error
             };
-        case taskManagementConstants.GETTASK_BYUSER_REQUEST:
+        case taskManagementConstants.GETTASK_RESPONSIBLE_BYUSER_REQUEST:
             return {
                 ...state,
                 loadingMany: true
             };
-        case taskManagementConstants.GETTASK_BYUSER_SUCCESS:
+        case taskManagementConstants.GETTASK_RESPONSIBLE_BYUSER_SUCCESS:
             return {
                 ...state,
-                taskCreators: action.tasks.taskCreators,
-                taskResponsibles: action.tasks.taskResponsibles,
-                taskAccounatables: action.tasks.taskAccounatables,
-                taskConsulteds: action.tasks.taskConsulteds,
-                taskInformeds: action.tasks.taskInformeds,
+                taskResponsibles: action.taskResponsibles.tasks,
+                pageTotalResponsibles: action.taskResponsibles.totalpage,
             };
-        case taskManagementConstants.GETTASK_BYUSER_FAILURE:
+        case taskManagementConstants.GETTASK_RESPONSIBLE_BYUSER_FAILURE:
             return {
                 error: action.error
             };

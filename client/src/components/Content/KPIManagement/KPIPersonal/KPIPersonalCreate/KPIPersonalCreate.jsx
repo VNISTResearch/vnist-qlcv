@@ -7,16 +7,22 @@ import 'react-toastify/dist/ReactToastify.css';
 
 class KPIPersonalCreate extends Component {
     componentDidMount() {
-        this.props.getDepartment();
+        this.props.getDepartment(localStorage.getItem('id'));
         this.props.getAllTarget(this.state.kpipersonal.creater);
         this.props.getParentTarget(this.state.kpipersonal.unit);
+        this.handleResizeColumn();
+        let script = document.createElement('script');
+        script.src = '/main/js/CoCauToChuc.js';
+        script.async = true;
+        script.defer = true;
+        document.body.appendChild(script);
     }
     constructor(props) {
         super(props);
         this.state = {
             kpipersonal: {
-                unit: '5db7e5820ab82817c09b4605',
-                creater: 'abcdef123456789987654320',
+                unit: '5dcadf02f0343012f09c1193',
+                creater: localStorage.getItem("id"),
                 approver: '',
                 name: '',
                 parent: '',
@@ -54,12 +60,39 @@ class KPIPersonalCreate extends Component {
 
         this.handleChange = this.handleChange.bind(this);
     }
+    handleResizeColumn = () => {
+        window.$(function () {
+            var pressed = false;
+            var start = undefined;
+            var startX, startWidth;
 
+            window.$("table thead tr th:not(:last-child)").mousedown(function (e) {
+                start = window.$(this);
+                pressed = true;
+                startX = e.pageX;
+                startWidth = window.$(this).width();
+                window.$(start).addClass("resizing");
+            });
+
+            window.$(document).mousemove(function (e) {
+                if (pressed) {
+                    window.$(start).width(startWidth + (e.pageX - startX));
+                }
+            });
+
+            window.$(document).mouseup(function () {
+                if (pressed) {
+                    window.$(start).removeClass("resizing");
+                    pressed = false;
+                }
+            });
+        });
+    }
     handleCancel = () => {
         this.setState({
             kpipersonal: {
-                unit: '5db7e5820ab82817c09b4605',
-                creater: 'abcdef123456789987654320',
+                unit: '5dcadf02f0343012f09c1193',
+                creater: localStorage.getItem("id"),
                 approver: '',
                 name: '',
                 parent: '',
@@ -105,7 +138,8 @@ class KPIPersonalCreate extends Component {
             adding: true,
             kpipersonal: {
                 ...kpipersonal,
-                time: this.time.value
+                time: this.time.value,
+                approver: this.approver.value
             }
         });
         if (kpipersonal.approver && kpipersonal.parent && kpipersonal.name && kpipersonal.weight && kpipersonal.criteria) {
@@ -115,8 +149,8 @@ class KPIPersonalCreate extends Component {
                 return {
                     // list,
                     kpipersonal: {
-                        unit: '5db7e5820ab82817c09b4605',
-                        creater: 'abcdef123456789987654320',
+                        unit: '5dcadf02f0343012f09c1193',
+                        creater: localStorage.getItem("id"),
                         approver: '',
                         name: '',
                         parent: '',
@@ -129,6 +163,7 @@ class KPIPersonalCreate extends Component {
             });
             this.notify("Thêm thành công");
         }
+        console.log(this.state.kpipersonal);
     }
 
     edit = (item) => {
@@ -152,7 +187,7 @@ class KPIPersonalCreate extends Component {
         event.preventDefault();
         const { kpipersonal } = this.state;
         this.setState({
-            editing: true,
+            editing: false,
             kpipersonal: {
                 ...kpipersonal,
                 time: this.time.value
@@ -165,8 +200,8 @@ class KPIPersonalCreate extends Component {
                 return {
                     // list,
                     kpipersonal: {
-                        unit: '5db7e5820ab82817c09b4605',
-                        creater: 'abcdef123456789987654320',
+                        unit: '5dcadf02f0343012f09c1193',
+                        creater: localStorage.getItem("id"),
                         approver: '',
                         name: '',
                         parent: '',
@@ -202,7 +237,7 @@ class KPIPersonalCreate extends Component {
         var unitList, list, parentTargets, approver;
         const { kpipersonal, approverlist, adding, editing, commenting } = this.state;
         const { departments, kpipersonals } = this.props;
-        if (departments.items) unitList = departments.items;
+        if (departments.unitofuser) unitList = departments.unitofuser;
         if (kpipersonals.items) list = kpipersonals.items;
         if (kpipersonals.parents) parentTargets = kpipersonals.parents;
         if (typeof list !== 'undefined' && list.length !== 0) {
@@ -247,13 +282,13 @@ class KPIPersonalCreate extends Component {
                                                 <div className="form-group">
                                                     <label>Người thực hiện:</label>
                                                     <div className={'form-group has-feedback' + (adding && !kpipersonal.creater ? ' has-error' : '')}>
-                                                        <input type="text" className="form-control" id="inputname" value="Đặng Trung Quý - Trưởng P.ĐBCL" name="name" disabled />
+                                                        <input type="text" className="form-control" id="inputname" value="Lê Thị Phương - Trưởng P.ĐBCL" name="name" disabled />
                                                     </div>
                                                 </div>
                                                 <div className="form-group">
                                                     <label>Người phê duyệt:</label>
                                                     <div className={'form-group has-feedback' + (adding && !kpipersonal.name ? ' has-error' : '')}>
-                                                        <select className="form-control" id="selparent" name="approver" value={approver ? approver : kpipersonal.approver} disabled={approver} onChange={this.handleChange}>
+                                                        <select className="form-control" id="selparent" ref={input => this.approver = input} name="approver" value={approver ? approver : kpipersonal.approver} disabled={approver} onChange={this.handleChange}>
                                                             <option>--Hãy chọn người phê duyệt--</option>
                                                             <optgroup label="Giám đốc">
                                                                 {
@@ -334,19 +369,45 @@ class KPIPersonalCreate extends Component {
                                     <div className="box-body">
                                         <form>
                                             <div className="row">
+                                                {
+                                                    (typeof list !== 'undefined' && list.length !== 0) &&
+                                                    <div className="col-xs-12">
+                                                        <div className="form-group">
+                                                            <label className="col-sm-2">- Thời gian</label>
+                                                            <label className="col-sm-10">: {this.formatDate(list[0].time)}</label>
+                                                        </div>
+                                                        <div className="form-group">
+                                                            <label className="col-sm-2">- Người phê duyệt</label>
+                                                            <label className="col-sm-10">:&nbsp;
+                                                            {typeof approverlist !== 'undefined' && approverlist.length !== 0 && approverlist.map(x => {
+                                                                if (list[0].approver === x._id) return x.name;
+                                                                return true;
+                                                            })}</label>
+                                                        </div>
+                                                        <div className="form-group">
+                                                            <label className="col-sm-2">- Số mục tiêu</label>
+                                                            <label className="col-sm-10">: {list.reduce(sum => sum + 1, 0)}</label>
+                                                        </div>
+                                                        <div className="form-group">
+                                                            <label className="col-sm-2"><b>- Tổng trọng số</b></label>
+                                                            <label className="col-sm-10">: {list.map(item => parseInt(item.weight)).reduce((sum, number) => sum + number, 0)}</label>
+                                                        </div>
+                                                        <div className="form-group">
+                                                            <label className="col-sm-2"><b>- Ghi chú</b></label>
+                                                            <label className="col-sm-10">: {list.map(item => parseInt(item.weight)).reduce((sum, number) => sum + number, 0) !== 100 ? " Trọng số chưa thỏa mãn" : " Trọng số đã thỏa mãn"}</label>
+                                                        </div>
+                                                    </div>}
                                                 <div className="col-xs-12">
                                                     <table className="table table-bordered">
                                                         <thead>
                                                             <tr>
-                                                                <th style={{ width: "40px" }}>Stt</th>
-                                                                <th>Người phê duyệt</th>
-                                                                <th>Tên mục tiêu</th>
-                                                                <th>Mục tiêu cha</th>
-                                                                <th>Tiêu chí đánh giá</th>
-                                                                <th>Thời gian</th>
-                                                                <th>Trọng số</th>
-                                                                <th>Trạng thái</th>
-                                                                <th>Hành động</th>
+                                                                <th title="Số thứ tự" style={{ width: "40px" }}>Stt</th>
+                                                                <th title="Tên mục tiêu">Tên mục tiêu</th>
+                                                                <th title="Mục tiêu cha">Mục tiêu cha</th>
+                                                                <th title="Tiêu chí đánh giá">Tiêu chí đánh giá</th>
+                                                                <th title="Trọng số">Trọng số</th>
+                                                                <th title="Trạng thái">Trạng thái</th>
+                                                                <th title="Hành động">Hành động</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -354,20 +415,18 @@ class KPIPersonalCreate extends Component {
                                                                 (typeof list === 'undefined' || list.length === 0) ? <tr><td colSpan={7}><center>No data</center></td></tr> :
                                                                     list.map((item, index) =>
                                                                         <tr key={index + 1}>
-                                                                            <td>{index + 1}</td>
-                                                                            <td>{typeof approverlist !== 'undefined' && approverlist.length !== 0 && approverlist.map(x => {
-                                                                                if (item.approver === x._id) return x.name;
-                                                                                return true;
-                                                                            })}</td>
-                                                                            <td>{item.name}</td>
-                                                                            <td>{parentTargets && parentTargets.map(x => {
+                                                                            <td title={index + 1}>{index + 1}</td>
+                                                                            <td title={item.name}>{item.name}</td>
+                                                                            <td title={parentTargets && parentTargets.map(x => {
                                                                                 if (item.parent === x._id) return x.name;
-                                                                                return true;
+                                                                                return "";
+                                                                            })}>{parentTargets && parentTargets.map(x => {
+                                                                                if (item.parent === x._id) return x.name;
+                                                                                return "";
                                                                             })}</td>
-                                                                            <td>{item.criteria}</td>
-                                                                            <td>{this.formatDate(item.time)}</td>
-                                                                            <td>{item.weight}</td>
-                                                                            <td>{item.approve ? "Đã phê duyệt" : "Chờ phê duyệt"}</td>
+                                                                            <td title={item.criteria}>{item.criteria}</td>
+                                                                            <td title={item.weight}>{item.weight}</td>
+                                                                            <td title={item.approve ? "Đã phê duyệt" : "Chờ phê duyệt"}>{item.approve ? "Đã phê duyệt" : "Chờ phê duyệt"}</td>
                                                                             <td>
                                                                                 <a href="#edit" className="edit" title="Edit" data-toggle="tooltip" onClick={() => this.edit(item)}><i className="material-icons"></i></a>
                                                                                 <a href="#delete" className="delete" title="Delete" data-toggle="tooltip" onClick={() => this.delete(item._id)}><i className="material-icons"></i></a>
@@ -376,16 +435,6 @@ class KPIPersonalCreate extends Component {
                                                                     )
                                                             }
                                                         </tbody>
-                                                        {
-                                                            (typeof list !== 'undefined' && list.length !== 0) &&
-                                                            <tfoot>
-                                                                <tr>
-                                                                    <td colSpan={4}><b>Tổng:</b></td>
-                                                                    <td colSpan={2}><b>{list.map(item => parseInt(item.weight)).reduce((sum, number) => sum + number, 0)}</b></td>
-                                                                </tr>
-                                                            </tfoot>
-                                                        }
-
                                                     </table>
                                                 </div>
                                                 <div className="col-xs-10 col-xs-offset-8">
@@ -393,16 +442,16 @@ class KPIPersonalCreate extends Component {
                                                     {commenting ? <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleSubmitComment}>Gửi phản hồi</button>
                                                         : <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleRequestEdit}>Viết bình luận</button>}
                                                 </div>
-                                                { commenting && <div className="col-xs-12">
-                                                <form>
-                                                    <div className="form-group">
-                                                        <label>Phản hồi:</label>
-                                                        <div className='form-group'>
-                                                            <textarea type="text" className='form-control' id="inputname" name="reason"/>
+                                                {commenting && <div className="col-xs-12">
+                                                    <form>
+                                                        <div className="form-group">
+                                                            <label>Phản hồi:</label>
+                                                            <div className='form-group'>
+                                                                <textarea type="text" className='form-control' id="inputname" name="reason" />
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </form>
-                                            </div>}
+                                                    </form>
+                                                </div>}
                                             </div>
                                         </form>
                                         <ToastContainer />
@@ -423,7 +472,7 @@ function mapState(state) {
 }
 
 const actionCreators = {
-    getDepartment: departmentActions.getAll,
+    getDepartment: departmentActions.getDepartmentOfUser,
     getParentTarget: kpiPersonalActions.getAllParentTarget,
     getAllTarget: kpiPersonalActions.getAllTargetByUser,
     createTarget: kpiPersonalActions.addTarget,

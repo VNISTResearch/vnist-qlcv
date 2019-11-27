@@ -8,12 +8,10 @@ import Swal from 'sweetalert2';
 class TaskManagement extends Component {
     componentDidMount() {
         this.props.getDepartment(localStorage.getItem('id'));
-        this.props.getTaskByUser(localStorage.getItem('id'), "[]", 1);
+        this.props.getResponsibleTaskByUser(localStorage.getItem('id'), "[]", 1, 10, "[]", "[]", "[]", null);
         this.defindMultiSelect();
         this.loadJS();
         this.handleResizeColumn();
-        // this.showModal();
-        // this.handleDisableOnClickFisrtLast();
     }
     constructor(props) {
         super(props);
@@ -22,36 +20,25 @@ class TaskManagement extends Component {
             extendProperties: false,
             startTimer: false,
             currentTimer: "",
+            currentPage: 1,
+            showModal: ""
         };
+        // this.loadJS();
     }
-    showModal = (id) => {
-        // window.$('#taskTable').on('click', 'td:not(last-child),td:not(first-child)', function (e) {
-        // var id = e.target.getAttribute("data-id");
-        // console.log(id);
-        window.$(`#modelPerformTask${id}`).modal('show');
-        // });
-    }
-    loadJS = () => {
+    componentWillUpdate() {
         let script = document.createElement('script');
-        script.src = 'main/js/GridTableVers2.js';
+        script.src = 'main/js/GridTableVers1.js';
         script.async = true;
         script.defer = true;
         document.body.appendChild(script);
+    }
+
+    loadJS = () => {
         let script1 = document.createElement('script');
         script1.src = 'main/js/defindMultiSelect.js';
         script1.async = true;
         script1.defer = true;
         document.body.appendChild(script1);
-        let script2 = document.createElement('script');
-        script2.src = 'main/js/uploadfile/custom.js';
-        script2.async = true;
-        script2.defer = true;
-        document.body.appendChild(script2);
-        let script3 = document.createElement('script');
-        script3.src = 'main/js/CoCauToChuc.js';
-        script3.async = true;
-        script3.defer = true;
-        document.body.appendChild(script3);
     }
     handleResizeColumn = () => {
         window.$(function () {
@@ -59,7 +46,7 @@ class TaskManagement extends Component {
             var start = undefined;
             var startX, startWidth;
 
-            window.$("table thead tr th").mousedown(function (e) {
+            window.$("table thead tr th:not(:last-child)").mousedown(function (e) {
                 start = window.$(this);
                 pressed = true;
                 startX = e.pageX;
@@ -139,7 +126,7 @@ class TaskManagement extends Component {
             node = list[i];
             if (node.parent !== null) {
                 // if you have dangling branches check that map[node.parentId] exists
-                list[map[node.parent]].children.push(node);
+                list[map[node.parent._id]].children.push(node);
             } else {
                 roots.push(node);
             }
@@ -155,18 +142,6 @@ class TaskManagement extends Component {
         let flat = change(roots).map(x => delete x.children && x);
         console.log(flat);
         return flat;
-    }
-    handleCheckClick = (event) => {
-        if (event.stopPropagation) {
-            event.stopPropagation();
-        }
-        event.catteryBubble = true;
-        return true;
-    }
-    handleDisableOnClickFisrtLast = () => {
-        window.$('#taskTable').on('click', 'td:first-child, td:last-child', function (e) {
-            e.stopPropagation();
-        });
     }
     handleSetting = async () => {
         console.log("àdgfhgfhfg");
@@ -221,16 +196,108 @@ class TaskManagement extends Component {
             }
         })
     }
+    handleGetDataPagination = async (index) => {
+        var test = window.$("#multiSelectUnit").val();
+        var oldCurrentPage = this.state.currentPage;
+        await this.updateCurrentPage(index);
+        if (oldCurrentPage !== index) this.props.getTaskTemplateByUser(localStorage.getItem('id'), index, test);
+    }
+    nextPage = async (pageTotal) => {
+        var test = window.$("#multiSelectUnit").val();
+        var oldCurrentPage = this.state.currentPage;
+        await this.setState(state => {
+            return {
+                ...state,
+                currentPage: state.currentPage === pageTotal ? pageTotal : state.currentPage + 1
+            }
+        })
+        var newCurrentPage = this.state.currentPage;
+        if (oldCurrentPage !== newCurrentPage) this.props.getTaskTemplateByUser(localStorage.getItem('id'), this.state.currentPage, test);
+    }
+    backPage = async () => {
+        var test = window.$("#multiSelectUnit").val();
+        var oldCurrentPage = this.state.currentPage;
+        await this.setState(state => {
+            return {
+                ...state,
+                currentPage: state.currentPage === 1 ? 1 : state.currentPage - 1
+            }
+        })
+        var newCurrentPage = this.state.currentPage;
+        if (oldCurrentPage !== newCurrentPage) this.props.getTaskTemplateByUser(localStorage.getItem('id'), this.state.currentPage, test);
+    }
+    handleUpdateData = () => {
+        var unit = window.$("#multiSelectUnit1").val();
+        var status = window.$("#multiSelectStatus").val();
+        this.props.getResponsibleTaskByUser(localStorage.getItem('id'), unit, 1, 10, status, "[]", "[]", null);
+        this.setState(state => {
+            return {
+                ...state,
+                currentPage: 1
+            }
+        })
+        // this.loadJS();
+    }
+    convertTime = (duration) => {
+        // var milliseconds = parseInt((duration % 1000) / 100),
+        var seconds = Math.floor((duration / 1000) % 60),
+            minutes = Math.floor((duration / (1000 * 60)) % 60),
+            hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+
+        hours = (hours < 10) ? "0" + hours : hours;
+        minutes = (minutes < 10) ? "0" + minutes : minutes;
+        seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+        return hours + ":" + minutes + ":" + seconds;
+    }
+    handleShowModal = async (id) => {
+        this.props.getTaskById(id);
+        await this.setState(state => {
+            return {
+                ...state,
+                showModal: id
+            }
+        })
+        var element = document.getElementsByTagName("BODY")[0];
+        element.classList.add("modal-open");
+        var modal = document.getElementById(`modelPerformTask${id}`);
+        modal.classList.add("in");
+        modal.style = "display: block; padding-right: 17px;";
+    }
     render() {
-        var taskCreators, taskResponsibles, taskAccounatables, taskConsulteds, taskInformeds, units;
+        var taskResponsibles, units, pageTotal;
+        var pageTotalResponsibles;
         const { tasks, departments } = this.props;
-        const { extendProperties, startTimer, currentTimer } = this.state;
-        if (tasks.taskCreators) taskCreators = tasks.taskCreators;
-        if (tasks.taskResponsibles) taskResponsibles = tasks.taskResponsibles;
-        if (tasks.taskAccounatables) taskAccounatables = tasks.taskAccounatables;
-        if (tasks.taskConsulteds) taskConsulteds = tasks.taskConsulteds;
-        if (tasks.taskInformeds) taskInformeds = tasks.taskInformeds;
+        const { extendProperties, startTimer, currentTimer, currentPage } = this.state;
+        if (tasks.taskResponsibles) {
+            taskResponsibles = tasks.taskResponsibles;
+            pageTotalResponsibles = tasks.pageTotalResponsibles
+        }
         if (departments.unitofuser) units = departments.unitofuser;
+        const items = [];
+        if (pageTotalResponsibles > 5) {
+            if (currentPage < 3) {
+                for (let i = 0; i < 5; i++) {
+                    items.push(<li key={i + 1} className={currentPage === i + 1 ? "active" : ""}><a href="#abc" onClick={() => this.handleGetDataPagination(i + 1)}>{i + 1}</a></li>);
+                }
+                items.push(<li className="disable" key={pageTotalResponsibles}><a href="#abc">...</a></li>);
+            } else if (currentPage >= pageTotalResponsibles - 3) {
+                items.push(<li className="disable" key={0}><a href="#abc">...</a></li>);
+                for (let i = pageTotalResponsibles - 5; i < pageTotalResponsibles; i++) {
+                    items.push(<li key={i + 1} className={currentPage === i + 1 ? "active" : ""}><a href="#abc" onClick={() => this.handleGetDataPagination(i + 1)}>{i + 1}</a></li>);
+                }
+            } else {
+                items.push(<li className="disable" key={0}><a href="#abc">...</a></li>);
+                for (let i = currentPage - 2; i < currentPage + 3; i++) {
+                    items.push(<li key={i + 1} className={currentPage === i + 1 ? "active" : ""}><a href="#abc" onClick={() => this.handleGetDataPagination(i + 1)}>{i + 1}</a></li>);
+                }
+                items.push(<li className="disable" key={pageTotalResponsibles + 1}><a href="#abc">...</a></li>);
+            }
+        } else {
+            for (let i = 0; i < pageTotalResponsibles; i++) {
+                items.push(<li key={i + 1} className={currentPage === i + 1 ? "active" : ""}><a href="#abc" onClick={() => this.handleGetDataPagination(i + 1)}>{i + 1}</a></li>);
+            }
+        }
         return (
             <div className="content-wrapper">
                 <section className="content-header">
@@ -270,10 +337,11 @@ class TaskManagement extends Component {
                                     </div>
                                     <div className="col-xs-6 item-container">
                                         <label>Trạng thái:</label>
-                                        <select id="multiSelectStatus" style={{ marginLeft: "0" }} multiple="multiple" defaultValue={["Đang chờ", "Đang thực hiện", "Quá hạn", "Đã hoàn thành", "Đã hủy", "Tạm dừng"]}>
+                                        <select id="multiSelectStatus" style={{ marginLeft: "0" }} multiple="multiple" defaultValue={["Đang chờ", "Đang thực hiện"]}>
                                             <option value="Đang chờ">Đang chờ</option>
                                             <option value="Đang thực hiện">Đang thực hiện</option>
                                             <option value="Quá hạn">Quá hạn</option>
+                                            <option value="Chờ phê duyệt">Chờ phê duyệt</option>
                                             <option value="Đã hoàn thành">Đã hoàn thành</option>
                                             <option value="Đã hủy">Đã hủy</option>
                                             <option value="Tạm dừng">Tạm dừng</option>
@@ -297,78 +365,77 @@ class TaskManagement extends Component {
                                                 </select>
                                             </div>
                                         </React.Fragment>}
-                                    <div className="col-xs-6 item-container">
+                                    <div className="col-xs-3 item-container">
                                         <button type="button" className="btn btn-success" onClick={this.handleUpdateData} style={{ width: "135%" }}>Tìm kiếm</button>
                                     </div>
-
-                                    <div className="col-xs-8 col-xs-offset-2">
-                                        <button className="btn btn-default" style={{ background: "none", border: "none", marginTop: "-5%" }} onClick={this.handleExtendProperties}><i className="fa fa-chevron-circle-down"></i>{extendProperties ? "Rút gọn" : "Mở rộng"}</button>
+                                    <div className="col-xs-3 item-container">
+                                        <button type="button" className="btn btn-primary" onClick={this.handleUpdateData} style={{ width: "135%" }}>Trở về mặc định</button>
+                                    </div>
+                                    <div className="col-xs-8" style={{ marginLeft: "-12px" }}>
+                                        <button className="btn btn-default" style={{ background: "none", border: "none", marginTop: "-5%" }} onClick={this.handleExtendProperties}>{extendProperties ? "Cơ bản " : "Nâng cao "}<i className="fa fa-angle-double-down"></i></button>
                                     </div>
                                 </div>
-                                <div className="col-xs-3" style={{ marginTop: "4.5%", marginLeft: "13%" }}>
+                                <div className="col-xs-2 col-xs-offset-3" style={{ marginTop: "4.5%" }}>
                                     <button type="button" className="btn btn-success" data-toggle="modal" data-target="#addNewTask" data-backdrop="static" data-keyboard="false" style={{ width: "100%" }}>Thêm công việc</button>
                                     <ModalAddTask id="" />
                                 </div>
-                                <div className="setting-table">
-                                    <button type="button" data-toggle="collapse" data-target="#setting-table" className="btn btn-default" style={{ marginTop: "4.5%", marginLeft: "-1%" }}><i className="fa fa-gears"></i></button>
-                                </div>
-                                <div id="setting-table" className="row collapse" style={{ right: "30px", width: "23%" }}>
-                                    <fieldset className="scheduler-border">
-                                        <legend className="scheduler-border">Bảng cấu hình</legend>
-                                        <div className="col-xs-12">
-                                            <label style={{ marginRight: "15px" }}>Ẩn cột:</label>
-                                            <select id="multiSelectShowColumn1" multiple="multiple">
-                                                <option value="1">Tên công việc</option>
-                                                <option value="2">Đơn vị</option>
-                                                <option value="3">Độ ưu tiên</option>
-                                                <option value="4">Thời gian bắt đầu</option>
-                                                <option value="5">Thời gian kết thúc</option>
-                                                <option value="6">Trạng thái</option>
-                                                <option value="7">Tiến độ</option>
-                                                <option value="8">Thời gian</option>
-                                                <option value="9">Hành động</option>
-                                            </select>
-                                        </div>
-                                        <div className="col-xs-12" style={{ marginTop: "10px" }}>
-                                            <label style={{ marginRight: "15px" }}>Số dòng/trang:</label>
-                                            <input className="form-control" type="text" defaultValue={10} ref={input => this.perPage = input} />
-                                        </div>
-                                        <div className="col-xs-2 col-xs-offset-6 update" >
-                                            <button type="button" className="btn btn-success" onClick={this.handleSetting}>Cập nhật</button>
-                                        </div>
-                                    </fieldset>
-                                </div>
-
                                 <table id="tree-table" className="table table-hover table-bordered">
                                     <thead>
                                         <tr id="task">
-                                            <th style={{ width: "15%" }} title="Tên công việc">Tên công việc</th>
-                                            <th style={{ width: "16%" }} title="Đơn vị">Đơn vị</th>
-                                            <th style={{ width: "8%" }} title="Độ ưu tiên">Độ ưu tiên</th>
-                                            <th style={{ width: "8%" }} title="Ngày bắt đầu">Bắt đầu</th>
-                                            <th style={{ width: "8%" }} title="Ngày kết thúc">Kết thúc</th>
+                                            <th style={{ width: "9%" }} title="Tên công việc">Tên công việc</th>
+                                            <th style={{ width: "14%" }} title="Đơn vị">Đơn vị</th>
+                                            <th style={{ width: "7%" }} title="Độ ưu tiên">Độ ưu tiên</th>
+                                            <th style={{ width: "7%" }} title="Ngày bắt đầu">Bắt đầu</th>
+                                            <th style={{ width: "7%" }} title="Ngày kết thúc">Kết thúc</th>
                                             <th style={{ width: "8%" }} title="Trạng thái">Trạng thái</th>
                                             <th style={{ width: "6%" }} title="Tiến độ">Tiến độ</th>
                                             <th style={{ width: "7%" }} title="Thời gian thực hiện">Thời gian</th>
-                                            <th style={{ width: "9%" }}><center>Hành động</center></th>
+                                            <th style={{ width: "9%" }}>
+                                                Hành động
+                                                <button type="button" data-toggle="collapse" data-target="#setting-table" style={{ border: "none", background: "none" }}><i className="fa fa-gear"></i></button>
+                                                <div id="setting-table" className="row collapse">
+                                                    <span className="pop-arw arwTop L-auto R10"></span>
+                                                    <div className="col-xs-12">
+                                                        <label style={{ marginRight: "15px" }}>Ẩn cột:</label>
+                                                        <select id="multiSelectShowColumn1" multiple="multiple">
+                                                            <option value="1">Tên công việc</option>
+                                                            <option value="2">Đơn vị</option>
+                                                            <option value="3">Độ ưu tiên</option>
+                                                            <option value="4">Thời gian bắt đầu</option>
+                                                            <option value="5">Thời gian kết thúc</option>
+                                                            <option value="6">Trạng thái</option>
+                                                            <option value="7">Tiến độ</option>
+                                                            <option value="8">Thời gian</option>
+                                                            <option value="9">Hành động</option>
+                                                        </select>
+                                                    </div>
+                                                    <div className="col-xs-12" style={{ marginTop: "10px" }}>
+                                                        <label style={{ marginRight: "15px" }}>Số dòng/trang:</label>
+                                                        <input className="form-control" type="text" defaultValue={10} ref={input => this.perPage = input} />
+                                                    </div>
+                                                    <div className="col-xs-2 col-xs-offset-6" style={{marginTop: "10px"}}>
+                                                        <button type="button" className="btn btn-success" onClick={this.handleSetting}>Cập nhật</button>
+                                                    </div>
+                                                </div>
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody id="taskTable">
                                         {
                                             (typeof taskResponsibles !== 'undefined' && taskResponsibles.length !== 0) ?
                                                 this.list_to_tree(taskResponsibles).map(item =>
-                                                    <tr key={item._id} data-id={item._id} data-parent={item.parent} data-level={item.level}>
+                                                    <tr key={item._id} data-id={item._id} data-parent={item.parent === null ? item.parent : item.parent._id} data-level={item.level}>
                                                         <td title={item.name} data-column="name">{item.name}</td>
                                                         <td title={item.unit.name}>{item.unit.name}</td>
                                                         <td title={item.priority}>{item.priority}</td>
                                                         <td title={this.formatDate(item.startdate)}>{this.formatDate(item.startdate)}</td>
                                                         <td title={this.formatDate(item.enddate)}>{this.formatDate(item.enddate)}</td>
                                                         <td title={item.status}>{item.status}</td>
-                                                        <td title="0%">0%</td>
-                                                        <td title="0">0</td>
+                                                        <td title={item.progress + "%"}>{item.progress + "%"}</td>
+                                                        <td title={this.convertTime(item.time)}>{this.convertTime(item.time)}</td>
                                                         <td >
-                                                            <a href={`#modelPerformTask${item._id}`} data-toggle="modal" title="Bắt đầu thực hiện"><i className="material-icons">play_arrow</i></a>
-                                                            <ModalPerformTask id={item._id} />
+                                                            <a href={`#modelPerformTask${item._id}`} className="edit" data-toggle="modal" onClick={() => this.handleShowModal(item._id)} title={"Bắt đầu" + item.name}><i className="material-icons">edit</i></a>
+                                                            {this.state.showModal === item._id ? <ModalPerformTask id={item._id} /> : null}
                                                             <a href="#abc" className={startTimer && currentTimer === item._id ? "edit" : "timer"} id="task-timer" title="Bắt đầu bấm giờ" onClick={() => this.handleCountTime(item._id)}><i className="material-icons">timer</i></a>
                                                             <button type="button" data-toggle="collapse" data-target={`#actionTask${item._id}`} style={{ border: "none", background: "none" }}><i className="fa fa-ellipsis-v"></i></button>
                                                             <div id={`actionTask${item._id}`} className="collapse action-template">
@@ -383,6 +450,13 @@ class TaskManagement extends Component {
                                         }
                                     </tbody>
                                 </table>
+                                <div className="row pagination-new">
+                                    <ul className="pagination" style={{ margin: "auto" }}>
+                                        <li><a href="#abc" onClick={() => this.backPage()}>«</a></li>
+                                        {items}
+                                        <li><a href="#abc" onClick={() => this.nextPage(pageTotal)}>»</a></li>
+                                    </ul>
+                                </div>
                             </div>
                             <div className="tab-pane" id="accountable">
                                 {/* Post */}
@@ -486,7 +560,7 @@ class TaskManagement extends Component {
                                         </li>
                                         <li className="pull-right">
                                             <a href="#abc" className="link-black text-sm"><i className="fa fa-comments-o margin-r-5" /> Comments
-              (5)</a></li>
+                                            (5)</a></li>
                                     </ul>
                                     <input className="form-control input-sm" type="text" placeholder="Type a comment" />
                                 </div>
@@ -681,8 +755,9 @@ function mapState(state) {
 }
 
 const actionCreators = {
-    getTaskByUser: taskManagementActions.getAllTaskByUser,
-    getDepartment: departmentActions.getDepartmentOfUser
+    getResponsibleTaskByUser: taskManagementActions.getResponsibleTaskByUser,
+    getDepartment: departmentActions.getDepartmentOfUser,
+    getTaskById: taskManagementActions.getTaskById
 };
 const connectedTaskManagement = connect(mapState, actionCreators)(TaskManagement);
 export { connectedTaskManagement as TaskManagement };

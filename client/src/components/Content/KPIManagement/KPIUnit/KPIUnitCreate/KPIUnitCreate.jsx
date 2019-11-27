@@ -7,17 +7,23 @@ import 'react-toastify/dist/ReactToastify.css';
 class KPIUnitCreate extends Component {
     componentDidMount() {
         // get department list of company
-        this.props.getDepartment();
+        this.props.getDepartment(localStorage.getItem('id'));
         // get all target of unit
         this.props.getAllTarget(this.state.kpiunit.unit);
         // get all parent target of unit
         this.props.getParentTarget(this.state.kpiunit.unit);
+        this.handleResizeColumn();
+        let script = document.createElement('script');
+        script.src = '/main/js/CoCauToChuc.js';
+        script.async = true;
+        script.defer = true;
+        document.body.appendChild(script);
     }
     constructor(props) {
         super(props);
         this.state = {
             kpiunit: {
-                unit: '5db7e5820ab82817c09b4605',
+                unit: '5dcadf02f0343012f09c1193',
                 creater: '',
                 name: '',
                 parent: '',
@@ -33,11 +39,39 @@ class KPIUnitCreate extends Component {
 
         this.handleChange = this.handleChange.bind(this);
     }
+    handleResizeColumn = () => {
+        window.$(function () {
+            var pressed = false;
+            var start = undefined;
+            var startX, startWidth;
+
+            window.$("table thead tr th:not(:last-child)").mousedown(function (e) {
+                start = window.$(this);
+                pressed = true;
+                startX = e.pageX;
+                startWidth = window.$(this).width();
+                window.$(start).addClass("resizing");
+            });
+
+            window.$(document).mousemove(function (e) {
+                if (pressed) {
+                    window.$(start).width(startWidth + (e.pageX - startX));
+                }
+            });
+
+            window.$(document).mouseup(function () {
+                if (pressed) {
+                    window.$(start).removeClass("resizing");
+                    pressed = false;
+                }
+            });
+        });
+    }
     // function: reset all data fields of a target of unit kpi
     handleCancel = () => {
         this.setState({
             kpiunit: {
-                unit: '5db7e5820ab82817c09b4605',
+                unit: '5dcadf02f0343012f09c1193',
                 creater: '',
                 name: '',
                 time: '',
@@ -79,7 +113,7 @@ class KPIUnitCreate extends Component {
                 return {
                     // list,
                     kpiunit: {
-                        unit: '5db7e5820ab82817c09b4605',
+                        unit: '5dcadf02f0343012f09c1193',
                         creater: '',
                         name: '',
                         parent: '',
@@ -147,7 +181,7 @@ class KPIUnitCreate extends Component {
                 return {
                     // list,
                     kpiunit: {
-                        unit: '5db7e5820ab82817c09b4605',
+                        unit: '5dcadf02f0343012f09c1193',
                         creater: '',
                         name: '',
                         parent: '',
@@ -172,7 +206,7 @@ class KPIUnitCreate extends Component {
         var confirm = false;
         const { kpiunit, adding, editing } = this.state;
         const { departments, kpiunits } = this.props;
-        if (departments.items) unitList = departments.items;
+        if (departments.unitofuser) unitList = departments.unitofuser;
         if (kpiunits.items) list = kpiunits.items;
         if (kpiunits.parents) parentTargets = kpiunits.parents;
         if(typeof list !== 'undefined' && list.length !== 0) {
@@ -298,26 +332,17 @@ class KPIUnitCreate extends Component {
                                                             <label className="col-sm-2"><b>- Ghi chú</b></label>
                                                             <label className="col-sm-10">: {list.map(item => parseInt(item.weight)).reduce((sum, number) => sum + number, 0) !== 100 ? " Trọng số chưa thỏa mãn" : " Trọng số đã thỏa mãn"}</label>
                                                         </div>
-                                                        {/* <tfoot>
-                                                                 <tr>
-                                                                     <td colSpan={1}><b>Số mục tiêu:</b></td>
-                                                                     <td colSpan={1}><b>{list.reduce(sum => sum + 1, 0)} mục tiêu</b></td>
-                                                                     <td colSpan={2}><b>Tổng trọng số:</b></td>
-                                                                     <td colSpan={1}><b>{list.map(item => parseInt(item.weight)).reduce((sum, number) => sum + number, 0)}</b></td>
-                                                                     <td colSpan={2}><b>*Ghi chú:</b>{list.map(item => parseInt(item.weight)).reduce((sum, number) => sum + number, 0) !== 100 ? " Trọng số chưa thỏa mãn" : " Trọng số đã thỏa mãn"}</td>
-                                                                 </tr>
-                                                             </tfoot> */}
                                                     </div>}
                                                 <div className="col-xs-12">
                                                     <table className="table table-bordered">
                                                         <thead>
                                                             <tr>
-                                                                <th style={{ width: "40px" }}>Stt</th>
-                                                                <th style={{ width: "180px" }}>Tên mục tiêu</th>
-                                                                <th>Tiêu chí đánh giá</th>
-                                                                <th style={{ width: "120px" }}>Thời gian</th>
-                                                                <th style={{ width: "100px" }}>Trọng số</th>
-                                                                <th style={{ width: "120px" }}>Trạng thái</th>
+                                                                <th titl="Số thứ tự" style={{ width: "40px" }}>Stt</th>
+                                                                <th title="Tên mục tiêu" style={{ width: "180px" }}>Tên mục tiêu</th>
+                                                                <th title="Tiêu chí đánh giá">Tiêu chí đánh giá</th>
+                                                                <th title="Thời gian" style={{ width: "120px" }}>Thời gian</th>
+                                                                <th title="Trọng số" style={{ width: "100px" }}>Trọng số</th>
+                                                                <th title="Trạng thái" style={{ width: "120px" }}>Trạng thái</th>
                                                                 <th>Hành động</th>
                                                             </tr>
                                                         </thead>
@@ -327,11 +352,11 @@ class KPIUnitCreate extends Component {
                                                                     list.map((item, index) =>
                                                                         <tr key={item._id}>
                                                                             <td>{index + 1}</td>
-                                                                            <td>{item.name}</td>
-                                                                            <td>{item.criteria}</td>
-                                                                            <td>{item.time}</td>
-                                                                            <td>{item.weight}</td>
-                                                                            <td>{item.confirm ? "Đã kích hoạt" : "Chưa kích hoạt"}</td>
+                                                                            <td title={item.name}>{item.name}</td>
+                                                                            <td title={item.criteria}>{item.criteria}</td>
+                                                                            <td title={item.time}>{item.time}</td>
+                                                                            <td title={item.weight}>{item.weight}</td>
+                                                                            <td title={item.confirm ? "Đã kích hoạt" : "Chưa kích hoạt"}>{item.confirm ? "Đã kích hoạt" : "Chưa kích hoạt"}</td>
                                                                             <td>
                                                                                 {/* <a className="add" title="Add" data-toggle="tooltip"><i className="material-icons"></i></a> */}
                                                                                 <a href="#abc" className="edit" title="Edit" data-toggle="tooltip" onClick={() => this.edit(item, item._id)}><i className="material-icons"></i></a>
@@ -367,7 +392,7 @@ function mapState(state) {
 }
 
 const actionCreators = {
-    getDepartment: departmentActions.getAll,
+    getDepartment: departmentActions.getDepartmentOfUser,
     createTarget: kpiUnitActions.addTarget,
     getAllTarget: kpiUnitActions.getAllTargetByUnitId,
     getParentTarget: kpiUnitActions.getAllParentTargetByUnitId,

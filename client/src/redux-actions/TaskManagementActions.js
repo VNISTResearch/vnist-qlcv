@@ -4,7 +4,7 @@ import { taskManagementService } from "../service/CombineService";
 export const taskManagementActions = {
     getAll,
     getAllTaskByRole,
-    getAllTaskByUser,
+    getResponsibleTaskByUser,
     getTaskById,
     addTask,
     editTask,
@@ -46,20 +46,20 @@ function getAllTaskByRole(id, role) {
 }
 
 // Get all task by user
-function getAllTaskByUser(user, unit, number) {
+function getResponsibleTaskByUser(user, unit, number, perpage, status, priority, specical, name) {
     return dispatch => {
         dispatch(request(user));
 
-        taskManagementService.getAllTaskByUser(user, unit, number)
+        taskManagementService.getResponsibleTaskByUser(user, unit, number, perpage, status, priority, specical, name)
             .then(
-                tasks => dispatch(success(tasks)),
+                taskResponsibles => dispatch(success(taskResponsibles)),
                 error => dispatch(failure(error.toString()))
             );
     };
 
-    function request(user) { return { type: taskManagementConstants.GETTASK_BYUSER_REQUEST, user } }
-    function success(tasks) { return { type: taskManagementConstants.GETTASK_BYUSER_SUCCESS, tasks } }
-    function failure(error) { return { type: taskManagementConstants.GETTASK_BYUSER_FAILURE, error } }
+    function request(user) { return { type: taskManagementConstants.GETTASK_RESPONSIBLE_BYUSER_REQUEST, user } }
+    function success(taskResponsibles) { return { type: taskManagementConstants.GETTASK_RESPONSIBLE_BYUSER_SUCCESS, taskResponsibles } }
+    function failure(error) { return { type: taskManagementConstants.GETTASK_RESPONSIBLE_BYUSER_FAILURE, error } }
 }
 
 // Get task template by id
@@ -75,7 +75,7 @@ function getTaskById(id) {
     };
 
     function request(id) { return { type: taskManagementConstants.GETTASK_BYID_REQUEST, id } }
-    function success(task) { return { type: taskManagementConstants.GETTASK_BYID_SUCCESS, task } }
+    function success(task, id) { return { type: taskManagementConstants.GETTASK_BYID_SUCCESS, task, id } }
     function failure(error) { return { type: taskManagementConstants.GETTASK_BYID_FAILURE, error } }
 }
 

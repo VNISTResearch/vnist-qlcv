@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import Swal from 'sweetalert2';
+import { connect } from 'react-redux';
+import { taskManagementActions, performTaskAction } from '../../../redux-actions/CombineActions';
 
 class ModalPerformTask extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            currentUser: localStorage.getItem('id'),
             selected: "actionTask",
             time: 0,
             timeStart: 0,
@@ -13,19 +16,19 @@ class ModalPerformTask extends Component {
             extendInformation: true,
             extendRBAC: false,
             comment: false,
-            editComment: false,
+            editComment: "",
             startTimer: false,
             pauseTimer: false,
             showChildComment: false,
             member: [
                 {
                     _id: "abcdef123456789987654321",
-                    name: "Trần Văn Dũng",
+                    name: "Lê Thị Phương",
                     parent: ""
                 },
                 {
                     _id: "abcdef123456789987654322",
-                    name: "Lê Việt Anh",
+                    name: "Lê Thị Phương",
                     parent: "abcdef123456789987654321"
                 },
                 {
@@ -41,8 +44,20 @@ class ModalPerformTask extends Component {
             ]
         };
     }
+    componentDidUpdate() {
+        let script3 = document.createElement('script');
+        script3.src = 'main/js/CoCauToChuc.js';
+        script3.async = true;
+        script3.defer = true;
+        document.body.appendChild(script3);
+    }
     componentDidMount() {
-        // this.handleLoadJS();
+        let script2 = document.createElement('script');
+        script2.src = 'main/js/uploadfile/custom.js';
+        script2.async = true;
+        script2.defer = true;
+        document.body.appendChild(script2);
+        this.props.getCommentTask(this.props.id);
     }
     handleChangeContent = async (content) => {
         await this.setState(state => {
@@ -62,15 +77,13 @@ class ModalPerformTask extends Component {
         })
     }
     handleChangeEditDesciption = async () => {
-        const extendDes = this.state.extendDescription;
-        if (extendDes) {
-            await this.setState(state => {
-                return {
-                    ...state,
-                    editDescription: !state.editDescription
-                }
-            })
-        }
+        await this.setState(state => {
+            return {
+                ...state,
+                editDescription: !state.editDescription,
+                extendDescription: !state.extendDescription
+            }
+        })
     }
     handleChangeExtendInformation = async () => {
         await this.setState(state => {
@@ -96,11 +109,11 @@ class ModalPerformTask extends Component {
             }
         })
     }
-    handleEditComment = async () => {
+    handleEditComment = async (id) => {
         await this.setState(state => {
             return {
                 ...state,
-                editComment: !state.editComment
+                editComment: id
             }
         })
     }
@@ -110,22 +123,22 @@ class ModalPerformTask extends Component {
         document.getElementById("btn-approve").style.marginLeft = "50%";
         //Chỉnh trạng thái bấm giờ và update database
         await this.setState({
-          time: this.state.time,
-          timeStart: Date.now() - this.state.time,
-          startTimer: true,
-          pauseTimer: false
+            time: this.state.time,
+            timeStart: Date.now() - this.state.time,
+            startTimer: true,
+            pauseTimer: false
         })
         // Setup thời thời gian chạy
         this.timer = setInterval(() => this.setState({
-          time: Date.now() - this.state.timeStart
+            time: Date.now() - this.state.timeStart
         }), 1);
-      }
+    }
     stopTimer = async () => {
         // Chỉnh giao diện
         document.getElementById("start-timer-task").style.width = "9%";
         document.getElementById("btn-approve").style.marginLeft = "80%";
         Swal.fire({
-            title: "Thời gian đã làm: "+this.convertTime(this.state.time),
+            title: "Thời gian đã làm: " + this.convertTime(this.state.time),
             type: 'success',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -143,7 +156,7 @@ class ModalPerformTask extends Component {
                 startTimer: false
             }
         })
-        
+
     }
     pauseTimer = async () => {
         // Chuyển sang trạng thái dừng bấm giờ
@@ -158,17 +171,17 @@ class ModalPerformTask extends Component {
         // Update database: time
     }
     convertTime = (duration) => {
-        var milliseconds = parseInt((duration % 1000) / 100),
-          seconds = Math.floor((duration / 1000) % 60),
-          minutes = Math.floor((duration / (1000 * 60)) % 60),
-          hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
-      
+        // var milliseconds = parseInt((duration % 1000) / 100),
+        var seconds = Math.floor((duration / 1000) % 60),
+            minutes = Math.floor((duration / (1000 * 60)) % 60),
+            hours = Math.floor((duration / (1000 * 60 * 60)) % 24);
+
         hours = (hours < 10) ? "0" + hours : hours;
         minutes = (minutes < 10) ? "0" + minutes : minutes;
         seconds = (seconds < 10) ? "0" + seconds : seconds;
-      
+
         return hours + ":" + minutes + ":" + seconds;
-      }
+    }
     handleShowChildComment = async () => {
         await this.setState(state => {
             return {
@@ -177,8 +190,42 @@ class ModalPerformTask extends Component {
             }
         })
     }
+    formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+
+        return [day, month, year].join('-');
+    }
+    calculateOverdueDate = (enddate) => {
+        var endTime = new Date(enddate).getTime();
+        var time = Date.now() - endTime;
+        if (time <= 0) {
+            return 0;
+        } else {
+            var day = Math.ceil(time / (1000 * 3600 * 24));
+            return day;
+        }
+    }
+    handleCloseModal = (id) => {
+        var element = document.getElementsByTagName("BODY")[0];
+        element.classList.remove("modal-open");
+        var modal = document.getElementById(`modelPerformTask${id}`);
+        modal.classList.remove("in");
+        modal.style = "display: none;";
+    }
     render() {
-        const { selected, extendDescription, editDescription, extendInformation, comment, editComment, startTimer, showChildComment, member, extendRBAC, time, pauseTimer} = this.state;
+        var task, commentTasks;
+        const { selected, extendDescription, editDescription, extendInformation, comment, editComment, startTimer, showChildComment, member, extendRBAC, time, pauseTimer } = this.state;
+        const { tasks, performtasks } = this.props;
+        if (typeof tasks.task !== 'undefined') task = tasks.task;
+        if (performtasks.commenttasks) commentTasks = performtasks.commenttasks;
         return (
             <div className="modal modal-full fade" data-backdrop="false" id={`modelPerformTask${this.props.id}`} tabIndex={-1} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div className="modal-dialog-full">
@@ -186,26 +233,25 @@ class ModalPerformTask extends Component {
                         {/* Modal Header */}
                         <div className="modal-header">
                             <div className="col-sm-4">
-                                <h3 className="modal-title" id="myModalLabel"><input style={{ border: "none", height: "6%", width: "100%" }} defaultValue="Công việc 1.2" /></h3>
+                                <h3 className="modal-title" id="myModalLabel"><input style={{ border: "none", height: "6%", width: "100%" }} value={task && task.name} /></h3>
                             </div>
                             <div className="col-sm-8" style={{ marginTop: "-6px" }}>
-                                {/* <label className="col-sm-2 control-label" style={{ width: "21%", fontWeight: "500", marginTop: "5px", marginLeft: "-4%" }}>Tạo bởi Lê Thị Phương</label> */}
-                                <div id="start-timer-task" className="col-sm-3" style={{ marginLeft: "-3%" , width: "9%"}}>
+                                <div id="start-timer-task" className="col-sm-3" style={{ marginLeft: "-3%", width: "9%" }}>
                                     {
-                                        startTimer?
-                                        <div className="run-timer" style={{border: "1px solid #d0d0d0", borderRadius:"50px", boxSizing: "border-box", zIndex: "6", boxShadow: "1px 1px 3px #ccc", width: "130px", height:"30px"}}>
-                                            <a href="#abc" className="delete" title="Kết thúc" onClick={this.stopTimer}><i className="fa fa-stop" style={{fontSize: "10px", marginLeft: "6px", marginTop:"9px"}}></i></a>
-                                            {pauseTimer?<a href="#abc" className="edit" title="Tiếp tục bấm giờ" onClick={this.startTimer}><i className="fa fa-play" style={{fontSize: "10px", marginLeft: "-7px"}}></i></a>
-                                            :<a href="#abc" className="edit" title="Tạm dừng" onClick={this.pauseTimer}><i className="fa fa-pause" style={{fontSize: "10px", marginLeft: "-7px"}}></i></a>}
-                                            <input value={this.convertTime(time)} style={{width: "60px", border: "none", background: "none", marginLeft: "-15px"}} disabled/>
-                                        </div>:<a href="#abc" className="timer" title="Bắt đầu bấm giờ" onClick={this.startTimer}><i className="material-icons" style={{marginTop: "5px"}}>timer</i></a>
+                                        startTimer ?
+                                            <div className="run-timer" style={{ border: "1px solid #d0d0d0", borderRadius: "50px", boxSizing: "border-box", zIndex: "6", boxShadow: "1px 1px 3px #ccc", width: "130px", height: "30px" }}>
+                                                <a href="#abc" className="delete" title="Kết thúc" onClick={this.stopTimer}><i className="fa fa-stop" style={{ fontSize: "10px", marginLeft: "6px", marginTop: "9px" }}></i></a>
+                                                {pauseTimer ? <a href="#abc" className="edit" title="Tiếp tục bấm giờ" onClick={this.startTimer}><i className="fa fa-play" style={{ fontSize: "10px", marginLeft: "-7px" }}></i></a>
+                                                    : <a href="#abc" className="edit" title="Tạm dừng" onClick={this.pauseTimer}><i className="fa fa-pause" style={{ fontSize: "10px", marginLeft: "-7px" }}></i></a>}
+                                                <input value={this.convertTime(time)} style={{ width: "60px", border: "none", background: "none", marginLeft: "-15px" }} disabled />
+                                            </div> : <a href="#abc" className="timer" title="Bắt đầu bấm giờ" onClick={this.startTimer}><i className="material-icons" style={{ marginTop: "5px" }}>timer</i></a>
                                     }
                                 </div>
                                 <div className="col-sm-1" style={{ marginTop: "5px", marginLeft: "-5%" }}><a href="#abc" className="default" title="Xóa công việc này"><i className="material-icons">delete</i></a></div>
                                 <div className="col-sm-3">
                                     <label className="col-sm-2 control-label" style={{ width: '61%', textAlign: 'left', marginTop: "5px", fontWeight: "500", marginLeft: "-25%" }}>Mức ưu tiên:</label>
                                     <div className="col-sm-10" style={{ width: '79%', marginLeft: "-15%" }}>
-                                        <select defaultValue="Cao" className="form-control" ref={input => this.priority = input}>
+                                        <select value={task && task.priority} className="form-control" ref={input => this.priority = input}>
                                             <option value="Cao">Cao</option>
                                             <option value="Trung bình">Trung bình</option>
                                             <option value="Thấp">Thấp</option>
@@ -215,7 +261,7 @@ class ModalPerformTask extends Component {
                                 <div className="col-sm-4" style={{ marginLeft: "-6%" }}>
                                     <label className="col-sm-4 control-label" style={{ textAlign: 'left', width: "40%", marginTop: "5px", fontWeight: "500" }}>Trạng thái:</label>
                                     <div className="col-sm-10" style={{ width: '70%', marginLeft: "-12%" }}>
-                                        <select defaultValue="Cao" className="form-control" ref={input => this.priority = input}>
+                                        <select value={task && task.status} className="form-control" ref={input => this.priority = input}>
                                             <option value="Đang chờ">Đang chờ</option>
                                             <option value="Đang thực hiện">Đang thực hiện</option>
                                             <option value="Quá hạn">Quá hạn</option>
@@ -228,7 +274,7 @@ class ModalPerformTask extends Component {
                                 <div className="col-sm-2">
                                     <button id="btn-approve" className="col-sm-8 btn btn-success" style={{ width: "119%", marginLeft: "80%", height: "32px" }}>Yêu cầu phê duyệt</button>
                                 </div>
-                                <button type="button" className="col-sm-1 close" style={{paddingLeft: "6%" }} data-dismiss="modal">
+                                <button type="button" className="col-sm-1 close" style={{ paddingLeft: "6%" }} onClick={() => this.handleCloseModal(task._id)} data-dismiss="modal">
                                     <span aria-hidden="true">×</span>
                                     <span className="sr-only">Close</span>
                                 </button>
@@ -240,84 +286,85 @@ class ModalPerformTask extends Component {
                                 <div className="row">
                                     <div className="col-sm-12">
                                         <label className="col-sm-12 control-label" style={{ textAlign: 'left', width: "100%", marginTop: "-1%", marginLeft: "-15px" }}>
-                                            <a href="#abc" className="default" title={extendDescription ? "Rút gọn" : "Mở rộng để xem nội dung mô tả"} onClick={this.handleChangeExtendDesciption}><i className={extendDescription ? "fa fa-chevron-circle-up" : "fa fa-chevron-circle-down"}></i></a>
-                                            <h4 style={{ display: "inline" }}><b>Mô tả công việc</b></h4>
+                                            <a href="#abc" className="default" title={extendDescription ? "Rút gọn" : "Mở rộng để xem nội dung mô tả"} onClick={this.handleChangeExtendDesciption}><i className={extendDescription ? "fa fa-chevron-up" : "fa fa-chevron-down"}></i></a>
+                                            <h4 style={{ display: "inline" }}>Mô tả công việc</h4>
                                             <a href="#abc" className="edit" title="Bắt đầu bấm giờ" onClick={this.handleChangeEditDesciption}><i className="material-icons">edit</i></a>
                                         </label>
                                         {extendDescription ?
                                             (editDescription ?
-                                                <textarea className="form-control" rows={5} value="Công việc chưa bắt đâu vào thực hiện. Nếu thực hiện trước hãy cập nhật lại thời gian thực hiện" style={{ width: "50%", height: "65px", marginLeft: "5%" }} />
-                                                : <label className="control-label" style={{ textAlign: 'left', width: "40%", marginTop: "5px", marginLeft: "5%", fontWeight: "500" }}>Công việc chưa bắt đâu vào thực hiện. Nếu thực hiện trước hãy cập nhật lại thời gian thực hiện</label>)
+                                                <textarea className="form-control" rows={5} value={task && task.description} style={{ width: "50%", height: "65px", marginLeft: "5%" }} />
+                                                : <label className="control-label" style={{ textAlign: 'left', width: "40%", marginTop: "5px", marginLeft: "5%", fontWeight: "500" }}>{task.description}</label>)
                                             : null
                                         }
                                     </div>
                                     <div className="col-sm-12">
                                         <label className="control-label" style={{ textAlign: 'left', marginTop: "5px" }}>
-                                            <a href="#abc" className="default" title={extendDescription ? "Rút gọn" : "Mở rộng xem thông tin phân định trách nhiệm"} onClick={this.handleChangeExtendRBAC}><i className={extendRBAC ? "fa fa-chevron-circle-down" : "fa fa-chevron-circle-up"}></i></a>
-                                            <h4 style={{ display: "inline" }}><b>Phân định trách nhiệm (RBAC)</b></h4>
+                                            <a href="#abc" className="default" title={extendDescription ? "Rút gọn" : "Mở rộng xem thông tin phân định trách nhiệm"} onClick={this.handleChangeExtendRBAC}><i className={extendRBAC ? "fa fa-chevron-up" : "fa fa-chevron-down"}></i></a>
+                                            <h4 style={{ display: "inline" }}>Phân định trách nhiệm (RBAC)</h4>
                                         </label>
                                     </div>
-                                    <div className="col-sm-12">
-                                        <div className='col-sm-12' style={{paddingTop: "10px"}}>
-                                            <label className="col-sm-2 control-label" style={{ width: '12%', textAlign: 'left', fontWeight: "500" }}>Người tạo*</label>
-                                            <div className="col-sm-8" style={{ width: '88%' }}>
-                                                <select className="form-control select2" defaultValue={["abcdef123456789987654321"]} multiple="multiple" data-placeholder="Hãy chọn người thực hiện" style={{ width: '100%' }} ref={input => this.responsible = input}>
-                                                    {member &&
-                                                        member.map(x => {
-                                                            return <option key={x._id} value={x._id}>{x.name}</option>
-                                                        })}
-                                                </select>
+                                    {extendRBAC &&
+                                        <div className="col-sm-12">
+                                            <div className='col-sm-12' style={{ paddingTop: "10px" }}>
+                                                <label className="col-sm-2 control-label" style={{ width: '12%', textAlign: 'left', fontWeight: "500" }}>Người tạo*</label>
+                                                <div className="col-sm-8" style={{ width: '88%' }}>
+                                                    <select className="form-control select2" value={["abcdef123456789987654321"]} data-placeholder="Hãy chọn người thực hiện" style={{ width: '100%' }} disabled>
+                                                        {member &&
+                                                            member.map(x => {
+                                                                return <option key={x._id} value={x._id}>{x.name}</option>
+                                                            })}
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className='col-sm-12' style={{paddingTop: "10px"}}>
-                                            <label className="col-sm-2 control-label" style={{ width: '12%', textAlign: 'left', fontWeight: "500" }}>Người thực hiện*</label>
-                                            <div className="col-sm-8" style={{ width: '88%' }}>
-                                                <select className="form-control select2" defaultValue={["abcdef123456789987654321", "abcdef123456789987654322"]} multiple="multiple" data-placeholder="Hãy chọn người thực hiện" style={{ width: '100%' }} ref={input => this.responsible = input}>
-                                                    {member &&
-                                                        member.map(x => {
-                                                            return <option key={x._id} value={x._id}>{x.name}</option>
-                                                        })}
-                                                </select>
+                                            <div className='col-sm-12' style={{ paddingTop: "10px" }}>
+                                                <label className="col-sm-2 control-label" style={{ width: '12%', textAlign: 'left', fontWeight: "500" }}>Người thực hiện*</label>
+                                                <div className="col-sm-8" style={{ width: '88%' }}>
+                                                    <select className="form-control select2" value={["abcdef123456789987654321", "abcdef123456789987654323"]} multiple="multiple" data-placeholder="Hãy chọn người thực hiện" style={{ width: '100%' }} ref={input => this.responsible = input}>
+                                                        {member &&
+                                                            member.map(x => {
+                                                                return <option key={x._id} value={x._id}>{x.name}</option>
+                                                            })}
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className='col-sm-12' style={{paddingTop: "10px"}}>
-                                            <label className="col-sm-2 control-label" style={{ width: '12%', textAlign: 'left', fontWeight: "500" }}>Người phê duyệt*</label>
-                                            <div className="col-sm-8" style={{ width: '88%' }}>
-                                                <select className="form-control select2" defaultValue={["abcdef123456789987654323"]} multiple="multiple" data-placeholder="Hãy chọn người phê duyệt" style={{ width: '100%' }} ref={input => this.accounatable = input}>
-                                                    {member &&
-                                                        member.map(x => {
-                                                            return <option key={x._id} value={x._id}>{x.name}</option>
-                                                        })}
-                                                </select>
+                                            <div className='col-sm-12' style={{ paddingTop: "10px" }}>
+                                                <label className="col-sm-2 control-label" style={{ width: '12%', textAlign: 'left', fontWeight: "500" }}>Người phê duyệt*</label>
+                                                <div className="col-sm-8" style={{ width: '88%' }}>
+                                                    <select className="form-control select2" value={["abcdef123456789987654323"]} multiple="multiple" data-placeholder="Hãy chọn người phê duyệt" style={{ width: '100%' }} ref={input => this.accounatable = input}>
+                                                        {member &&
+                                                            member.map(x => {
+                                                                return <option key={x._id} value={x._id}>{x.name}</option>
+                                                            })}
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className='col-sm-12' style={{paddingTop: "10px"}}>
-                                            <label className="col-sm-2 control-label" style={{ width: '12%', textAlign: 'left', fontWeight: "500" }}>Người hỗ trợ</label>
-                                            <div className="col-sm-8" style={{ width: '88%' }}>
-                                                <select className="form-control select2" defaultValue={["abcdef123456789987654324"]} multiple="multiple" data-placeholder="Hãy chọn người hỗ trợ" style={{ width: '100%' }} ref={input => this.consulted = input}>
-                                                    {member &&
-                                                        member.map(x => {
-                                                            return <option key={x._id} value={x._id}>{x.name}</option>
-                                                        })}
-                                                </select>
+                                            <div className='col-sm-12' style={{ paddingTop: "10px" }}>
+                                                <label className="col-sm-2 control-label" style={{ width: '12%', textAlign: 'left', fontWeight: "500" }}>Người hỗ trợ</label>
+                                                <div className="col-sm-8" style={{ width: '88%' }}>
+                                                    <select className="form-control select2" value={["abcdef123456789987654324"]} multiple="multiple" data-placeholder="Hãy chọn người hỗ trợ" style={{ width: '100%' }} ref={input => this.consulted = input}>
+                                                        {member &&
+                                                            member.map(x => {
+                                                                return <option key={x._id} value={x._id}>{x.name}</option>
+                                                            })}
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className='col-sm-12' style={{paddingTop: "10px"}}>
-                                            <label className="col-sm-2 control-label" style={{ width: '12%', textAlign: 'left', fontWeight: "500" }}>Người quan sát</label>
-                                            <div className="col-sm-8" style={{ width: '88%' }}>
-                                                <select className="form-control select2" defaultValue={["abcdef123456789987654324"]} multiple="multiple" data-placeholder="Hãy chọn người quan sát" style={{ width: '100%' }} ref={input => this.informed = input}>
-                                                    {member &&
-                                                        member.map(x => {
-                                                            return <option key={x._id} value={x._id}>{x.name}</option>
-                                                        })}
-                                                </select>
+                                            <div className='col-sm-12' style={{ paddingTop: "10px" }}>
+                                                <label className="col-sm-2 control-label" style={{ width: '12%', textAlign: 'left', fontWeight: "500" }}>Người quan sát</label>
+                                                <div className="col-sm-8" style={{ width: '88%' }}>
+                                                    <select className="form-control select2" value={["abcdef123456789987654324"]} multiple="multiple" data-placeholder="Hãy chọn người quan sát" style={{ width: '100%' }} ref={input => this.informed = input}>
+                                                        {member &&
+                                                            member.map(x => {
+                                                                return <option key={x._id} value={x._id}>{x.name}</option>
+                                                            })}
+                                                    </select>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
+                                        </div>}
                                     <div className="col-sm-12" style={{ marginBottom: "20px" }} >
                                         <label className="control-label" style={{ textAlign: 'left', marginTop: "5px", fontWeight: "500" }}>
-                                            <a href="#abc" className="default" title={extendDescription ? "Rút gọn" : "Mở rộng xem thông tin công việc"} onClick={this.handleChangeExtendInformation}><i className={extendInformation ? "fa fa-chevron-circle-up" : "fa fa-chevron-circle-down"}></i></a>
-                                            <h4 style={{ display: "inline" }}><b>Thông tin công việc</b></h4>
+                                            <a href="#abc" className="default" title={extendDescription ? "Rút gọn" : "Mở rộng xem thông tin công việc"} onClick={this.handleChangeExtendInformation}><i className={extendInformation ? "fa fa-chevron-up" : "fa fa-chevron-down"}></i></a>
+                                            <h4 style={{ display: "inline" }}>Thông tin công việc</h4>
                                         </label>
                                     </div>
                                     {extendInformation &&
@@ -329,7 +376,7 @@ class ModalPerformTask extends Component {
                                                         <div className="input-group-addon">
                                                             <i className="fa fa-calendar" />
                                                         </div>
-                                                        <input type="text" className="form-control" ref={input => this.startdate = input} name="time" id="datepicker4" data-date-format="dd-mm-yyyy" />
+                                                        <input type="text" className="form-control" value={this.formatDate(task && task.startdate)} ref={input => this.startdate = input} name="time" id="datepicker4" data-date-format="dd-mm-yyyy" />
                                                     </div>
                                                 </div>
                                                 <div className="col-sm-4">
@@ -338,14 +385,14 @@ class ModalPerformTask extends Component {
                                                         <div className="input-group-addon">
                                                             <i className="fa fa-calendar" />
                                                         </div>
-                                                        <input type="text" className="form-control" ref={input => this.startdate = input} name="time" id="datepicker5" data-date-format="dd-mm-yyyy" />
+                                                        <input type="text" className="form-control" value={this.formatDate(task && task.enddate)} ref={input => this.startdate = input} name="time" id="datepicker5" data-date-format="dd-mm-yyyy" />
                                                     </div>
                                                 </div>
                                                 <div className="col-sm-4">
                                                     <div className='form-group has-feedback'>
                                                         <label className="col-sm-2 control-label" style={{ width: '40%', textAlign: 'left', fontWeight: "500" }}>Thời gian quá hạn:</label>
                                                         <div className="col-sm-8" style={{ width: '60%' }}>
-                                                            <input type="Name" className="form-control" id="inputName3" placeholder="15h" ref={input => this.name = input} />
+                                                            <input type="Name" className="form-control" value={this.calculateOverdueDate(task && task.enddate)} id="inputName3" placeholder="15h" ref={input => this.name = input} disabled />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -355,7 +402,7 @@ class ModalPerformTask extends Component {
                                                     <div className='form-group has-feedback'>
                                                         <label className="col-sm-2 control-label" style={{ width: '40%', textAlign: 'left', fontWeight: "500" }}>Mức độ hoàn thành:</label>
                                                         <div className="col-sm-8" style={{ width: '60%' }}>
-                                                            <input type="Name" className="form-control" id="inputName3" placeholder="0%" ref={input => this.name = input} />
+                                                            <input type="Name" className="form-control" id="inputName3" value={task && task.progress + "%"} ref={input => this.name = input} />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -363,7 +410,7 @@ class ModalPerformTask extends Component {
                                                     <div className='form-group has-feedback'>
                                                         <label className="col-sm-2 control-label" style={{ width: '40%', textAlign: 'left', fontWeight: "500" }}>Thời gian làm việc:</label>
                                                         <div className="col-sm-8" style={{ width: '60%' }}>
-                                                            <input type="Name" className="form-control" id="inputName3" placeholder="15h" ref={input => this.name = input} />
+                                                            <input type="Name" className="form-control" id="inputName3" value={this.convertTime(task && task.time)} ref={input => this.name = input} />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -393,7 +440,7 @@ class ModalPerformTask extends Component {
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className="col-sm-1" style={{marginLeft: "22%"}}>
+                                                <div className="col-sm-1" style={{ marginLeft: "22%" }}>
                                                     <button className="btn btn-success">Lưu thông tin</button>
                                                 </div>
                                             </div>
@@ -409,104 +456,115 @@ class ModalPerformTask extends Component {
                                 </ul>
                                 <div className="tab-content">
                                     <div className={selected === "actionTask" ? "active tab-pane" : "tab-pane"} id="actionTask">
-                                        <div className="post">
-                                            <div className="user-block" style={{ display: "inline-block" }}>
-                                                <img className="img-circle img-bordered-sm" src="adminLTE/dist/img/user3-128x128.jpg" alt="user avatar" />
-                                                <span className="username">
-                                                    <a href="#abc">Lê Thị Phương</a>
-                                                </span>
-                                                <span className="description">19:30 19-11-2019</span>
-                                            </div>
-                                            <div className="action-comment" style={{ display: "inline-block" }}>
-                                                <a href="#abc" title="Sửa hành động" className="edit" onClick={this.handleEditComment}><i className="material-icons">edit</i></a>
-                                                <a href="#abc" title="Xóa hành động" className="delete"><i className="material-icons">delete</i></a>
-                                            </div>
-                                            <div className="comment-content" style={{ width: "fit-content", maxWidth: "70%" }}>
-                                                {editComment?
-                                                    <React.Fragment>
-                                                        <textarea
-                                                    style={{ width: '100%', height: 65, fontSize: 13, border: '1px solid #dddddd' }}
-                                                    value="Lorem ipsum represents a long-held tradition for designers,
-                                                    typographers and the like. Some people hate it and argue for
-                                                    its demise, but others ignore the hate as they create awesome
-                                                    tools to help create filler text for everyone from bacon lovers
-                                                    to Charlie Sheen fans."
-                                                    />
-                                                    <div className="row action-post">
-                                                        <input className="col-xs-8" type="file" name="attack-file" multiple="multiple" />
-                                                        <button type="submit" style={{ width: "15%", marginRight: "2%" }} className="col-xs-2 btn btn-success btn-sm">Gửi chỉnh sửa</button>
-                                                        <button type="cancel" style={{ width: "15%" }} className="col-xs-2 btn btn-default btn-sm" onClick={this.handleEditComment}>Hủy bỏ</button>
-                                                    </div>
-                                                    </React.Fragment>:
-                                                    <React.Fragment>
-                                                    <p>Em đã lập xong kế hoạch kiểm định chất lượng sản phẩm theo lô. Em gửi sếp tài liệu ạ.</p>
-                                                    <div className="attach-file" style={{marginTop: "-10px"}}>
-                                                        <a href="#abc">tailieu1v1.docx</a>
-                                                    </div>
-                                                    <ul className="list-inline">
-                                                    <li className="pull-right">
-                                                        <a href="#abc" className="link-black text-sm" onClick={this.handleShowChildComment}><i className="fa fa-comments-o margin-r-5" /> Comments(1)
-                                                        </a>
-                                                    </li>
-                                                    </ul>
-                                                    {showChildComment && 
-                                                        <div className="comment-content-child" style={{marginLeft: "20px"}}>
-                                                            <div className="form-group margin-bottom-none">
-                                                                <div className="col-sm-2 user-block" style={{ width: "4%", marginTop: "2%" }}>
-                                                                    <img className="img-circle img-bordered-sm" 
-                                                                    src="adminLTE/dist/img/user3-128x128.jpg" alt="user avatar" 
-                                                                    style={{height: "30px", width: "30px"}}/>
-                                                                </div>
-                                                                <div className="col-sm-9" >
-                                                                    <p style={{marginBottom:"-2px"}}>Em gửi lại bản đã chỉnh sửa ạ</p>
-                                                                    <div className="attach-file" style={{width: "fit-content", display: "inline-block"}}>
-                                                                        <a href="#abc">tailieu1v2.docx</a>
-                                                                    </div>
-                                                                    <span className="description">19:30 19-11-2019</span>
-                                                                    <div className="action-comment" style={{display: "inline-block"}}>
-                                                                        <a href="#abc" title="Sửa hành động" className="edit" onClick={this.handleEditComment}><i className="material-icons">edit</i></a>
-                                                                        <a href="#abc" title="Xóa hành động" className="delete"><i className="material-icons">delete</i></a>
-                                                                    </div>
-                                                                </div>
+                                        {typeof commentTasks !== 'undefined' && commentTasks.length !== 0 ?
+                                            commentTasks.map(item => {
+                                                if (item.parent === null)
+                                                    return <div className="post" style={{ width: "50%" }} key={item._id}>
+                                                        <div className="user-block" style={{ display: "inline-block" }}>
+                                                            <img className="img-circle img-bordered-sm" src="adminLTE/dist/img/user3-128x128.jpg" alt="user avatar" />
+                                                            <span className="username">
+                                                                <a href="#abc">{item.creator.name}</a>
+                                                            </span>
+                                                            <span className="description">19:30 19-11-2019</span>
+                                                        </div>
+                                                        {item.creator._id === this.state.currentUser &&
+                                                            <div className="action-comment" style={{ display: "inline-block" }}>
+                                                                <a href="#abc" title="Sửa hành động" className="edit" onClick={() => this.handleEditComment(item._id)}><i className="material-icons">edit</i></a>
+                                                                <a href="#abc" title="Xóa hành động" className="delete"><i className="material-icons">delete</i></a>
                                                             </div>
-                                                            <div className="comment-child-action" style={{marginLeft: "15px"}}>
-                                                                <form className="form-horizontal" style={{ paddingTop: "12%" }}>
-                                                                    <div className="form-group margin-bottom-none">
-                                                                        <div className="col-sm-2 user-block" style={{ width: "4%", marginTop: "1%" }}>
-                                                                            <img className="img-circle img-bordered-sm" 
-                                                                            src="adminLTE/dist/img/user3-128x128.jpg" alt="user avatar" 
-                                                                            style={{height: "30px", width: "30px"}}/>
-                                                                        </div>
-                                                                        <div className="col-sm-9" >
-                                                                            <textarea placeholder="Hãy nhập nội dung"
-                                                                                style={{ width: '127%', height: 40, fontSize: 13, border: '1px solid #dddddd' }}/>
-                                                                                <div className="row action-post" style={{width: "133%"}}>
-                                                                                    <input className="col-xs-7" type="file" name="attack-file" multiple="multiple" />
-                                                                                    <button type="submit" style={{ width: "20%", marginRight: "2%" }} className="col-xs-2 btn btn-success btn-sm">Gửi bình luận</button>
-                                                                                    <button type="cancel" style={{ width: "16%" }} className="col-xs-2 btn btn-default btn-sm" onClick={this.handleComment}>Hủy bỏ</button>
-                                                                                </div>
-                                                                        </div>
+                                                        }
+                                                        <div className="comment-content" style={{ marginLeft: "8%" }}>
+                                                            {editComment === item._id ?
+                                                                <React.Fragment>
+                                                                    <textarea
+                                                                        style={{ width: '100%', height: 65, fontSize: 13, border: '1px solid #dddddd' }}
+                                                                        value={item.content}
+                                                                    />
+                                                                    <div className="row action-post">
+                                                                        <input className="col-xs-8" type="file" name="attack-file" multiple="multiple" />
+                                                                        <button type="submit" style={{ width: "15%", marginRight: "2%" }} className="col-xs-2 btn btn-success btn-sm">Gửi chỉnh sửa</button>
+                                                                        <button type="cancel" style={{ width: "15%" }} className="col-xs-2 btn btn-default btn-sm" onClick={this.handleEditComment}>Hủy bỏ</button>
                                                                     </div>
-                                                                </form>
-                                                            </div>
-                                                        </div>}
-                                                    </React.Fragment>
-                                                    }
-                                            </div>
-                                        </div>
+                                                                </React.Fragment> :
+                                                                <React.Fragment>
+                                                                    <p>{item.content}</p>
+                                                                    <div className="attach-file" style={{ marginTop: "-10px" }}>
+                                                                        <a href="#abc">tailieu1v1.docx</a>
+                                                                    </div>
+                                                                    <ul className="list-inline">
+                                                                        <li className="pull-right">
+                                                                            <a href="#abc" title="Xem bình luận hoạt động này" className="link-black text-sm" onClick={this.handleShowChildComment}>
+                                                                                <i className="fa fa-comments-o margin-r-5" /> Bình luận(1) &nbsp;
+                                                                            {showChildComment ? <i className="fa fa-angle-up" /> : <i className="fa  fa-angle-down" />}
+                                                                            </a>
+                                                                        </li>
+                                                                    </ul>
+                                                                    {showChildComment &&
+                                                                        <div className="comment-content-child" style={{ marginLeft: "20px" }}>
+                                                                            {
+                                                                                commentTasks.map(child => {
+                                                                                    if (child.parent === item._id) return <div className="form-group margin-bottom-none">
+                                                                                        <div className="col-sm-2 user-block" style={{ width: "4%", marginTop: "2%" }}>
+                                                                                            <img className="img-circle img-bordered-sm"
+                                                                                                src="adminLTE/dist/img/user3-128x128.jpg" alt="user avatar"
+                                                                                                style={{ height: "30px", width: "30px" }} />
+                                                                                        </div>
+                                                                                        <div className="col-sm-9" >
+                                                                                            <p style={{ marginBottom: "-2px" }}>&nbsp;{child.content}</p>
+                                                                                            <div className="attach-file" style={{ width: "fit-content", display: "inline-block" }}>
+                                                                                                <a href="#abc">tailieu1v2.docx</a>
+                                                                                            </div>
+                                                                                            <span className="description">19:30 19-11-2019</span>
+                                                                                            {child.creator._id === this.state.currentUser &&
+                                                                                                <div className="action-comment" style={{ display: "inline-block" }}>
+                                                                                                    <a href="#abc" title="Sửa hành động" className="edit" onClick={this.handleEditComment}><i className="material-icons">edit</i></a>
+                                                                                                    <a href="#abc" title="Xóa hành động" className="delete"><i className="material-icons">delete</i></a>
+                                                                                                </div>
+                                                                                            }
+                                                                                        </div>
+                                                                                    </div>
+                                                                                })
+                                                                            }
+                                                                            <div className="comment-child-action" style={{ marginLeft: "15px" }}>
+                                                                                <form className="form-horizontal" style={{ paddingTop: "12%" }}>
+                                                                                    <div className="form-group margin-bottom-none">
+                                                                                        <div className="col-sm-2 user-block" style={{ width: "4%", marginTop: "1%" }}>
+                                                                                            <img className="img-circle img-bordered-sm"
+                                                                                                src="adminLTE/dist/img/user3-128x128.jpg" alt="user avatar"
+                                                                                                style={{ height: "30px", width: "30px" }} />
+                                                                                        </div>
+                                                                                        <div className="col-sm-9" >
+                                                                                            <textarea placeholder="Hãy nhập nội dung bình luận"
+                                                                                                style={{ width: '127%', height: 40, fontSize: 13, border: '1px solid #dddddd' }} />
+                                                                                            <div className="row action-post" style={{ width: "133%" }}>
+                                                                                                <input className="col-xs-7" type="file" name="attack-file" multiple="multiple" />
+                                                                                                <button type="submit" style={{ width: "20%", marginRight: "2%" }} className="col-xs-2 btn btn-success btn-sm">Gửi bình luận</button>
+                                                                                                <button type="cancel" style={{ width: "16%" }} className="col-xs-2 btn btn-default btn-sm" onClick={this.handleComment}>Hủy bỏ</button>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>}
+                                                                </React.Fragment>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                            }) : null
+                                        }
                                         <form className="form-horizontal" style={{ paddingTop: "2%" }}>
                                             <div className="form-group margin-bottom-none">
                                                 <div className="col-sm-2 user-block" style={{ width: "4%", marginTop: "1%" }}>
                                                     <img className="img-circle img-bordered-sm" src="adminLTE/dist/img/user3-128x128.jpg" alt="user avatar" />
                                                 </div>
                                                 <div className="col-sm-8" >
-                                                    <textarea placeholder="Hãy nhập nội dung"
-                                                        style={{ width: '100%', height: 65, fontSize: 13, border: '1px solid #dddddd' }}
+                                                    <textarea placeholder="Hãy nhập nội dung hoạt động"
+                                                        style={{ width: '70%', height: 65, fontSize: 13, border: '1px solid #dddddd' }}
                                                         onClick={this.handleComment} />
                                                     {comment &&
-                                                        <div className="row action-post">
+                                                        <div className="row action-post" style={{ width: "70%" }}>
                                                             <input className="col-xs-8" type="file" name="attack-file" multiple="multiple" />
-                                                            <button type="submit" style={{ width: "15%", marginRight: "2%" }} className="col-xs-2 btn btn-success btn-sm">Gửi bình luận</button>
+                                                            <button type="submit" style={{ width: "15%", marginRight: "2%" }} className="col-xs-2 btn btn-success btn-sm">Thêm hoạt động</button>
                                                             <button type="cancel" style={{ width: "15%" }} className="col-xs-2 btn btn-default btn-sm" onClick={this.handleComment}>Hủy bỏ</button>
                                                         </div>}
                                                 </div>
@@ -588,9 +646,19 @@ class ModalPerformTask extends Component {
                         {/* Modal Footer */}
                     </div>
                 </div>
-            </div>
+            </div >
         );
     }
 }
 
-export { ModalPerformTask };
+function mapState(state) {
+    const { tasks, performtasks } = state;
+    return { tasks, performtasks };
+}
+
+const actionCreators = {
+    getResponsibleTaskByUser: taskManagementActions.getResponsibleTaskByUser,
+    getCommentTask: performTaskAction.getCommentTask
+};
+const connectedModalPerformTask = connect(mapState, actionCreators)(ModalPerformTask);
+export { connectedModalPerformTask as ModalPerformTask };

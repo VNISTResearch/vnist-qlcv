@@ -15,6 +15,7 @@ exports.get = (req, res) => {
 //Lấy mẫu công việc theo Id
 exports.getById = (req, res) => {
     Task.findById(req.params.id)
+        .populate({path: "unit creator responsible accounatable consulted informed parent"})
         .then(task => res.status(200).json(task))
         .catch(err => res.status(400).json(err));
     console.log("Get Task By Id");
@@ -33,38 +34,105 @@ exports.getByRole = async (req, res) => {
     }
 }
 
-//Lấy mẫu công việc theo id người dùng
-exports.getByUser = async (req, res) => {
+//Lấy công việc thực hiện chính theo id người dùng
+exports.getTaskResponsibleByUser = async (req, res) => {
     try {
-        var taskCreators, taskResponsibles, taskAccounatables, taskConsulteds, taskInformeds;
-        if (req.params.unit === "[]") {
-            taskCreators = await Task.find({creator: req.params.user}).sort({'createdAt': 'asc'})
-            .skip(10*(req.params.number-1)).limit(10).populate({ path: 'unit', model: Department});
+        var taskResponsibles;
+        var perPage = Number(req.params.perpage);
+        var page =  Number(req.params.number);
+        if (req.params.unit === "[]" && req.params.status === "[]") {
             taskResponsibles = await Task.find({responsible: {$in: [req.params.user]}}).sort({'createdAt': 'asc'})
-            .skip(10*(req.params.number-1)).limit(10).populate({ path: 'unit', model: Department});
+            .skip(perPage*(page-1)).limit(perPage).populate({path: "unit creator responsible accounatable consulted informed parent"});
+        } else {
+            taskResponsibles = await Task.find({
+                responsible: {$in: [req.params.user]}, 
+                $or: [
+                    {unit: {$in: req.params.unit.split(",")}},
+                    {status: {$in: req.params.status.split(",")}}
+                ]
+            }).sort({'createdAt': 'asc'})
+            .skip(perPage*(page-1)).limit(perPage).populate({path: "unit creator responsible accounatable consulted informed parent"});
+        }
+        var totalCount = await Task.count({responsible: {$in: [req.params.user]}});
+        var totalPages = Math.ceil(totalCount / perPage);
+        res.status(200).json({
+            "tasks": taskResponsibles,
+            "totalpage": totalPages
+        })
+    } catch (error) {
+        res.status(400).json({ msg: error });
+    }
+}
+
+//Lấy công việc phê duyệt theo id người dùng
+exports.getTaskAccounatableByUser = async (req, res) => {
+    try {
+        var taskAccounatables;
+        if (req.params.unit === "[]") {
             taskAccounatables = await Task.find({accounatable: {$in: [req.params.user]}}).sort({'createdAt': 'asc'})
             .skip(10*(req.params.number-1)).limit(10).populate({ path: 'unit', model: Department});
+        } else {
+            taskAccounatables = await Task.find({accounatable: {$in: [req.params.user]}, unit: { $in: req.params.unit.split(",") }}).sort({'createdAt': 'asc'})
+            .skip(10*(req.params.number-1)).limit(10).populate({ path: 'unit', model: Department});
+        }
+        res.status(200).json({
+            taskAccounatables: taskAccounatables,
+        })
+    } catch (error) {
+        res.status(400).json({ msg: error });
+    }
+}
+
+//Lấy công việc hỗ trợ theo id người dùng
+exports.getTaskConsultedByUser = async (req, res) => {
+    try {
+        var taskConsulteds;
+        if (req.params.unit === "[]") {
             taskConsulteds = await Task.find({consulted: {$in: [req.params.user]}}).sort({'createdAt': 'asc'})
             .skip(10*(req.params.number-1)).limit(10).populate({ path: 'unit', model: Department});
-            taskInformeds = await Task.find({informed: {$in: [req.params.user]}}).sort({'createdAt': 'asc'})
+        } else {
+            taskConsulteds = await Task.find({consulted: {$in: [req.params.user]}, unit: { $in: req.params.unit.split(",") }}).sort({'createdAt': 'asc'})
+            .skip(10*(req.params.number-1)).limit(10).populate({ path: 'unit', model: Department});
+        }
+        res.status(200).json({
+            taskConsulteds: taskConsulteds,
+        })
+    } catch (error) {
+        res.status(400).json({ msg: error });
+    }
+}
+
+//Lấy công việc thiết lập theo id người dùng
+exports.getTaskCreatorByUser = async (req, res) => {
+    try {
+        var taskCreators;
+        if (req.params.unit === "[]") {
+            taskCreators = await Task.find({creator: req.params.user}).sort({'createdAt': 'asc'})
             .skip(10*(req.params.number-1)).limit(10).populate({ path: 'unit', model: Department});
         } else {
             taskCreators = await Task.find({creator: req.params.user, unit: { $in: req.params.unit.split(",") }}).sort({'createdAt': 'asc'})
             .skip(10*(req.params.number-1)).limit(10).populate({ path: 'unit', model: Department});
-            taskResponsibles = await Task.find({responsible: {$in: [req.params.user]}, unit: { $in: req.params.unit.split(",") }}).sort({'createdAt': 'asc'})
+        }
+        res.status(200).json({
+            taskCreators: taskCreators,
+        })
+    } catch (error) {
+        res.status(400).json({ msg: error });
+    }
+}
+
+//Lấy công việc quan sát theo id người dùng
+exports.getTaskInformedByUser = async (req, res) => {
+    try {
+        var taskInformeds;
+        if (req.params.unit === "[]") {
+            taskInformeds = await Task.find({informed: {$in: [req.params.user]}}).sort({'createdAt': 'asc'})
             .skip(10*(req.params.number-1)).limit(10).populate({ path: 'unit', model: Department});
-            taskAccounatables = await Task.find({accounatable: {$in: [req.params.user]}, unit: { $in: req.params.unit.split(",") }}).sort({'createdAt': 'asc'})
-            .skip(10*(req.params.number-1)).limit(10).populate({ path: 'unit', model: Department});
-            taskConsulteds = await Task.find({consulted: {$in: [req.params.user]}, unit: { $in: req.params.unit.split(",") }}).sort({'createdAt': 'asc'})
-            .skip(10*(req.params.number-1)).limit(10).populate({ path: 'unit', model: Department});
+        } else {
             taskInformeds = await Task.find({informed: {$in: [req.params.user]}, unit: { $in: req.params.unit.split(",") }}).sort({'createdAt': 'asc'})
             .skip(10*(req.params.number-1)).limit(10).populate({ path: 'unit', model: Department});
         }
         res.status(200).json({
-            taskCreators: taskCreators,
-            taskResponsibles: taskResponsibles,
-            taskAccounatables: taskAccounatables,
-            taskConsulteds: taskConsulteds,
             taskInformeds: taskInformeds
         })
     } catch (error) {
@@ -120,11 +188,6 @@ exports.create = async (req, res) => {
 }
 
 // Sửa thông tin công việc
-
-
-
-
-
 
 
 //Xóa công việc

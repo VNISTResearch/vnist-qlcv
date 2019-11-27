@@ -20,8 +20,8 @@ class ModalDataResultTask extends Component {
     render() {
         const { editing } = this.state;
         return (
-            <div className="modal fade" id={"myModalHorizontal" + this.props.index} tabIndex={-1} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div className="modal-dialog modal-tasktemplate">
+            <div className="modal modal-full fade" id={"dataResultTask" + this.props.id} tabIndex={-1} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div className="modal-dialog-full modal-tasktemplate">
                     <div className="modal-content">
                         {/* Modal Header */}
                         <div className="modal-header">
@@ -29,10 +29,10 @@ class ModalDataResultTask extends Component {
                                 <span aria-hidden="true">×</span>
                                 <span className="sr-only">Close</span>
                             </button>
-                            <h3 className="modal-title" id="myModalLabel"><b>Thông tin KPI Nguyễn Văn A</b></h3>
+                            <h3 className="modal-title" id="myModalLabel">Thông tin chi tiết mục tiêu đảm bảo quy trình nội bộ <small>KPI đơn vị</small></h3>
                         </div>
                         {/* Modal Body */}
-                        <div className="modal-body" >
+                        <div className="modal-body modal-body-perform-task" >
                             <div className="model-item">
                                 <h4>
                                     <b>Mục tiêu số 1: Hoàn thành quy định của công ty</b>
@@ -321,12 +321,6 @@ class ModalDataResultTask extends Component {
                                     </tbody>
                                 </table>
                             </div>
-                        </div>
-                        {/* Modal Footer */}
-                        <div className="modal-footer">
-                            {editing ? <button type="button" className="btn btn-success" data-dismiss="modal" onClick={this.handleSubmit}>Save</button>
-                                : <button type="button" className="btn btn-success" onClick={this.handleEdit}>Edit</button>}
-                            <button type="button" className="btn btn-primary" data-dismiss="modal">Cancel</button>
                         </div>
                     </div>
                 </div>

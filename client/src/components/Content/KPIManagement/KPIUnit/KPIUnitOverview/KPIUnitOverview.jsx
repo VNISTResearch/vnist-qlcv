@@ -1,13 +1,43 @@
 import React, { Component } from 'react';
+import { ModalDetailKPI } from './ModalDetailKPI';
 
 class KPIUnitOverview extends Component {
     UNSAFE_componentWillMount(){
             let script = document.createElement('script');
-            script.src = '/main/js/FlotChart.js';
+            script.src = '/main/js/Table.js';
             script.async = true;
             script.defer = true;
             document.body.appendChild(script);
             this.showChart();
+            this.handleResizeColumn();
+    }
+    handleResizeColumn = () => {
+        window.$(function () {
+            var pressed = false;
+            var start = undefined;
+            var startX, startWidth;
+
+            window.$("table thead tr th:not(:last-child)").mousedown(function (e) {
+                start = window.$(this);
+                pressed = true;
+                startX = e.pageX;
+                startWidth = window.$(this).width();
+                window.$(start).addClass("resizing");
+            });
+
+            window.$(document).mousemove(function (e) {
+                if (pressed) {
+                    window.$(start).width(startWidth + (e.pageX - startX));
+                }
+            });
+
+            window.$(document).mouseup(function () {
+                if (pressed) {
+                    window.$(start).removeClass("resizing");
+                    pressed = false;
+                }
+            });
+        });
     }
     showChart = () => {
         window.$(function () {
@@ -17,7 +47,7 @@ class KPIUnitOverview extends Component {
              */
         
             var bar_data = {
-                data: [['4-2019', 90], ['5-2019', 90], ['6-2019', 95], ['7-2019', 90], ['8-2019', 85], ['9-2019', 95]],
+                data: [['5-2019', 90], ['6-2019', 90], ['7-2019', 95], ['8-2019', 90], ['9-2019', 85], ['10-2019', 95]],
                 color: '#3c8dbc'
             }
             window.$.plot('#bar-chart', [bar_data], {
@@ -174,9 +204,10 @@ class KPIUnitOverview extends Component {
                             Tổng quan KPI đơn vị
                         </h1>
                         <ol className="breadcrumb">
-                            <li><a href="/"><i className="fa fa-dashboard" /> Home</a></li>
-                            <li><a href="/">Forms</a></li>
-                            <li className="active">Advanced Elements</li>
+                            <li><a href="/"><i className="fa fa-dashboard" /> Trang chủ</a></li>
+                            <li><a href="/">Quản lý kpi</a></li>
+                            <li className="active">Kpi đơn vị</li>
+                            <li className="active">Tổng quan kpi đơn vị</li>
                         </ol>
                     </section>
                     <section className="content">
@@ -202,16 +233,16 @@ class KPIUnitOverview extends Component {
                             <div className="col-xs-6">
                                 <div className="box box-danger">
                                     <div className="box-header with-border">
-                                        <h3 className="box-title">Biểu đồ phân bố mục tiêu
-                                        <small> Di chuyển chuột vào từng vùng để xem thông tin</small>
+                                        <h3 className="box-title">Phân bố nhân lực theo mục tiêu tháng 11
+                                        <small>Di chuyển chuột vào từng vùng để xem</small>
                                         </h3>
                                         <div className="box-tools pull-right">
                                             <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus" />
                                             </button>
                                         </div>
                                     </div>
-                                    <div className="box-body">
-                                        <canvas id="pieChart" style={{ height: 300 }} />
+                                    <div className="box-body" style={{ height: "300px"}}>
+                                        <canvas id="pieChart" />
                                     </div>
                                 </div>
                             </div>
@@ -224,134 +255,133 @@ class KPIUnitOverview extends Component {
                                         <table id="example1" className="table table-bordered table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th style={{ width: "50px" }}>Tháng</th>
-                                                    <th>Mục tiêu số 1</th>
-                                                    <th>Mục tiêu số 2</th>
-                                                    <th>Mục tiêu số 3</th>
-                                                    <th>Mục tiêu số 4</th>
-                                                    <th style={{ width: "50px" }}>Điểm</th>
-                                                    <th style={{ width: "80px" }}>Hành động</th>
+                                                    <th title="Người tạo">Người tạo</th>
+                                                    <th title="Thời gian">Thời gian</th>
+                                                    <th title="Số lượng mục tiêu">Số lượng mục tiêu</th>
+                                                    <th title="Kết quả đánh giá">Kết quả đánh giá</th>
+                                                    <th>Hành động</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td>1-2019</td>
-                                                    <td>Thực hiện đúng quy định chung của công ty</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>95</td>
+                                                    <td>Lê Thị Phương</td>
+                                                    <td>11-2019</td>
+                                                    <td>4</td>
+                                                    <td>0</td>
                                                     <td>
-                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="copy" title="Copy" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
+                                                        <a href={`#dataResultTask1`} data-toggle="modal" title="Xem chi tiết KPI tháng này" ><i className="material-icons">view_list</i></a>
+                                                        <ModalDetailKPI id={1}/>
+                                                        <a href="#abc" className="copy" title="Thiết lập kpi tháng 12 từ kpi tháng này"><i className="material-icons">content_copy</i></a>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>1-2019</td>
-                                                    <td>Thực hiện đúng quy định chung của công ty</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>93</td>
+                                                    <td>Lê Thị Phương</td>
+                                                    <td>10-2019</td>
+                                                    <td>4</td>
+                                                    <td>95</td>
                                                     <td>
-                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="copy" title="Copy" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
+                                                        <a href="#myModalHorizontal1" data-toggle="modal" title="Xem chi tiết KPI tháng này" data-target="#myModalHorizontal1"><i className="material-icons">view_list</i></a>
+                                                        <a href="#abc" className="copy" title="Thiết lập kpi tháng 12 từ kpi tháng này" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>1-2019</td>
-                                                    <td>Thực hiện đúng quy định chung của công ty</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>95</td>
+                                                    <td>Lê Thị Phương</td>
+                                                    <td>09-2019</td>
+                                                    <td>5</td>
+                                                    <td>90</td>
                                                     <td>
-                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="copy" title="Copy" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
+                                                        <a href="#myModalHorizontal1" data-toggle="modal" title="Xem chi tiết KPI tháng này" data-target="#myModalHorizontal1"><i className="material-icons">view_list</i></a>
+                                                        <a href="#abc" className="copy" title="Thiết lập kpi tháng 12 từ kpi tháng này" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>1-2019</td>
-                                                    <td>Thực hiện đúng quy định chung của công ty</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
+                                                    <td>Lê Thị Phương</td>
+                                                    <td>08-2019</td>
+                                                    <td>4</td>
                                                     <td>95</td>
                                                     <td>
-                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="copy" title="Copy" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
+                                                        <a href="#myModalHorizontal1" data-toggle="modal" title="Xem chi tiết KPI tháng này" data-target="#myModalHorizontal1"><i className="material-icons">view_list</i></a>
+                                                        <a href="#abc" className="copy" title="Thiết lập kpi tháng 12 từ kpi tháng này" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>1-2019</td>
-                                                    <td>Thực hiện đúng quy định chung của công ty</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>95</td>
+                                                    <td>Lê Thị Phương</td>
+                                                    <td>07-2019</td>
+                                                    <td>5</td>
+                                                    <td>90</td>
                                                     <td>
-                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="copy" title="Copy" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
+                                                        <a href="#myModalHorizontal1" data-toggle="modal" title="Xem chi tiết KPI tháng này" data-target="#myModalHorizontal1"><i className="material-icons">view_list</i></a>
+                                                        <a href="#abc" className="copy" title="Thiết lập kpi tháng 12 từ kpi tháng này" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>1-2019</td>
-                                                    <td>Thực hiện đúng quy định chung của công ty</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
+                                                    <td>Lê Thị Phương</td>
+                                                    <td>06-2019</td>
+                                                    <td>4</td>
                                                     <td>95</td>
                                                     <td>
-                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="copy" title="Copy" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
+                                                        <a href="#myModalHorizontal1" data-toggle="modal" title="Xem chi tiết KPI tháng này" data-target="#myModalHorizontal1"><i className="material-icons">view_list</i></a>
+                                                        <a href="#abc" className="copy" title="Thiết lập kpi tháng 12 từ kpi tháng này" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>1-2019</td>
-                                                    <td>Thực hiện đúng quy định chung của công ty</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
+                                                    <td>Lê Thị Phương</td>
+                                                    <td>05-2019</td>
+                                                    <td>4</td>
                                                     <td>95</td>
                                                     <td>
-                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="copy" title="Copy" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
+                                                        <a href="#myModalHorizontal1" data-toggle="modal" title="Xem chi tiết KPI tháng này" data-target="#myModalHorizontal1"><i className="material-icons">view_list</i></a>
+                                                        <a href="#abc" className="copy" title="Thiết lập kpi tháng 12 từ kpi tháng này" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>1-2019</td>
-                                                    <td>Thực hiện đúng quy định chung của công ty</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>95</td>
+                                                    <td>Lê Thị Phương</td>
+                                                    <td>04-2019</td>
+                                                    <td>4</td>
+                                                    <td>80</td>
                                                     <td>
-                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="copy" title="Copy" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
+                                                        <a href="#myModalHorizontal1" data-toggle="modal" title="Xem chi tiết KPI tháng này" data-target="#myModalHorizontal1"><i className="material-icons">view_list</i></a>
+                                                        <a href="#abc" className="copy" title="Thiết lập kpi tháng 12 từ kpi tháng này" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>1-2019</td>
-                                                    <td>Thực hiện đúng quy định chung của công ty</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
+                                                    <td>Lê Thị Phương</td>
+                                                    <td>10-2019</td>
+                                                    <td>4</td>
                                                     <td>95</td>
                                                     <td>
-                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="copy" title="Copy" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
+                                                        <a href="#myModalHorizontal1" data-toggle="modal" title="Xem chi tiết KPI tháng này" data-target="#myModalHorizontal1"><i className="material-icons">view_list</i></a>
+                                                        <a href="#abc" className="copy" title="Thiết lập kpi tháng 12 từ kpi tháng này" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>1-2019</td>
-                                                    <td>Thực hiện đúng quy định chung của công ty</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
+                                                    <td>Lê Thị Phương</td>
+                                                    <td>10-2019</td>
+                                                    <td>4</td>
                                                     <td>95</td>
                                                     <td>
-                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="copy" title="Copy" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
+                                                        <a href="#myModalHorizontal1" data-toggle="modal" title="Xem chi tiết KPI tháng này" data-target="#myModalHorizontal1"><i className="material-icons">view_list</i></a>
+                                                        <a href="#abc" className="copy" title="Thiết lập kpi tháng 12 từ kpi tháng này" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Lê Thị Phương</td>
+                                                    <td>10-2019</td>
+                                                    <td>4</td>
+                                                    <td>95</td>
+                                                    <td>
+                                                        <a href="#myModalHorizontal1" data-toggle="modal" title="Xem chi tiết KPI tháng này" data-target="#myModalHorizontal1"><i className="material-icons">view_list</i></a>
+                                                        <a href="#abc" className="copy" title="Thiết lập kpi tháng 12 từ kpi tháng này" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Lê Thị Phương</td>
+                                                    <td>10-2019</td>
+                                                    <td>4</td>
+                                                    <td>95</td>
+                                                    <td>
+                                                        <a href="#myModalHorizontal1" data-toggle="modal" title="Xem chi tiết KPI tháng này" data-target="#myModalHorizontal1"><i className="material-icons">view_list</i></a>
+                                                        <a href="#abc" className="copy" title="Thiết lập kpi tháng 12 từ kpi tháng này" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
                                                     </td>
                                                 </tr>
                                             </tbody>

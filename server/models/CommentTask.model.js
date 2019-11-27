@@ -25,7 +25,8 @@ const CommentTaskSchema = new Schema({
         replies: this
     },
     content: {
-        type: String
+        type: String,
+        required: true
     }
 }, {
     timestamps: true

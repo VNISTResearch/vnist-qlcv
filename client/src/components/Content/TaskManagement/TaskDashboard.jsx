@@ -1,6 +1,176 @@
 import React, { Component } from 'react';
 
 class TaskDashboard extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            userID: "",
+        };
+    }
+    componentDidMount() {
+        this.handleLoadDataCalendar();
+    }
+    handleLoadDataCalendar = () => {
+        window.$(function () {
+
+            // /* initialize the external events
+            //  -----------------------------------------------------------------*/
+            // function init_events(ele) {
+            //   ele.each(function () {
+        
+            //     // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
+            //     // it doesn't need to have a start or end
+            //     var eventObject = {
+            //       title: window.$.trim(window.$(this).text()) // use the element's text as the event title
+            //     }
+        
+            //     // store the Event Object in the DOM element so we can get to it later
+            //     window.$(this).data('eventObject', eventObject)
+        
+            //     // make the event draggable using jQuery UI
+            //     // window.$(this).draggable({
+            //     //   zIndex        : 1070,
+            //     //   revert        : true, // will cause the event to go back to its
+            //     //   revertDuration: 0  //  original position after the drag
+            //     // })
+        
+            //   })
+            // }
+        
+            // init_events(window.$('#external-events div.external-event'))
+        
+            /* initialize the calendar
+             -----------------------------------------------------------------*/
+            //Date for the calendar events (dummy data)
+            var date = new Date()
+            var d    = date.getDate(),
+                m    = date.getMonth(),
+                y    = date.getFullYear()
+            window.$('#calendarTask').fullCalendar({
+              header    : {
+                left  : 'prev,next today',
+                center: 'title',
+                right : 'month,agendaWeek,agendaDay'
+              },
+              buttonText: {
+                today: 'today',
+                month: 'month',
+                week : 'week',
+                day  : 'day'
+              },
+              //Random default events
+              events    : [
+                {
+                  title          : 'Hoàn thành quy trình kiểm thử',
+                  start          : new Date(y, m, 1),
+                  backgroundColor: '#f56954', //red
+                  borderColor    : '#f56954' //red
+                },
+                {
+                  title          : 'Long Event',
+                  start          : new Date(y, m, d - 5),
+                  end            : new Date(y, m, d - 2),
+                  backgroundColor: '#f39c12', //yellow
+                  borderColor    : '#f39c12' //yellow
+                },
+                {
+                  title          : 'Meeting',
+                  start          : new Date(y, m, d, 10, 30),
+                  allDay         : false,
+                  backgroundColor: '#0073b7', //Blue
+                  borderColor    : '#0073b7' //Blue
+                },
+                {
+                  title          : 'Lunch',
+                  start          : new Date(y, m, d, 12, 0),
+                  end            : new Date(y, m, d, 14, 0),
+                  allDay         : false,
+                  backgroundColor: '#00c0ef', //Info (aqua)
+                  borderColor    : '#00c0ef' //Info (aqua)
+                },
+                {
+                  title          : 'Birthday Party',
+                  start          : new Date(y, m, d + 1, 19, 0),
+                  end            : new Date(y, m, d + 1, 22, 30),
+                  allDay         : false,
+                  backgroundColor: '#00a65a', //Success (green)
+                  borderColor    : '#00a65a' //Success (green)
+                },
+                {
+                  title          : 'Click for Google',
+                  start          : new Date(y, m, 28),
+                  end            : new Date(y, m, 29),
+                  url            : 'http://google.com/',
+                  backgroundColor: '#3c8dbc', //Primary (light-blue)
+                  borderColor    : '#3c8dbc' //Primary (light-blue)
+                }
+              ],
+              editable  : false,
+              droppable : false, // this allows things to be dropped onto the calendar !!!
+              drop      : function (date, allDay) { // this function is called when something is dropped
+        
+                // // retrieve the dropped element's stored Event Object
+                // var originalEventObject = window.$(this).data('eventObject')
+        
+                // // we need to copy it, so that multiple events don't have a reference to the same object
+                // var copiedEventObject = window.$.extend({}, originalEventObject)
+        
+                // // assign it the date that was reported
+                // copiedEventObject.start           = date
+                // copiedEventObject.allDay          = allDay
+                // copiedEventObject.backgroundColor = window.$(this).css('background-color')
+                // copiedEventObject.borderColor     = window.$(this).css('border-color')
+        
+                // // render the event on the calendar
+                // // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
+                // window.$('#calendarTask').fullCalendar('renderEvent', copiedEventObject, true)
+        
+                // // is the "remove after drop" checkbox checked?
+                // if (window.$('#drop-remove').is(':checked')) {
+                //   // if so, remove the element from the "Draggable Events" list
+                //   window.$(this).remove()
+                // }
+        
+              }
+            })
+        
+            // /* ADDING EVENTS */
+            // var currColor = '#3c8dbc' //Red by default
+            // //Color chooser button
+            // var colorChooser = window.$('#color-chooser-btn')
+            // window.$('#color-chooser > li > a').click(function (e) {
+            //   e.preventDefault()
+            //   //Save color
+            //   currColor = window.$(this).css('color')
+            //   //Add color effect to button
+            //   window.$('#add-new-event').css({ 'background-color': currColor, 'border-color': currColor })
+            // })
+            // window.$('#add-new-event').click(function (e) {
+            //   e.preventDefault()
+            //   //Get value and make sure it is not null
+            //   var val = window.$('#new-event').val()
+            //   if (val.length == 0) {
+            //     return
+            //   }
+        
+            //   //Create events
+            //   var event = window.$('<div />')
+            //   event.css({
+            //     'background-color': currColor,
+            //     'border-color'    : currColor,
+            //     'color'           : '#fff'
+            //   }).addClass('external-event')
+            //   event.html(val)
+            //   window.$('#external-events').prepend(event)
+        
+            //   //Add draggable funtionality
+            // //   init_events(event)
+        
+            //   //Remove event from text input
+            //   window.$('#new-event').val('')
+            // })
+          })
+    }
     render() {
         return (
             <div className="table-wrapper">
@@ -63,11 +233,11 @@ class TaskDashboard extends Component {
                                         <h3 className="box-title">Danh sách công việc</h3>
                                         <div className="box-tools pull-right">
                                             <ul className="pagination pagination-sm inline">
-                                                <li><a href="#">«</a></li>
-                                                <li><a href="#">1</a></li>
-                                                <li><a href="#">2</a></li>
-                                                <li><a href="#">3</a></li>
-                                                <li><a href="#">»</a></li>
+                                                <li><a href="#abc">«</a></li>
+                                                <li><a href="#abc">1</a></li>
+                                                <li><a href="#abc">2</a></li>
+                                                <li><a href="#abc">3</a></li>
+                                                <li><a href="#abc">»</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -181,10 +351,10 @@ class TaskDashboard extends Component {
                                         <ul className="products-list product-list-in-box">
                                             <li className="item">
                                                 <div className="product-img">
-                                                    <img src="/adminLTE/dist/img/user1-128x128.jpg" alt="Product Image" />
+                                                    <img src="/adminLTE/dist/img/user1-128x128.jpg" alt="Avatar User" />
                                                 </div>
                                                 <div className="product-info">
-                                                    <a href="javascript:void(0)" className="product-title">Hoàn thành kế hoạch kiểm thử
+                                                    <a href="#abc" className="product-title">Hoàn thành kế hoạch kiểm thử
                                                     <span className="label label-warning pull-right">today</span></a>
                                                     <span className="product-description">
                                                         Em cần sửa lại phần quy trình cho đảm bảo ...
@@ -194,10 +364,10 @@ class TaskDashboard extends Component {
                                             {/* /.item */}
                                             <li className="item">
                                                 <div className="product-img">
-                                                    <img src="/adminLTE/dist/img/user2-160x160.jpg" alt="Product Image" />
+                                                    <img src="/adminLTE/dist/img/user2-160x160.jpg" alt="Avatar User" />
                                                 </div>
                                                 <div className="product-info">
-                                                    <a href="javascript:void(0)" className="product-title">Kiểm thử lô hàng số 18
+                                                    <a href="#abc" className="product-title">Kiểm thử lô hàng số 18
                                                         <span className="label label-info pull-right">week</span></a>
                                                     <span className="product-description">
                                                         Sếp ơi duyệt hộ em công việc này với ạ
@@ -207,25 +377,25 @@ class TaskDashboard extends Component {
                                             {/* /.item */}
                                             <li className="item">
                                                 <div className="product-img">
-                                                    <img src="/adminLTE/dist/img/user4-128x128.jpg" alt="Product Image" />
+                                                    <img src="/adminLTE/dist/img/user4-128x128.jpg" alt="Avatar User" />
                                                 </div>
                                                 <div className="product-info">
-                                                    <a href="javascript:void(0)" className="product-title">Xbox One <span className="label label-danger pull-right">$350</span></a>
+                                                    <a href="#abc" className="product-title">Kiểm thử lô hàng số 20 <span className="label label-danger pull-right">now</span></a>
                                                     <span className="product-description">
-                                                        Xbox One Console Bundle with Halo Master Chief Collection.
+                                                        Em đã sửa lại theo ý của anh. Anh check lại giúp em với ạ.
                                                     </span>
                                                 </div>
                                             </li>
                                             {/* /.item */}
                                             <li className="item">
                                                 <div className="product-img">
-                                                    <img src="/adminLTE/dist/img/user6-128x128.jpg" alt="Product Image" />
+                                                    <img src="/adminLTE/dist/img/user6-128x128.jpg" alt="Avatar User" />
                                                 </div>
                                                 <div className="product-info">
-                                                    <a href="javascript:void(0)" className="product-title">PlayStation 4
-                                                        <span className="label label-success pull-right">$399</span></a>
+                                                    <a href="#abc" className="product-title">Xây dựng mô hình kiểm thử chuẩn abc
+                                                        <span className="label label-success pull-right">18h30'</span></a>
                                                     <span className="product-description">
-                                                        PlayStation 4 500GB Console (PS4)
+                                                        Em cần hoàn thiện lại trong ngày mai nhé!
                                                     </span>
                                                 </div>
                                             </li>
@@ -234,153 +404,71 @@ class TaskDashboard extends Component {
                                     </div>
                                     {/* /.box-body */}
                                     <div className="box-footer text-center">
-                                        <a href="javascript:void(0)" className="uppercase">View All Products</a>
+                                        <a href="#abc" className="uppercase">Xem tất cả các bình luận</a>
                                     </div>
                                     {/* /.box-footer */}
                                 </div>
 
                             </div>
                             <div className="col-xs-12">
-                                <div className="box">
-                                    <div className="box-header">
-                                        <h3 className="box-title">Bảng danh sách kpi đơn vị hàng tháng</h3>
+                                {/* <div className="col-md-3">
+                                    <div className="box box-solid">
+                                        <div className="box-header with-border">
+                                            <h4 className="box-title">Draggable Events</h4>
+                                        </div>
+                                        <div className="box-body">
+                                            <div id="external-events">
+                                                <div className="external-event bg-green">Lunch</div>
+                                                <div className="external-event bg-yellow">Go home</div>
+                                                <div className="external-event bg-aqua">Do homework</div>
+                                                <div className="external-event bg-light-blue">Work on UI design</div>
+                                                <div className="external-event bg-red">Sleep tight</div>
+                                                <div className="checkbox">
+                                                    <label htmlFor="drop-remove">
+                                                        <input type="checkbox" id="drop-remove" />
+                                                        remove after drop
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="box-body">
-                                        <table id="example1" className="table table-bordered table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th style={{ width: "50px" }}>Tháng</th>
-                                                    <th>Mục tiêu số 1</th>
-                                                    <th>Mục tiêu số 2</th>
-                                                    <th>Mục tiêu số 3</th>
-                                                    <th>Mục tiêu số 4</th>
-                                                    <th style={{ width: "50px" }}>Điểm</th>
-                                                    <th style={{ width: "80px" }}>Hành động</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>1-2019</td>
-                                                    <td>Thực hiện đúng quy định chung của công ty</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>95</td>
-                                                    <td>
-                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="copy" title="Copy" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>1-2019</td>
-                                                    <td>Thực hiện đúng quy định chung của công ty</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>93</td>
-                                                    <td>
-                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="copy" title="Copy" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>1-2019</td>
-                                                    <td>Thực hiện đúng quy định chung của công ty</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>95</td>
-                                                    <td>
-                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="copy" title="Copy" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>1-2019</td>
-                                                    <td>Thực hiện đúng quy định chung của công ty</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>95</td>
-                                                    <td>
-                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="copy" title="Copy" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>1-2019</td>
-                                                    <td>Thực hiện đúng quy định chung của công ty</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>95</td>
-                                                    <td>
-                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="copy" title="Copy" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>1-2019</td>
-                                                    <td>Thực hiện đúng quy định chung của công ty</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>95</td>
-                                                    <td>
-                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="copy" title="Copy" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>1-2019</td>
-                                                    <td>Thực hiện đúng quy định chung của công ty</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>95</td>
-                                                    <td>
-                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="copy" title="Copy" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>1-2019</td>
-                                                    <td>Thực hiện đúng quy định chung của công ty</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>95</td>
-                                                    <td>
-                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="copy" title="Copy" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>1-2019</td>
-                                                    <td>Thực hiện đúng quy định chung của công ty</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>95</td>
-                                                    <td>
-                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="copy" title="Copy" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>1-2019</td>
-                                                    <td>Thực hiện đúng quy định chung của công ty</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>Đảm bảo chất lượng sản phẩm theo lô</td>
-                                                    <td>95</td>
-                                                    <td>
-                                                        <a href="#myModalHorizontal1" data-toggle="modal" className="view" title="View" data-target="#myModalHorizontal1"><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="copy" title="Copy" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                    <div className="box box-solid">
+                                        <div className="box-header with-border">
+                                            <h3 className="box-title">Create Event</h3>
+                                        </div>
+                                        <div className="box-body">
+                                            <div className="btn-group" style={{ width: '100%', marginBottom: 10 }}>
+                                                <button type="button" id="color-chooser-btn" class="btn btn-info btn-block dropdown-toggle" data-toggle="dropdown">Color <span class="caret"></span></button>
+                                                <ul className="fc-color-picker" id="color-chooser">
+                                                    <li><a className="text-aqua" href="#abc"><i className="fa fa-square" /></a></li>
+                                                    <li><a className="text-blue" href="#abc"><i className="fa fa-square" /></a></li>
+                                                    <li><a className="text-light-blue" href="#abc"><i className="fa fa-square" /></a></li>
+                                                    <li><a className="text-teal" href="#abc"><i className="fa fa-square" /></a></li>
+                                                    <li><a className="text-yellow" href="#abc"><i className="fa fa-square" /></a></li>
+                                                    <li><a className="text-orange" href="#abc"><i className="fa fa-square" /></a></li>
+                                                    <li><a className="text-green" href="#abc"><i className="fa fa-square" /></a></li>
+                                                    <li><a className="text-lime" href="#abc"><i className="fa fa-square" /></a></li>
+                                                    <li><a className="text-red" href="#abc"><i className="fa fa-square" /></a></li>
+                                                    <li><a className="text-purple" href="#abc"><i className="fa fa-square" /></a></li>
+                                                    <li><a className="text-fuchsia" href="#abc"><i className="fa fa-square" /></a></li>
+                                                    <li><a className="text-muted" href="#abc"><i className="fa fa-square" /></a></li>
+                                                    <li><a className="text-navy" href="#abc"><i className="fa fa-square" /></a></li>
+                                                </ul>
+                                            </div>
+                                            <div className="input-group">
+                                                <input id="new-event" type="text" className="form-control" placeholder="Event Title" />
+                                                <div className="input-group-btn">
+                                                    <button id="add-new-event" type="button" className="btn btn-primary btn-flat">Add</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> */}
+                                <div className="col-md-12">
+                                    <div className="box box-primary">
+                                        <div className="box-body no-padding">
+                                            <div id="calendarTask" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>

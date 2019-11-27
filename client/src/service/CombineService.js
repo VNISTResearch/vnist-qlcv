@@ -5,3 +5,4 @@ export * from './DepartmentService';
 export * from './KPIUnitService';
 export * from './KPIPersonalService';
 export * from './TaskManagementService';
+export * from './PerformTaskService';

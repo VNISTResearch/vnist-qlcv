@@ -81,7 +81,24 @@ const TaskSchema = new Schema({
     informed: [{
         type: Schema.Types.ObjectId,
         ref: User
-    }]
+    }],
+    time: {
+        type: Number,
+        required: true
+    },
+    progress: {
+        type: Number,
+        required: true
+    },
+    personalpoint: {
+        type: Number
+    },
+    systempoint: {
+        type: Number
+    },
+    approvepoint: {
+        type: Number
+    }
 }, {
     timestamps: true
 });

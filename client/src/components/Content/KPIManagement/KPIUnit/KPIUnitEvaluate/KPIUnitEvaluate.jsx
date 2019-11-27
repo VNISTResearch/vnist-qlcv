@@ -24,7 +24,7 @@ class KPIUnitEvaluate extends Component {
                 <div className="content-wrapper">
                     <section className="content-header">
                         <h1>
-                            <b>Dữ liệu KPI đơn vị</b>
+                            <b>Chi tiết kpi tháng 11</b>
                         </h1>
                         <ol className="breadcrumb">
                             <li><a href="/"><i className="fa fa-dashboard" /> Home</a></li>
@@ -80,14 +80,14 @@ class KPIUnitEvaluate extends Component {
                                                                 <td>{item.weight}</td>
                                                                 <td>{item.confirm ? "Đã kích hoạt" : "Chưa kích hoạt"}</td>
                                                                 <td>
-                                                                    <center><a href="#view" className="view" title="Xem chi tiết" data-toggle="tooltip"><i className="material-icons">visibility</i></a></center>
+                                                                    <center><a href={`#dataResultTask${index+1}`} title="Xem chi tiết" data-toggle="modal"><i className="material-icons">view_list</i></a></center>
+                                                                    <ModalDataResultTask id={index+1}/>
                                                                 </td>
                                                             </tr>
                                                         )
                                                 }
                                             </tbody>
                                         </table>
-                                        <ModalDataResultTask index="1" />
                                     </div>
                                 </div>
                             </div>

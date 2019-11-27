@@ -13,6 +13,7 @@ const jobtitles = require("./routes/api/jobtitles");
 const kpiunits = require("./routes/api/kpiunits");
 const kpipersonals = require("./routes/api/kpipersonals");
 const tasks = require("./routes/api/tasks");
+const performtask = require("./routes/api/performtask");
 
 const cors = require('cors');
 require('dotenv').config();
@@ -58,6 +59,7 @@ app.use("/jobtitles", jobtitles);
 app.use("/kpiunits", kpiunits);
 app.use("/kpipersonals", kpipersonals);
 app.use("/tasks", tasks);
+app.use("/performtask", performtask);
 
 const port = process.env.PORT || 5000;
 
