@@ -1,6 +1,6 @@
-const UserRole = require('../models/UserRole.model');
-const User = require('../models/User.model');
-const Role = require('../models/Role.model');
+const UserRole = require('../../models/UserRole.model');
+const User = require('../../models/User.model');
+const Role = require('../../models/Role.model');
 const mongoose = require("mongoose");
 
 // DB Config

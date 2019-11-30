@@ -40,6 +40,23 @@ export const create = (user) => {
     }
 }
 
+export const edit = (user) => {
+
+    return dispatch => {
+        dispatch({ type: usersConstants.EDIT_USER_REQUEST});
+        usersService.edit(user)
+            .then(res => {
+                dispatch({
+                    type: usersConstants.EDIT_USER_SUCCESS,
+                    payload: res.data
+                })
+            })
+            .catch(err => {
+                console.log("ERROR EDIT USER");
+            })
+    }
+}
+
 export const destroy = (id) => {
     return dispatch => {
         usersService.destroy(id)
@@ -54,6 +71,23 @@ export const destroy = (id) => {
             })
             .catch(err => {
                 console.log("ERROR ROLES");
+            })
+    }
+}
+
+export const block = (id) => {
+
+    return dispatch => {
+        dispatch({ type: usersConstants.BLOCK_USER_REQUEST});
+        usersService.block(id)
+            .then(res => {
+                dispatch({
+                    type: usersConstants.BLOCK_USER_SUCCESS,
+                    payload: res.data
+                })
+            })
+            .catch(err => {
+                console.log("ERROR CREATE USER");
             })
     }
 }

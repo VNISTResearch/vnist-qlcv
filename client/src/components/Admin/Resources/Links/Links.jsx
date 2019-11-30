@@ -58,8 +58,8 @@ class Links extends Component {
         console.log("link create :", this.state);
         return ( 
             <React.Fragment>
-                <a className="btn btn-primary" data-toggle="modal" href="#modal-id">{ translate('manageResource.createLink') }</a>
-                <div className="modal fade" id="modal-id">
+                <a className="btn btn-primary" data-toggle="modal" href="#modal-create-link">{ translate('manageResource.createLink') }</a>
+                <div className="modal fade" id="modal-create-link">
                     <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
@@ -122,12 +122,15 @@ class Links extends Component {
                                     <td>{ link.url }</td>
                                     <td>{ link.description }</td>
                                     <td>
+                                        <a className="btn btn-sm btn-primary" data-toggle="modal" href={ `#modal-id-${link.id}` }><i className="fa fa-edit"></i></a>
+                                            
                                         {/* <a className="btn btn-sm btn-primary" to={`/admin/resource/link/edit/${link.id}`}><i className="fa fa-eye"></i></a> */}
-                                        <a className="btn btn-sm btn-primary" data-toggle="modal" href={`#${link.id}`}><i className="fa fa-edit"></i></a>
+                                        {/* <a className="btn btn-sm btn-primary" data-toggle="modal" href={`#link-${link.id}`}><i className="fa fa-edit"></i></a> */}
                                         <button className="btn btn-sm btn-danger" onClick={() => this.alert(link.id)}><i className="fa fa-trash"></i></button>
                                         <LinkDetail 
-                                            id={ link.id }
+                                            linkId={ link.id }
                                         />
+                                        
                                     </td>
                                 </tr>
                             ): null

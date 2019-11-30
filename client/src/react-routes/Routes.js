@@ -31,6 +31,8 @@ import {
     TaskManagement
 } from '../components/Content/CombineContent';
 import Privilege from '../components/Content/Privilege/Privilege';
+import QLLoaiVanBan from '../components/Content/QLTailieuBieuMau/QLLoaiVanBan';
+import QLVanBan from '../components/Content/QLTailieuBieuMau/QLVanBan';
 
 const privatePage = [
     { path: '/', exact: true, component: () => <DashBoard/> },
@@ -56,6 +58,9 @@ const privatePage = [
     { path: '/cocautochuc', exact: true, component: ({match}) => <CoCauToChuc match={match}/> },
     { path: '/privilege', exact: true, component: ({match}) => <Privilege match={match}/> },
     { path: '/organizationstructure', exact: true, component: ({match}) => <OrganizationStructure match={match}/> },
+
+    { path: '/manage-document-type', exact: true, component: ({match}) => <QLLoaiVanBan match={match}/> },
+    { path: '/manage-document', exact: true, component: ({match}) => <QLVanBan match={match}/> },
 
     { path: '/system-admin/companies', exact: true, component: () => <Company/> },
 ]

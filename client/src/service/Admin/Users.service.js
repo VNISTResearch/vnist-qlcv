@@ -5,7 +5,9 @@ import axios from 'axios';
 export const usersService = {
     get,
     create,
-    destroy
+    edit,
+    destroy,
+    block
 };
 
 function get() {
@@ -29,10 +31,31 @@ function create(user) {
     return axios(requestOptions);
 }
 
+function edit(user) {
+    const requestOptions = {
+        url: `${LOCAL_SERVER_API}/users/${user.id}`,
+        method: 'PATCH',
+        data: { name: user.name, active: user.active},
+        headers: authHeader()
+    };
+
+    return axios(requestOptions);
+}
+
 function destroy(id) {
     const requestOptions = {
         url: `${LOCAL_SERVER_API}/users/${id}`,
         method: 'DELETE',
+        headers: authHeader()
+    };
+
+    return axios(requestOptions);
+}
+
+function block(id) {
+    const requestOptions = {
+        url: `${LOCAL_SERVER_API}/users/block/${id}`,
+        method: 'POST',
         headers: authHeader()
     };
 

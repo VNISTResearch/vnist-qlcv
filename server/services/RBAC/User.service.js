@@ -15,7 +15,9 @@ exports.get = (req, res) => {
             res.status(400).json({msg: err});
         })
     
-        console.log("ex: ", isLog);
+        if(isLog){
+
+        }
     console.log("Get Users");
 };
 
@@ -84,12 +86,14 @@ exports.create = async (req, res) => {
                         '<ul>' + 
                             '<li>Tài khoản :' + req.body.email + '</li>' +
                             '<li>Mật khẩu :' + password + '</li>' + 
-                        '</ul>' +
+                        '</ul>' + 
+                        '<p>Đăng nhập ngay tại : <a href="localhost:3000/login">đây</a></p>' + '<br>' +
                         '<p>Your account use to login in system : </p' + 
                         '<ul>' + 
                             '<li>Account :' + req.body.email + '</li>' +
                             '<li>Password :' + password + '</li>' + 
-                        '</ul>'
+                        '</ul>' + 
+                        '<p>Login in: <a href="localhost:3000/login">here</a></p>'
             }
 
             bcrypt.hash(password, salt, async(err, hash) => {
@@ -129,12 +133,15 @@ exports.createRole = async (req, res) => {
 
 exports.edit = async (req, res) => {
     try {
-        await User.updateOne(
-            { _id: req.params.id }, //tìm user theo id
-            { $set:{ name: req.body.name } } //update thông tin user
-        );
+        var user = await User.findById( req.params.id );
+        user.name = req.body.name;
+        user.active = req.body.active;
+        user.save();
 
-        res.status(200).json("Edit user successfully");
+        res.status(200).json({
+            msg: "Edit user successfully",
+            user
+        });
     } catch (error) {
         res.status(400).json({msg: error});
     }
@@ -211,4 +218,20 @@ exports.resetPassword = async (req, res) => {
     } catch (error) {
         res.status(400).json({msg: "Canot reset user! Try again"});
     }
+};
+
+exports.block = async (req, res) => {
+    try {
+        var user = await User.findById(req.params.id); //find user with id
+        user.active = !user.active;
+        user.save();
+
+        res.status(200).json({ 
+            msg: "Block user successfully!",
+            user: user
+        });
+    } catch (error) {
+        res.status(400).json({msg: error});
+    }
+    console.log("BLOCK USER")
 };

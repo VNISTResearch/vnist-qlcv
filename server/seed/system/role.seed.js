@@ -1,4 +1,4 @@
-const Role = require('../models/Role.model');
+const Role = require('../../models/Role.model');
 const mongoose = require("mongoose");
 
 // DB Config
@@ -8,7 +8,7 @@ const db = 'mongodb://localhost/qlcv';
 mongoose
   .connect(
     db,
-    { useNewUrlParser: true }
+    { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => console.log("MongoDB successfully connected"))
   .catch(err => console.log(err));
@@ -21,6 +21,11 @@ initRole = async () => {
 
     var superAdmin = await Role.create({
         name: "Super Admin",
+        abstract: []
+    });
+
+    var admin = await Role.create({
+        name: "Admin",
         abstract: []
     });
 
@@ -39,7 +44,7 @@ initRole = async () => {
         abstract: [employee, vicedean]
     });
 
-    console.log("Load success Role Data: ", systemAdmin, superAdmin, dean, vicedean, employee);
+    console.log("Load success Role Data: ", systemAdmin, superAdmin, admin, dean, vicedean, employee);
 }
 
 try {

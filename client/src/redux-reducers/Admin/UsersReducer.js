@@ -42,6 +42,35 @@ export function aUsers(state = {}, action) {
                 isLoading: false
             }
 
+        case usersConstants.EDIT_USER_REQUEST:
+                return {
+                    ...state,
+                    isLoading: true,
+                }
+
+        case usersConstants.EDIT_USER_SUCCESS:
+            index = findIndex(state.list, action.payload.user._id);
+            if(index !== -1){
+                state.list[index].name = action.payload.user.name;
+                state.list[index].active = action.payload.user.active;
+            }
+            return {
+                ...state,
+                isLoading: false,
+            };
+
+        case usersConstants.BLOCK_USER_REQUEST:
+            return {
+                ...state,
+                isLoading: true,
+            }
+
+        case usersConstants.BLOCK_USER_SUCCESS:
+            return {
+                ...state,
+                isLoading: false
+            }
+
         case usersConstants.DELETE_USER_SUCCESS:
             index = findIndex(state.list, action.payload.id);
             state.list.splice(index, 1);

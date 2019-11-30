@@ -1,4 +1,4 @@
-const Logger = require('../models/Logger.model');
+const Logger = require('../../models/Logger.model');
 const mongoose = require("mongoose");
 
 // DB Config
@@ -14,7 +14,8 @@ mongoose
   .catch(err => console.log(err));
 
 Logger.create({
-    log: false
+    name: "log",
+    status: false
 })
 .then(data => console.log(data))
 .catch(err => console.log(err));

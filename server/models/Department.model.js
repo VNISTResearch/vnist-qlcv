@@ -1,12 +1,17 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const Role = require('./Role.model');
+const Company = require('./Company.model');
 
 // Create Schema
 const DepartmentSchema = new Schema({
     name: {
         type: String,
         required: true
+    },
+    company: {
+        type: Schema.Types.ObjectId,
+        ref: Company
     },
     description: {
         type: String

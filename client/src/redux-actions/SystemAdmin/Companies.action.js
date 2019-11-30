@@ -36,3 +36,21 @@ export const create = (data) => {
             })
     }
 }
+
+export const edit = (id, company) => {
+    return dispatch => {
+        companiesService.edit(id, company)
+            .then(res => {
+                dispatch({
+                    type: companiesConstants.EDIT_COMPANY_SUCCESS,
+                    payload: res.data
+                })
+            })
+            .catch(err => {
+                dispatch({
+                    type: companiesConstants.EDIT_COMPANY_ERROR,
+                    payload: err.response.data
+                })
+            })
+    }
+}

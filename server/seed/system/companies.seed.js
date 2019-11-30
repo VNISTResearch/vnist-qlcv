@@ -1,4 +1,4 @@
-const Link = require('../models/Link.model');
+const Company = require('../../models/Company.model');
 const mongoose = require("mongoose");
 
 // DB Config
@@ -8,7 +8,7 @@ const db = 'mongodb://localhost/qlcv';
 mongoose
   .connect(
     db,
-    { useNewUrlParser: true }
+    { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => console.log("MongoDB successfully connected"))
   .catch(err => console.log(err));
@@ -16,26 +16,19 @@ mongoose
 
 
 //1. Seed data permission---------------------------//
-var links = [
+var coms = [
     {
-        url: '/'
+        name: 'cong ty A',
+        description: 'mo ta A'
     },
     {
-        url: '/admin/user'
-    },
-    {
-        url: '/admin/department'
-    },
-    {
-        url: '/admin/resource'
-    },
-    {
-        url: '/admin/role'
+        name: ' cong ty B',
+        description: 'mo ta B'
     }
 ];
-Link.insertMany(links, function(err, result){
+Company.insertMany(coms, function(err, result){
     if(!err){
-        console.log("Seed Link Data :\n" + result);
+        console.log("Seed Coms Data :\n" + result);
     }else{
         console.log(err);
     }

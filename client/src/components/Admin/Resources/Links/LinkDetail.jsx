@@ -35,21 +35,21 @@ class LinkDetail extends Component {
     }
 
     componentDidMount(){
-        this.props.getById(this.props.id);
+        this.props.getById(this.props.linkId);
         this.props.getSuperRole();
     }
 
     render() { 
-        const { roles, links, translate } = this.props;
+        const { roles, links, translate, linkId } = this.props;
         return ( 
             <React.Fragment>
     
-                <div className="modal fade" id={this.props.id}>
+                <div className="modal fade" id={ `modal-id-${ linkId }` }>
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">
                             <button type="button" className="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h4 className="modal-title">Modal title</h4>
+                            <h4 className="modal-title">LINK{ `modal-id-${ linkId }` }</h4>
                             </div>
                             <div className="modal-body">
                             {

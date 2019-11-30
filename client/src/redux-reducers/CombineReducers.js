@@ -16,6 +16,7 @@ import { aDepartments} from './Admin/DepartmentsReducer';
 import { roles} from './Admin/RolesReducer';
 import { links} from './Admin/LinksReducer';
 import { components} from './Admin/ComponentsReducer';
+import { companies } from './SystemAdmin/CompanyReducers';
 
 const rootReducer = combineReducers(Object.assign({
   authentication,
@@ -35,7 +36,9 @@ const rootReducer = combineReducers(Object.assign({
   aDepartments,
   roles,
   links,
-  components
+  components,
+  //State of system admin ----------------//
+  companies
 }, { Intl }));
 
 export default rootReducer;

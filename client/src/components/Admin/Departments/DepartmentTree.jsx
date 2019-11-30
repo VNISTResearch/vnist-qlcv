@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import MuiTreeView from 'material-ui-treeview';
+// import MuiTreeView from 'material-ui-treeview';
+import {Treebeard} from 'react-treebeard';
 
 class DepartmentTree extends Component {
     constructor(props) {
@@ -8,9 +9,10 @@ class DepartmentTree extends Component {
     }
     render() { 
         const { tree } = this.props;
+        console.log("TREE: ", tree)
         return ( 
             <React.Fragment>
-                 <div className="row">
+                 {/* <div className="row">
                     <div className="col-sm-2">
                     </div>
                     <div className="col-sm-8">
@@ -25,7 +27,7 @@ class DepartmentTree extends Component {
                             /> : null
                         }
                     </div>
-                </div>
+                </div> */}
             </React.Fragment>
          );
     }

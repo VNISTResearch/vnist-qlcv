@@ -1,4 +1,4 @@
-const Action = require('../models/Action.model');
+const Action = require('../../models/Action.model');
 const mongoose = require("mongoose");
 
 // DB Config

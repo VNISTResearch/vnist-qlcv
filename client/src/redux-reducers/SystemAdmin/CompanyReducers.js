@@ -10,7 +10,11 @@ var findIndex = (array, id) => {
     return result;
 }
 
-export function companies(state = {}, action) {
+const initState = {
+    list: []
+}
+
+export function companies(state = initState, action) {
     var index = -1;
     switch (action.type) {
 
@@ -29,6 +33,14 @@ export function companies(state = {}, action) {
                     action.payload.company
                 ]
             };
+
+        case companiesConstants.EDIT_COMPANY_SUCCESS:
+            index = findIndex(state.list, action.payload.company._id);
+            if(index !== -1){
+                state.list[index].name = action.payload.company.name;
+                state.list[index].description = action.payload.company.description;
+            }
+            return {...state};
 
         default:
             return state;

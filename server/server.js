@@ -17,7 +17,7 @@ const system = require('./routes/api/system');
 
 global.isLog = "Ghi log";
 const Logger = require('./models/Logger.model');
-Logger.findOne({name: 'Logger history'})
+Logger.findOne({name: 'log'})
     .then(result => {
         result.status ? isLog = true : isLog = false;
         console.log("Logger status: ", isLog);

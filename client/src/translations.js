@@ -5,6 +5,10 @@ export default {
             hello: 'Xin chào {name}',
             profile: 'Hồ sơ',
             logout: 'Đăng xuất',
+            manageCompany: {
+                name: 'Quản lý thông tin các công ty',
+                create: 'Thêm công ty mới'
+            },
             manageUser: {
                 name: 'Quản lý tài khoản người dùng',
                 create: 'Thêm tài khoản người dùng',
@@ -12,6 +16,7 @@ export default {
             },
             manageDepartment: {
                 name: 'Quản lý phòng ban',
+                nameDepartment: 'Tên đơn vị',
                 create: 'Tạo đơn vị mới',
                 dean: 'Tên chức danh cho trưởng đơn vị',
                 vicedean: 'Tên chức danh cho phó đơn vị',
@@ -35,7 +40,7 @@ export default {
                 add: 'Thêm',
                 create: 'Tạo thêm phân quyền mới',
                 roleName: 'Tên phân quyền',
-                abstract: 'Kế thừa các quyền',
+                abstract: 'Kế thừa các role',
                 select: 'Chọn role muốn kế thừa quyền',
                 roleTitle: 'Thông tin về phân quyền'
             },
@@ -63,7 +68,8 @@ export default {
                 save: 'Lưu',
                 url: 'Đường link',
                 label: 'Nhãn',
-                description: 'Mô tả'
+                description: 'Mô tả',
+                status: 'Trạng thái'
             },
             mainSideBar: {
                 search: 'Tìm kiếm ...',
@@ -71,13 +77,16 @@ export default {
                 dashboard: 'Bảng điều khiển',
                 adminManage: 'Quản lý trang admin',
                 taskManage: 'Quản lý công việc',
-                user: 'Người dùng',
-                department: 'Cơ cấu tổ chức',
-                role: 'Phân quyền',
-                resource: 'Tài nguyên',
+                user: 'Quản lý người dùng',
+                company: 'Quản lý các doanh nghiệp',
+                department: 'Quản lý cơ cấu tổ chức',
+                role: 'Quản lý phân quyền',
+                resource: 'Quản lý tài nguyên',
                 tasktemplate: 'Mẫu Công Việc',
                 cocautochuc: 'Cơ Cấu Tổ Chức',
-                taskmanagement: 'Quản Lý Công Việc'
+                taskmanagement: 'Quản Lý Công Việc',
+                manageDocument: 'Quản lý văn bản',
+                manageDocumentType: 'Quản lý loại văn bản',
             },
             footer: {
                 copyRight: 'Bản quyền thuộc về',
@@ -92,6 +101,10 @@ export default {
             hello: 'how are you {name}',
             profile: 'Profile',
             logout: 'Log out',
+            manageCompany: {
+                name: 'Manage Company',
+                create: 'Add new company'
+            },
             manageUser: {
                 name: 'Manage User',
                 create: 'Create',
@@ -99,6 +112,7 @@ export default {
             },
             manageDepartment: {
                 name: 'Manage Department',
+                nameDepartment: 'Name of department',
                 create: 'Create',
                 dean: 'Dean of',
                 vicedean: 'ViceDean of',
@@ -121,7 +135,7 @@ export default {
                 add: 'Add',
                 create: 'Create new role',
                 roleName: 'Name of role',
-                abstract: 'Abstract of roles',
+                abstract: 'Select roles',
                 select: 'Select abstract role',
                 roleTitle: 'Infomation of role'
             },
@@ -149,7 +163,8 @@ export default {
                 save: 'Save',
                 url: 'URL',
                 label: 'Label',
-                description: 'Description'
+                description: 'Description',
+                status: 'Status'
             },
             mainSideBar: {
                 search: 'Search ...',
@@ -157,13 +172,15 @@ export default {
                 dashboard: 'Dashboard',
                 adminManage: 'Admin manager',
                 taskManage: 'Task manager',
-                user: 'User',
-                department: 'Department',
-                role: 'Role',
-                resource: 'Resource',
+                company: 'Company information manager',
+                user: 'User manager',
+                department: 'Department manager',
+                role: 'Role manager',
+                resource: 'Resource manager',
                 tasktemplate: 'Task Template',
                 cocautochuc: 'Organizational Structure',
-                taskmanagement: 'Task Management'
+                taskmanagement: 'Task Management',
+                manageDocument: 'Manage Document',
             },
             footer: {
                 copyRight: 'Copyright',

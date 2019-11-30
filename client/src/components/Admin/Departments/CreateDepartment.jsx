@@ -25,7 +25,7 @@ class CreateDepartment extends Component {
                                 <form style={{ marginBottom: '20px' }}>
                                     <div className="row">
                                         <div className="form-group col-sm-12">
-                                            <label>{ translate('table.name')  }</label>
+                                            <label>{ translate('manageDepartment.nameDepartment')  }</label>
                                             <input type="text" className="form-control" name="name" onChange={ inputChange }/><br/>
                                         </div>
                                         <div className="form-group col-sm-12">
@@ -33,16 +33,16 @@ class CreateDepartment extends Component {
                                             <textarea type="text" className="form-control" name="description" onChange={ inputChange }/><br/>
                                         </div>
                                         <div className="form-group col-sm-12">
-                                            <label>{ translate('manageDepartment.dean') }</label><span><i> { ` * ${translate('manageDepartment.sub_dean')}` } </i></span>
-                                            <input type="text" className="form-control" name="dean" onChange={ inputChange }/><br/>
+                                            <label>{ translate('manageDepartment.dean') }</label>
+                                            <input type="text" className="form-control" name="dean" onChange={ inputChange } placeholder={ `${translate('manageDepartment.sub_dean')}` }/><br/>
+                                        </div> 
+                                        <div className="form-group col-sm-12">
+                                            <label>{ translate('manageDepartment.vicedean') }</label>
+                                            <input type="text" className="form-control" name="vice_dean" onChange={ inputChange } placeholder={ `${translate('manageDepartment.sub_vicedean')}` }/><br/>
                                         </div>
                                         <div className="form-group col-sm-12">
-                                            <label>{ translate('manageDepartment.vicedean') }</label><span><i> { ` * ${translate('manageDepartment.sub_vicedean')}` } </i></span>
-                                            <input type="text" className="form-control" name="vice_dean" onChange={ inputChange }/><br/>
-                                        </div>
-                                        <div className="form-group col-sm-12">
-                                            <label>{ translate('manageDepartment.employee') }</label><span><i> { ` * ${translate('manageDepartment.sub_employee')}` } </i></span>
-                                            <input type="text" className="form-control" name="employee" onChange={ inputChange }/><br/>
+                                            <label>{ translate('manageDepartment.employee') }</label>
+                                            <input type="text" className="form-control" name="employee" onChange={ inputChange } placeholder={ `${translate('manageDepartment.sub_employee')}` }/><br/>
                                         </div>
                                         <div className="form-group col-sm-12">
                                             <label>{ translate('manageDepartment.departmentParent') }</label>
@@ -51,7 +51,7 @@ class CreateDepartment extends Component {
                                                 style={{width: '100%'}} 
                                                 name="parent" 
                                                 onChange={inputChange}>
-                                                    <option>{ translate('manageDepartment.selectDepartment') }</option>
+                                                    <option disabled>{ translate('manageDepartment.selectDepartment') }</option>
                                                 {   
                                                     parent !== undefined &&
                                                     parent.map(department => 

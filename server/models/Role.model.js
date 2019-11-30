@@ -10,7 +10,6 @@ const RoleSchema = new Schema({
     },
     company: {
         type: Schema.Types.ObjectId,
-        required: true,
         ref: Company
     },
     abstract: [{ //có tất cả các quyền của những role bên trong mảng này

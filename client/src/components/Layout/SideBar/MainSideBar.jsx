@@ -6,13 +6,17 @@ import { withTranslate } from 'react-redux-multilingual';
 
 const menu = [
     {
+        name: 'company',
+        path: '/system-admin/companies',
+        icon: 'fa fa-building'
+    },{
         name: 'user',
         path: '/admin/user',
         icon: 'fa fa-users'
     },{
         name: 'department',
         path: '/admin/department',
-        icon: 'fa fa-building'
+        icon: 'fa fa-sitemap'
     },{
         name: 'resource',
         path: '/admin/resource',
@@ -29,7 +33,15 @@ const menu = [
         name: 'cocautochuc',
         path: '/cocautochuc',
         icon: 'fa fa-th'
-    },
+    },{
+        name: 'manageDocumentType',
+        path: '/manage-document-type',
+        icon: 'fa fa-file-text-o'
+    },{
+        name: 'manageDocument',
+        path: '/manage-document',
+        icon: 'fa fa-file'
+    }
 ];
 
 class MainSideBar extends Component {
@@ -41,7 +53,6 @@ class MainSideBar extends Component {
             qlKPI: (window.location.pathname === '/kpiunitoverview' || window.location.pathname === '/kpiunitcreate' || window.location.pathname === '/kpiunitevaluate' || window.location.pathname === '/kpipersonaloverview' || window.location.pathname === '/kpipersonalcreate' || window.location.pathname === '/kpipersonalevaluate') ? true : false,
             kpidv: (window.location.pathname === '/kpiunitoverview' || window.location.pathname === '/kpiunitcreate' || window.location.pathname === '/kpiunitevaluate' ) ? true : false,
             kpicn: (window.location.pathname === '/kpipersonaloverview' || window.location.pathname === '/kpipersonalcreate' || window.location.pathname === '/kpipersonalevaluate') ? true : false,
-            
         }
         this.clickedQLCV = this.clickedQLCV.bind(this);
         this.clickedQLKPI = this.clickedQLKPI.bind(this);
@@ -147,8 +158,8 @@ class MainSideBar extends Component {
                                         </span>
                                     </a>
                                     <ul className="treeview-menu">
-                                        <li className={window.location.pathname === '/taskmanagement' && "active"}><a href="/taskmanagement"> Xem danh sách công việc</a></li>
-                                        <li className={window.location.pathname === '/kpimemberapprove' && "active"}><a href="/kpimemberapprove"> Thực hiện công việc</a></li>
+                                        <li className={window.location.pathname === '/taskmanagement' ? "active" : ""}><a href="/taskmanagement"> Xem danh sách công việc</a></li>
+                                        <li className={window.location.pathname === '/kpimemberapprove' ? "active" : ""}><a href="/kpimemberapprove"> Thực hiện công việc</a></li>
                                     </ul>
                                 </li>
                             }
@@ -168,9 +179,9 @@ class MainSideBar extends Component {
                                                 </span>
                                             </a>
                                             <ul className="treeview-menu">
-                                                <li className={window.location.pathname === '/kpiunitoverview' && "active"}><a href="/kpiunitoverview">Tổng quan KPI đơn vị</a></li>
-                                                <li className={window.location.pathname === '/kpiunitcreate' && "active"}><a href="/kpiunitcreate">Thiết lập KPI đơn vị</a></li>
-                                                <li className={window.location.pathname === '/kpiunitevaluate' && "active"}><a href="/kpiunitevaluate">Dữ liệu KPI đơn vị</a></li>
+                                                <li className={window.location.pathname === '/kpiunitoverview' ? "active" : ""}><a href="/kpiunitoverview">Tổng quan KPI đơn vị</a></li>
+                                                <li className={window.location.pathname === '/kpiunitcreate' ? "active" : ""}><a href="/kpiunitcreate">Thiết lập KPI đơn vị</a></li>
+                                                <li className={window.location.pathname === '/kpiunitevaluate' ? "active" : ""}><a href="/kpiunitevaluate">Dữ liệu KPI đơn vị</a></li>
                                             </ul>
                                         </li>
                                         <li className={ this.state.kpicn ? "treeview active" : "treeview"}>
@@ -180,9 +191,9 @@ class MainSideBar extends Component {
                                                 </span>
                                             </a>
                                             <ul className="treeview-menu">
-                                                <li className={window.location.pathname === '/kpipersonaloverview' && "active"}><a href="/kpipersonaloverview">Tổng quan KPI cá nhân</a></li>
-                                                <li className={window.location.pathname === '/kpiunitoverkpipersonalcreateview' && "active"}><a href="/kpipersonalcreate">Thiết lập KPI cá nhân</a></li>
-                                                <li className={window.location.pathname === '/kpipersonalevaluate' && "active"}><a href="/kpipersonalevaluate">Dữ liệu KPI cá nhân</a></li>
+                                                <li className={window.location.pathname === '/kpipersonaloverview' ? "active" : ""}><a href="/kpipersonaloverview">Tổng quan KPI cá nhân</a></li>
+                                                <li className={window.location.pathname === '/kpiunitoverkpipersonalcreateview' ? "active" : ""}><a href="/kpipersonalcreate">Thiết lập KPI cá nhân</a></li>
+                                                <li className={window.location.pathname === '/kpipersonalevaluate' ? "active" : ""}><a href="/kpipersonalevaluate">Dữ liệu KPI cá nhân</a></li>
                                             </ul>
                                         </li>
                                         <li><a href="/kpimemberoverview">Phê duyệt kpi nhân viên</a></li>

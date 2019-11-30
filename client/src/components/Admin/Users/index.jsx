@@ -4,6 +4,8 @@ import { get, create, destroy } from '../../../redux-actions/Admin/Users.action'
 import { withTranslate } from 'react-redux-multilingual';
 import Swal from 'sweetalert2';
 import ReactLoading from 'react-loading';
+import UserEditModal from './UserEditModal';
+import { usersService } from '../../../service/Admin/Users.service';
 
 class Users extends Component {
     constructor(props) {
@@ -131,18 +133,29 @@ class Users extends Component {
                                                 <tr>
                                                     <th>{ translate('table.name') }</th>
                                                     <th>{ translate('table.email') }</th>
-                                                    <th>{ translate('table.action') }</th>
+                                                    <th>{ translate('table.status') }</th>
+                                                    <th style={{ width: '120px' }}>{ translate('table.action') }</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 {
                                                     aUsers.list.map( user => (
-                                                        <tr key={user._id}>
-                                                            <td>{user.name}</td>
-                                                            <td>{user.email}</td>
+                                                        <tr 
+                                                            key={ user._id }
+                                                            style={{ backgroundColor: user.active ? "white" : "#E2DFE7" }}
+                                                        >
+                                                            <td>{ user.name }</td>
+                                                            <td>{ user.email }</td>
+                                                            <td>{ user.active ? <p><i className="fa fa-circle text-success" /> Enable</p> : <p><i className="fa fa-circle text-danger" /> Disable</p> }</td>
                                                             <td>
-                                                                <button className="btn btn-sm btn-primary"><i className="fa fa-edit"></i></button>{' '}
+                                                                <a className="btn btn-sm btn-primary" data-toggle="modal" href={ `#edit-user-modal-${user._id}` }><i className="fa fa-edit"></i></a>{' '}
                                                                 <button className="btn btn-sm btn-danger" onClick={() => this.alert(user._id, translate('manageUser.delete'), user.email)}><i className="fa fa-trash"></i></button>
+                                                                <UserEditModal 
+                                                                    userEditID={ user._id } 
+                                                                    email={ user.email }
+                                                                    username={ user.name }
+                                                                    active={ user.active }
+                                                                />
                                                             </td>
                                                         </tr>
                                                     ))

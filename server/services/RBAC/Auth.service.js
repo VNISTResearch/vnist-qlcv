@@ -2,7 +2,8 @@ const User = require('../../models/User.model');
 const {registerValidation, loginValidation} = require('../../validation/checkInputValue');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { authLogInfo, authLogError } = require('../../logs/Auth/AuthLogger');
+
+const { authLogger } = require('../../logs');
 
 exports.register = async (req, res) => {
     //validate the data
@@ -56,7 +57,7 @@ exports.login = async (req, res) => {
         user.status = 0; 
         user.save();
 
-        authLogInfo();
+        if(isLog) authLogger.info("Login :" + user.name + " : " + user.email);
         res.header('VNIST-Authentication-Token', token).status(200).send({
             token: token,
             id: user._id,
@@ -65,7 +66,7 @@ exports.login = async (req, res) => {
             roles: roles
         });
     } catch (error) {
-        authLogError();
+        if(isLog) authLogger.error("Login Error");
         res.status.json({
             msg: "Login error"
         })

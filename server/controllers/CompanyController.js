@@ -8,3 +8,7 @@ exports.create = (req, res) => {
     return CompanyService.create(req, res);
 };
 
+exports.edit = (req, res) => {
+    return CompanyService.edit(req, res);
+};
+

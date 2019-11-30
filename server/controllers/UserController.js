@@ -31,3 +31,7 @@ exports.delete = (req, res) => {
 exports.resetPassword = (req, res) => {
     return UserService.resetPassword(req, res);
 };
+
+exports.block = (req, res) => {
+    return UserService.block(req, res);
+};

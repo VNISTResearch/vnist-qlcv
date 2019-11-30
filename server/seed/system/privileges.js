@@ -1,6 +1,6 @@
-const Privilege = require('../models/Privilege.model');
-const Role = require('../models/Role.model');
-const Link = require('../models/Link.model');
+const Privilege = require('../../models/Privilege.model');
+const Role = require('../../models/Role.model');
+const Link = require('../../models/Link.model');
 const mongoose = require("mongoose");
 
 // DB Config

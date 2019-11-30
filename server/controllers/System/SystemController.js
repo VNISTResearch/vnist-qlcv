@@ -1,5 +1,5 @@
 const SystemService = require('../../services/SystemManagement/System.service');
 
-exports.reset = (req, res) => {
-    return SystemService.reset(req, res);
+exports.toggleLogger = (req, res) => {
+    return SystemService.toggleLogger(req, res);
 };

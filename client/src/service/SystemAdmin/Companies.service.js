@@ -5,6 +5,7 @@ import axios from 'axios';
 export const companiesService = {
     get,
     create,
+    edit
 };
 
 function get() {
@@ -17,11 +18,22 @@ function get() {
     return axios(requestOptions);
 }
 
-function create(data) {
+function create(company) {
     const requestOptions = {
         url: `${LOCAL_SERVER_API}/companies`,
         method: 'POST',
-        data: data,
+        data: company,
+        headers: authHeader()
+    };
+
+    return axios(requestOptions);
+}
+
+function edit(id, company) {
+    const requestOptions = {
+        url: `${LOCAL_SERVER_API}/companies/${id}`,
+        method: 'PATCH',
+        data: company,
         headers: authHeader()
     };
 
