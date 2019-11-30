@@ -23,8 +23,9 @@ import {
     SalaryEmployee,
     TraningPlan,
     ListCourse,
-    TrainingResults,
-    Timekeeping
+    Timekeeping,
+    Sabbatical,
+    DashBoardEmployees
 } from '../components/Content/CombineContent';
 import Layout from '../components/Layout/Layout';
 import Privilege from '../components/Content/Privilege/Privilege';
@@ -56,7 +57,8 @@ class Routes extends Component {
                 <PrivateRoute exact path = "/timekeeping" layout = {Layout} component = {Timekeeping}/>
                 <PrivateRoute exact path = "/trainingplan" layout = {Layout} component = {TraningPlan}/>
                 <PrivateRoute exact path = "/listcourse" layout = {Layout} component = {ListCourse}/>
-                <PrivateRoute exact path = "/trainingresults" layout = {Layout} component = {TrainingResults}/>
+                <PrivateRoute exact path = "/sabbatical" layout = {Layout} component = {Sabbatical}/>
+                <PrivateRoute exact path = "/dashboardemployees" layout = {Layout} component = {DashBoardEmployees}/>
             </React.Fragment>
         );
     }

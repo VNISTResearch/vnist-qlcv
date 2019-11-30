@@ -75,10 +75,12 @@ class MainSideBar extends Component {
                                         </span>
                                     </a>
                                     <ul className="treeview-menu">
+                                        <li><a href="/dashboardemployees">DashBoard quản lý nhân sự </a></li>
                                         <li><a href="/addemployee">Thêm nhân viên </a></li>
-                                        <li><a href="/listemployee">Nhân sự các đơn vị</a></li>
+                                        <li><a href="/listemployee">Quản lý thông tin nhân viên</a></li>
                                         <li><a href="/salaryemployee">Lương nhân viên</a></li>
                                         <li><a href="/timekeeping">Chấm công nhân viên</a></li>
+                                        <li><a href="/sabbatical">Quản lý nghỉ phép</a></li>
                                     </ul>
                                 </li>
                             }
@@ -108,9 +110,7 @@ class MainSideBar extends Component {
                                     </a>
                                     <ul className="treeview-menu">
                                         <li><a href="/listcourse">Chương trình đào tạo bắt buộc</a></li>
-                                        <li><a href="/trainingplan">Kế hoạch đào tạo</a></li>
-                                        <li><a href="/trainingresults">Kết quả đào tạo</a></li>
-
+                                        <li><a href="/trainingplan">Quản lý khoá đào tạo</a></li>
                                     </ul>
                                 </li>
                             }

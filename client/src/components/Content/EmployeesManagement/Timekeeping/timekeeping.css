@@ -3,7 +3,7 @@
     max-height: 74px !important;
 }
 
-th {
+.timekeeping th {
     height: 42px;
 }
 
@@ -15,7 +15,7 @@ table.timekeeping td i {
     font-size: 12px !important;
 }
 
-th,
+.timekeeping th,
 td {
     width: 45px;
     border-collapse: collapse !important;

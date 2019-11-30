@@ -16,6 +16,7 @@ class AddEmployee extends Component {
                 department: "Phòng nhân sự",
                 cultural: "12/12",
                 nameBank: "Techcombank",
+                educational: "Không có",
                 certificate: [],
                 certificateShort: [],
                 experience: [],
@@ -114,7 +115,7 @@ class AddEmployee extends Component {
                     this.setState({
                         employeeNew: {
                             ...employeeNew,
-                            certificate: [...employeeNew.certificate, { nameCertificate: "", addressCertificate: "", yearCertificate: "", typeCertificate: "Suất sắc", urlCertificate: "" }]
+                            certificate: [...employeeNew.certificate, { nameCertificate: "", addressCertificate: "", yearCertificate: "", typeCertificate: "Xuất sắc", urlCertificate: "" }]
                         }
                     })
                 } else this.notifywarning("Hãy nhập đủ các trường Bằng cấp");
@@ -122,7 +123,7 @@ class AddEmployee extends Component {
                 this.setState({
                     employeeNew: {
                         ...employeeNew,
-                        certificate: [...employeeNew.certificate, { nameCertificate: "", addressCertificate: "", yearCertificate: "", typeCertificate: "Suất sắc", urlCertificate: "" }]
+                        certificate: [...employeeNew.certificate, { nameCertificate: "", addressCertificate: "", yearCertificate: "", typeCertificate: "Xuất sắc", urlCertificate: "" }]
                     }
                 })
             }
@@ -465,6 +466,8 @@ class AddEmployee extends Component {
             this.notifyerror("Bạn chưa nhập mã chấm công");
         } else if (!employeeNew.brithday) {
             this.notifyerror("Bạn chưa nhập ngày sinh");
+        } else if (!employeeNew.emailCompany) {
+            this.notifyerror("Bạn chưa nhập email công ty");
         } else if (!employeeNew.CMND) {
             this.notifyerror("Bạn chưa nhập số CMND/ Hộ chiếu");
         } else if (!employeeNew.dateCMND) {
@@ -532,6 +535,11 @@ class AddEmployee extends Component {
                                                         </div>
                                                     </div>
                                                     <div className=" col-md-4">
+                                                        <div className="checkbox" style={{ marginTop: 0 }}>
+                                                            <label style={{ paddingLeft: 0 }}>
+                                                                (<span style={{ color: "red" }}>*</span>): là các trường bắt buộc phải nhập.
+                                                        </label>
+                                                        </div>
                                                         <div className="form-group">
                                                             <label htmlFor="employeeNumber">Mã nhân viên:<span className="required">&#42;</span></label>
                                                             <input type="text" className="form-control" id="employeeNumber" name="employeeNumber" placeholder="Mã số nhân viên" onChange={this.handleChangeEmployeeNumber} />
@@ -545,11 +553,11 @@ class AddEmployee extends Component {
                                                             <input type="Date" className="form-control" id="brithday" name="brithday" onChange={this.handleChange} autoComplete="off" />
                                                         </div>
                                                         <div className="form-group">
-                                                            <label htmlFor="emailCompany">Email:</label>
+                                                            <label htmlFor="emailCompany">Email:<span className="required">&#42;</span></label>
                                                             <input type="email" className="form-control" id="emailCompany" placeholder="Email công ty" name="emailCompany" onChange={this.handleChange} />
                                                         </div>
                                                     </div>
-                                                    <div className=" col-md-4 ">
+                                                    <div className=" col-md-4 " style={{ marginTop: 30 }}>
                                                         <div className="form-group">
                                                             <label htmlFor="MSCC">Mã số chấm công:<span className="required">&#42;</span></label>
                                                             <input type="text" className="form-control" id="MSCC" placeholder="Mã số chấm công" name="MSCC" onChange={this.handleChange} />
@@ -608,13 +616,6 @@ class AddEmployee extends Component {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className=" box-footer">
-                                                <div className="checkbox">
-                                                    <label>
-                                                        (<span style={{ color: "red" }}>*</span>): là các trường bắt buộc phải nhập.
-                                                        </label>
-                                                </div>
-                                            </div>
                                         </div>
                                         <div id="thongtinlienhe" className="tab-pane">
                                             <div className="box-body">
@@ -638,7 +639,9 @@ class AddEmployee extends Component {
                                                 </div>
                                                 <div className="col-md-12">
                                                     <fieldset className="scheduler-border">
-                                                        <legend className="scheduler-border"><h4 className="box-title">Liên hệ khẩn cấp</h4></legend>
+                                                        <legend className="scheduler-border">
+                                                            <h4 className="box-title">Liên hệ khẩn cấp với ai</h4>
+                                                        </legend>
                                                         <div className="col-md-4">
                                                             <div className="form-group">
                                                                 <label htmlFor="friendName">Họ và tên:</label>
@@ -674,19 +677,15 @@ class AddEmployee extends Component {
                                                 </div>
                                                 <div className="col-md-6">
                                                     <fieldset className="scheduler-border">
-                                                        <legend className="scheduler-border">Hộ khẩu thường trú</legend>
+                                                        <legend className="scheduler-border"><h4 className="box-title">Hộ khẩu thường trú</h4></legend>
                                                         <div className="form-group">
                                                             <label htmlFor="localAddress">Địa chỉ:</label>
                                                             <input type="text" className="form-control " name="localAddress" id="localAddress" onChange={this.handleChange} />
                                                         </div>
                                                         <div className="form-group">
-                                                            <label htmlFor="localNational">Quốc gia:</label>
-                                                            <input type="text" className="form-control " name="localNational" id="localNational" onChange={this.handleChange} />
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label htmlFor="localCity">
-                                                                Tỉnh/Thành phố:</label>
-                                                            <input type="text" className="form-control " name="localCity" id="localCity" onChange={this.handleChange} />
+                                                            <label htmlFor="localCommune">
+                                                                Xã/Phường:</label>
+                                                            <input type="text" className="form-control " name="localCommune" id="localCommune" onChange={this.handleChange} />
                                                         </div>
                                                         <div className="form-group">
                                                             <label htmlFor="localDistrict">
@@ -694,30 +693,29 @@ class AddEmployee extends Component {
                                                             <input type="text" className="form-control " name="localDistrict" id="localDistrict" onChange={this.handleChange} />
                                                         </div>
                                                         <div className="form-group">
-                                                            <label htmlFor="localCommune">
-                                                                Xã/Phường:</label>
-                                                            <input type="text" className="form-control " name="localCommune" id="localCommune" onChange={this.handleChange} />
+                                                            <label htmlFor="localCity">
+                                                                Tỉnh/Thành phố:</label>
+                                                            <input type="text" className="form-control " name="localCity" id="localCity" onChange={this.handleChange} />
+                                                        </div>
+                                                        <div className="form-group">
+                                                            <label htmlFor="localNational">Quốc gia:</label>
+                                                            <input type="text" className="form-control " name="localNational" id="localNational" onChange={this.handleChange} />
                                                         </div>
                                                     </fieldset>
                                                 </div>
                                                 <div className="col-md-6">
                                                     <fieldset className="scheduler-border">
-                                                        <legend className="scheduler-border">
-                                                            Chỗ ở hiện tại</legend>
+                                                        <legend className="scheduler-border"><h4 className="box-title"> Chỗ ở hiện tại</h4></legend>
+
                                                         <div className="form-group">
                                                             <label htmlFor="nowAddress">
                                                                 Địa chỉ:<span className="required">&#42;</span></label>
                                                             <input type="text" className="form-control " name="nowAddress" id="nowAddress" onChange={this.handleChange} />
                                                         </div>
                                                         <div className="form-group">
-                                                            <label htmlFor="nowNational">
-                                                                Quốc gia:</label>
-                                                            <input type="text" className="form-control " name="nowNational" id="nowNational" onChange={this.handleChange} />
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label htmlFor="nowCity">
-                                                                Tỉnh/Thành phố:</label>
-                                                            <input type="text" className="form-control " name="nowCity" id="nowCity" onChange={this.handleChange} />
+                                                            <label htmlFor="nowCommune">
+                                                                Xã/Phường:</label>
+                                                            <input type="text" className="form-control " name="nowCommune" id="nowCommune" onChange={this.handleChange} />
                                                         </div>
                                                         <div className="form-group">
                                                             <label htmlFor="nowDistrict">
@@ -725,20 +723,19 @@ class AddEmployee extends Component {
                                                             <input type="text" className="form-control " name="nowDistrict" id="nowDistrict" onChange={this.handleChange} />
                                                         </div>
                                                         <div className="form-group">
-                                                            <label htmlFor="nowCommune">
-                                                                Xã/Phường:</label>
-                                                            <input type="text" className="form-control " name="nowCommune" id="nowCommune" onChange={this.handleChange} />
+                                                            <label htmlFor="nowCity">
+                                                                Tỉnh/Thành phố:</label>
+                                                            <input type="text" className="form-control " name="nowCity" id="nowCity" onChange={this.handleChange} />
+                                                        </div>
+                                                        <div className="form-group">
+                                                            <label htmlFor="nowNational">
+                                                                Quốc gia:</label>
+                                                            <input type="text" className="form-control " name="nowNational" id="nowNational" onChange={this.handleChange} />
                                                         </div>
                                                     </fieldset>
                                                 </div>
                                             </div>
-                                            <div className=" box-footer">
-                                                <div className="checkbox">
-                                                    <label>
-                                                        (<span style={{ color: "red" }}>*</span>): là các trường bắt buộc phải nhập.
-                                                        </label>
-                                                </div>
-                                            </div>
+
                                         </div>
                                         <div id="taikhoan" className="tab-pane">
                                             <fieldset className="scheduler-border">
@@ -749,22 +746,8 @@ class AddEmployee extends Component {
                                                         <input type="text" className="form-control" id="ATM" name="ATM" onChange={this.handleChange} />
                                                     </div>
                                                     <div className="form-group col-md-4">
-                                                        <label>Tên ngân hàng:<span className="required">&#42;</span></label>
-                                                        <select className="form-control" name="nameBank" onChange={this.handleChange}>
-                                                            <option>Techcombank</option>
-                                                            <option>Vietinbank</option>
-                                                            <option>Vietcombank</option>
-                                                            <option>BIDV</option>
-                                                            <option>TPBank</option>
-                                                            <option>VPBank</option>
-                                                            <option>Sacombank</option>
-                                                            <option>Agribank </option>
-                                                            <option>ABBANK</option>
-                                                            <option>VIB</option>
-                                                            <option>MB</option>
-                                                            <option>ACB</option>
-                                                            <option>MSB</option>
-                                                        </select>
+                                                        <label htmlFor="nameBank">Tên ngân hàng:<span className="required">&#42;</span></label>
+                                                        <input type="text" className="form-control" id="nameBank" name="nameBank" onChange={this.handleChange} />
                                                     </div>
                                                     <div className="form-group col-md-4">
                                                         <label htmlFor="addressBank">Chi nhánh:<span className="required">&#42;</span></label>
@@ -791,13 +774,7 @@ class AddEmployee extends Component {
                                                     <input type="text" className="form-control" id="unitTax" name="unitTax" onChange={this.handleChangeTax} />
                                                 </div>
                                             </fieldset>
-                                            <div className=" box-footer">
-                                                <div className="checkbox">
-                                                    <label>
-                                                        (<span style={{ color: "red" }}>*</span>): là các trường bắt buộc phải nhập.
-                                                        </label>
-                                                </div>
-                                            </div>
+
                                         </div>
                                         <div id="bangcap" className="tab-pane">
                                             <div className="box-body">
@@ -822,7 +799,7 @@ class AddEmployee extends Component {
                                                                     <td><input className={index} type="text" value={x.addressCertificate} name="addressCertificate" style={{ width: "100%" }} onChange={this.handleChangeCertificate} /></td>
                                                                     <td><input className={index} type="text" value={x.yearCertificate} name="yearCertificate" style={{ width: "100%" }} onChange={this.handleChangeCertificate} /></td>
                                                                     <td><select className={index} style={{ width: "100%", height: 26, paddingTop: 0, paddingLeft: 0 }} name="typeCertificate" onChange={this.handleChangeCertificate}>
-                                                                        <option>Suất sắc</option>
+                                                                        <option>Xuất sắc</option>
                                                                         <option>Giỏi</option>
                                                                         <option>Khá</option>
                                                                         <option>Trung bình khá</option>
@@ -868,13 +845,7 @@ class AddEmployee extends Component {
                                                     </table>
                                                 </fieldset>
                                             </div>
-                                            <div className=" box-footer">
-                                                <div className="checkbox">
-                                                    <label>
-                                                        (<span style={{ color: "red" }}>*</span>): là các trường bắt buộc phải nhập.
-                                                        </label>
-                                                </div>
-                                            </div>
+
                                         </div>
                                         <div id="kinhnghiem" className="tab-pane">
                                             <div className="box-body">
@@ -895,7 +866,15 @@ class AddEmployee extends Component {
                                                     </div>
                                                     <div className="form-group">
                                                         <label htmlFor="educational ">Trình độ chuyên môn:</label>
-                                                        <input type="text" className="form-control" id="educational" name="educational" onChange={this.handleChange} />
+                                                        <select className="form-control" name="educational" defaultValue="Không có" onChange={this.handleChange}>
+                                                            <option value="Trung cấp">Trung cấp</option>
+                                                            <option value="Cao đẳng">Cao đẳng</option>
+                                                            <option value="Đại học">Đại học</option>
+                                                            <option value="Thạc sỹ">Thạc sỹ</option>
+                                                            <option value="Tiến sỹ">Tiến sỹ</option>
+                                                            <option value="Không có">Không có</option>
+
+                                                        </select>
                                                     </div>
                                                 </fieldset>
                                                 <fieldset className="scheduler-border">
@@ -927,13 +906,7 @@ class AddEmployee extends Component {
                                                     </table>
                                                 </fieldset>
                                             </div>
-                                            <div className=" box-footer">
-                                                <div className="checkbox">
-                                                    <label>
-                                                        (<span style={{ color: "red" }}>*</span>): là các trường bắt buộc phải nhập.
-                                                        </label>
-                                                </div>
-                                            </div>
+
                                         </div>
                                         <div id="baohiem" className="tab-pane">
                                             <div className="box-body">
@@ -960,12 +933,13 @@ class AddEmployee extends Component {
                                                     </div>
                                                     <div className="col-md-12">
                                                         <h4 className="col-md-6" style={{ paddingLeft: 0, fontSize: 16 }}>Quá trình đóng bảo hiểm xã hội:</h4>
+                                                        <button style={{ marginBottom: 5, marginLeft: 10 }} type="submit" className="btn btn-primary pull-right" id="editBHXH" title="Thêm mới bằng file excel" onClick={this.handleAddNew}>Import file</button>
                                                         <button style={{ marginBottom: 5 }} type="submit" className="btn btn-success pull-right" id="BHXH" title="Thêm mới bảo hiểm" onClick={this.handleAddNew}>Thêm mới</button>
                                                         <table className="table table-bordered " >
                                                             <thead>
                                                                 <tr>
                                                                     <th style={{ width: "16%" }}>Từ tháng</th>
-                                                                    <th style={{ width: "16%" }}>Đến thánh</th>
+                                                                    <th style={{ width: "16%" }}>Đến tháng</th>
                                                                     <th style={{ width: "30%" }}>Chức vụ</th>
                                                                     <th style={{ width: "30%" }}>Đơn vị công tác</th>
                                                                     <th style={{ width: '5%' }}></th>
@@ -988,13 +962,7 @@ class AddEmployee extends Component {
                                                     </div>
                                                 </fieldset>
                                             </div>
-                                            <div className=" box-footer">
-                                                <div className="checkbox">
-                                                    <label>
-                                                        (<span style={{ color: "red" }}>*</span>): là các trường bắt buộc phải nhập.
-                                                        </label>
-                                                </div>
-                                            </div>
+
                                         </div>
                                         <div id="hopdong" className="tab-pane">
                                             <div className="box-body">
@@ -1034,13 +1002,14 @@ class AddEmployee extends Component {
                                                     <table className="table table-bordered table-hover" >
                                                         <thead>
                                                             <tr>
-                                                                <th style={{ width: '20%' }}>Tên khoá học</th>
-                                                                <th style={{ width: '13%' }}>Ngày bắt đầu</th>
-                                                                <th style={{ width: '13%' }}>Ngày kết thúc</th>
-                                                                <th style={{ width: '20%' }}>Nơi đào tạo</th>
-                                                                <th style={{ width: '%12' }}>Loại đào tạo</th>
-                                                                <th style={{ width: '17%' }}>Trạng thái</th>
-                                                                <th style={{ width: '5%' }}></th>
+                                                                <th style={{ width: '18%' }}>Tên khoá học</th>
+                                                                <th style={{ width: '9%' }}>Ngày bắt đầu</th>
+                                                                <th style={{ width: '10%' }}>Ngày kết thúc</th>
+                                                                <th style={{ width: '17%' }}>Nơi đào tạo</th>
+                                                                <th style={{ width: '12%' }}>Loại đào tạo</th>
+                                                                <th style={{ width: '10%' }}>Chi phí</th>
+                                                                <th style={{ width: '12%' }}>Thời gian cam kết</th>
+                                                                <th style={{ width: '12%' }}>Trạng thái</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -1054,32 +1023,28 @@ class AddEmployee extends Component {
                                                                         <option>Nội bộ</option>
                                                                         <option>Ngoài</option>
                                                                     </select></td>
+                                                                    <td><input type="text" style={{ width: "100%" }} /></td>
+                                                                    <td><input type="text" style={{ width: "100%" }} /></td>
                                                                     <td><select className={index} style={{ width: "100%", height: 26, paddingTop: 0, paddingLeft: 0 }} name="status" onChange={this.handleChangeCourse}>
                                                                         <option>Chưa hoàn thành</option>
                                                                         <option>Hoàn thành</option>
                                                                     </select></td>
-                                                                    <td style={{ textAlign: "center" }}>
-                                                                        <a href="#abc" className="delete" title="Delete" data-toggle="tooltip" onClick={() => this.delete("course", index)}><i className="material-icons"></i></a>
-                                                                    </td>
+                                                                    {/* <td style={{ textAlign: "center" }}>
+                                                                            <a href="#abc" className="delete" title="Delete" data-toggle="tooltip" onClick={() => this.delete("course", index)}><i className="material-icons"></i></a>
+                                                                        </td> */}
                                                                 </tr>
                                                             ))}
                                                         </tbody>
                                                     </table>
                                                 </fieldset>
                                             </div>
-                                            <div className=" box-footer">
-                                                <div className="checkbox">
-                                                    <label>
-                                                        (<span style={{ color: "red" }}>*</span>): là các trường bắt buộc phải nhập.
-                                                        </label>
-                                                </div>
-                                            </div>
+
                                         </div>
                                         <div id="tailieu" className="tab-pane">
                                             <div className="box-body">
                                                 <div className="col-md-4">
                                                     <div className="form-group" style={{ paddingTop: 3 }}>
-                                                        <label htmlFor="numberFile">Mã hồ sơ:</label>
+                                                        <label htmlFor="numberFile">Nơi lưu trữ bản cứng:</label>
                                                         <input type="text" className="form-control" id="numberFile" name="numberFile" onChange={this.handleChange} />
                                                     </div>
                                                 </div>
@@ -1119,15 +1084,6 @@ class AddEmployee extends Component {
                                                 </div>
                                             </div>
                                             <div className=" box-footer">
-                                                <div className="checkbox">
-                                                    <label>
-                                                        (<span style={{ color: "red" }}>*</span>): là các trường bắt buộc phải nhập.
-                                                        </label>
-                                                    <label style={{ color: "red", display: "inline" }}><p style={{ paddingLeft: 20 }}>
-                                                        (Vui lòng điền đầy đủ các trường bắt buộc trước khi thực hiện việc thêm nhân viên)</p>
-                                                    </label>
-                                                </div>
-                                                {/* <button type="submit" title="xoá tất cả các trường" className="btn btn-primary col-md-2 pull-right btnuser"  >Xoá trắng</button> */}
                                                 <button type="submit" title="Thêm nhân viên mới" className="btn btn-success col-md-2 pull-right btnuser" onClick={this.handleSubmit} htmlFor="form">Thêm nhân viên</button>
                                             </div>
                                         </div>

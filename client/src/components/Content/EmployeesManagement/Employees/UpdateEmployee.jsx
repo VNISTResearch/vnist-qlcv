@@ -178,7 +178,7 @@ class UpdateEmployee extends Component {
                                                                 <input type="text" className="form-control " id="MSCC" defaultValue={x.MSCC} disabled />
                                                             </div>
                                                             <div className="form-group">
-                                                                <label htmlFor="department">Bộ phận:</label>
+                                                                <label htmlFor="department">Đơn vị:</label>
                                                                 <input type="text" className="form-control " id="department" defaultValue={x.department} disabled />
                                                             </div>
                                                             <div className="form-group">

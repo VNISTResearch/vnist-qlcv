@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { employeeActions } from '../../../../../redux-actions/EmployeeActions';
-import { InfoEmployee } from './InfoEmployee';
+import { ModalDetailEmployee } from './ModalDetailEmployee';
 import { ModalEditOrganizational } from './ModalEditOrganizational ';
 import { ModalAddEmployee } from './ModalAddEmployee';
 import { ModalEditEmployee } from './ModalEditEmployee';
 import './listemployee.css';
-import { from } from 'rxjs';
 
 class ListEmployee extends Component {
     constructor(props) {
@@ -82,8 +81,7 @@ class ListEmployee extends Component {
     }
     render() {
         console.log(this.state)
-        var lists, chief = "", deputy = "", listAll, display = "";
-        var option = [], chiefs = [], deputys = [];
+        var lists, chief = "", deputy = "", listAll;
         var { employees } = this.props;
         var { department } = this.state;
         if (employees.allEmployee) {
@@ -108,7 +106,7 @@ class ListEmployee extends Component {
                 {/* Content Header (Page header) */}
                 <section className="content-header">
                     <h1>
-                        Nhân sự các đơn vị
+                        Quản lý thông tin nhân viên
                     </h1>
                     <ol className="breadcrumb">
                         <li><a href="/"><i className="fa fa-dashboard" /> Home</a></li>
@@ -119,13 +117,27 @@ class ListEmployee extends Component {
                     <div className="row">
                         <div className="col-xs-12">
                             <div className="box box-info">
+                                {/* <div className="box-header with-border">
+                                    <h3 className="box-title">Cơ cấu tổ chức các đơn vị</h3>
+                                    <div className="box-tools pull-right">
+                                        <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus" /></button>
+                                    </div>
+                                    <button style={{ marginRight: 10 }} type="submit" className="btn btn-success pull-right" id="" title="Thêm nhân viên mới" data-toggle="modal" data-target="#modal-addEmployee">Thêm nhân viên</button>
+                                </div> */}
                                 {/* /.box-header */}
                                 <div className="box-body">
-                                    <div className="col-md-12" style={{ paddingLeft: 0 }}>
-                                        <div className="col-md-4">
-                                            <div className="form-group">
-                                                <label>Tên đơn vị:</label>
-                                                <select className="form-control" id="department" onChange={this.handleChangeUnit}>
+                                    <div className="col-md-12">
+                                        <div className="col-md-12" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                            <div className="box-header col-md-6" style={{ paddingLeft: 0 }}>
+                                                <h3 className="box-title">Danh sách nhân viên {department.toLowerCase()}:</h3>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-3">
+                                            <div className="form-group col-md-4" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                                <label htmlFor="fullname" style={{ paddingTop: 5 }}>Đơn vị:</label>
+                                            </div>
+                                            <div className="form-group col-md-8" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                                <select className="form-group" id="department" style={{ height: 32, width: "100%" }} onChange={this.handleChangeUnit}>
                                                     <option value="các đơn vị">-- Tất cả --</option>
                                                     <option value="Phòng nhân sự">Phòng nhân sự</option>
                                                     <option value="Phòng hành chính">Phòng hành chính</option>
@@ -135,8 +147,44 @@ class ListEmployee extends Component {
                                                 </select>
                                             </div>
                                         </div>
-                                        <button style={{ marginBottom: 10 }} type="submit" className="btn btn-success pull-right" id="" title="Thêm nhân viên mới" data-toggle="modal" data-target="#modal-addEmployee">Thêm nhân viên</button>
-                                        <div className={this.state.show} >
+                                        <div className="col-md-3">
+                                            <div className="form-group col-md-4" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                                <label htmlFor="fullname" style={{ paddingTop: 5 }}>Chức vụ:</label>
+                                            </div>
+                                            <div className="form-group col-md-8" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                                <select className="form-group" defaultValue="1" style={{ height: 32, width: "99%" }}>
+                                                    <option value="2">Nhân viên</option>
+                                                    <option value="4">Trưởng phòng</option>
+                                                    <option value="5">Phó phòng</option>
+                                                    <option value="1"></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-12">
+                                        <div className="col-md-3">
+                                            <div className="form-group col-md-4" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                                <label htmlFor="fullname" style={{ paddingTop: 5 }}>Mã NV:</label>
+                                            </div>
+                                            <div className="form-group col-md-8" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                                <input type="text" className="form-control" name="employeeNumber" />
+                                            </div>
+                                        </div>
+                                        <div className="col-md-3">
+                                            <div className="form-group col-md-4" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                                <label htmlFor="fullname" style={{ paddingTop: 5 }}>Giới tính:</label>
+                                            </div>
+                                            <input type="text" style={{ width: "66%" }} className="form-control" name="month" />
+                                        </div>
+                                        <div className="col-md-3">
+                                            <div className="form-group" style={{ paddingLeft: 0 }}>
+                                                <button type="submit" className="btn btn-success" title="Tìm kiếm" >Tìm kiếm</button>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-3" style={{ paddingRight: 0 }}>
+                                            <button type="submit" className="btn btn-success pull-right" id="" title="Thêm nhân viên mới" data-toggle="modal" data-target="#modal-addEmployee">Thêm nhân viên</button>
+                                        </div>
+                                        {/* <div className={this.state.show} >
                                             <div className="col-md-12">
                                                 <div className="col-md-4" style={{ paddingLeft: 0, paddingRight: 20 }}>
                                                     <div className="form-group" style={{ marginBottom: 0 }}>
@@ -145,7 +193,7 @@ class ListEmployee extends Component {
                                                     {(typeof chief === 'undefined' || chief.length === 0) ?
                                                         <div className="user-panel" style={{ paddingTop: 5, marginTop: 5, background: "#eaeae8" }}>
                                                             <div className="pull-left image">
-                                                                <img src="adminLTE/dist/img/avatar5.png" className="img-circle" alt="User Image" />
+                                                                <img src="adminLTE/dist/img/avatar5.png" className="img-circle" alt="User " />
                                                             </div>
                                                             <div className="pull-left info">
                                                                 <p style={{ fontSize: 14, height: 20, marginTop: 10 }}>Thêm trưởng {department.toLocaleLowerCase()}</p>
@@ -159,7 +207,7 @@ class ListEmployee extends Component {
                                                         chief.map((x, index) => (
                                                             <div key={index} className="user-panel" style={{ paddingTop: 5, marginTop: 5, background: "#eaeae8" }}>
                                                                 <div className="pull-left image">
-                                                                    <img src="adminLTE/dist/img/avatar5.png" className="img-circle" alt="User Image" />
+                                                                    <img src="adminLTE/dist/img/avatar5.png" className="img-circle" alt="User " />
                                                                 </div>
                                                                 <div className="pull-left info">
                                                                     <p style={{ fontSize: 16, height: 20 }}>{x.fullName}</p>
@@ -181,7 +229,7 @@ class ListEmployee extends Component {
                                                         <div key={index} className="col-md-6" style={{ paddingRight: 0, marginTop: 5 }}>
                                                             <div className="user-panel" style={{ paddingTop: 5, background: "#eaeae8" }}>
                                                                 <div className="pull-left image">
-                                                                    <img src="adminLTE/dist/img/avatar5.png" className="img-circle" alt="User Image" />
+                                                                    <img src="adminLTE/dist/img/avatar5.png" className="img-circle" alt="User " />
                                                                 </div>
                                                                 <div className="pull-left info">
                                                                     <p style={{ fontSize: 16, height: 20 }}>{x.fullName}</p>
@@ -196,7 +244,7 @@ class ListEmployee extends Component {
                                                     <div className="col-md-6" style={{ paddingRight: 0, marginTop: 5 }}>
                                                         <div className="user-panel" style={{ paddingTop: 5, background: "#eaeae8" }}>
                                                             <div className="pull-left image">
-                                                                <img src="adminLTE/dist/img/avatar5.png" className="img-circle" alt="User Image" />
+                                                                <img src="adminLTE/dist/img/avatar5.png" className="img-circle" alt="User " />
                                                             </div>
                                                             <div className="pull-left info">
                                                                 <p style={{ fontSize: 14, height: 20, marginTop: 10 }}>Thêm phó {department.toLocaleLowerCase()}</p>
@@ -209,17 +257,13 @@ class ListEmployee extends Component {
                                                     {/* <div className="col-md-6 pull-right" style={{ paddingRight: 0, marginTop: 5 }}>
                                                         <button type="submit" className="btn btn-success pull-right" id="" title={"Thêm phó " + department.toLowerCase()}><i className="glyphicon glyphicon-plus"></i></button>
                                                     </div> */}
-                                                </div>
+                                        {/* </div>
                                             </div>
-                                        </div>
+                                        </div> */}
                                     </div>
                                     <div className="col-md-12">
-                                        <div className="col-md-12" style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                            <div className="box-header col-md-6" style={{ paddingLeft: 0 }}>
-                                                <h3 className="box-title">Danh sách nhân viên {department.toLowerCase()}:</h3>
-                                            </div>
-                                        </div>
-                                        <table id="listexample" className="table table-bordered" >
+
+                                        <table className="table table-bordered" >
                                             <thead>
                                                 <tr>
                                                     <th style={{ width: "15%" }}>Mã nhân viên</th>
@@ -228,13 +272,7 @@ class ListEmployee extends Component {
                                                     <th style={{ width: "12%" }}>Ngày sinh</th>
                                                     <th style={{ width: "12%" }}>Chức vụ</th>
                                                     <th style={{ width: "13%" }}>Đơn vị</th>
-                                                    <th style={{ width: "13%" }}>
-                                                        <center>
-                                                            <button type="submit" className="btn btn-success" title="Thêm nhân viên vào đơn vị" style={{ paddingTop: 3, paddingBottom: 3, paddingLeft: 6, paddingRight: 6 }}>
-                                                                <i className="glyphicon glyphicon-plus"></i>
-                                                            </button>
-                                                        </center>
-                                                    </th>
+                                                    <th style={{ width: "13%" }}>Hành động</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -249,7 +287,7 @@ class ListEmployee extends Component {
                                                             <td></td>
                                                             <td>
                                                                 <center>
-                                                                    <a href="#view" className="view" title="Xem chi tiết nhân viên" data-toggle="tooltip" onClick={() => this.view(x.employeeNumber)}><i className="material-icons">visibility</i></a>
+                                                                    <a href="#view" title="Xem chi tiết nhân viên" data-toggle="modal" data-target="#modal-viewEmployee" onClick={() => this.view(x.employeeNumber)}><i className="material-icons">visibility</i></a>
                                                                     <a href="#abc" className="edit" title="Chỉnh sửa thông tin nhân viên " data-toggle="modal" data-target="#modal-editEmployee" onClick={() => this.edit(x.employeeNumber)} ><i className="material-icons"></i></a>
                                                                     <a href="#abc" className="delete" title="Xoá nhân viên khỏi đơn vị" data-toggle="tooltip"><i className="material-icons"></i></a>
                                                                 </center>
@@ -278,23 +316,9 @@ class ListEmployee extends Component {
                         </div>
                         {/* /.col */}
                     </div>
-                    <div id="view" className={this.state.view}>
-                        <div className="row">
-                            {/* left column */}
-                            <div className="col-md-12">
-                                <div className="box box-info">
-                                    <div className="box-header with-border">
-                                        <h3 className="box-title">Thông tin chi tiết nhân viên</h3>
-                                        <div className="box-tools pull-right">
-                                            <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus" /></button>
-                                        </div>
-                                        <button type="submit" className="btn btn-primary pull-right" id="" style={{ marginRight: 10 }} data-toggle="modal" data-target="#modal-editEmployee">Cập nhật thông tin</button>
-                                    </div>
-                                    <InfoEmployee employee={employee} employeeContact={employeeContact} />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
+                    <ModalDetailEmployee employee={employee} employeeContact={employeeContact} />
+
                     <ModalEditOrganizational department={department} listAll={listAll} />
                     <ModalAddEmployee state={this.state} department={department} />
                     <ModalEditEmployee employee={employee} employeeContact={employeeContact} />

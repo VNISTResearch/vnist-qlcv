@@ -116,7 +116,7 @@ class ModalEditEmployee extends Component {
                     this.setState({
                         employeeNew: {
                             ...employeeNew,
-                            certificate: [...employeeNew.certificate, { nameCertificate: "", addressCertificate: "", yearCertificate: "", typeCertificate: "Suất sắc", urlCertificate: "" }]
+                            certificate: [...employeeNew.certificate, { nameCertificate: "", addressCertificate: "", yearCertificate: "", typeCertificate: "Xuất sắc", urlCertificate: "" }]
                         }
                     })
                 } else this.notifywarning("Hãy nhập đủ các trường Bằng cấp");
@@ -124,7 +124,7 @@ class ModalEditEmployee extends Component {
                 this.setState({
                     employeeNew: {
                         ...employeeNew,
-                        certificate: [...employeeNew.certificate, { nameCertificate: "", addressCertificate: "", yearCertificate: "", typeCertificate: "Suất sắc", urlCertificate: "" }]
+                        certificate: [...employeeNew.certificate, { nameCertificate: "", addressCertificate: "", yearCertificate: "", typeCertificate: "Xuất sắc", urlCertificate: "" }]
                     }
                 })
             }
@@ -458,8 +458,8 @@ class ModalEditEmployee extends Component {
         var employee = this.props.employee;
         var employeeContact = this.props.employeeContact;
         return (
-            <div className="modal fade" id="modal-editEmployee" tabIndex={-1} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                <div className="modal-dialog">
+            <div className="modal modal-full fade" id="modal-editEmployee" tabIndex={-1} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div className="modal-dialog-full">
                     {
                         employee && employee.map((employee, indexs) => (
                             <div className="modal-content" key={indexs}>
@@ -497,6 +497,11 @@ class ModalEditEmployee extends Component {
                                                             </div>
                                                         </div>
                                                         <div className=" col-md-4">
+                                                            <div className="checkbox" style={{ marginTop: 0 }}>
+                                                                <label style={{ paddingLeft: 0 }}>
+                                                                    (<span style={{ color: "red" }}>*</span>): là các trường bắt buộc phải nhập.
+                                                                </label>
+                                                            </div>
                                                             <div className="form-group">
                                                                 <label htmlFor="employeeNumber">Mã nhân viên:<span className="required">&#42;</span></label>
                                                                 <input type="text" className="form-control" name="employeeNumber" defaultValue={employee.employeeNumber} onChange={this.handleChangeEmployeeNumber} />
@@ -506,15 +511,15 @@ class ModalEditEmployee extends Component {
                                                                 <input type="text" className="form-control" name="fullName" defaultValue={employee.fullName} onChange={this.handleChange} />
                                                             </div>
                                                             <div className="form-group">
-                                                                <label htmlFor="brithday">Ngày sinh:</label>
+                                                                <label htmlFor="brithday">Ngày sinh:<span className="required">&#42;</span></label>
                                                                 <input type="Date" className="form-control" name="brithday" onChange={this.handleChange} defaultValue={employee.brithday} autoComplete="off" />
                                                             </div>
                                                             <div className="form-group">
-                                                                <label htmlFor="emailCompany">Email:</label>
+                                                                <label htmlFor="emailCompany">Email:<span className="required">&#42;</span></label>
                                                                 <input type="email" className="form-control" placeholder="Email công ty" name="emailCompany" defaultValue={employee.emailCompany} onChange={this.handleChange} />
                                                             </div>
                                                         </div>
-                                                        <div className=" col-md-4 ">
+                                                        <div className=" col-md-4 " style={{ marginTop: 30 }}>
                                                             <div className="form-group">
                                                                 <label htmlFor="MSCC">Mã số chấm công:<span className="required">&#42;</span></label>
                                                                 <input type="text" className="form-control" placeholder="Mã số chấm công" name="MSCC" defaultValue={employee.MSCC} onChange={this.handleChange} />
@@ -625,7 +630,7 @@ class ModalEditEmployee extends Component {
                                                         </div>
                                                         <div className="col-md-12">
                                                             <fieldset className="scheduler-border">
-                                                                <legend className="scheduler-border"><h4 className="box-title">Liên hệ khẩn cấp</h4></legend>
+                                                                <legend className="scheduler-border"><h4 className="box-title">Liên hệ khẩn cấp với ai</h4></legend>
                                                                 <div className="col-md-4">
                                                                     <div className="form-group">
                                                                         <label htmlFor="friendName">Họ và tên:</label>
@@ -661,19 +666,15 @@ class ModalEditEmployee extends Component {
                                                         </div>
                                                         <div className="col-md-6">
                                                             <fieldset className="scheduler-border">
-                                                                <legend className="scheduler-border">Hộ khẩu thường trú</legend>
+                                                                <legend className="scheduler-border"><h4 className="box-title">Hộ khẩu thường trú</h4></legend>
                                                                 <div className="form-group">
                                                                     <label htmlFor="localAddress">Địa chỉ:</label>
                                                                     <input type="text" className="form-control " name="localAddress" onChange={this.handleChange} />
                                                                 </div>
                                                                 <div className="form-group">
-                                                                    <label htmlFor="localNational">Quốc gia:</label>
-                                                                    <input type="text" className="form-control " name="localNational" onChange={this.handleChange} />
-                                                                </div>
-                                                                <div className="form-group">
-                                                                    <label htmlFor="localCity">
-                                                                        Tỉnh/Thành phố:</label>
-                                                                    <input type="text" className="form-control " name="localCity" onChange={this.handleChange} />
+                                                                    <label htmlFor="localCommune">
+                                                                        Xã/Phường:</label>
+                                                                    <input type="text" className="form-control " name="localCommune" onChange={this.handleChange} />
                                                                 </div>
                                                                 <div className="form-group">
                                                                     <label htmlFor="localDistrict">
@@ -681,30 +682,28 @@ class ModalEditEmployee extends Component {
                                                                     <input type="text" className="form-control " name="localDistrict" onChange={this.handleChange} />
                                                                 </div>
                                                                 <div className="form-group">
-                                                                    <label htmlFor="localCommune">
-                                                                        Xã/Phường:</label>
-                                                                    <input type="text" className="form-control " name="localCommune" onChange={this.handleChange} />
+                                                                    <label htmlFor="localCity">
+                                                                        Tỉnh/Thành phố:</label>
+                                                                    <input type="text" className="form-control " name="localCity" onChange={this.handleChange} />
+                                                                </div>
+                                                                <div className="form-group">
+                                                                    <label htmlFor="localNational">Quốc gia:</label>
+                                                                    <input type="text" className="form-control " name="localNational" onChange={this.handleChange} />
                                                                 </div>
                                                             </fieldset>
                                                         </div>
                                                         <div className="col-md-6">
                                                             <fieldset className="scheduler-border">
-                                                                <legend className="scheduler-border">
-                                                                    Chỗ ở hiện tại</legend>
+                                                                <legend className="scheduler-border"><h4 className="box-title">Chỗ ở hiện tại</h4></legend>
                                                                 <div className="form-group">
                                                                     <label htmlFor="nowAddress">
                                                                         Địa chỉ:<span className="required">&#42;</span></label>
                                                                     <input type="text" className="form-control " name="nowAddress" onChange={this.handleChange} />
                                                                 </div>
                                                                 <div className="form-group">
-                                                                    <label htmlFor="nowNational">
-                                                                        Quốc gia:</label>
-                                                                    <input type="text" className="form-control " name="nowNational" onChange={this.handleChange} />
-                                                                </div>
-                                                                <div className="form-group">
-                                                                    <label htmlFor="nowCity">
-                                                                        Tỉnh/Thành phố:</label>
-                                                                    <input type="text" className="form-control " name="nowCity" onChange={this.handleChange} />
+                                                                    <label htmlFor="nowCommune">
+                                                                        Xã/Phường:</label>
+                                                                    <input type="text" className="form-control " name="nowCommune" onChange={this.handleChange} />
                                                                 </div>
                                                                 <div className="form-group">
                                                                     <label htmlFor="nowDistrict">
@@ -712,10 +711,16 @@ class ModalEditEmployee extends Component {
                                                                     <input type="text" className="form-control " name="nowDistrict" onChange={this.handleChange} />
                                                                 </div>
                                                                 <div className="form-group">
-                                                                    <label htmlFor="nowCommune">
-                                                                        Xã/Phường:</label>
-                                                                    <input type="text" className="form-control " name="nowCommune" onChange={this.handleChange} />
+                                                                    <label htmlFor="nowCity">
+                                                                        Tỉnh/Thành phố:</label>
+                                                                    <input type="text" className="form-control " name="nowCity" onChange={this.handleChange} />
                                                                 </div>
+                                                                <div className="form-group">
+                                                                    <label htmlFor="nowNational">
+                                                                        Quốc gia:</label>
+                                                                    <input type="text" className="form-control " name="nowNational" onChange={this.handleChange} />
+                                                                </div>
+
                                                             </fieldset>
                                                         </div>
                                                     </div>
@@ -730,22 +735,8 @@ class ModalEditEmployee extends Component {
                                                             <input type="text" className="form-control" name="ATM" onChange={this.handleChange} />
                                                         </div>
                                                         <div className="form-group col-md-4">
-                                                            <label>Tên ngân hàng:<span className="required">&#42;</span></label>
-                                                            <select className="form-control" name="nameBank" onChange={this.handleChange}>
-                                                                <option>Techcombank</option>
-                                                                <option>Vietinbank</option>
-                                                                <option>Vietcombank</option>
-                                                                <option>BIDV</option>
-                                                                <option>TPBank</option>
-                                                                <option>VPBank</option>
-                                                                <option>Sacombank</option>
-                                                                <option>Agribank </option>
-                                                                <option>ABBANK</option>
-                                                                <option>VIB</option>
-                                                                <option>MB</option>
-                                                                <option>ACB</option>
-                                                                <option>MSB</option>
-                                                            </select>
+                                                            <label htmlFor="nameBank">Tên ngân hàng:<span className="required">&#42;</span></label>
+                                                            <input type="text" className="form-control" id="nameBank" name="nameBank" onChange={this.handleChange} />
                                                         </div>
                                                         <div className="form-group col-md-4">
                                                             <label htmlFor="addressBank">Chi nhánh:<span className="required">&#42;</span></label>
@@ -796,7 +787,7 @@ class ModalEditEmployee extends Component {
                                                                         <td><input className={index} type="text" value={x.addressCertificate} name="addressCertificate" style={{ width: "100%" }} onChange={this.handleChangeCertificate} /></td>
                                                                         <td><input className={index} type="text" value={x.yearCertificate} name="yearCertificate" style={{ width: "100%" }} onChange={this.handleChangeCertificate} /></td>
                                                                         <td><select className={index} style={{ width: "100%", height: 26, paddingTop: 0, paddingLeft: 0 }} name="typeCertificate" onChange={this.handleChangeCertificate}>
-                                                                            <option>Suất sắc</option>
+                                                                            <option>Xuất sắc</option>
                                                                             <option>Giỏi</option>
                                                                             <option>Khá</option>
                                                                             <option>Trung bình khá</option>
@@ -862,7 +853,15 @@ class ModalEditEmployee extends Component {
                                                         </div>
                                                         <div className="form-group">
                                                             <label htmlFor="educational ">Trình độ chuyên môn:</label>
-                                                            <input type="text" className="form-control" name="educational" onChange={this.handleChange} />
+                                                            <select className="form-control" name="educational" defaultValue="Không có" onChange={this.handleChange}>
+                                                                <option value="Trung cấp">Trung cấp</option>
+                                                                <option value="Cao đẳng">Cao đẳng</option>
+                                                                <option value="Đại học">Đại học</option>
+                                                                <option value="Thạc sỹ">Thạc sỹ</option>
+                                                                <option value="Tiến sỹ">Tiến sỹ</option>
+                                                                <option value="Không có">Không có</option>
+
+                                                            </select>
                                                         </div>
                                                     </fieldset>
                                                     <fieldset className="scheduler-border">
@@ -920,12 +919,13 @@ class ModalEditEmployee extends Component {
                                                         </div>
                                                         <div className="col-md-12">
                                                             <h4 className="col-md-6" style={{ paddingLeft: 0 }}>Quá trình đóng bảo hiểm xã hội:</h4>
-                                                            <button style={{ marginBottom: 5 }} type="submit" className="btn btn-success pull-right" id="editBHXH" title="Thêm mới bảo hiểm" onClick={this.handleAddNew}>Thêm mới</button>
+                                                            <button style={{ marginBottom: 5, marginLeft: 10 }} type="submit" className="btn btn-primary pull-right" id="editBHXH" title="Thêm mới bằng file excel" onClick={this.handleAddNew}>Import file</button>
+                                                            <button style={{ marginBottom: 5 }} type="submit" className="btn btn-success pull-right" id="editBHXH" title="Thêm mới bảo hiểm " onClick={this.handleAddNew}>Thêm mới</button>
                                                             <table className="table table-bordered " >
                                                                 <thead>
                                                                     <tr>
                                                                         <th style={{ width: "16%" }}>Từ tháng</th>
-                                                                        <th style={{ width: "16%" }}>Đến thánh</th>
+                                                                        <th style={{ width: "16%" }}>Đến tháng</th>
                                                                         <th style={{ width: "30%" }}>Chức vụ</th>
                                                                         <th style={{ width: "30%" }}>Đơn vị công tác</th>
                                                                         <th style={{ width: '5%' }}></th>
@@ -987,13 +987,14 @@ class ModalEditEmployee extends Component {
                                                         <table className="table table-bordered table-hover" >
                                                             <thead>
                                                                 <tr>
-                                                                    <th style={{ width: '20%' }}>Tên khoá học</th>
-                                                                    <th style={{ width: '13%' }}>Ngày bắt đầu</th>
-                                                                    <th style={{ width: '13%' }}>Ngày kết thúc</th>
-                                                                    <th style={{ width: '20%' }}>Nơi đào tạo</th>
-                                                                    <th style={{ width: '%12' }}>Loại đào tạo</th>
-                                                                    <th style={{ width: '17%' }}>Trạng thái</th>
-                                                                    <th style={{ width: '5%' }}></th>
+                                                                    <th style={{ width: '18%' }}>Tên khoá học</th>
+                                                                    <th style={{ width: '9%' }}>Ngày bắt đầu</th>
+                                                                    <th style={{ width: '10%' }}>Ngày kết thúc</th>
+                                                                    <th style={{ width: '17%' }}>Nơi đào tạo</th>
+                                                                    <th style={{ width: '12%' }}>Loại đào tạo</th>
+                                                                    <th style={{ width: '10%' }}>Chi phí</th>
+                                                                    <th style={{ width: '12%' }}>Thời gian cam kết</th>
+                                                                    <th style={{ width: '12%' }}>Trạng thái</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -1007,13 +1008,15 @@ class ModalEditEmployee extends Component {
                                                                             <option>Nội bộ</option>
                                                                             <option>Ngoài</option>
                                                                         </select></td>
+                                                                        <td><input type="text" style={{ width: "100%" }} /></td>
+                                                                        <td><input type="text" style={{ width: "100%" }} /></td>
                                                                         <td><select className={index} style={{ width: "100%", height: 26, paddingTop: 0, paddingLeft: 0 }} name="status" onChange={this.handleChangeCourse}>
                                                                             <option>Chưa hoàn thành</option>
                                                                             <option>Hoàn thành</option>
                                                                         </select></td>
-                                                                        <td style={{ textAlign: "center" }}>
+                                                                        {/* <td style={{ textAlign: "center" }}>
                                                                             <a href="#abc" className="delete" title="Delete" data-toggle="tooltip" onClick={() => this.delete("course", index)}><i className="material-icons"></i></a>
-                                                                        </td>
+                                                                        </td> */}
                                                                     </tr>
                                                                 ))}
                                                             </tbody>
@@ -1025,7 +1028,7 @@ class ModalEditEmployee extends Component {
                                                 <div className="box-body">
                                                     <div className="col-md-4">
                                                         <div className="form-group" style={{ paddingTop: 3 }}>
-                                                            <label htmlFor="numberFile">Mã hồ sơ:<span className="required">&#42;</span></label>
+                                                            <label htmlFor="numberFile">Nơi lưu trữ bản cứng:<span className="required">&#42;</span></label>
                                                             <input type="text" className="form-control" id="numberFile" name="numberFile" onChange={this.handleChange} />
                                                         </div>
                                                     </div>
@@ -1064,42 +1067,19 @@ class ModalEditEmployee extends Component {
                                                         </table>
                                                     </div>
                                                 </div>
-                                                <div className=" box-footer">
-
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    {/* </form> */}
-                                    <ToastContainer />
-                                    {/* </div> */}
                                 </div>
                                 <div className="modal-footer">
-                                    <div className="form-group col-md-6" style={{ marginBottom: 0 }}>
-                                        <div className="checkbox" style={{ marginBottom: 0, marginTop: 0 }}>
-                                            <center>
-                                                <label>
-                                                    (<span style={{ color: "red" }}>*</span>): là các trường bắt buộc phải có.
-                                </label>
-                                            </center>
-                                            {/* <center>
-                                                <label style={{ color: "red", display: "inline", paddingLeft: 0 }}><p>
-                                                    (Vui lòng điền đầy đủ các trường bắt buộc trước khi thực hiện việc thêm nhân viên)</p>
-                                                </label>
-                                            </center> */}
-                                        </div>
-
-                                    </div>
                                     <div className="col-md-12">
-                                        <button type="submit" title="Huỷ cập nhật thông tin" className="btn btn-default pull-right btnuser" data-dismiss="modal" >Đóng</button>
-                                        <button type="submit" title="Cập nhật thông tin nhân viên" className="btn btn-success pull-right btnuser" onClick={this.handleSubmit} htmlFor="form">Cập nhật thông tin</button>
-
-
+                                        <button type="submit" style={{ marginRight: 10 }} title="Huỷ cập nhật thông tin" className="btn btn-default pull-right" data-dismiss="modal" >Đóng</button>
+                                        <button type="submit" style={{ marginRight: 10 }} title="Cập nhật thông tin nhân viên" className="btn btn-success pull-right" onClick={this.handleSubmit} htmlFor="form">Cập nhật thông tin</button>
                                     </div>
-
-
-
                                 </div>
+                                {/* </form> */}
+                                <ToastContainer />
+                                {/* </div> */}
                             </div>
                         ))}
                 </div>
@@ -1115,7 +1095,7 @@ function mapState(state) {
 
 const actionCreators = {
     addNewEmployee: employeeActions.addNewEmployee,
-    getInformationEmployee: employeeActions.getInformationEmployee,
+    //getInformationEmployee: employeeActions.getInformationEmployee,
 };
 
 const connectedAddEmplyee = connect(mapState, actionCreators)(ModalEditEmployee);

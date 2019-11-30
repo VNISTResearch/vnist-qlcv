@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './timekeeping.css';
+import { ModalImportTimekeeping } from './ModalImportTimekeeping';
 
 class Timekeeping extends Component {
     componentDidMount() {
@@ -24,7 +25,7 @@ class Timekeeping extends Component {
                 </section>
                 <section className="content">
                     <div className="row">
-                        <div className="col-xs-12">
+                        <div className="col-md-12">
                             <div className="box box-info">
                                 {/* <div className="box-header with-border">
                                     <h3 class="box-title">Bảng lương nhân viên</h3>
@@ -34,60 +35,83 @@ class Timekeeping extends Component {
                                 {/* /.box-header */}
                                 <div className="box-body">
                                     <div className="col-md-12">
-                                        <div className="form-group col-md-3" style={{ paddingLeft: 0, paddingRight: 30 }}>
-                                            <label htmlFor="fullname">Họ và tên:</label>
-                                            <input type="text" className="form-control" name="fullName" />
+                                        <div className="col-md-3">
+                                            <div className="form-group col-md-4" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                                <label htmlFor="fullname" style={{ paddingTop: 5 }}>Đơn vị:</label>
+                                            </div>
+                                            <div className="form-group col-md-8" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                                <select className="form-group" defaultValue="1" style={{ height: 32, width: "100%" }}>
+                                                    <option value="2">Phòng hành chính</option>
+                                                    <option value="3">Phòng nhân sự</option>
+                                                    <option value="4">Phòng sản xuất</option>
+                                                    <option value="5">Phòng kinh doanh</option>
+                                                    <option value="1"></option>
+                                                </select>
+                                            </div>
                                         </div>
-                                        <div className="form-group col-md-3" style={{ paddingLeft: 0, paddingRight: 30 }}>
-                                            <label htmlFor="employeeNumber">Mã nhân viên:</label>
-                                            <input type="text" className="form-control" name="employeeNumber" />
+                                        <div className="col-md-3">
+                                            <div className="form-group col-md-4" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                                <label htmlFor="fullname" style={{ paddingTop: 5 }}>Chức vụ:</label>
+                                            </div>
+                                            <div className="form-group col-md-8" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                                <select className="form-group" defaultValue="1" style={{ height: 32, width: "99%" }}>
+                                                    <option value="2">Nhân viên</option>
+                                                    <option value="4">Trưởng phòng</option>
+                                                    <option value="5">Phó phòng</option>
+                                                    <option value="1"></option>
+                                                </select>
+                                            </div>
                                         </div>
-                                        <div className="form-group col-md-3" style={{ paddingLeft: 0, paddingRight: 30 }}>
-                                            <label htmlFor="month">Tháng:</label>
-                                            <input type="text" className="form-control" name="month" id="datepicker2" data-date-format="mm-yyyy" />
+                                    </div>
+                                    <div className="col-md-12">
+                                        <div className="col-md-3">
+                                            <div className="form-group col-md-4" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                                <label htmlFor="fullname" style={{ paddingTop: 5 }}>Mã NV:</label>
+                                            </div>
+                                            <div className="form-group col-md-8" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                                <input type="text" className="form-control" name="employeeNumber" />
+                                            </div>
                                         </div>
-                                        <div className="form-group col-md-3" style={{ paddingTop: 25, paddingLeft: 0 }}>
-                                            <button type="submit" className="btn btn-success" title="Tìm kiếm" >Tìm kiếm</button>
-                                            <button type="button" className="btn btn-primary pull-right dropdown-toggle" data-toggle="dropdown" aria-expanded="true" title="Chấm công nhân viên" >Chấm công</button>
-                                            <ul className="dropdown-menu pull-right">
-                                                <li><a href="#abc">Import file Excel</a></li>
-                                                <li><a href="#abc">Chấm bằng tay</a></li>
-                                            </ul>
+                                        <div className="col-md-3">
+                                            <div className="form-group col-md-4" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                                <label htmlFor="fullname" style={{ paddingTop: 5 }}>Tháng:</label>
+                                            </div>
+                                            <input type="text" style={{ width: "66%" }} className="form-control" name="month" id="datepicker2" data-date-format="mm-yyyy" />
+
                                         </div>
-                                        <div className="col-md-12" style={{ paddingLeft: 0 }}>
-                                            <div className="form-group">
+                                        <div className="form-group col-md-3" style={{ paddingRight: 0 }}>
+                                            <button type="submit" className="btn btn-success" title="Tìm kiếm">Tìm kiếm</button>
+                                        </div>
+                                        <div className="col-md-12" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                            <div className="form-group col-md-6" style={{ paddingLeft: 15 }}>
                                                 <label>Ký hiệu: &emsp; &emsp; </label><i style={{ color: "#08b30e", fontSize: 19 }} className="glyphicon glyphicon-ok"></i><span> -- Có đi làm </span>
                                                 &emsp;&emsp;&emsp;<i style={{ color: "red", fontSize: 19 }} className="glyphicon glyphicon-remove"></i><span> -- Nghỉ làm</span>
-
                                             </div>
-
-
-
+                                            <div className="form-group" style={{ paddingRight: 0 }}>
+                                                <button type="button" className="btn btn-primary pull-right dropdown-toggle" data-toggle="dropdown" aria-expanded="true" title="Chấm công nhân viên" >Chấm công</button>
+                                                <ul className="dropdown-menu pull-right">
+                                                    <li><a href="#abc" data-toggle="modal" data-target="#modal-importFileTimekeeping">Import file Excel</a></li>
+                                                    <li><a href="#abc">Chấm bằng tay</a></li>
+                                                </ul>
+                                            </div>
                                         </div>
-                                        {/* <div class="input-group-btn open">
-
-                                            <button type="button" className="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-expanded="true"></button> */}
-
-
-
-
-
                                         <div className="col-md-4" style={{ padding: 0 }}>
                                             <table className="keeping table table-bordered">
                                                 <thead>
-                                                    <tr>
+                                                    <tr style={{ height: 42 }}>
+                                                        <th >Mã nhân viên</th>
                                                         <th style={{ width: "55%" }}>Tên nhân viên</th>
-                                                        <th >mã nhân viên</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr>
+                                                        <td style={{ paddingTop: 20 }}>2015053</td>
                                                         <td style={{ paddingTop: 20 }}>Nguyen khanh linh</td>
-                                                        <td style={{ paddingTop: 20 }}>mã nhân viên</td>
+
                                                     </tr>
                                                     <tr>
+                                                        <td style={{ paddingTop: 20 }}>20150698</td>
                                                         <td style={{ paddingTop: 20 }}>Nguyen van hung </td>
-                                                        <td style={{ paddingTop: 20 }}>mã nhân viên</td>
                                                     </tr>
                                                 </tbody>
 
@@ -277,6 +301,7 @@ class Timekeeping extends Component {
                         </div>
                     </div>
                 </section>
+                <ModalImportTimekeeping />
             </div>
         );
     }

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { DetailTrainingPlan } from './DetailTrainingPlan';
+import { ModalDetailTrainingPlan } from './ModalDetailTrainingPlan';
+import { ModalEditTrainingPlan } from './ModalEditTrainingPlan';
+import { ModalDeleteTrainingPlan } from './ModalDeleteTrainingPlan';
 class TraningPlan extends Component {
     componentDidMount() {
         let script = document.createElement('script');
@@ -14,7 +16,7 @@ class TraningPlan extends Component {
                 {/* Content Header (Page header) */}
                 <section className="content-header">
                     <h1>
-                        Kế hoạch đào tạo
+                        Quản lý khoá đào tạo
                     </h1>
                     <ol className="breadcrumb">
                         <li><a href="#abc"><i className="fa fa-dashboard" /> Home</a></li>
@@ -23,23 +25,48 @@ class TraningPlan extends Component {
                 </section>
                 <section className="content">
                     <div className="row">
-                        <div className="col-xs-12">
+                        <div className="col-md-12">
                             <div className="box">
-                                <div className="box-header with-border">
-                                    <h3 className="box-title" style={{ marginTop: 10 }}>Danh sách các khoá đào tạo:</h3>
-                                    <button type="submit" className="btn btn-success pull-right" id="" style={{ marginRight: 16 }}>Thêm khoá đào tạo</button>
-                                </div>
+
                                 {/* /.box-header */}
                                 <div className="box-body">
                                     <div className="col-md-12">
+                                        <div className="box-header col-md-12">
+                                            <h3 className="box-title" style={{ marginTop: 10 }}>Danh sách các khoá đào tạo:</h3>
+                                        </div>
+                                        <div className="col-md-3">
+                                            <div className="form-group col-md-4" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                                <label htmlFor="fullname" >Mã khoá đào tạo:</label>
+                                            </div>
+                                            <div className="form-group col-md-8" style={{ paddingTop: 5, paddingLeft: 0, paddingRight: 0 }}>
+                                                <input type="text" className="form-control" name="fullName" />
+                                            </div>
+                                        </div>
+                                        <div className="col-md-3">
+                                            <div className="form-group col-md-4" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                                <label htmlFor="fullname" style={{ paddingTop: 5 }}>Loại đào tạo:</label>
+                                            </div>
+                                            <div className="form-group col-md-8" style={{ paddingTop: 5, paddingLeft: 0, paddingRight: 0 }}>
+                                                <input type="text" className="form-control" name="fullName" />
+                                            </div>
+                                        </div>
+                                        <div className="col-md-3" style={{ paddingTop: 5 }}>
+                                            <div className="form-group" style={{ paddingLeft: 0, paddingRight: 0 }}>
+                                                <button type="submit" className="btn btn-success" title="Tìm kiếm" >Tìm kiếm</button>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-3" style={{ paddingTop: 5, paddingRight: 0 }}>
+                                            <button type="submit" className="btn btn-success pull-right" id="">Thêm khoá đào tạo</button>
+                                        </div>
                                         <table id="listexample" className="table table-bordered table-hover">
                                             <thead>
                                                 <tr>
-                                                    <th style={{ width: "25%" }}>Tên khoá đào tạo</th>
-                                                    <th>Thời gian bắt đầu</th>
-                                                    <th>thời gian kết thúc</th>
+                                                    <th style={{ width: "22%" }}>Tên khoá đào tạo</th>
+                                                    <th title="Thời gian bắt đầu">Bắt đầu</th>
+                                                    <th title="Thời gian kết thúc">Kết thúc</th>
                                                     <th>Địa điểm đào tạo</th>
-                                                    <th style={{ width: "25%" }}>Đơn vị đào tạo</th>
+                                                    <th style={{ width: "22%" }}>Đơn vị đào tạo</th>
+                                                    <th style={{ width: "13%" }}>Hành động</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -49,6 +76,13 @@ class TraningPlan extends Component {
                                                     <td>9/10/2018</td>
                                                     <td>P-901</td>
                                                     <td>Công ty an toan thong tin va truyen thong Viet Nam</td>
+                                                    <td>
+                                                        <center>
+                                                            <a href="#view" title="Xem chi tiết chương trình đào tạo" data-toggle="modal" data-target="#modal-viewTrainingPlan" style={{ fontSize: 14 }} ><i className="material-icons">visibility</i></a>
+                                                            <a href="#abc" className="edit" title="Chỉnh sửa chương trình đào tạo " data-toggle="modal" data-target="#modal-editTrainingPlan" ><i className="material-icons"></i></a>
+                                                            <a href="#abc" className="delete" title="Xoá khoá đào tạo" data-toggle="modal" data-target="#modal-deleteTrainingPlan"><i className="material-icons"></i></a>
+                                                        </center>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Kinh nghiệm làm viêc</td>
@@ -56,6 +90,13 @@ class TraningPlan extends Component {
                                                     <td>20/11/2019</td>
                                                     <td>P-901</td>
                                                     <td>Công ty an toan thong tin va truyen thong Viet Nam</td>
+                                                    <td>
+                                                        <center>
+                                                            <a href="#view" title="Xem chi tiết chương trình đào tạo" data-toggle="modal" data-target="#modal-viewTrainingPlan" style={{ fontSize: 14 }} ><i className="material-icons">visibility</i></a>
+                                                            <a href="#abc" className="edit" title="Chỉnh sửa chương trình đào tạo " data-toggle="modal" data-target="#modal-editTrainingPlan"><i className="material-icons"></i></a>
+                                                            <a href="#abc" className="delete" title="Xoá khoá đào tạo" data-toggle="modal" data-target="#modal-deleteTrainingPlan"><i className="material-icons"></i></a>
+                                                        </center>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Kỹ năng giao tiếp</td>
@@ -63,6 +104,13 @@ class TraningPlan extends Component {
                                                     <td>20/11/2019</td>
                                                     <td>P-901</td>
                                                     <td>Công ty an toan thong tin va truyen thong Viet Nam</td>
+                                                    <td>
+                                                        <center>
+                                                            <a href="#view" title="Xem chi tiết chương trình đào tạo" data-toggle="modal" data-target="#modal-viewTrainingPlan" style={{ fontSize: 14 }} ><i className="material-icons">visibility</i></a>
+                                                            <a href="#abc" className="edit" title="Chỉnh sửa chương trình đào tạo " data-toggle="modal" data-target="#modal-editTrainingPlan" ><i className="material-icons"></i></a>
+                                                            <a href="#abc" className="delete" title="Xoá khoá đào tạo" data-toggle="modal" data-target="#modal-deleteTrainingPlan"><i className="material-icons"></i></a>
+                                                        </center>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Kỹ năng đàm phán</td>
@@ -70,6 +118,13 @@ class TraningPlan extends Component {
                                                     <td>20/11/2019</td>
                                                     <td>P-901</td>
                                                     <td>Công ty an toan thong tin va truyen thong Viet Nam</td>
+                                                    <td>
+                                                        <center>
+                                                            <a href="#view" title="Xem chi tiết khoá đào tạo" data-toggle="modal" data-target="#modal-viewTrainingPlan" style={{ fontSize: 14 }} ><i className="material-icons">visibility</i></a>
+                                                            <a href="#abc" className="edit" title="Chỉnh sửa khoá đào tạo " data-toggle="modal" data-target="#modal-editTrainingPlan" ><i className="material-icons"></i></a>
+                                                            <a href="#abc" className="delete" title="Xoá khoá đào tạo" data-toggle="modal" data-target="#modal-deleteTrainingPlan"><i className="material-icons"></i></a>
+                                                        </center>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -77,7 +132,9 @@ class TraningPlan extends Component {
                                 </div>
                                 {/* /.box-body */}
                             </div>
-                            <DetailTrainingPlan></DetailTrainingPlan>
+                            <ModalDetailTrainingPlan />
+                            <ModalEditTrainingPlan />
+                            <ModalDeleteTrainingPlan />
                             {/* /.box */}
                         </div>
                         {/* /.col */}
