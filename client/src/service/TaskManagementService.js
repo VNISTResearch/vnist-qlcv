@@ -5,6 +5,10 @@ export const taskManagementService = {
     getById,
     getAllTaskByRole,
     getResponsibleTaskByUser,
+    getAccounatableTaskByUser,
+    getConsultedTaskByUser,
+    getInformedTaskByUser,
+    getCreatorTaskByUser,
     addNewTask,
     editTask,
     deleteTaskById
@@ -47,6 +51,42 @@ function getResponsibleTaskByUser(user, unit, number, perpage, status, priority,
     };
 
     return fetch(`/tasks/user/task-responsible/${unit}/${user}/${number}/${perpage}/${status}/${priority}/${specical}/${name}`, requestOptions).then(handleResponse);
+}
+// get all task by Role
+function getAccounatableTaskByUser(user, unit, number, perpage, status, priority, specical, name) {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+
+    return fetch(`/tasks/user/task-accounatable/${unit}/${user}/${number}/${perpage}/${status}/${priority}/${specical}/${name}`, requestOptions).then(handleResponse);
+}
+// get all task by Role
+function getConsultedTaskByUser(user, unit, number, perpage, status, priority, specical, name) {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+
+    return fetch(`/tasks/user/task-consulted/${unit}/${user}/${number}/${perpage}/${status}/${priority}/${specical}/${name}`, requestOptions).then(handleResponse);
+}
+// get all task by Role
+function getInformedTaskByUser(user, unit, number, perpage, status, priority, specical, name) {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+
+    return fetch(`/tasks/user/task-informed/${unit}/${user}/${number}/${perpage}/${status}/${priority}/${specical}/${name}`, requestOptions).then(handleResponse);
+}
+// get all task by Role
+function getCreatorTaskByUser(user, unit, number, perpage, status, priority, specical, name) {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+
+    return fetch(`/tasks/user/task-creator/${unit}/${user}/${number}/${perpage}/${status}/${priority}/${specical}/${name}`, requestOptions).then(handleResponse);
 }
 
 // add new task

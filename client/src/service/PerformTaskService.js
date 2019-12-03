@@ -1,5 +1,6 @@
 import {handleResponse} from '../helpers/HandleResponse';
 import { authHeader } from '../helpers/AuthHeader';
+import { LOCAL_SERVER_API } from '../redux-constants/config';
 export const performTaskService = {
     getLogTimerTask,
     getTimerStatusTask,
@@ -74,13 +75,14 @@ function getCommentTask(task) {
 
 // add comment task
 function addCommentTask(newComment) {
+    console.log("service"+newComment.task);
     const requestOptions = {
         method: 'POST',
-        headers: authHeader(),
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newComment)
     };
 
-    return fetch(`/performtask/comment-task/create`, requestOptions).then(handleResponse);
+    return fetch(`${LOCAL_SERVER_API}/performtask/comment-task/create`, requestOptions).then(handleResponse);
 }
 
 // edit comment task

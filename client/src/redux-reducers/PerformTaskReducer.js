@@ -24,9 +24,9 @@ export function performtasks(state = {}, action) {
         case performTaskConstants.ADDNEW_COMMENTTASK_SUCCESS:
             return {
                 ...state,
-                items: [
-                    ...state.items,
-                    action.task.data
+                commenttasks: [
+                    ...state.commenttasks,
+                    action.newComment.commentTask
                 ]
             };
         case performTaskConstants.ADDNEW_COMMENTTASK_FAILURE:

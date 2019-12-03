@@ -257,7 +257,8 @@ class ModalMemberEvaluate extends Component {
                                                     <button style={{ float: "right" }}>Xuất file</button>
                                                 </div>
                                             </div>
-                                        </React.Fragment>
+                                        </React.Fragment>;
+                                        return true;
                                     })
                                 }
                             </div>

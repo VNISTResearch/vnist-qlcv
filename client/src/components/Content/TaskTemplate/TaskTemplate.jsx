@@ -47,14 +47,12 @@ class TaskTemplate extends Component {
         })
 
     }
-
     // handleAction = (id) => {
     //     // Đóng cửa sổ cài đặt
     //     var element = document.getElementById(`action${id}`);
     //     element.classList.remove("in");
     //     element.setAttribute("aria-expanded", "false");
     // }
-
     loadJSMultiSelect = () => {
         window.$(document).ready(function () {
             window.$('#multiSelectShowColumn').multiselect({
@@ -118,7 +116,6 @@ class TaskTemplate extends Component {
             }
         }
     }
-
     updateCurrentPage = (number) => {
         this.setState(state => {
             return {
@@ -127,7 +124,6 @@ class TaskTemplate extends Component {
             }
         })
     }
-
     handleGetDataPagination = async (index) => {
         var test = window.$("#multiSelectUnit").val();
         var oldCurrentPage = this.state.currentPage;

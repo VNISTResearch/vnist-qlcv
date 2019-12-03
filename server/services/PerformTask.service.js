@@ -5,7 +5,7 @@ const CommentTask = require('../models/CommentTask.model');
 // Bấm giờ công việc
 // Lấy tất cả lịch sử bấm giờ theo công việc
 exports.getLogTimer = (req, res) => {
-    HistoryWorkingTime.find({ task: req.params.id })
+    HistoryWorkingTime.find({ task: req.params.id, user: req.params.user })
         .then(logTimers => res.status(200).json(logTimers))
         .catch(err => res.status(400).json(err));
     console.log("Get all log timer");
@@ -14,7 +14,7 @@ exports.getLogTimer = (req, res) => {
 // Lấy trạng thái bấm giờ hiện tại. Bảng HistoryWorkingTime tìm hàng có endTime là rỗng 
 // Nếu có trả về startTimer: true, và time, startTime. Không có trả ver startTimer: false
 exports.getTimerStatus = (req, res) => {
-    HistoryWorkingTime.find({ task: req.params.id, endTime: null })
+    HistoryWorkingTime.find({ task: req.params.id, user: req.params.id, endTime: null })
         .then(timerStatus => res.status(200).json(timerStatus))
         .catch(err => res.status(400).json(err));
     console.log("Get Timer Status current");
@@ -25,6 +25,7 @@ exports.startTimer = async (req, res) => {
     try {
         var timer = await HistoryWorkingTime.create({
             task: req.body.task,
+            user: req.body.user,
             startTime: req.body.startTime
         });
         res.json({
@@ -55,7 +56,7 @@ exports.pauseTimer = async (req, res) => {
 exports.stopTimer = async (req, res) => {
     try {
         var timer = await HistoryWorkingTime.findByIdAndUpdate(
-            req.params.id, { endTime: req.body.endTime, Ttime: req.body.time }, { new: true }
+            req.params.id, { endTime: req.body.endTime, time: req.body.time }, { new: true }
         );
         res.json({
             message: "Đã dừng tính giờ",
@@ -76,10 +77,11 @@ exports.getCommentTask = (req, res) => {
 }
 // Thêm bình luận: Update nội dung bình luận và file đính kèm
 exports.createCommentTask = async (req, res) => {
+    console.log("asfasdasdasdasd"+req.body.task);
     try {
         var comment = await CommentTask.create({
             task: req.body.task,
-            actionTask: req.body.actionTask,
+            // actionTask: req.body.actionTask,
             creator: req.body.creator,
             parent: req.body.parent,
             content: req.body.content

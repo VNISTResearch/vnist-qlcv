@@ -99,9 +99,9 @@ class ModalDetailKPI extends Component {
                                                 <table id="example1" className="table table-bordered table-striped">
                                                     <thead>
                                                         <tr>
-                                                            <th style={{width: "20px"}}>Stt</th>
+                                                            <th style={{ width: "20px" }}>Stt</th>
                                                             <th>Tên mục tiêu</th>
-                                                            <th style={{width: "108px"}}>Người tạo</th>
+                                                            <th style={{ width: "108px" }}>Người tạo</th>
                                                             <th>Đơn vị</th>
                                                             <th>Tiêu chí đánh giá</th>
                                                             <th>Kết quả đánh giá</th>
@@ -223,10 +223,11 @@ class ModalDetailKPI extends Component {
                                                     </tbody>
                                                 </table>
                                                 <div className="footer-content-right">
-                                                    <button style={{float: "right"}}>Xuất file</button>
+                                                    <button style={{ float: "right" }}>Xuất file</button>
                                                 </div>
                                             </div>
-                                        </React.Fragment>
+                                        </React.Fragment>;
+                                        return true;
                                     })
                                 }
                             </div>

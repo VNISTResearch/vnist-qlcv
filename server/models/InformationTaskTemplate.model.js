@@ -4,12 +4,12 @@ const TaskTemplate = require('./TaskTemplate.model');
 
 // Create Schema
 const InformationTaskTemplateSchema = new Schema({
-    tasktemplate: { //lưu id của mẫu công việc tương ứng
+    tasktemplate:{
         type: Schema.Types.ObjectId,
         ref: TaskTemplate,
         required: true
     },
-    key: {
+    code: {
         type: String,
         required: true
     },

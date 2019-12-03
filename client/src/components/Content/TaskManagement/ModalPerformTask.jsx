@@ -19,7 +19,7 @@ class ModalPerformTask extends Component {
             editComment: "",
             startTimer: false,
             pauseTimer: false,
-            showChildComment: false,
+            showChildComment: "",
             member: [
                 {
                     _id: "abcdef123456789987654321",
@@ -41,8 +41,15 @@ class ModalPerformTask extends Component {
                     name: "Bùi Việt Anh",
                     parent: "abcdef123456789987654321"
                 }
-            ]
+            ],
+            newComment: {
+                task: this.props.id,
+                creator: localStorage.getItem("id"),
+                parent: null,
+                content: ""
+            }
         };
+        this.contentComment = []
     }
     componentDidUpdate() {
         let script3 = document.createElement('script');
@@ -51,13 +58,16 @@ class ModalPerformTask extends Component {
         script3.defer = true;
         document.body.appendChild(script3);
     }
+    UNSAFE_componentWillMount() {
+        this.props.getTaskById(this.props.id);
+        this.props.getCommentTask(this.props.id);
+    }
     componentDidMount() {
         let script2 = document.createElement('script');
         script2.src = 'main/js/uploadfile/custom.js';
         script2.async = true;
         script2.defer = true;
         document.body.appendChild(script2);
-        this.props.getCommentTask(this.props.id);
     }
     handleChangeContent = async (content) => {
         await this.setState(state => {
@@ -182,13 +192,24 @@ class ModalPerformTask extends Component {
 
         return hours + ":" + minutes + ":" + seconds;
     }
-    handleShowChildComment = async () => {
-        await this.setState(state => {
-            return {
-                ...state,
-                showChildComment: !state.showChildComment
-            }
-        })
+    handleShowChildComment = async (id) => {
+        var showChildComment = this.state.showChildComment;
+        if (showChildComment !== "") {
+            await this.setState(state => {
+                return {
+                    ...state,
+                    showChildComment: ""
+                }
+            })
+        } else {
+            await this.setState(state => {
+                return {
+                    ...state,
+                    showChildComment: id
+                }
+            })
+        }
+
     }
     formatDate(date) {
         var d = new Date(date),
@@ -220,12 +241,38 @@ class ModalPerformTask extends Component {
         modal.classList.remove("in");
         modal.style = "display: none;";
     }
+    handleSubmitContenTask = (e) => {
+        e.preventDefault();
+    }
+
+    submitComment = async (e, id, index) => {
+        e.preventDefault();
+        await this.setState(state => {
+            return {
+                ...state,
+                newComment:{
+                    ...state.newComment,
+                    parent: id,
+                    content: this.contentComment[index].value
+                }
+            }
+        })
+        console.log(this.state.newComment);
+        var { newComment } = this.state;
+        if(newComment.task && newComment.content && newComment.creator){
+            this.props.addComment(newComment);
+        } 
+    }
     render() {
-        var task, commentTasks;
+        var task, commentTasks, actions, informations;
         const { selected, extendDescription, editDescription, extendInformation, comment, editComment, startTimer, showChildComment, member, extendRBAC, time, pauseTimer } = this.state;
         const { tasks, performtasks } = this.props;
-        if (typeof tasks.task !== 'undefined') task = tasks.task;
-        if (performtasks.commenttasks) commentTasks = performtasks.commenttasks;
+        if (typeof tasks.task !== 'undefined' && tasks.task !== null) task = tasks.task.info;
+        if (typeof tasks.task !== 'undefined' && tasks.task !== null && tasks.task.info.tasktemplate !== null) {
+            actions = tasks.task.actions;
+            informations = tasks.task.informations;
+        }
+        if (typeof performtasks.commenttasks !== 'undefined' && performtasks.commenttasks !== null) commentTasks = performtasks.commenttasks;
         return (
             <div className="modal modal-full fade" data-backdrop="false" id={`modelPerformTask${this.props.id}`} tabIndex={-1} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div className="modal-dialog-full">
@@ -237,21 +284,19 @@ class ModalPerformTask extends Component {
                             </div>
                             <div className="col-sm-8" style={{ marginTop: "-6px" }}>
                                 <div id="start-timer-task" className="col-sm-3" style={{ marginLeft: "-3%", width: "9%" }}>
-                                    {
-                                        startTimer ?
-                                            <div className="run-timer" style={{ border: "1px solid #d0d0d0", borderRadius: "50px", boxSizing: "border-box", zIndex: "6", boxShadow: "1px 1px 3px #ccc", width: "130px", height: "30px" }}>
-                                                <a href="#abc" className="delete" title="Kết thúc" onClick={this.stopTimer}><i className="fa fa-stop" style={{ fontSize: "10px", marginLeft: "6px", marginTop: "9px" }}></i></a>
-                                                {pauseTimer ? <a href="#abc" className="edit" title="Tiếp tục bấm giờ" onClick={this.startTimer}><i className="fa fa-play" style={{ fontSize: "10px", marginLeft: "-7px" }}></i></a>
-                                                    : <a href="#abc" className="edit" title="Tạm dừng" onClick={this.pauseTimer}><i className="fa fa-pause" style={{ fontSize: "10px", marginLeft: "-7px" }}></i></a>}
-                                                <input value={this.convertTime(time)} style={{ width: "60px", border: "none", background: "none", marginLeft: "-15px" }} disabled />
-                                            </div> : <a href="#abc" className="timer" title="Bắt đầu bấm giờ" onClick={this.startTimer}><i className="material-icons" style={{ marginTop: "5px" }}>timer</i></a>
-                                    }
+                                    {this.props.role !== "informed" && this.props.role !== "creator" && (startTimer ?
+                                        <div className="run-timer" style={{ border: "1px solid #d0d0d0", borderRadius: "50px", boxSizing: "border-box", zIndex: "6", boxShadow: "1px 1px 3px #ccc", width: "130px", height: "30px" }}>
+                                            <a href="#abc" className="delete" title="Kết thúc" onClick={this.stopTimer}><i className="fa fa-stop" style={{ fontSize: "10px", marginLeft: "6px", marginTop: "9px" }}></i></a>
+                                            {pauseTimer ? <a href="#abc" className="edit" title="Tiếp tục bấm giờ" onClick={this.startTimer}><i className="fa fa-play" style={{ fontSize: "10px", marginLeft: "-7px" }}></i></a>
+                                                : <a href="#abc" className="edit" title="Tạm dừng" onClick={this.pauseTimer}><i className="fa fa-pause" style={{ fontSize: "10px", marginLeft: "-7px" }}></i></a>}
+                                            <input value={this.convertTime(time)} style={{ width: "60px", border: "none", background: "none", marginLeft: "-15px" }} disabled />
+                                        </div> : <a href="#abc" className="timer" title="Bắt đầu bấm giờ" onClick={this.startTimer}><i className="material-icons" style={{ marginTop: "5px" }}>timer</i></a>)}
                                 </div>
                                 <div className="col-sm-1" style={{ marginTop: "5px", marginLeft: "-5%" }}><a href="#abc" className="default" title="Xóa công việc này"><i className="material-icons">delete</i></a></div>
                                 <div className="col-sm-3">
                                     <label className="col-sm-2 control-label" style={{ width: '61%', textAlign: 'left', marginTop: "5px", fontWeight: "500", marginLeft: "-25%" }}>Mức ưu tiên:</label>
                                     <div className="col-sm-10" style={{ width: '79%', marginLeft: "-15%" }}>
-                                        <select value={task && task.priority} className="form-control" ref={input => this.priority = input}>
+                                        <select value={task && task.priority} className="form-control" ref={input => this.priority = input} disabled={this.props.role === "informed" || this.props.role === "creator"}>
                                             <option value="Cao">Cao</option>
                                             <option value="Trung bình">Trung bình</option>
                                             <option value="Thấp">Thấp</option>
@@ -261,7 +306,7 @@ class ModalPerformTask extends Component {
                                 <div className="col-sm-4" style={{ marginLeft: "-6%" }}>
                                     <label className="col-sm-4 control-label" style={{ textAlign: 'left', width: "40%", marginTop: "5px", fontWeight: "500" }}>Trạng thái:</label>
                                     <div className="col-sm-10" style={{ width: '70%', marginLeft: "-12%" }}>
-                                        <select value={task && task.status} className="form-control" ref={input => this.priority = input}>
+                                        <select value={task && task.status} className="form-control" ref={input => this.priority = input} disabled={this.props.role === "informed" || this.props.role === "creator"}>
                                             <option value="Đang chờ">Đang chờ</option>
                                             <option value="Đang thực hiện">Đang thực hiện</option>
                                             <option value="Quá hạn">Quá hạn</option>
@@ -272,7 +317,7 @@ class ModalPerformTask extends Component {
                                     </div>
                                 </div>
                                 <div className="col-sm-2">
-                                    <button id="btn-approve" className="col-sm-8 btn btn-success" style={{ width: "119%", marginLeft: "80%", height: "32px" }}>Yêu cầu phê duyệt</button>
+                                    {this.props.role === "responsible" && <button type="submit" id="btn-approve" className="col-sm-8 btn btn-success" style={{ width: "119%", marginLeft: "80%", height: "32px" }} onClick={this.handleSubmitContenTask}>Yêu cầu phê duyệt</button>}
                                 </div>
                                 <button type="button" className="col-sm-1 close" style={{ paddingLeft: "6%" }} onClick={() => this.handleCloseModal(task._id)} data-dismiss="modal">
                                     <span aria-hidden="true">×</span>
@@ -286,9 +331,9 @@ class ModalPerformTask extends Component {
                                 <div className="row">
                                     <div className="col-sm-12">
                                         <label className="col-sm-12 control-label" style={{ textAlign: 'left', width: "100%", marginTop: "-1%", marginLeft: "-15px" }}>
-                                            <a href="#abc" className="default" title={extendDescription ? "Rút gọn" : "Mở rộng để xem nội dung mô tả"} onClick={this.handleChangeExtendDesciption}><i className={extendDescription ? "fa fa-chevron-up" : "fa fa-chevron-down"}></i></a>
+                                            <a href="#abc" className="default" style={{minWidth: "12px"}} title={extendDescription ? "Rút gọn" : "Mở rộng để xem nội dung mô tả"} onClick={this.handleChangeExtendDesciption}><i className={extendDescription ? "fa fa-angle-up" : "fa fa-angle-down"}></i></a>
                                             <h4 style={{ display: "inline" }}>Mô tả công việc</h4>
-                                            <a href="#abc" className="edit" title="Bắt đầu bấm giờ" onClick={this.handleChangeEditDesciption}><i className="material-icons">edit</i></a>
+                                            {this.props.role !== "informed" && <a href="#abc" className="edit" title="Bắt đầu bấm giờ" onClick={this.handleChangeEditDesciption}><i className="material-icons">edit</i></a>}
                                         </label>
                                         {extendDescription ?
                                             (editDescription ?
@@ -299,7 +344,7 @@ class ModalPerformTask extends Component {
                                     </div>
                                     <div className="col-sm-12">
                                         <label className="control-label" style={{ textAlign: 'left', marginTop: "5px" }}>
-                                            <a href="#abc" className="default" title={extendDescription ? "Rút gọn" : "Mở rộng xem thông tin phân định trách nhiệm"} onClick={this.handleChangeExtendRBAC}><i className={extendRBAC ? "fa fa-chevron-up" : "fa fa-chevron-down"}></i></a>
+                                            <a href="#abc" className="default" style={{minWidth: "12px"}} title={extendDescription ? "Rút gọn" : "Mở rộng xem thông tin phân định trách nhiệm"} onClick={this.handleChangeExtendRBAC}><i className={extendRBAC ? "fa fa-angle-up" : "fa fa-angle-down"}></i></a>
                                             <h4 style={{ display: "inline" }}>Phân định trách nhiệm (RBAC)</h4>
                                         </label>
                                     </div>
@@ -308,7 +353,7 @@ class ModalPerformTask extends Component {
                                             <div className='col-sm-12' style={{ paddingTop: "10px" }}>
                                                 <label className="col-sm-2 control-label" style={{ width: '12%', textAlign: 'left', fontWeight: "500" }}>Người tạo*</label>
                                                 <div className="col-sm-8" style={{ width: '88%' }}>
-                                                    <select className="form-control select2" value={["abcdef123456789987654321"]} data-placeholder="Hãy chọn người thực hiện" style={{ width: '100%' }} disabled>
+                                                    <select className="form-control select2" value="abcdef123456789987654321" data-placeholder="Hãy chọn người thực hiện" style={{ width: '100%' }} disabled>
                                                         {member &&
                                                             member.map(x => {
                                                                 return <option key={x._id} value={x._id}>{x.name}</option>
@@ -319,7 +364,7 @@ class ModalPerformTask extends Component {
                                             <div className='col-sm-12' style={{ paddingTop: "10px" }}>
                                                 <label className="col-sm-2 control-label" style={{ width: '12%', textAlign: 'left', fontWeight: "500" }}>Người thực hiện*</label>
                                                 <div className="col-sm-8" style={{ width: '88%' }}>
-                                                    <select className="form-control select2" value={["abcdef123456789987654321", "abcdef123456789987654323"]} multiple="multiple" data-placeholder="Hãy chọn người thực hiện" style={{ width: '100%' }} ref={input => this.responsible = input}>
+                                                    <select className="form-control select2" value={["abcdef123456789987654321", "abcdef123456789987654323"]} multiple="multiple" disabled={this.props.role !== "accountable"} data-placeholder="Hãy chọn người thực hiện" style={{ width: '100%' }} ref={input => this.responsible = input}>
                                                         {member &&
                                                             member.map(x => {
                                                                 return <option key={x._id} value={x._id}>{x.name}</option>
@@ -330,7 +375,7 @@ class ModalPerformTask extends Component {
                                             <div className='col-sm-12' style={{ paddingTop: "10px" }}>
                                                 <label className="col-sm-2 control-label" style={{ width: '12%', textAlign: 'left', fontWeight: "500" }}>Người phê duyệt*</label>
                                                 <div className="col-sm-8" style={{ width: '88%' }}>
-                                                    <select className="form-control select2" value={["abcdef123456789987654323"]} multiple="multiple" data-placeholder="Hãy chọn người phê duyệt" style={{ width: '100%' }} ref={input => this.accounatable = input}>
+                                                    <select className="form-control select2" value={["abcdef123456789987654323"]} multiple="multiple" disabled={this.props.role !== "accountable"} data-placeholder="Hãy chọn người phê duyệt" style={{ width: '100%' }} ref={input => this.accounatable = input}>
                                                         {member &&
                                                             member.map(x => {
                                                                 return <option key={x._id} value={x._id}>{x.name}</option>
@@ -341,7 +386,7 @@ class ModalPerformTask extends Component {
                                             <div className='col-sm-12' style={{ paddingTop: "10px" }}>
                                                 <label className="col-sm-2 control-label" style={{ width: '12%', textAlign: 'left', fontWeight: "500" }}>Người hỗ trợ</label>
                                                 <div className="col-sm-8" style={{ width: '88%' }}>
-                                                    <select className="form-control select2" value={["abcdef123456789987654324"]} multiple="multiple" data-placeholder="Hãy chọn người hỗ trợ" style={{ width: '100%' }} ref={input => this.consulted = input}>
+                                                    <select className="form-control select2" value={["abcdef123456789987654324"]} multiple="multiple" disabled={this.props.role !== "accountable"} data-placeholder="Hãy chọn người hỗ trợ" style={{ width: '100%' }} ref={input => this.consulted = input}>
                                                         {member &&
                                                             member.map(x => {
                                                                 return <option key={x._id} value={x._id}>{x.name}</option>
@@ -352,7 +397,7 @@ class ModalPerformTask extends Component {
                                             <div className='col-sm-12' style={{ paddingTop: "10px" }}>
                                                 <label className="col-sm-2 control-label" style={{ width: '12%', textAlign: 'left', fontWeight: "500" }}>Người quan sát</label>
                                                 <div className="col-sm-8" style={{ width: '88%' }}>
-                                                    <select className="form-control select2" value={["abcdef123456789987654324"]} multiple="multiple" data-placeholder="Hãy chọn người quan sát" style={{ width: '100%' }} ref={input => this.informed = input}>
+                                                    <select className="form-control select2" value={["abcdef123456789987654324"]} multiple="multiple" disabled={this.props.role === "informed"} data-placeholder="Hãy chọn người quan sát" style={{ width: '100%' }} ref={input => this.informed = input}>
                                                         {member &&
                                                             member.map(x => {
                                                                 return <option key={x._id} value={x._id}>{x.name}</option>
@@ -361,9 +406,15 @@ class ModalPerformTask extends Component {
                                                 </div>
                                             </div>
                                         </div>}
+                                    {/* <div className="col-sm-12" style={{ marginBottom: "20px" }} >
+                                        <label className="control-label" style={{ textAlign: 'left', marginTop: "5px", fontWeight: "500" }}>
+                                            <a href="#abc" className="default" style={{minWidth: "12px"}} title={extendDescription ? "Rút gọn" : "Mở rộng xem thông tin công việc"} onClick={this.handleChangeExtendInformation}><i className={extendInformation ? "fa fa-angle-up" : "fa fa-angle-down"}></i></a>
+                                            <h4 style={{ display: "inline" }}>Liên kết KPI</h4>
+                                        </label>
+                                    </div> */}
                                     <div className="col-sm-12" style={{ marginBottom: "20px" }} >
                                         <label className="control-label" style={{ textAlign: 'left', marginTop: "5px", fontWeight: "500" }}>
-                                            <a href="#abc" className="default" title={extendDescription ? "Rút gọn" : "Mở rộng xem thông tin công việc"} onClick={this.handleChangeExtendInformation}><i className={extendInformation ? "fa fa-chevron-up" : "fa fa-chevron-down"}></i></a>
+                                            <a href="#abc" className="default" style={{minWidth: "12px"}} title={extendDescription ? "Rút gọn" : "Mở rộng xem thông tin công việc"} onClick={this.handleChangeExtendInformation}><i className={extendInformation ? "fa fa-angle-up" : "fa fa-angle-down"}></i></a>
                                             <h4 style={{ display: "inline" }}>Thông tin công việc</h4>
                                         </label>
                                     </div>
@@ -376,7 +427,7 @@ class ModalPerformTask extends Component {
                                                         <div className="input-group-addon">
                                                             <i className="fa fa-calendar" />
                                                         </div>
-                                                        <input type="text" className="form-control" value={this.formatDate(task && task.startdate)} ref={input => this.startdate = input} name="time" id="datepicker4" data-date-format="dd-mm-yyyy" />
+                                                        <input type="string" className="form-control" value={this.formatDate(task && task.startdate)} disabled={this.props.role === "informed" || this.props.role === "consulted"} ref={input => this.startdate = input} name="time" id="datepicker4" data-date-format="dd-mm-yyyy" />
                                                     </div>
                                                 </div>
                                                 <div className="col-sm-4">
@@ -385,24 +436,36 @@ class ModalPerformTask extends Component {
                                                         <div className="input-group-addon">
                                                             <i className="fa fa-calendar" />
                                                         </div>
-                                                        <input type="text" className="form-control" value={this.formatDate(task && task.enddate)} ref={input => this.startdate = input} name="time" id="datepicker5" data-date-format="dd-mm-yyyy" />
+                                                        <input type="string" className="form-control" value={this.formatDate(task && task.enddate)} disabled={this.props.role === "informed" || this.props.role === "consulted"} ref={input => this.startdate = input} name="time" id="datepicker5" data-date-format="dd-mm-yyyy" />
                                                     </div>
                                                 </div>
                                                 <div className="col-sm-4">
                                                     <div className='form-group has-feedback'>
                                                         <label className="col-sm-2 control-label" style={{ width: '40%', textAlign: 'left', fontWeight: "500" }}>Thời gian quá hạn:</label>
                                                         <div className="col-sm-8" style={{ width: '60%' }}>
-                                                            <input type="Name" className="form-control" value={this.calculateOverdueDate(task && task.enddate)} id="inputName3" placeholder="15h" ref={input => this.name = input} disabled />
+                                                            <input type="string" className="form-control" value={this.calculateOverdueDate(task && task.enddate)} id="inputName3" placeholder="15h" ref={input => this.name = input} disabled />
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            {informations &&
+                                                <div className="col-sm-12">
+                                                    {informations.map(item => <div className="col-sm-4" key={item._id}>
+                                                        <div className='form-group has-feedback'>
+                                                            <label className="col-sm-2 control-label" style={{ width: '40%', textAlign: 'left', fontWeight: "500" }}>{item.name}</label>
+                                                            <div className="col-sm-8" style={{ width: '60%' }}>
+                                                                <input type={item.type} className="form-control" id="inputName3" placeholder="80" disabled={this.props.role !== "responsible"} />
+                                                            </div>
+                                                        </div>
+                                                    </div>)}
+                                                </div>
+                                            }
                                             <div className="col-sm-12">
                                                 <div className="col-sm-4">
                                                     <div className='form-group has-feedback'>
                                                         <label className="col-sm-2 control-label" style={{ width: '40%', textAlign: 'left', fontWeight: "500" }}>Mức độ hoàn thành:</label>
                                                         <div className="col-sm-8" style={{ width: '60%' }}>
-                                                            <input type="Name" className="form-control" id="inputName3" value={task && task.progress + "%"} ref={input => this.name = input} />
+                                                            <input type="number" className="form-control" id="inputName3" value={task && task.progress} disabled={this.props.role === "informed" || this.props.role === "consulted"} ref={input => this.name = input} />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -410,7 +473,7 @@ class ModalPerformTask extends Component {
                                                     <div className='form-group has-feedback'>
                                                         <label className="col-sm-2 control-label" style={{ width: '40%', textAlign: 'left', fontWeight: "500" }}>Thời gian làm việc:</label>
                                                         <div className="col-sm-8" style={{ width: '60%' }}>
-                                                            <input type="Name" className="form-control" id="inputName3" value={this.convertTime(task && task.time)} ref={input => this.name = input} />
+                                                            <input type="name" className="form-control" id="inputName3" value={this.convertTime(task && task.time)} ref={input => this.name = input} disabled />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -418,7 +481,7 @@ class ModalPerformTask extends Component {
                                                     <div className='form-group has-feedback'>
                                                         <label className="col-sm-2 control-label" style={{ width: '40%', textAlign: 'left', fontWeight: "500" }}>Điểm tự đánh giá:</label>
                                                         <div className="col-sm-8" style={{ width: '60%' }}>
-                                                            <input type="Name" className="form-control" id="inputName3" placeholder="80" ref={input => this.name = input} />
+                                                            <input type="number" className="form-control" id="inputName3" placeholder="80" disabled={this.props.role !== "responsible"} ref={input => this.name = input} />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -428,7 +491,7 @@ class ModalPerformTask extends Component {
                                                     <div className='form-group has-feedback'>
                                                         <label className="col-sm-2 control-label" style={{ width: '40%', textAlign: 'left', fontWeight: "500" }}>Điểm hệ thống tính:</label>
                                                         <div className="col-sm-8" style={{ width: '60%' }}>
-                                                            <input type="Name" className="form-control" id="inputName3" placeholder="75" ref={input => this.name = input} disabled />
+                                                            <input type="number" className="form-control" id="inputName3" placeholder="75" ref={input => this.name = input} disabled />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -436,13 +499,15 @@ class ModalPerformTask extends Component {
                                                     <div className='form-group has-feedback'>
                                                         <label className="col-sm-2 control-label" style={{ width: '40%', textAlign: 'left', fontWeight: "500" }}>Điểm quản lý chấm:</label>
                                                         <div className="col-sm-8" style={{ width: '60%' }}>
-                                                            <input type="Name" className="form-control" id="inputName3" placeholder="80" ref={input => this.name = input} disabled />
+                                                            <input type="number" className="form-control" id="inputName3" placeholder="80" ref={input => this.name = input} disabled={this.props.role !== "accountable"} />
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div className="col-sm-1" style={{ marginLeft: "22%" }}>
-                                                    <button className="btn btn-success">Lưu thông tin</button>
-                                                </div>
+                                                {this.props.role !== "informed" &&
+                                                    <div className="col-sm-1" style={{ marginLeft: "22%" }}>
+                                                        <button type="submit" className="btn btn-success" onClick={this.handleSubmitContenTask}>Lưu thông tin</button>
+                                                    </div>
+                                                }
                                             </div>
                                         </React.Fragment>}
                                 </div>
@@ -450,27 +515,102 @@ class ModalPerformTask extends Component {
                             <div className="nav-tabs-custom">
                                 <ul className="nav nav-tabs" style={{ borderTop: "solid", borderWidth: "thin", borderColor: "aliceblue" }}>
                                     <li className="active"><a href="#actionTask" onClick={() => this.handleChangeContent("actionTask")} data-toggle="tab">Hoạt động</a></li>
-                                    <li><a href="#commentTask" onClick={() => this.handleChangeContent("commentTask")} data-toggle="tab">Trao đổi</a></li>
+                                    {/* <li><a href="#commentTask" onClick={() => this.handleChangeContent("commentTask")} data-toggle="tab">Trao đổi</a></li> */}
                                     <li><a href="#documentTask" onClick={() => this.handleChangeContent("documentTask")} data-toggle="tab">Tài liệu</a></li>
-                                    <li><a href="#subTask" onClick={() => this.handleChangeContent("subTask")} data-toggle="tab">Công việc con</a></li>
+                                    {/* <li><a href="#subTask" onClick={() => this.handleChangeContent("subTask")} data-toggle="tab">Công việc con</a></li> */}
                                 </ul>
                                 <div className="tab-content">
                                     <div className={selected === "actionTask" ? "active tab-pane" : "tab-pane"} id="actionTask">
+                                        {actions &&
+                                            actions.map((item, index) => <div className="post clearfix" style={{ width: "50%" }} key={item._id}>
+                                                <div className="user-block" style={{ display: "inline-block", marginBottom: "0px"}}>
+                                                    <p>{index + 1 + ". "}{item.name}</p>
+                                                </div>
+                                                {item.approve === 1 &&
+                                                    <div className="action-comment" style={{ display: "inline-block" }}>
+                                                        <i className="material-icons">check</i>
+                                                    </div>
+                                                }
+                                                {this.props.role === "accountable" &&
+                                                    <div className="action-comment" style={{ display: "inline-block" }}>
+                                                        <a href="#abc" title="Đạt" className="add_circle"><i className="material-icons">check_circle_outline</i></a>
+                                                        <a href="#abc" title="Không đạt" className="delete"><i className="material-icons">highlight_off</i></a>
+                                                    </div>
+                                                }
+                                                <React.Fragment>
+                                                    <div className="action-comment" style={{ display: "inline-block" }}>
+                                                        <a href="#abc" title="Xem bình luận hoạt động này" className="link-black text-sm" onClick={() => this.handleShowChildComment(item._id)}>
+                                                            {showChildComment === item._id ? <i className="fa fa-angle-up" /> : <i className="fa  fa-angle-down" />}
+                                                        </a>
+                                                    </div>
+                                                    {showChildComment === item._id &&
+                                                        <div className="comment-content-child">
+                                                            {
+                                                                commentTasks.map(child => {
+                                                                    if (child.parent === item._id) return <div className="col-sm-12 margin-bottom-none" key={child._id}>
+                                                                        <div className="col-sm-2 user-block" style={{ width: "4%", marginTop: "1%" }}>
+                                                                            <img className="img-circle img-bordered-sm"
+                                                                                src="adminLTE/dist/img/user3-128x128.jpg" alt="user avatar"
+                                                                                style={{ height: "30px", width: "30px" }} />
+                                                                        </div>
+                                                                        <div className="col-sm-10" >
+                                                                            <p style={{ marginBottom: "-2px" }}>&nbsp;{child.content}</p>
+                                                                            <span className="description">19:30 19-11-2019</span>
+                                                                            {child.creator._id === this.state.currentUser &&
+                                                                                <div className="action-comment" style={{ display: "inline-block" }}>
+                                                                                    <a href="#abc" title="Sửa bình luận" className="edit" onClick={this.handleEditComment}><i className="material-icons">edit</i></a>
+                                                                                    <a href="#abc" title="Xóa bình luận" className="delete"><i className="material-icons">delete</i></a>
+                                                                                </div>
+                                                                            }
+                                                                        </div>
+                                                                    </div>;
+                                                                    return true;
+                                                                })
+                                                            }
+                                                            <div className="comment-child-action">
+                                                                <form className="form-horizontal" style={{ paddingTop: "1%" }}>
+                                                                    <div className="col-sm-12 margin-bottom-none">
+                                                                        <div className="col-sm-2 user-block" style={{ width: "4%", marginTop: "1%" }}>
+                                                                            <img className="img-circle img-bordered-sm"
+                                                                                src="adminLTE/dist/img/user3-128x128.jpg" alt="user avatar"
+                                                                                style={{ height: "30px", width: "30px" }} />
+                                                                        </div>
+                                                                        <div className="col-sm-11" >
+                                                                            <textarea placeholder="Hãy nhập nội dung bình luận"
+                                                                                style={{ width: '100%', height: 40, fontSize: 13, border: '1px solid #dddddd' }} ref={input => this.contentComment[item._id] = input} />
+                                                                            <div className="row action-post" style={{ width: "107%" }}>
+                                                                                <button style={{ width: "20%", marginRight: "2%" }} className="col-xs-2 col-xs-offset-7 btn btn-success btn-sm" onClick={(e) => this.submitComment(e, item._id, item._id)}>Gửi bình luận</button>
+                                                                                <button style={{ width: "16%" }} className="col-xs-2 btn btn-default btn-sm" onClick={this.handleComment}>Hủy bỏ</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>}
+                                                </React.Fragment>
+                                            </div>)
+                                        }
                                         {typeof commentTasks !== 'undefined' && commentTasks.length !== 0 ?
                                             commentTasks.map(item => {
                                                 if (item.parent === null)
-                                                    return <div className="post" style={{ width: "50%" }} key={item._id}>
-                                                        <div className="user-block" style={{ display: "inline-block" }}>
+                                                    return <div className="post clearfix" style={{ width: "50%" }} key={item._id}>
+                                                        <div className="user-block" style={{ display: "inline-block", marginBottom: "0px" }}>
                                                             <img className="img-circle img-bordered-sm" src="adminLTE/dist/img/user3-128x128.jpg" alt="user avatar" />
                                                             <span className="username">
                                                                 <a href="#abc">{item.creator.name}</a>
                                                             </span>
                                                             <span className="description">19:30 19-11-2019</span>
                                                         </div>
-                                                        {item.creator._id === this.state.currentUser &&
+                                                        {item.creator._id === this.state.currentUser && this.props.role === "responsible" &&
                                                             <div className="action-comment" style={{ display: "inline-block" }}>
                                                                 <a href="#abc" title="Sửa hành động" className="edit" onClick={() => this.handleEditComment(item._id)}><i className="material-icons">edit</i></a>
                                                                 <a href="#abc" title="Xóa hành động" className="delete"><i className="material-icons">delete</i></a>
+                                                            </div>
+                                                        }
+                                                        {this.props.role === "accountable" &&
+                                                            <div className="action-comment" style={{ display: "inline-block" }}>
+                                                                <a href="#abc" title="Đạt" className="add_circle"><i className="material-icons">check_circle_outline</i></a>
+                                                                <a href="#abc" title="Không đạt" className="delete"><i className="material-icons">highlight_off</i></a>
                                                             </div>
                                                         }
                                                         <div className="comment-content" style={{ marginLeft: "8%" }}>
@@ -493,53 +633,50 @@ class ModalPerformTask extends Component {
                                                                     </div>
                                                                     <ul className="list-inline">
                                                                         <li className="pull-right">
-                                                                            <a href="#abc" title="Xem bình luận hoạt động này" className="link-black text-sm" onClick={this.handleShowChildComment}>
-                                                                                <i className="fa fa-comments-o margin-r-5" /> Bình luận(1) &nbsp;
-                                                                            {showChildComment ? <i className="fa fa-angle-up" /> : <i className="fa  fa-angle-down" />}
+                                                                            <a href="#abc" title="Xem bình luận hoạt động này" className="link-black text-sm" onClick={() => this.handleShowChildComment(item._id)}>
+                                                                                <i className="fa fa-comments-o margin-r-5" /> Bình luận({commentTasks.filter(child => child.parent === item._id).reduce(sum => sum + 1, 0)}) &nbsp;
+                                                                            {showChildComment === item._id ? <i className="fa fa-angle-up" /> : <i className="fa  fa-angle-down" />}
                                                                             </a>
                                                                         </li>
                                                                     </ul>
-                                                                    {showChildComment &&
-                                                                        <div className="comment-content-child" style={{ marginLeft: "20px" }}>
+                                                                    {showChildComment === item._id &&
+                                                                        <div className="comment-content-child">
                                                                             {
                                                                                 commentTasks.map(child => {
-                                                                                    if (child.parent === item._id) return <div className="form-group margin-bottom-none">
-                                                                                        <div className="col-sm-2 user-block" style={{ width: "4%", marginTop: "2%" }}>
+                                                                                    if (child.parent === item._id) return <div className="col-sm-12 form-group margin-bottom-none" key={child._id}>
+                                                                                        <div className="col-sm-1 user-block" style={{ width: "4%", marginTop: "2%" }}>
                                                                                             <img className="img-circle img-bordered-sm"
                                                                                                 src="adminLTE/dist/img/user3-128x128.jpg" alt="user avatar"
                                                                                                 style={{ height: "30px", width: "30px" }} />
                                                                                         </div>
-                                                                                        <div className="col-sm-9" >
+                                                                                        <div className="col-sm-11" >
                                                                                             <p style={{ marginBottom: "-2px" }}>&nbsp;{child.content}</p>
-                                                                                            <div className="attach-file" style={{ width: "fit-content", display: "inline-block" }}>
-                                                                                                <a href="#abc">tailieu1v2.docx</a>
-                                                                                            </div>
                                                                                             <span className="description">19:30 19-11-2019</span>
                                                                                             {child.creator._id === this.state.currentUser &&
                                                                                                 <div className="action-comment" style={{ display: "inline-block" }}>
-                                                                                                    <a href="#abc" title="Sửa hành động" className="edit" onClick={this.handleEditComment}><i className="material-icons">edit</i></a>
-                                                                                                    <a href="#abc" title="Xóa hành động" className="delete"><i className="material-icons">delete</i></a>
+                                                                                                    <a href="#abc" title="Sửa bình luận" className="edit" onClick={this.handleEditComment}><i className="material-icons">edit</i></a>
+                                                                                                    <a href="#abc" title="Xóa bình luận" className="delete"><i className="material-icons">delete</i></a>
                                                                                                 </div>
                                                                                             }
                                                                                         </div>
-                                                                                    </div>
+                                                                                    </div>;
+                                                                                    return true;
                                                                                 })
                                                                             }
-                                                                            <div className="comment-child-action" style={{ marginLeft: "15px" }}>
+                                                                            <div className="comment-child-action">
                                                                                 <form className="form-horizontal" style={{ paddingTop: "12%" }}>
-                                                                                    <div className="form-group margin-bottom-none">
-                                                                                        <div className="col-sm-2 user-block" style={{ width: "4%", marginTop: "1%" }}>
+                                                                                    <div className="col-sm-12 margin-bottom-none">
+                                                                                        <div className="col-sm-1 user-block" style={{ width: "4%", marginTop: "1%" }}>
                                                                                             <img className="img-circle img-bordered-sm"
                                                                                                 src="adminLTE/dist/img/user3-128x128.jpg" alt="user avatar"
                                                                                                 style={{ height: "30px", width: "30px" }} />
                                                                                         </div>
-                                                                                        <div className="col-sm-9" >
+                                                                                        <div className="col-sm-11" >
                                                                                             <textarea placeholder="Hãy nhập nội dung bình luận"
-                                                                                                style={{ width: '127%', height: 40, fontSize: 13, border: '1px solid #dddddd' }} />
-                                                                                            <div className="row action-post" style={{ width: "133%" }}>
-                                                                                                <input className="col-xs-7" type="file" name="attack-file" multiple="multiple" />
-                                                                                                <button type="submit" style={{ width: "20%", marginRight: "2%" }} className="col-xs-2 btn btn-success btn-sm">Gửi bình luận</button>
-                                                                                                <button type="cancel" style={{ width: "16%" }} className="col-xs-2 btn btn-default btn-sm" onClick={this.handleComment}>Hủy bỏ</button>
+                                                                                                style={{ width: '100%', height: 40, fontSize: 13, border: '1px solid #dddddd' }} ref={input => this.contentComment[item._id] = input} />
+                                                                                            <div className="row action-post">
+                                                                                                <button type="submit" style={{ width: "20%", marginRight: "2%" }} className="col-xs-2 col-xs-offset-7 btn btn-success btn-sm" onClick={(e) => this.submitComment(e, item._id, item._id)}>Gửi bình luận</button>
+                                                                                                <button style={{ width: "16%" }} className="col-xs-2 btn btn-default btn-sm" onClick={this.handleComment}>Hủy bỏ</button>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
@@ -549,27 +686,29 @@ class ModalPerformTask extends Component {
                                                                 </React.Fragment>
                                                             }
                                                         </div>
-                                                    </div>
+                                                    </div>;
+                                                return true;
                                             }) : null
                                         }
-                                        <form className="form-horizontal" style={{ paddingTop: "2%" }}>
-                                            <div className="form-group margin-bottom-none">
-                                                <div className="col-sm-2 user-block" style={{ width: "4%", marginTop: "1%" }}>
-                                                    <img className="img-circle img-bordered-sm" src="adminLTE/dist/img/user3-128x128.jpg" alt="user avatar" />
+                                        {this.props.role === "responsible" &&
+                                            <form className="form-horizontal" style={{ paddingTop: "2%" }}>
+                                                <div className="form-group margin-bottom-none">
+                                                    <div className="col-sm-2 user-block" style={{ width: "4%", marginTop: "1%" }}>
+                                                        <img className="img-circle img-bordered-sm" src="adminLTE/dist/img/user3-128x128.jpg" alt="user avatar" />
+                                                    </div>
+                                                    <div className="col-sm-8" >
+                                                        <textarea placeholder="Hãy nhập nội dung hoạt động"
+                                                            style={{ width: '70%', height: 65, fontSize: 13, border: '1px solid #dddddd' }}
+                                                            onClick={this.handleComment} ref={input => this.contentComment[0] = input} />
+                                                        {comment &&
+                                                            <div className="row action-post" style={{ width: "72%" }}>
+                                                                <input className="col-xs-8" type="file" name="attack-file" multiple="multiple" />
+                                                                <button type="submit" style={{ width: "18%", marginRight: "2%" }} className="col-xs-2 btn btn-success btn-sm" onClick={(e) => this.submitComment(e, null, 0)}>Thêm hoạt động</button>
+                                                                <button style={{ width: "13%" }} className="col-xs-2 btn btn-default btn-sm" onClick={this.handleComment}>Hủy bỏ</button>
+                                                            </div>}
+                                                    </div>
                                                 </div>
-                                                <div className="col-sm-8" >
-                                                    <textarea placeholder="Hãy nhập nội dung hoạt động"
-                                                        style={{ width: '70%', height: 65, fontSize: 13, border: '1px solid #dddddd' }}
-                                                        onClick={this.handleComment} />
-                                                    {comment &&
-                                                        <div className="row action-post" style={{ width: "70%" }}>
-                                                            <input className="col-xs-8" type="file" name="attack-file" multiple="multiple" />
-                                                            <button type="submit" style={{ width: "15%", marginRight: "2%" }} className="col-xs-2 btn btn-success btn-sm">Thêm hoạt động</button>
-                                                            <button type="cancel" style={{ width: "15%" }} className="col-xs-2 btn btn-default btn-sm" onClick={this.handleComment}>Hủy bỏ</button>
-                                                        </div>}
-                                                </div>
-                                            </div>
-                                        </form>
+                                            </form>}
                                     </div>
                                     <div className={selected === "commentTask" ? "active tab-pane" : "tab-pane"} id="commentTask">
                                         {/* Post */}
@@ -640,10 +779,6 @@ class ModalPerformTask extends Component {
                                 </div>
                             </div>
                         </div>
-                        {/* <div className="modal-footer">
-                            <button type="cancel" className="btn btn-primary" data-dismiss="modal">Đóng</button>
-                        </div> */}
-                        {/* Modal Footer */}
                     </div>
                 </div>
             </div >
@@ -658,7 +793,9 @@ function mapState(state) {
 
 const actionCreators = {
     getResponsibleTaskByUser: taskManagementActions.getResponsibleTaskByUser,
-    getCommentTask: performTaskAction.getCommentTask
+    getCommentTask: performTaskAction.getCommentTask,
+    getTaskById: taskManagementActions.getTaskById,
+    addComment: performTaskAction.addCommentTask
 };
 const connectedModalPerformTask = connect(mapState, actionCreators)(ModalPerformTask);
 export { connectedModalPerformTask as ModalPerformTask };

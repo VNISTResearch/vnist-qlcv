@@ -19,12 +19,23 @@ class TabTaskContent extends Component {
     }
     componentDidMount() {
         this.props.getDepartment(localStorage.getItem('id'));
-        this.props.getResponsibleTaskByUser(localStorage.getItem('id'), "[]", 1, 10, "[]", "[]", "[]", null);
+        var content = this.props.role;
+        if (content === "responsible") {
+            this.props.getResponsibleTaskByUser(localStorage.getItem('id'), "[]", 1, 10, "[]", "[]", "[]", null);
+        } else if (content === "accountable") {
+            this.props.getAccounatableTaskByUser(localStorage.getItem('id'), "[]", 1, 10, "[]", "[]", "[]", null);
+        } else if (content === "consulted") {
+            this.props.getConsultedTaskByUser(localStorage.getItem('id'), "[]", 1, 10, "[]", "[]", "[]", null);
+        } else if (content === "creator") {
+            this.props.getCreatorTaskByUser(localStorage.getItem('id'), "[]", 1, 10, "[]", "[]", "[]", null);
+        } else {
+            this.props.getInformedTaskByUser(localStorage.getItem('id'), "[]", 1, 10, "[]", "[]", "[]", null);
+        }
         this.defindMultiSelect();
         this.loadJS();
         this.handleResizeColumn();
     }
-    componentWillUpdate() {
+    UNSAFE_componentWillUpdate() {
         let script = document.createElement('script');
         script.src = 'main/js/GridTableVers1.js';
         script.async = true;
@@ -195,13 +206,34 @@ class TabTaskContent extends Component {
         })
     }
     handleGetDataPagination = async (index) => {
-        var test = window.$("#multiSelectUnit").val();
+        var unit = window.$("#multiSelectUnit1").val();
+        var status = window.$("#multiSelectStatus").val();
         var oldCurrentPage = this.state.currentPage;
-        await this.updateCurrentPage(index);
-        if (oldCurrentPage !== index) this.props.getTaskTemplateByUser(localStorage.getItem('id'), index, test);
+        await this.setState(state => {
+            return {
+                ...state,
+                currentPage: index
+            }
+        })
+        var newCurrentPage = this.state.currentPage;
+        if (oldCurrentPage !== index) {
+            var content = this.props.role;
+            if (content === "responsible") {
+                this.props.getResponsibleTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 10, status, "[]", "[]", null);
+            } else if (content === "accountable") {
+                this.props.getAccounatableTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 10, status, "[]", "[]", null);
+            } else if (content === "consulted") {
+                this.props.getConsultedTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 10, status, "[]", "[]", null);
+            } else if (content === "creator") {
+                this.props.getCreatorTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 10, status, "[]", "[]", null);
+            } else {
+                this.props.getInformedTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 10, status, "[]", "[]", null);
+            }
+        };
     }
     nextPage = async (pageTotal) => {
-        var test = window.$("#multiSelectUnit").val();
+        var unit = window.$("#multiSelectUnit1").val();
+        var status = window.$("#multiSelectStatus").val();
         var oldCurrentPage = this.state.currentPage;
         await this.setState(state => {
             return {
@@ -210,10 +242,24 @@ class TabTaskContent extends Component {
             }
         })
         var newCurrentPage = this.state.currentPage;
-        if (oldCurrentPage !== newCurrentPage) this.props.getTaskTemplateByUser(localStorage.getItem('id'), this.state.currentPage, test);
+        if (oldCurrentPage !== newCurrentPage) {
+            var content = this.props.role;
+            if (content === "responsible") {
+                this.props.getResponsibleTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 10, status, "[]", "[]", null);
+            } else if (content === "accountable") {
+                this.props.getAccounatableTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 10, status, "[]", "[]", null);
+            } else if (content === "consulted") {
+                this.props.getConsultedTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 10, status, "[]", "[]", null);
+            } else if (content === "creator") {
+                this.props.getCreatorTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 10, status, "[]", "[]", null);
+            } else {
+                this.props.getInformedTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 10, status, "[]", "[]", null);
+            }
+        };
     }
     backPage = async () => {
-        var test = window.$("#multiSelectUnit").val();
+        var unit = window.$("#multiSelectUnit1").val();
+        var status = window.$("#multiSelectStatus").val();
         var oldCurrentPage = this.state.currentPage;
         await this.setState(state => {
             return {
@@ -222,12 +268,36 @@ class TabTaskContent extends Component {
             }
         })
         var newCurrentPage = this.state.currentPage;
-        if (oldCurrentPage !== newCurrentPage) this.props.getTaskTemplateByUser(localStorage.getItem('id'), this.state.currentPage, test);
+        if (oldCurrentPage !== newCurrentPage) {
+            var content = this.props.role;
+            if (content === "responsible") {
+                this.props.getResponsibleTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 10, status, "[]", "[]", null);
+            } else if (content === "accountable") {
+                this.props.getAccounatableTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 10, status, "[]", "[]", null);
+            } else if (content === "consulted") {
+                this.props.getConsultedTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 10, status, "[]", "[]", null);
+            } else if (content === "creator") {
+                this.props.getCreatorTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 10, status, "[]", "[]", null);
+            } else {
+                this.props.getInformedTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 10, status, "[]", "[]", null);
+            }
+        };
     }
     handleUpdateData = () => {
         var unit = window.$("#multiSelectUnit1").val();
         var status = window.$("#multiSelectStatus").val();
-        this.props.getResponsibleTaskByUser(localStorage.getItem('id'), unit, 1, 10, status, "[]", "[]", null);
+        var content = this.props.role;
+        if (content === "responsible") {
+            this.props.getResponsibleTaskByUser(localStorage.getItem('id'), unit, 1, 10, status, "[]", "[]", null);
+        } else if (content === "accountable") {
+            this.props.getAccounatableTaskByUser(localStorage.getItem('id'), unit, 1, 10, status, "[]", "[]", null);
+        } else if (content === "consulted") {
+            this.props.getConsultedTaskByUser(localStorage.getItem('id'), unit, 1, 10, status, "[]", "[]", null);
+        } else if (content === "creator") {
+            this.props.getCreatorTaskByUser(localStorage.getItem('id'), unit, 1, 10, status, "[]", "[]", null);
+        } else {
+            this.props.getInformedTaskByUser(localStorage.getItem('id'), unit, 1, 10, status, "[]", "[]", null);
+        }
         this.setState(state => {
             return {
                 ...state,
@@ -249,7 +319,6 @@ class TabTaskContent extends Component {
         return hours + ":" + minutes + ":" + seconds;
     }
     handleShowModal = async (id) => {
-        this.props.getTaskById(id);
         await this.setState(state => {
             return {
                 ...state,
@@ -263,25 +332,25 @@ class TabTaskContent extends Component {
         modal.style = "display: block; padding-right: 17px;";
     }
     render() {
-        var taskResponsibles, units, pageTotal;
-        var pageTotalResponsibles;
+        var currentTasks, units;
+        var pageTotals;
         const { tasks, departments } = this.props;
         const { extendProperties, startTimer, currentTimer, currentPage } = this.state;
-        if (tasks.taskResponsibles) {
-            taskResponsibles = tasks.taskResponsibles;
-            pageTotalResponsibles = tasks.pageTotalResponsibles
+        if (tasks.tasks) {
+            currentTasks = tasks.tasks;
+            pageTotals = tasks.pages
         }
         if (departments.unitofuser) units = departments.unitofuser;
         const items = [];
-        if (pageTotalResponsibles > 5) {
+        if (pageTotals > 5) {
             if (currentPage < 3) {
                 for (let i = 0; i < 5; i++) {
                     items.push(<li key={i + 1} className={currentPage === i + 1 ? "active" : ""}><a href="#abc" onClick={() => this.handleGetDataPagination(i + 1)}>{i + 1}</a></li>);
                 }
-                items.push(<li className="disable" key={pageTotalResponsibles}><a href="#abc">...</a></li>);
-            } else if (currentPage >= pageTotalResponsibles - 3) {
+                items.push(<li className="disable" key={pageTotals}><a href="#abc">...</a></li>);
+            } else if (currentPage >= pageTotals - 3) {
                 items.push(<li className="disable" key={0}><a href="#abc">...</a></li>);
-                for (let i = pageTotalResponsibles - 5; i < pageTotalResponsibles; i++) {
+                for (let i = pageTotals - 5; i < pageTotals; i++) {
                     items.push(<li key={i + 1} className={currentPage === i + 1 ? "active" : ""}><a href="#abc" onClick={() => this.handleGetDataPagination(i + 1)}>{i + 1}</a></li>);
                 }
             } else {
@@ -289,10 +358,10 @@ class TabTaskContent extends Component {
                 for (let i = currentPage - 2; i < currentPage + 3; i++) {
                     items.push(<li key={i + 1} className={currentPage === i + 1 ? "active" : ""}><a href="#abc" onClick={() => this.handleGetDataPagination(i + 1)}>{i + 1}</a></li>);
                 }
-                items.push(<li className="disable" key={pageTotalResponsibles + 1}><a href="#abc">...</a></li>);
+                items.push(<li className="disable" key={pageTotals + 1}><a href="#abc">...</a></li>);
             }
         } else {
-            for (let i = 0; i < pageTotalResponsibles; i++) {
+            for (let i = 0; i < pageTotals; i++) {
                 items.push(<li key={i + 1} className={currentPage === i + 1 ? "active" : ""}><a href="#abc" onClick={() => this.handleGetDataPagination(i + 1)}>{i + 1}</a></li>);
             }
         }
@@ -370,7 +439,7 @@ class TabTaskContent extends Component {
                             <th style={{ width: "7%" }} title="Thời gian thực hiện">Thời gian</th>
                             <th style={{ width: "9%" }}>
                                 Hành động
-                                                <button type="button" data-toggle="collapse" data-target="#setting-table" style={{ border: "none", background: "none" }}><i className="fa fa-gear"></i></button>
+                                <button type="button" data-toggle="collapse" data-target="#setting-table" style={{ border: "none", background: "none" }}><i className="fa fa-gear"></i></button>
                                 <div id="setting-table" className="row collapse">
                                     <span className="pop-arw arwTop L-auto R10"></span>
                                     <div className="col-xs-12">
@@ -400,8 +469,8 @@ class TabTaskContent extends Component {
                     </thead>
                     <tbody id="taskTable">
                         {
-                            (typeof taskResponsibles !== 'undefined' && taskResponsibles.length !== 0) ?
-                                this.list_to_tree(taskResponsibles).map(item =>
+                            (typeof currentTasks !== 'undefined' && currentTasks.length !== 0) ?
+                                this.list_to_tree(currentTasks).map(item =>
                                     <tr key={item._id} data-id={item._id} data-parent={item.parent === null ? item.parent : item.parent._id} data-level={item.level}>
                                         <td title={item.name} data-column="name">{item.name}</td>
                                         <td title={item.unit.name}>{item.unit.name}</td>
@@ -413,7 +482,7 @@ class TabTaskContent extends Component {
                                         <td title={this.convertTime(item.time)}>{this.convertTime(item.time)}</td>
                                         <td >
                                             <a href={`#modelPerformTask${item._id}`} className="edit" data-toggle="modal" onClick={() => this.handleShowModal(item._id)} title={"Bắt đầu" + item.name}><i className="material-icons">edit</i></a>
-                                            {this.state.showModal === item._id ? <ModalPerformTask id={item._id} /> : null}
+                                            {this.state.showModal === item._id ? <ModalPerformTask id={item._id} role={this.props.role}/> : null}
                                             <a href="#abc" className={startTimer && currentTimer === item._id ? "edit" : "timer"} id="task-timer" title="Bắt đầu bấm giờ" onClick={() => this.handleCountTime(item._id)}><i className="material-icons">timer</i></a>
                                             <button type="button" data-toggle="collapse" data-target={`#actionTask${item._id}`} style={{ border: "none", background: "none" }}><i className="fa fa-ellipsis-v"></i></button>
                                             <div id={`actionTask${item._id}`} className="collapse action-template">
@@ -421,7 +490,7 @@ class TabTaskContent extends Component {
                                                 <a href="#abc" className="all_inbox" title="Lưu công việc này vào kho"><i className="material-icons">all_inbox</i></a>
                                                 <a href="#abc" className="delete" onClick={() => this.handleAction(item._id)} title="Xóa mẫu công việc này"><i className="material-icons"></i></a>
                                             </div>
-                                            <ModalAddTask id={item._id} />
+                                            <ModalAddTask id={item._id} role={this.props.role}/>
                                         </td>
                                     </tr>
                                 ) : null
@@ -432,7 +501,7 @@ class TabTaskContent extends Component {
                     <ul className="pagination" style={{ margin: "auto" }}>
                         <li><a href="#abc" onClick={() => this.backPage()}>«</a></li>
                         {items}
-                        <li><a href="#abc" onClick={() => this.nextPage(pageTotal)}>»</a></li>
+                        <li><a href="#abc" onClick={() => this.nextPage(pageTotals)}>»</a></li>
                     </ul>
                 </div>
             </React.Fragment>
@@ -447,8 +516,11 @@ function mapState(state) {
 
 const actionCreators = {
     getResponsibleTaskByUser: taskManagementActions.getResponsibleTaskByUser,
+    getAccounatableTaskByUser: taskManagementActions.getAccounatableTaskByUser,
+    getConsultedTaskByUser: taskManagementActions.getConsultedTaskByUser,
+    getInformedTaskByUser: taskManagementActions.getInformedTaskByUser,
+    getCreatorTaskByUser: taskManagementActions.getCreatorTaskByUser,
     getDepartment: departmentActions.getDepartmentOfUser,
-    getTaskById: taskManagementActions.getTaskById
 };
 const connectedTabTaskContent = connect(mapState, actionCreators)(TabTaskContent);
 export { connectedTabTaskContent as TabTaskContent };

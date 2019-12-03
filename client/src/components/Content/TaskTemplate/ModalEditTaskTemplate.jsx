@@ -5,6 +5,9 @@ import { taskTemplateActions } from '../../../redux-actions/CombineActions';
 class ModalEditTaskTemplate extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            currentTemplate: this.props.id
+        }
     }
 
     componentDidMount() {

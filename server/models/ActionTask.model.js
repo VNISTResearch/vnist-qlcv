@@ -3,8 +3,9 @@ const Schema = mongoose.Schema;
 
 // Create Schema
 const ActionTaskTemplateSchema = new Schema({
-    owner: { //lưu id của đối tượng sở hữu tương ứng có thể là task hoặc task template
+    tasktemplate: {
         type: Schema.Types.ObjectId,
+        ref: TaskTemplate,
         required: true
     },
     name: {
@@ -18,11 +19,6 @@ const ActionTaskTemplateSchema = new Schema({
     mandatary: { // Hoạt động này bắt buộc hay không?
         type: Boolean,
         default: true,
-        required: true
-    },
-    type: {
-        type: String,
-        enum: ['TaskTemplate', 'Task'],
         required: true
     }
 });

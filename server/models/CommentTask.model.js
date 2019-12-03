@@ -11,21 +11,25 @@ const CommentTaskSchema = new Schema({
         ref: Task,
         required: true
     },
-    actionTask: {
-        type: Schema.Types.ObjectId,
-        ref: ActionTask,
-    },
+    // actionTask: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: ActionTask,
+    // },
     creator: {
         type: Schema.Types.ObjectId,
         ref: User,
         required: true
     },
-    parent: {
+    parent: {// Có thể là comment cha hoặc là action task
         type: Schema.Types.ObjectId,
-        replies: this
+        // replies: this
     },
     content: {
         type: String,
+    },
+    approved: {
+        type: Number,
+        default: 0,
         required: true
     }
 }, {

@@ -84,10 +84,9 @@ exports.getByUser = async (req, res) => {
     }
 }
 
-
 //Tạo mẫu công việc
 exports.create = async (req, res) => {
-
+    console.log(req.body);
     try {
         // console.log(req.body);
         var tasktemplate = await TaskTemplate.create({ //Tạo dữ liệu mẫu công việc
@@ -109,24 +108,25 @@ exports.create = async (req, res) => {
             resource_type: "TaskTemplate",
             action: read //quyền READ
         });
-        // var actions = req.body.listAction.map(item => {
-        //     ActionTask.create({
-        //         owner: tasktemplate._id,
-        //         name: item.name,
-        //         description: item.description,
-        //         mandatary: item.mandatary,
-        //         type: "TaskTemplate"
-        //     })
-        // });
-        // var information = req.body.listInfo.map(item => {
-        //     InformationTaskTemplate.create({
-        //         tasktemplate: tasktemplate._id,
-        //         name: item.name,
-        //         description: item.description,
-        //         mandatary: item.mandatary,
-        //         type: item.type
-        //     })
-        // });
+        var actions = req.body.listAction.map(item => {
+            ActionTask.create({
+                tasktemplate: tasktemplate._id,
+                name: item.name,
+                description: item.description,
+                mandatary: item.mandatary,
+                type: "TaskTemplate"
+            })
+        });
+        var informations = req.body.listInfo.map((item, key) => {
+            InformationTaskTemplate.create({
+                tasktemplate: tasktemplate._id,
+                code: "p"+key,
+                name: item.name,
+                description: item.description,
+                mandatary: item.mandatary,
+                type: item.type
+            })
+        });
         console.log(privilege);
         var newTask = await Privilege.findById(privilege._id).populate({ path: 'resource', model: TaskTemplate, populate: { path: 'creator' } });
 

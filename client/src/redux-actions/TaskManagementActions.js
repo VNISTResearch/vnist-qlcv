@@ -5,6 +5,10 @@ export const taskManagementActions = {
     getAll,
     getAllTaskByRole,
     getResponsibleTaskByUser,
+    getAccounatableTaskByUser,
+    getConsultedTaskByUser,
+    getInformedTaskByUser,
+    getCreatorTaskByUser,
     getTaskById,
     addTask,
     editTask,
@@ -60,6 +64,74 @@ function getResponsibleTaskByUser(user, unit, number, perpage, status, priority,
     function request(user) { return { type: taskManagementConstants.GETTASK_RESPONSIBLE_BYUSER_REQUEST, user } }
     function success(taskResponsibles) { return { type: taskManagementConstants.GETTASK_RESPONSIBLE_BYUSER_SUCCESS, taskResponsibles } }
     function failure(error) { return { type: taskManagementConstants.GETTASK_RESPONSIBLE_BYUSER_FAILURE, error } }
+}
+
+// Get all task by user
+function getAccounatableTaskByUser(user, unit, number, perpage, status, priority, specical, name) {
+    return dispatch => {
+        dispatch(request(user));
+
+        taskManagementService.getAccounatableTaskByUser(user, unit, number, perpage, status, priority, specical, name)
+            .then(
+                taskAccounatables => dispatch(success(taskAccounatables)),
+                error => dispatch(failure(error.toString()))
+            );
+    };
+
+    function request(user) { return { type: taskManagementConstants.GETTASK_ACCOUNATABLE_BYUSER_REQUEST, user } }
+    function success(taskAccounatables) { return { type: taskManagementConstants.GETTASK_ACCOUNATABLE_BYUSER_SUCCESS, taskAccounatables } }
+    function failure(error) { return { type: taskManagementConstants.GETTASK_ACCOUNATABLE_BYUSER_FAILURE, error } }
+}
+
+// Get all task by user
+function getConsultedTaskByUser(user, unit, number, perpage, status, priority, specical, name) {
+    return dispatch => {
+        dispatch(request(user));
+
+        taskManagementService.getConsultedTaskByUser(user, unit, number, perpage, status, priority, specical, name)
+            .then(
+                taskConsulteds => dispatch(success(taskConsulteds)),
+                error => dispatch(failure(error.toString()))
+            );
+    };
+
+    function request(user) { return { type: taskManagementConstants.GETTASK_CONSULTED_BYUSER_REQUEST, user } }
+    function success(taskConsulteds) { return { type: taskManagementConstants.GETTASK_CONSULTED_BYUSER_SUCCESS, taskConsulteds } }
+    function failure(error) { return { type: taskManagementConstants.GETTASK_CONSULTED_BYUSER_FAILURE, error } }
+}
+
+// Get all task by user
+function getInformedTaskByUser(user, unit, number, perpage, status, priority, specical, name) {
+    return dispatch => {
+        dispatch(request(user));
+
+        taskManagementService.getInformedTaskByUser(user, unit, number, perpage, status, priority, specical, name)
+            .then(
+                taskInformeds => dispatch(success(taskInformeds)),
+                error => dispatch(failure(error.toString()))
+            );
+    };
+
+    function request(user) { return { type: taskManagementConstants.GETTASK_INFORMED_BYUSER_REQUEST, user } }
+    function success(taskInformeds) { return { type: taskManagementConstants.GETTASK_INFORMED_BYUSER_SUCCESS, taskInformeds } }
+    function failure(error) { return { type: taskManagementConstants.GETTASK_INFORMED_BYUSER_FAILURE, error } }
+}
+
+// Get all task by user
+function getCreatorTaskByUser(user, unit, number, perpage, status, priority, specical, name) {
+    return dispatch => {
+        dispatch(request(user));
+
+        taskManagementService.getCreatorTaskByUser(user, unit, number, perpage, status, priority, specical, name)
+            .then(
+                taskCreators => dispatch(success(taskCreators)),
+                error => dispatch(failure(error.toString()))
+            );
+    };
+
+    function request(user) { return { type: taskManagementConstants.GETTASK_CREATOR_BYUSER_REQUEST, user } }
+    function success(taskCreators) { return { type: taskManagementConstants.GETTASK_CREATOR_BYUSER_SUCCESS, taskCreators } }
+    function failure(error) { return { type: taskManagementConstants.GETTASK_CREATOR_BYUSER_FAILURE, error } }
 }
 
 // Get task template by id

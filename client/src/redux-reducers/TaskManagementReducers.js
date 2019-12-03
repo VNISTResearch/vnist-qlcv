@@ -31,32 +31,89 @@ export function tasks(state = {}, action) {
             return {
                 error: action.error
             };
-        case taskManagementConstants.GETTASK_BYROLE_REQUEST:
-            return {
-                ...state,
-                loadingMany: true
-            };
-        case taskManagementConstants.GETTASK_BYROLE_SUCCESS:
-            return {
-                ...state,
-                items: action.tasks
-            };
-        case taskManagementConstants.GETTASK_BYROLE_FAILURE:
-            return {
-                error: action.error
-            };
         case taskManagementConstants.GETTASK_RESPONSIBLE_BYUSER_REQUEST:
             return {
                 ...state,
-                loadingMany: true
+                tasks: null,
+                pages: null,
+                loadingResponsible: true
             };
         case taskManagementConstants.GETTASK_RESPONSIBLE_BYUSER_SUCCESS:
             return {
                 ...state,
-                taskResponsibles: action.taskResponsibles.tasks,
-                pageTotalResponsibles: action.taskResponsibles.totalpage,
+                tasks: action.taskResponsibles.tasks,
+                pages: action.taskResponsibles.totalpage,
             };
         case taskManagementConstants.GETTASK_RESPONSIBLE_BYUSER_FAILURE:
+            return {
+                error: action.error
+            };
+        case taskManagementConstants.GETTASK_ACCOUNATABLE_BYUSER_REQUEST:
+            return {
+                ...state,
+                tasks: null,
+                pages: null,
+                loadingAccountable: true
+            };
+        case taskManagementConstants.GETTASK_ACCOUNATABLE_BYUSER_SUCCESS:
+            return {
+                ...state,
+                tasks: action.taskAccounatables.tasks,
+                pages: action.taskAccounatables.totalpage,
+                loadingAccountable: false
+            };
+        case taskManagementConstants.GETTASK_ACCOUNATABLE_BYUSER_FAILURE:
+            return {
+                error: action.error
+            };
+        case taskManagementConstants.GETTASK_CONSULTED_BYUSER_REQUEST:
+            return {
+                ...state,
+                tasks: null,
+                pages: null,
+                loadingConsulted: true
+            };
+        case taskManagementConstants.GETTASK_CONSULTED_BYUSER_SUCCESS:
+            return {
+                ...state,
+                tasks: action.taskConsulteds.tasks,
+                pages: action.taskConsulteds.totalpage,
+            };
+        case taskManagementConstants.GETTASK_CONSULTED_BYUSER_FAILURE:
+            return {
+                error: action.error
+            };
+        case taskManagementConstants.GETTASK_INFORMED_BYUSER_REQUEST:
+            return {
+                ...state,
+                tasks: null,
+                pages: null,
+                loadingInformed: true
+            };
+        case taskManagementConstants.GETTASK_INFORMED_BYUSER_SUCCESS:
+            return {
+                ...state,
+                tasks: action.taskInformeds.tasks,
+                pages: action.taskInformeds.totalpage,
+            };
+        case taskManagementConstants.GETTASK_INFORMED_BYUSER_FAILURE:
+            return {
+                error: action.error
+            };
+        case taskManagementConstants.GETTASK_CREATOR_BYUSER_REQUEST:
+            return {
+                ...state,
+                tasks: null,
+                pages: null,
+                loadingCreator: true
+            };
+        case taskManagementConstants.GETTASK_CREATOR_BYUSER_SUCCESS:
+            return {
+                ...state,
+                tasks: action.taskCreators.tasks,
+                pages: action.taskCreators.totalpage,
+            };
+        case taskManagementConstants.GETTASK_CREATOR_BYUSER_FAILURE:
             return {
                 error: action.error
             };

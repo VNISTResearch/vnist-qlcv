@@ -377,6 +377,7 @@ class ModalAddTaskTemplate extends Component {
                 ...state,
                 newTemplate: {
                     ...state.newTemplate,
+                    // unit: this.unit.selected,
                     listAction: newListActions,
                     listInfo: newListInfos,
                     name: this.name.value,
@@ -394,15 +395,15 @@ class ModalAddTaskTemplate extends Component {
         await this.updateState();
         const { newTemplate } = this.state;
         console.log(newTemplate);
-        // if (newTemplate.name && newTemplate.description && newTemplate.formula && newTemplate.listAction && newTemplate.listInfo) {
-        //     this.props.addNewTemplate(newTemplate);
-        //     this.setState(state => {
-        //         return {
-        //             submitted: false
-        //         }
-        //     });
-        //     this.handleCancel();
-        // }
+        if (newTemplate.name && newTemplate.description && newTemplate.formula && newTemplate.listAction && newTemplate.listInfo) {
+            this.props.addNewTemplate(newTemplate);
+            this.setState(state => {
+                return {
+                    submitted: false
+                }
+            });
+            // this.handleCancel();
+        }
         window.$("#myModalHorizontal").modal("hide");
     }
     render() {

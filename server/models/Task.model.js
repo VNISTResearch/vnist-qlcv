@@ -88,16 +88,13 @@ const TaskSchema = new Schema({
     },
     progress: {
         type: Number,
+        default: 0,
         required: true
     },
-    personalpoint: {
-        type: Number
-    },
-    systempoint: {
-        type: Number
-    },
-    approvepoint: {
-        type: Number
+    point: {
+        type: Number,
+        default: 0,
+        required: true
     }
 }, {
     timestamps: true

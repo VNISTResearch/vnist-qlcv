@@ -30,9 +30,9 @@ class ModalAddTask extends Component {
                 consulted: [],
                 informed: [],
                 creator: localStorage.getItem('id'),
-                tasktemplate: "",
+                tasktemplate: null,
                 role: localStorage.getItem('currentRole'),
-                parent: "",
+                parent: null,
                 kpi: []
             },
             submitted: false,

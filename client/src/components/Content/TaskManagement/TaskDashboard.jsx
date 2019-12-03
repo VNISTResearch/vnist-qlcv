@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import CanvasJSReact from './Chart/canvasjs.react';
 
 class TaskDashboard extends Component {
     constructor(props) {
@@ -17,123 +18,123 @@ class TaskDashboard extends Component {
             //  -----------------------------------------------------------------*/
             // function init_events(ele) {
             //   ele.each(function () {
-        
+
             //     // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
             //     // it doesn't need to have a start or end
             //     var eventObject = {
             //       title: window.$.trim(window.$(this).text()) // use the element's text as the event title
             //     }
-        
+
             //     // store the Event Object in the DOM element so we can get to it later
             //     window.$(this).data('eventObject', eventObject)
-        
+
             //     // make the event draggable using jQuery UI
             //     // window.$(this).draggable({
             //     //   zIndex        : 1070,
             //     //   revert        : true, // will cause the event to go back to its
             //     //   revertDuration: 0  //  original position after the drag
             //     // })
-        
+
             //   })
             // }
-        
+
             // init_events(window.$('#external-events div.external-event'))
-        
+
             /* initialize the calendar
              -----------------------------------------------------------------*/
             //Date for the calendar events (dummy data)
             var date = new Date()
-            var d    = date.getDate(),
-                m    = date.getMonth(),
-                y    = date.getFullYear()
+            var d = date.getDate(),
+                m = date.getMonth(),
+                y = date.getFullYear()
             window.$('#calendarTask').fullCalendar({
-              header    : {
-                left  : 'prev,next today',
-                center: 'title',
-                right : 'month,agendaWeek,agendaDay'
-              },
-              buttonText: {
-                today: 'today',
-                month: 'month',
-                week : 'week',
-                day  : 'day'
-              },
-              //Random default events
-              events    : [
-                {
-                  title          : 'Hoàn thành quy trình kiểm thử',
-                  start          : new Date(y, m, 1),
-                  backgroundColor: '#f56954', //red
-                  borderColor    : '#f56954' //red
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay'
                 },
-                {
-                  title          : 'Long Event',
-                  start          : new Date(y, m, d - 5),
-                  end            : new Date(y, m, d - 2),
-                  backgroundColor: '#f39c12', //yellow
-                  borderColor    : '#f39c12' //yellow
+                buttonText: {
+                    today: 'today',
+                    month: 'month',
+                    week: 'week',
+                    day: 'day'
                 },
-                {
-                  title          : 'Meeting',
-                  start          : new Date(y, m, d, 10, 30),
-                  allDay         : false,
-                  backgroundColor: '#0073b7', //Blue
-                  borderColor    : '#0073b7' //Blue
-                },
-                {
-                  title          : 'Lunch',
-                  start          : new Date(y, m, d, 12, 0),
-                  end            : new Date(y, m, d, 14, 0),
-                  allDay         : false,
-                  backgroundColor: '#00c0ef', //Info (aqua)
-                  borderColor    : '#00c0ef' //Info (aqua)
-                },
-                {
-                  title          : 'Birthday Party',
-                  start          : new Date(y, m, d + 1, 19, 0),
-                  end            : new Date(y, m, d + 1, 22, 30),
-                  allDay         : false,
-                  backgroundColor: '#00a65a', //Success (green)
-                  borderColor    : '#00a65a' //Success (green)
-                },
-                {
-                  title          : 'Click for Google',
-                  start          : new Date(y, m, 28),
-                  end            : new Date(y, m, 29),
-                  url            : 'http://google.com/',
-                  backgroundColor: '#3c8dbc', //Primary (light-blue)
-                  borderColor    : '#3c8dbc' //Primary (light-blue)
+                //Random default events
+                events: [
+                    {
+                        title: 'Hoàn thành quy trình kiểm thử',
+                        start: new Date(y, m, 1),
+                        backgroundColor: '#f56954', //red
+                        borderColor: '#f56954' //red
+                    },
+                    {
+                        title: 'Long Event',
+                        start: new Date(y, m, d - 5),
+                        end: new Date(y, m, d - 2),
+                        backgroundColor: '#f39c12', //yellow
+                        borderColor: '#f39c12' //yellow
+                    },
+                    {
+                        title: 'Meeting',
+                        start: new Date(y, m, d, 10, 30),
+                        allDay: false,
+                        backgroundColor: '#0073b7', //Blue
+                        borderColor: '#0073b7' //Blue
+                    },
+                    {
+                        title: 'Lunch',
+                        start: new Date(y, m, d, 12, 0),
+                        end: new Date(y, m, d, 14, 0),
+                        allDay: false,
+                        backgroundColor: '#00c0ef', //Info (aqua)
+                        borderColor: '#00c0ef' //Info (aqua)
+                    },
+                    {
+                        title: 'Birthday Party',
+                        start: new Date(y, m, d + 1, 19, 0),
+                        end: new Date(y, m, d + 1, 22, 30),
+                        allDay: false,
+                        backgroundColor: '#00a65a', //Success (green)
+                        borderColor: '#00a65a' //Success (green)
+                    },
+                    {
+                        title: 'Click for Google',
+                        start: new Date(y, m, 28),
+                        end: new Date(y, m, 29),
+                        url: 'http://google.com/',
+                        backgroundColor: '#3c8dbc', //Primary (light-blue)
+                        borderColor: '#3c8dbc' //Primary (light-blue)
+                    }
+                ],
+                editable: false,
+                droppable: false, // this allows things to be dropped onto the calendar !!!
+                drop: function (date, allDay) { // this function is called when something is dropped
+
+                    // // retrieve the dropped element's stored Event Object
+                    // var originalEventObject = window.$(this).data('eventObject')
+
+                    // // we need to copy it, so that multiple events don't have a reference to the same object
+                    // var copiedEventObject = window.$.extend({}, originalEventObject)
+
+                    // // assign it the date that was reported
+                    // copiedEventObject.start           = date
+                    // copiedEventObject.allDay          = allDay
+                    // copiedEventObject.backgroundColor = window.$(this).css('background-color')
+                    // copiedEventObject.borderColor     = window.$(this).css('border-color')
+
+                    // // render the event on the calendar
+                    // // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
+                    // window.$('#calendarTask').fullCalendar('renderEvent', copiedEventObject, true)
+
+                    // // is the "remove after drop" checkbox checked?
+                    // if (window.$('#drop-remove').is(':checked')) {
+                    //   // if so, remove the element from the "Draggable Events" list
+                    //   window.$(this).remove()
+                    // }
+
                 }
-              ],
-              editable  : false,
-              droppable : false, // this allows things to be dropped onto the calendar !!!
-              drop      : function (date, allDay) { // this function is called when something is dropped
-        
-                // // retrieve the dropped element's stored Event Object
-                // var originalEventObject = window.$(this).data('eventObject')
-        
-                // // we need to copy it, so that multiple events don't have a reference to the same object
-                // var copiedEventObject = window.$.extend({}, originalEventObject)
-        
-                // // assign it the date that was reported
-                // copiedEventObject.start           = date
-                // copiedEventObject.allDay          = allDay
-                // copiedEventObject.backgroundColor = window.$(this).css('background-color')
-                // copiedEventObject.borderColor     = window.$(this).css('border-color')
-        
-                // // render the event on the calendar
-                // // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
-                // window.$('#calendarTask').fullCalendar('renderEvent', copiedEventObject, true)
-        
-                // // is the "remove after drop" checkbox checked?
-                // if (window.$('#drop-remove').is(':checked')) {
-                //   // if so, remove the element from the "Draggable Events" list
-                //   window.$(this).remove()
-                // }
-        
-              }
             })
-        
+
             // /* ADDING EVENTS */
             // var currColor = '#3c8dbc' //Red by default
             // //Color chooser button
@@ -152,7 +153,7 @@ class TaskDashboard extends Component {
             //   if (val.length == 0) {
             //     return
             //   }
-        
+
             //   //Create events
             //   var event = window.$('<div />')
             //   event.css({
@@ -162,16 +163,192 @@ class TaskDashboard extends Component {
             //   }).addClass('external-event')
             //   event.html(val)
             //   window.$('#external-events').prepend(event)
-        
+
             //   //Add draggable funtionality
             // //   init_events(event)
-        
+
             //   //Remove event from text input
             //   window.$('#new-event').val('')
             // })
-          })
+        })
     }
+    generateDataPoints(noOfDps) {
+		var xVal = 1, yVal = 100;
+		var dps = [];
+		for(var i = 0; i < noOfDps; i++) {
+			yVal = yVal +  Math.round(5 + Math.random() *(-5-5));
+			dps.push({x: xVal,y: yVal});	
+			xVal++;
+		}
+		return dps;
+	}
     render() {
+        const options1 = {
+            animationEnabled: true,
+            exportEnabled: true,
+            theme: "light2", //"light1", "dark1", "dark2"
+            title: {
+                text: "Simple Column Chart with Index Labels"
+            },
+            data: [{
+                type: "column", //change type to bar, line, area, pie, etc				
+                indexLabelFontColor: "#5A5757",
+                indexLabelPlacement: "outside",
+                dataPoints: [
+                    { x: 10, y: 71 },
+                    { x: 20, y: 55 },
+                    { x: 30, y: 50 },
+                    { x: 40, y: 65 },
+                    { x: 50, y: 71 },
+                    { x: 60, y: 68 },
+                    { x: 70, y: 38 },
+                    { x: 80, y: 92, indexLabel: "Highest" },
+                    { x: 90, y: 54 },
+                    { x: 100, y: 60 },
+                    { x: 110, y: 21 },
+                    { x: 120, y: 49 },
+                    { x: 130, y: 36 }
+                ]
+            }]
+        }
+        const options2 = {
+            animationEnabled: true,
+            title: {
+                text: "Daily High Temperature at Different Beaches"
+            },
+            axisX: {
+                valueFormatString: "DD MMM,YY"
+            },
+            axisY: {
+                title: "Temperature (in °C)",
+                includeZero: false,
+                suffix: " °C"
+            },
+            legend: {
+                cursor: "pointer",
+                fontSize: 16,
+                itemclick: window.toggleDataSeries
+            },
+            toolTip: {
+                shared: true
+            },
+            data: [{
+                name: "Myrtle Beach",
+                type: "spline",
+                yValueFormatString: "#0.## °C",
+                showInLegend: true,
+                dataPoints: [
+                    { x: new Date(2017, 6, 24), y: 31 },
+                    { x: new Date(2017, 6, 25), y: 31 },
+                    { x: new Date(2017, 6, 26), y: 29 },
+                    { x: new Date(2017, 6, 27), y: 29 },
+                    { x: new Date(2017, 6, 28), y: 31 },
+                    { x: new Date(2017, 6, 29), y: 30 },
+                    { x: new Date(2017, 6, 30), y: 29 }
+                ]
+            },
+            {
+                name: "Martha Vineyard",
+                type: "spline",
+                yValueFormatString: "#0.## °C",
+                showInLegend: true,
+                dataPoints: [
+                    { x: new Date(2017, 6, 24), y: 20 },
+                    { x: new Date(2017, 6, 25), y: 20 },
+                    { x: new Date(2017, 6, 26), y: 25 },
+                    { x: new Date(2017, 6, 27), y: 25 },
+                    { x: new Date(2017, 6, 28), y: 25 },
+                    { x: new Date(2017, 6, 29), y: 25 },
+                    { x: new Date(2017, 6, 30), y: 25 }
+                ]
+            },
+            {
+                name: "Nantucket",
+                type: "spline",
+                yValueFormatString: "#0.## °C",
+                showInLegend: true,
+                dataPoints: [
+                    { x: new Date(2017, 6, 24), y: 22 },
+                    { x: new Date(2017, 6, 25), y: 19 },
+                    { x: new Date(2017, 6, 26), y: 23 },
+                    { x: new Date(2017, 6, 27), y: 24 },
+                    { x: new Date(2017, 6, 28), y: 24 },
+                    { x: new Date(2017, 6, 29), y: 23 },
+                    { x: new Date(2017, 6, 30), y: 23 }
+                ]
+            }]
+        }
+        const options3 = {
+			theme: "light2", // "light1", "dark1", "dark2"
+			animationEnabled: true,
+			zoomEnabled: true,
+			title: {
+				text: "Try Zooming and Panning"
+			},
+			axisY: {
+				includeZero: false
+			},
+			data: [{
+				type: "area",
+				dataPoints: this.generateDataPoints(500)
+			}]
+		}
+        const options4 = {
+            theme: "light2", // "light1", "light2", "dark1", "dark2"
+            exportEnabled: true,
+            animationEnabled: true,
+            title: {
+                text: "Desktop Browser Market Share in 2016"
+            },
+            data: [{
+                type: "pie",
+                startAngle: 25,
+                toolTipContent: "<b>{label}</b>: {y}%",
+                showInLegend: "true",
+                legendText: "{label}",
+                indexLabelFontSize: 16,
+                indexLabel: "{label} - {y}%",
+                dataPoints: [
+                    { y: 51.08, label: "Chrome" },
+                    { y: 27.34, label: "Internet Explorer" },
+                    { y: 10.62, label: "Firefox" },
+                    { y: 5.02, label: "Microsoft Edge" },
+                    { y: 4.07, label: "Safari" },
+                    { y: 1.22, label: "Opera" },
+                    { y: 0.44, label: "Others" }
+                ]
+            }]
+        }
+        const options5 = {
+            title: {
+                text: "Weekly Weather Forecast"
+            },
+            axisY: {
+                includeZero: false,
+                suffix: " °C",
+                maximum: 40,
+                gridThickness: 0
+            },
+            toolTip: {
+                shared: true,
+                content: "{name} </br> <strong>Temperature: </strong> </br> Min: {y[0]} °C, Max: {y[1]} °C"
+            },
+            data: [{
+                type: "rangeSplineArea",
+                fillOpacity: 0.1,
+                color: "#91AAB1",
+                indexLabelFormatter: window.formatter,
+                dataPoints: [
+                    { label: "Monday", y: [15, 26], name: "rainy" },
+                    { label: "Tuesday", y: [15, 27], name: "rainy" },
+                    { label: "Wednesday", y: [13, 27], name: "sunny" },
+                    { label: "Thursday", y: [14, 27], name: "sunny" },
+                    { label: "Friday", y: [15, 26], name: "cloudy" },
+                    { label: "Saturday", y: [17, 26], name: "sunny" },
+                    { label: "Sunday", y: [16, 27], name: "rainy" }
+                ]
+            }]
+        }
         return (
             <div className="table-wrapper">
                 <div className="content-wrapper">
@@ -226,6 +403,31 @@ class TaskDashboard extends Component {
                             </div>
                         </div>
                         <div className="row">
+                            <div className="col-xs-6">
+                                <div className="box box-primary">
+                                    <CanvasJSReact options={options1} />
+                                </div>
+                            </div>
+                            <div className="col-xs-6">
+                                <div className="box box-primary">
+                                    <CanvasJSReact options={options2} />
+                                </div>
+                            </div>
+                            <div className="col-xs-6">
+                                <div className="box box-primary">
+                                    <CanvasJSReact options={options3} />
+                                </div>
+                            </div>
+                            <div className="col-xs-6">
+                                <div className="box box-primary">
+                                    <CanvasJSReact options={options4} />
+                                </div>
+                            </div>
+                            <div className="col-xs-6">
+                                <div className="box box-primary">
+                                    <CanvasJSReact options={options5} />
+                                </div>
+                            </div>
                             <div className="col-xs-6">
                                 <div className="box box-primary">
                                     <div className="box-header">
