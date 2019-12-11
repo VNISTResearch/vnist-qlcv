@@ -20,6 +20,11 @@ class ModalAddSalary extends Component {
                         </div>
                         <div className="modal-body">
                             <div className="col-md-12">
+                                <div className="checkbox" style={{ marginTop: 0 }}>
+                                    <label style={{ paddingLeft: 0 }}>
+                                        (<span style={{ color: "red" }}>*</span>): là các trường bắt buộc phải nhập.
+                                                        </label>
+                                </div>
                                 <div className="form-group">
                                     <label htmlFor="employeeNumber">Mã nhân viên:<span className="required">&#42;</span></label>
                                     <input type="text" className="form-control" id="employeeNumber" name="employeeNumber" placeholder="Mã số nhân viên" />

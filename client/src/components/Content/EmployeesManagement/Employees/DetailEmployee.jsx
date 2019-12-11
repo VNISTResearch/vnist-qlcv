@@ -10,7 +10,7 @@ class DetailEmployee extends Component {
         //this.handleClickMenu = this.handleClickMenu.bind(this);
     }
     componentDidMount() {
-        this.props.getInformationEmployee("123654");
+        this.props.getInformationEmployee("123653");
     }
     handleClickMenu = (event) => {
         this.setState({
@@ -50,16 +50,19 @@ class DetailEmployee extends Component {
                                     <li><a style={{ paddingLeft: 5, paddingRight: 8 }} title="Tài khoản ngân hành - Thuế thu nhập các nhân" data-toggle="tab" href="#taikhoan">Tài khoản - Thuế</a></li>
                                     <li><a style={{ paddingLeft: 5, paddingRight: 8 }} title="Thông tin bảo hiểm" data-toggle="tab" href="#baohiem">Thông tin bảo hiểm</a></li>
                                     <li><a style={{ paddingLeft: 5, paddingRight: 8 }} title="Hợp đồng lao động - Quá trình đào tạo" data-toggle="tab" href="#hopdong">Hợp đồng - Đào tạo</a></li>
+                                    <li><a style={{ paddingLeft: 5, paddingRight: 8 }} title="Khen thưởng - kỷ luật" data-toggle="tab" href="#khenthuong">Khen thưởng - Kỷ luật</a></li>
+                                    <li><a style={{ paddingLeft: 5, paddingRight: 8 }} title="Lịch sử tăng giảm lương - Thông tin nghỉ phép" data-toggle="tab" href="#historySalary">Lịch sử lương - Nghỉ phép</a></li>
+                                    <li><a style={{ paddingLeft: 5, paddingRight: 8 }} title="Tài liệu đính kèm" data-toggle="tab" href="#tailieu">Tài liệu đính kèm</a></li>
                                     {/* <li><a style={{ paddingLeft: 5, }} title="Tài liệu đính kèm" data-toggle="tab" href="#tailieu">Tài liệu</a></li> */}
-                                    <li className="dropdown">
+                                    {/* <li className="dropdown">
                                         <a className="dropdown-toggle" data-toggle="dropdown" style={{ paddingLeft: 5, paddingRight: 8 }} href="#abc">
                                             {this.state.tracuu} <span className="caret" />
                                         </a>
                                         <ul className="dropdown-menu">
                                             <li role="presentation"><a role="menuitem" tabIndex={-1} data-toggle="tab" href="#historySalary" onClick={() => this.handleClickMenu("Lịch sử lương")}>Lịch sử lương</a></li>
-                                            <li role="presentation"><a role="menuitem" tabIndex={-1} data-toggle="tab" href="#khenthuong" onClick={() => this.handleClickMenu("Khen thưởng")}>Khen thưởng</a></li>
+                                            <li role="presentation"><a role="menuitem" tabIndex={-1} data-toggle="tab" href="#khenthuong" onClick={() => this.handleClickMenu("Khen thưởng")}>Khen thưởng - Kỷ luật</a></li>
                                         </ul>
-                                    </li>
+                                    </li> */}
 
 
                                 </ul>
@@ -112,14 +115,24 @@ class DetailEmployee extends Component {
                                                             <strong>Mã số chấm công:&emsp; </strong>
                                                             {x.MSCC}
                                                         </div>
-                                                        <div className="form-group">
-                                                            <strong>Đơn vị:&emsp; </strong>
+                                                        {
+                                                            x.department && x.department.map((department, keys) => (
+                                                                <div className="form-group" key={keys}>
+                                                                    <strong>Đơn vị:&emsp; </strong>
+                                                                    {department.nameDepartment}
+                                                                </div>
+                                                            ))
+                                                        }
 
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <strong>Chức vụ:&emsp;</strong>
-                                                            Giam đốc
-                                                            </div>
+                                                        {
+                                                            x.department && x.department.map((department, key) => (
+                                                                <div className="form-group" key={key}>
+                                                                    <strong>Chức vụ:&emsp;</strong>
+                                                                    {department.position}
+                                                                </div>
+                                                            ))
+                                                        }
+
                                                         <div className="form-group" >
                                                             <strong>Số CMND/Hộ chiếu:&emsp; </strong>
                                                             {x.CMND}
@@ -420,6 +433,65 @@ class DetailEmployee extends Component {
                                             </div>
 
                                         </div>
+                                        <div id="khenthuong" className="tab-pane">
+                                            <div className="box-body">
+                                                <fieldset className="scheduler-border">
+                                                    <legend className="scheduler-border" style={{ marginBottom: 0 }} ><h4 className="box-title">Khen thưởng</h4></legend>
+                                                    <table className="table table-bordered" >
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Số quyết định</th>
+                                                                <th>Ngày quyết định</th>
+                                                                <th style={{ width: "15%" }}>Thành tích (lý do)</th>
+                                                                <th>Hình thức khen thưởng</th>
+
+                                                                <th style={{ width: "15%" }}>Cấp ra quyết định</th>
+                                                            </tr>
+
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>1456</td>
+                                                                <td>30/08/2019</td>
+                                                                <td>Là nhân viên xuất sắc của tháng 8</td>
+                                                                <td>Thưởng tiền</td>
+                                                                <td>Trưởng phòng hành chính</td>
+                                                            </tr>
+
+                                                        </tbody>
+                                                    </table>
+                                                </fieldset>
+                                                <fieldset className="scheduler-border">
+                                                    <legend className="scheduler-border" style={{ marginBottom: 0 }} ><h4 className="box-title">Kỷ luật</h4></legend>
+                                                    <table className="table table-bordered" >
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Số quyết định</th>
+                                                                <th>Ngày hiệu lực</th>
+                                                                <th>Ngày hết hiệu lực</th>
+                                                                <th style={{ width: "15%" }}>Lý do kỷ luật</th>
+                                                                <th>Hình thức Kỷ luật</th>
+                                                                <th style={{ width: "15%" }}>Cấp ra quyết định</th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>1236</td>
+                                                                <td>20/05/2019</td>
+                                                                <td>20/05/2019</td>
+                                                                <td>Chưa hoàn thành chỉ tiêu được giao</td>
+                                                                <td>Phạt tiền</td>
+                                                                <td>Trưởng phòng hành chính</td>
+                                                            </tr>
+
+                                                        </tbody>
+                                                    </table>
+                                                </fieldset>
+
+                                            </div>
+                                        </div>
+
                                         <div id="hopdong" className="tab-pane">
                                             <div className="box-body">
                                                 <div className="col-sm-12">
@@ -540,110 +612,94 @@ class DetailEmployee extends Component {
                                                 </div>
                                             </div>
                                         </div>
-                                        {/* <div id="tailieu" className="tab-pane">
-                                                <div className="box-body">
-                                                    <div className="form-group" style={{ paddingLeft: 15 }}>
-                                                        <strong>Mã hồ sơ:&emsp;</strong>
-                                                        {x.numberFile}
-                                                    </div>
-                                                    <div className="col-sm-12">
-                                                        <h4 style={{ paddingLeft: 0, fontSize: 16 }}>Danh sách tài liệu đính kèm:</h4>
-                                                        <table className="table table-bordered " >
-                                                            <thead>
-                                                                <tr>
-                                                                    <th style={{ width: "22%" }}>Tên tài liệu</th>
-                                                                    <th style={{ width: "22%" }}>Mô tả</th>
-                                                                    <th style={{ width: "9%" }}>Số lượng</th>
-                                                                    <th style={{ width: "12%" }}>Trạng thái</th>
-                                                                    <th style={{ width: "30%" }}>File đính kèm</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                {
-                                                                    (typeof x.file === 'undefined' || x.file.length === 0) ? <tr><td colSpan={5}><center> Không có dữ liệu</center></td></tr> :
-                                                                        x.file.map((x, index) => (
-                                                                            <tr key={index}>
-                                                                                <td>{x.nameFile}</td>
-                                                                                <td>{x.discFile}</td>
-                                                                                <td>{x.number}</td>
-                                                                                <td>{x.status}</td>
-                                                                                <td><a href={x.urlFile ? x.urlFile : "#abc"}><u>{x.urlFile ? x.nameFile : ""}</u></a></td>
-                                                                            </tr>
-                                                                        ))
-                                                                }
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
+                                        <div id="tailieu" className="tab-pane">
+                                            <div className="box-body">
+                                                <div className="form-group" style={{ paddingLeft: 15 }}>
+                                                    <strong>Nơi lưu trữ bản cứng:&emsp;</strong>
+                                                    {x.numberFile}
                                                 </div>
-                                            </div> */}
+                                                <div className="col-sm-12">
+                                                    <h4 style={{ paddingLeft: 0, fontSize: 16 }}>Danh sách tài liệu đính kèm:</h4>
+                                                    <table className="table table-bordered " >
+                                                        <thead>
+                                                            <tr>
+                                                                <th style={{ width: "22%" }}>Tên tài liệu</th>
+                                                                <th style={{ width: "22%" }}>Mô tả</th>
+                                                                <th style={{ width: "9%" }}>Số lượng</th>
+                                                                <th style={{ width: "12%" }}>Trạng thái</th>
+                                                                <th style={{ width: "30%" }}>File đính kèm</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {
+                                                                (typeof x.file === 'undefined' || x.file.length === 0) ? <tr><td colSpan={5}><center> Không có dữ liệu</center></td></tr> :
+                                                                    x.file.map((x, index) => (
+                                                                        <tr key={index}>
+                                                                            <td>{x.nameFile}</td>
+                                                                            <td>{x.discFile}</td>
+                                                                            <td>{x.number}</td>
+                                                                            <td>{x.status}</td>
+                                                                            <td><a href={x.urlFile ? x.urlFile : "#abc"}><u>{x.urlFile ? x.nameFile : ""}</u></a></td>
+                                                                        </tr>
+                                                                    ))
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div id="historySalary" className="tab-pane">
                                             <div className="box-body">
                                                 <div className="col-sm-12">
-                                                    {/* <h4 style={{ paddingLeft: 0, fontSize: 16 }}>Danh sách tài liệu đính kèm:</h4>
-                                                        <table className="table table-bordered " >
+                                                    <fieldset className="scheduler-border">
+                                                        <legend className="scheduler-border" style={{ marginBottom: 0 }} ><h4 className="box-title">Lịch sử tăng giảm lương</h4></legend>
+                                                        <table className="table table-bordered" >
                                                             <thead>
                                                                 <tr>
-                                                                    <th style={{ width: "22%" }}>Tên tài liệu</th>
-                                                                    <th style={{ width: "22%" }}>Mô tả</th>
-                                                                    <th style={{ width: "9%" }}>Số lượng</th>
-                                                                    <th style={{ width: "12%" }}>Trạng thái</th>
-                                                                    <th style={{ width: "30%" }}>File đính kèm</th>
+                                                                    <th>Tháng</th>
+                                                                    <th style={{ width: "50%" }}>Lương</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                {
-                                                                    (typeof x.file === 'undefined' || x.file.length === 0) ? <tr><td colSpan={5}><center> Không có dữ liệu</center></td></tr> :
-                                                                        x.file.map((x, index) => (
-                                                                            <tr key={index}>
-                                                                                <td>{x.nameFile}</td>
-                                                                                <td>{x.discFile}</td>
-                                                                                <td>{x.number}</td>
-                                                                                <td>{x.status}</td>
-                                                                                <td><a href={x.urlFile ? x.urlFile : "#abc"}><u>{x.urlFile ? x.nameFile : ""}</u></a></td>
-                                                                            </tr>
-                                                                        ))
-                                                                }
+                                                                <tr>
+                                                                    <td>05/2019</td>
+                                                                    <td>10.000.000 VND</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>06/2019</td>
+                                                                    <td>11.000.000 VND</td>
+                                                                </tr>
+
                                                             </tbody>
-                                                        </table> */}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div id="khenthuong" className="tab-pane">
-                                            <div className="box-body">
-                                                {/* <div className="form-group" style={{ paddingLeft: 15 }}>
-                                                        <strong>Mã hồ sơ:&emsp;</strong>
-                                                        {x.numberFile}
-                                                    </div> */}
-                                                <div className="col-sm-12">
-                                                    {/* <h4 style={{ paddingLeft: 0, fontSize: 16 }}>Danh sách tài liệu đính kèm:</h4>
-                                                        <table className="table table-bordered " >
+                                                        </table>
+                                                    </fieldset>
+                                                    <fieldset className="scheduler-border">
+                                                        <legend className="scheduler-border" style={{ marginBottom: 0 }} ><h4 className="box-title">Thông tin nghỉ phép</h4></legend>
+                                                        <table className="table table-bordered">
                                                             <thead>
                                                                 <tr>
-                                                                    <th style={{ width: "22%" }}>Tên tài liệu</th>
-                                                                    <th style={{ width: "22%" }}>Mô tả</th>
-                                                                    <th style={{ width: "9%" }}>Số lượng</th>
-                                                                    <th style={{ width: "12%" }}>Trạng thái</th>
-                                                                    <th style={{ width: "30%" }}>File đính kèm</th>
+                                                                    <th >Từ ngày</th>
+                                                                    <th >Đến ngày</th>
+                                                                    <th>Lý do</th>
+                                                                    <th>Trạng thái</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                {
-                                                                    (typeof x.file === 'undefined' || x.file.length === 0) ? <tr><td colSpan={5}><center> Không có dữ liệu</center></td></tr> :
-                                                                        x.file.map((x, index) => (
-                                                                            <tr key={index}>
-                                                                                <td>{x.nameFile}</td>
-                                                                                <td>{x.discFile}</td>
-                                                                                <td>{x.number}</td>
-                                                                                <td>{x.status}</td>
-                                                                                <td><a href={x.urlFile ? x.urlFile : "#abc"}><u>{x.urlFile ? x.nameFile : ""}</u></a></td>
-                                                                            </tr>
-                                                                        ))
-                                                                }
+                                                                <tr>
+                                                                    <td>20/05/2019</td>
+                                                                    <td>22/05/2019</td>
+                                                                    <td>Về quê</td>
+                                                                    <td>Đã chấp nhận</td>
+                                                                </tr>
+
                                                             </tbody>
-                                                        </table> */}
+                                                        </table>
+                                                    </fieldset>
+
                                                 </div>
                                             </div>
                                         </div>
+
                                     </div>
                                 ))}
 

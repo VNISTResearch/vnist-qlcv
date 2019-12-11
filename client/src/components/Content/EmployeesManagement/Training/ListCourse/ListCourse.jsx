@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { ModalDetailCourse } from './ModalDetailCourse';
+import { ModalDeleteCourse } from './ModalDeleteCourse';
+import { ModalEditCourse } from './ModalEditCourse';
+import { ModalAddCourse } from './ModalAddCourse';
 
 class ListCourse extends Component {
     constructor(props) {
@@ -41,10 +44,32 @@ class ListCourse extends Component {
                                         </div>
                                         <div className="form-group col-md-8" style={{ paddingLeft: 0, paddingRight: 0 }}>
                                             <select className="form-control">
-                                                <option>Phòng nhân sự</option>
-                                                <option>Phòng hành chính</option>
-                                                <option>Phòng kinh doanh</option>
-                                                <option>Phòng Marketing</option>
+                                                <option value="các đơn vị">-- Tất cả --</option>
+                                                <optgroup label="MARKETING & NCPT sản phẩm">
+                                                    <option value="Phòng MARKETING">Phòng MARKETING</option>
+                                                    <option value="Phòng nghiên cứu phát triển sản phẩm">Phòng nghiên cứu phát triển sản phẩm</option>
+                                                </optgroup>
+                                                <optgroup label="Quản trị nhân sự">
+                                                    <option value="Phòng hành chính - quản trị">Phòng hành chính - quản trị</option>
+                                                    <option value="Tổ hỗ trợ">Tổ hỗ trợ</option>
+                                                </optgroup>
+                                                <optgroup label="Tài chính - kế toán">
+                                                    <option>Phòng kế toàn doanh nghiệp</option>
+                                                    <option>Phòng kế toàn ADMIN</option>
+                                                </optgroup>
+                                                <optgroup label="Nhà máy sản xuất">
+                                                    <option>Phòng công nghệ phát triển sản phẩm</option>
+                                                    <option>Văn phòng xưởng</option>
+                                                    <option>Phòng đảm bảo chất lượng</option>
+                                                    <option>Phòng kiểm tra chất lượng</option>
+                                                    <option>Phòng kế hoạch vật tư</option>
+                                                    <option>Xưởng thuốc bột GMP</option>
+                                                    <option>Xưởng thuốc nước GMP</option>
+                                                    <option>Xưởng thực phẩm chức năng</option>
+                                                </optgroup>
+                                                <option value="Phòng kinh doanh VIAVET">Phòng kinh doanh VIAVET</option>
+                                                <option value="Phòng kinh doanh SANFOVET">Phòng kinh doanh SANFOVET</option>
+                                                <option value="">Ban kinh doanh dự án</option>
                                             </select>
                                         </div>
                                     </div>
@@ -67,7 +92,7 @@ class ListCourse extends Component {
                                         </div>
                                     </div>
                                     <div className="col-md-3" style={{ paddingRight: 0 }}>
-                                        <button type="submit" style={{ marginBottom: 15 }} className="btn btn-success pull-right" id="">Thêm chương trình đào tạo</button>
+                                        <button type="submit" style={{ marginBottom: 15 }} className="btn btn-success pull-right" data-toggle="modal" data-target="#modal-addCourse">Thêm chương trình đào tạo</button>
                                     </div>
                                     <table className="table table-bordered table-hover listcourse">
                                         <thead>
@@ -88,8 +113,8 @@ class ListCourse extends Component {
                                                 <td>
                                                     <center>
                                                         <a href="#view" className="" title="Xem chi tiết chương trình đào tạo" data-toggle="modal" data-target="#modal-viewCourse" style={{ fontSize: 14 }} onClick={() => this.view()}><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="edit" title="Chỉnh sửa chương trình đào tạo " ><i className="material-icons"></i></a>
-                                                        <a href="#abc" className="delete" title="Xoá chương trình đào tạo" data-toggle="modal" data-target="#modal-viewTrainingPlan"><i className="material-icons"></i></a>
+                                                        <a href="#abc" className="edit" title="Chỉnh sửa chương trình đào tạo " data-toggle="modal" data-target="#modal-editCourse"><i className="material-icons"></i></a>
+                                                        <a href="#abc" className="delete" title="Xoá chương trình đào tạo" data-toggle="modal" data-target="#modal-deleteCourse"><i className="material-icons"></i></a>
                                                     </center>
                                                 </td>
                                             </tr>
@@ -101,8 +126,8 @@ class ListCourse extends Component {
                                                 <td>
                                                     <center>
                                                         <a href="#view" className="" title="Xem chi tiết chương trình đào tạo" data-toggle="modal" data-target="#modal-viewCourse" style={{ fontSize: 14 }} onClick={() => this.view()}><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="edit" title="Chỉnh sửa chương trình đào tạo " ><i className="material-icons"></i></a>
-                                                        <a href="#abc" className="delete" title="Xoá chương trình đào tạo" data-toggle="modal" data-target="#modal-viewTrainingPlan"><i className="material-icons"></i></a>
+                                                        <a href="#abc" className="edit" title="Chỉnh sửa chương trình đào tạo " data-toggle="modal" data-target="#modal-editCourse" ><i className="material-icons"></i></a>
+                                                        <a href="#abc" className="delete" title="Xoá chương trình đào tạo" data-toggle="modal" data-target="#modal-deleteCourse"><i className="material-icons"></i></a>
                                                     </center>
                                                 </td>
                                             </tr>
@@ -114,8 +139,8 @@ class ListCourse extends Component {
                                                 <td>
                                                     <center>
                                                         <a href="#view" title="Xem chi tiết chương trình đào tạo" data-toggle="modal" data-target="#modal-viewCourse" style={{ fontSize: 14 }} onClick={() => this.view()}><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="edit" title="Chỉnh sửa chương trình đào tạo " ><i className="material-icons"></i></a>
-                                                        <a href="#abc" className="delete" title="Xoá chương trình đào tạo" data-toggle="modal" data-target="#modal-viewTrainingPlan"><i className="material-icons"></i></a>
+                                                        <a href="#abc" className="edit" title="Chỉnh sửa chương trình đào tạo " data-toggle="modal" data-target="#modal-editCourse"><i className="material-icons"></i></a>
+                                                        <a href="#abc" className="delete" title="Xoá chương trình đào tạo" data-toggle="modal" data-target="#modal-deleteCourse"><i className="material-icons"></i></a>
                                                     </center>
                                                 </td>
                                             </tr>
@@ -127,8 +152,8 @@ class ListCourse extends Component {
                                                 <td>
                                                     <center>
                                                         <a href="#view" title="Xem chi tiết chương trình đào tạo" data-toggle="modal" data-target="#modal-viewCourse" style={{ fontSize: 14 }} onClick={() => this.view()}><i className="material-icons">visibility</i></a>
-                                                        <a href="#abc" className="edit" title="Chỉnh sửa chương trình đào tạo " ><i className="material-icons"></i></a>
-                                                        <a href="#abc" className="delete" title="Xoá chương trình đào tạo" data-toggle="modal" data-target="#modal-viewTrainingPlan"><i className="material-icons"></i></a>
+                                                        <a href="#abc" className="edit" title="Chỉnh sửa chương trình đào tạo " data-toggle="modal" data-target="#modal-editCourse"><i className="material-icons"></i></a>
+                                                        <a href="#abc" className="delete" title="Xoá chương trình đào tạo" data-toggle="modal" data-target="#modal-deleteCourse"><i className="material-icons"></i></a>
                                                     </center>
                                                 </td>
                                             </tr>
@@ -138,13 +163,14 @@ class ListCourse extends Component {
                                 {/* /.box-body */}
 
                             </div>
-                            <div className={this.state.show} id="view">
-                                <ModalDetailCourse />
-                            </div>
                         </div>
                         {/* /.col */}
                     </div>
                 </section>
+                <ModalDetailCourse />
+                <ModalDeleteCourse />
+                <ModalEditCourse />
+                <ModalAddCourse />
             </div>
         );
     };

@@ -25,7 +25,8 @@ import {
     ListCourse,
     Timekeeping,
     Sabbatical,
-    DashBoardEmployees
+    DashBoardEmployees,
+    Discipline
 } from '../components/Content/CombineContent';
 import Layout from '../components/Layout/Layout';
 import Privilege from '../components/Content/Privilege/Privilege';
@@ -59,6 +60,8 @@ class Routes extends Component {
                 <PrivateRoute exact path = "/listcourse" layout = {Layout} component = {ListCourse}/>
                 <PrivateRoute exact path = "/sabbatical" layout = {Layout} component = {Sabbatical}/>
                 <PrivateRoute exact path = "/dashboardemployees" layout = {Layout} component = {DashBoardEmployees}/>
+                <PrivateRoute exact path = "/discipline" layout = {Layout} component = {Discipline}/>
+                
             </React.Fragment>
         );
     }

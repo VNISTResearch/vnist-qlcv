@@ -15,41 +15,63 @@ class ModalEditTrainingPlan extends Component {
                             {/* /.box-header */}
                             <div className="box-body">
                                 <div className="col-md-12">
-                                    <div className="col-md-6">
-                                        <div className="form-group" style={{ marginTop: 20 }}>
-                                            <strong>Tên khoá đào tạo:&emsp; </strong>
-                                            An toàn lao động 2019
-                                                        </div>
-
-                                        <div className="form-group" style={{ marginTop: 20 }}>
-                                            <strong>Thời gian bắt đầu:&emsp; </strong>
-                                            5/5/2018
-                                                        </div>
-                                        <div className="form-group" style={{ marginTop: 20 }}>
-                                            <strong>Chi phí đào tạo:&emsp; </strong>
-                                            100.000.000 VND
-                                                        </div>
-                                        <div className="form-group" style={{ marginTop: 20 }}>
-                                            <strong>Thuộc chương trình đào tạo:&emsp; </strong>
-                                            An toàn lao động
-                                                        </div>
+                                    <div className="checkbox" style={{ marginTop: 0, marginLeft: 30 }}>
+                                        <label style={{ paddingLeft: 0 }}>
+                                            (<span style={{ color: "red" }}>*</span>): là các trường bắt buộc phải nhập.
+                                                        </label>
+                                    </div>
+                                    <div className="col-md-12" style={{paddingLeft:0}}>
+                                        <div className="col-md-6">
+                                            <div className="form-group col-md-8">
+                                                <label htmlFor="employeeNumber">Mã khoá đào tạo:<span className="required">&#42;</span></label>
+                                                <input type="text" className="form-control" defaultValue="12563" />
+                                            </div>
+                                        </div>
                                     </div>
                                     <div className="col-md-6">
-                                        <div className="form-group" style={{ marginTop: 20 }}>
-                                            <strong>Địa điểm đào tạo:&emsp; </strong>
-                                            P-901 Vnist
-                                                        </div>
-                                        <div className="form-group" style={{ marginTop: 20 }}>
-                                            <strong>Thời gian kết thúc:&emsp; </strong>
-                                            20/10/2018
-                                                        </div>
-                                        <div className="form-group" style={{ marginTop: 20 }}>
-                                            <strong>Đơn vị đào tạo:&emsp; </strong>
-                                            Công ty An toàn thông tin và truyền thông Việt Nam
-                                                        </div>
+                                        <div className="form-group col-md-8">
+                                            <label htmlFor="employeeNumber">Tên khoá đào tạo:<span className="required">&#42;</span></label>
+                                            <input type="text" className="form-control" defaultValue="An toàn lao động 2019" />
+                                        </div>
+                                        <div className="form-group col-md-8">
+                                            <label htmlFor="employeeNumber">Thời gian bắt đầu:<span className="required">&#42;</span></label>
+                                            <input type="text" className="form-control" defaultValue="5/5/2018" />
+                                        </div>
+                                        <div className="form-group col-md-8">
+                                            <label htmlFor="employeeNumber">Chi phí đào tạo:<span className="required">&#42;</span></label>
+                                            <input type="text" className="form-control" defaultValue="100.000.000 VND" />
+                                        </div>
+                                        <div className="form-group col-md-8">
+                                            <label htmlFor="employeeNumber">Giảng viên:</label>
+                                            <input type="text" className="form-control" defaultValue="Nguyễn Văn A" />
+                                        </div>
+
+                                    </div>
+                                    <div className="col-md-6">
+                                        <div className="form-group col-md-8">
+                                            <label htmlFor="employeeNumber">Địa điểm đào tạo:<span className="required">&#42;</span></label>
+                                            <input type="text" className="form-control" defaultValue="P-901 Vnist" />
+                                        </div>
+                                        <div className="form-group col-md-8">
+                                            <label htmlFor="employeeNumber">Thời gian kết thúc:<span className="required">&#42;</span></label>
+                                            <input type="text" className="form-control" defaultValue="20/10/2018" />
+                                        </div>
+                                        <div className="form-group col-md-8">
+                                            <label htmlFor="employeeNumber">Đơn vị đào tạo:<span className="required">&#42;</span></label>
+                                            <input type="text" className="form-control" defaultValue="Công ty An toàn thông tin và truyền thông Việt Nam" />
+                                        </div>
+                                        <div className="form-group col-md-8">
+                                            <label htmlFor="employeeNumber">Thuộc chương trình đào tạo:<span className="required">&#42;</span></label>
+                                            <input type="text" className="form-control" defaultValue="An toàn lao động" />
+                                        </div>
                                     </div>
                                     <div className="box-header col-md-12">
-                                        <h3 className="box-title">Danh sách nhân viên tham gia khoá đào tạo:</h3>
+                                        <div className="col-md-6" style={{ paddingLeft: 5 }}>
+                                            <h3 className="box-title">Danh sách nhân viên tham gia khoá đào tạo:</h3>
+                                        </div>
+                                        <div className="col-md-6" style={{ paddingRight: 5 }}>
+                                            <button type="submit" className="btn btn-success pull-right" title="Thêm nhân viên tham gia kháo đào tạo">Thêm nhân viên</button>
+                                        </div>
                                     </div>
                                     <div className="col-md-12">
                                         <table className="table table-bordered table-hover listcourse">
@@ -70,11 +92,11 @@ class ModalEditTrainingPlan extends Component {
                                                         <div className="">
                                                             <div className="radio" style={{ marginTop: 0 }}>
                                                                 <label>
-                                                                    <input type="radio" name="optionsRadios" id="optionsRadios1" defaultValue="Hoàn thành" />
+                                                                    <input type="radio" name="optionsRadios1" id="optionsRadios1" defaultValue="Hoàn thành" />
                                                                     &nbsp;Đạt&emsp;&emsp;
                                                                                 </label>
                                                                 <label>
-                                                                    <input type="radio" name="optionsRadios" id="optionsRadios2" defaultValue="Không hoàn thành" />
+                                                                    <input type="radio" name="optionsRadios1" id="optionsRadios2" defaultValue="Không hoàn thành" />
                                                                     &nbsp;Không đạt
                                                                                 </label>
                                                             </div>
@@ -85,25 +107,77 @@ class ModalEditTrainingPlan extends Component {
                                                     <td>VN123456</td>
                                                     <td>Nguyễn Chí Thanh</td>
                                                     <td>phòng hành chính</td>
-                                                    <td></td>
+                                                    <td>
+                                                        <div className="">
+                                                            <div className="radio" style={{ marginTop: 0 }}>
+                                                                <label>
+                                                                    <input type="radio" name="optionsRadios2" id="optionsRadios1" defaultValue="Hoàn thành" />
+                                                                    &nbsp;Đạt&emsp;&emsp;
+                                                                                </label>
+                                                                <label>
+                                                                    <input type="radio" name="optionsRadios2" id="optionsRadios2" defaultValue="Không hoàn thành" />
+                                                                    &nbsp;Không đạt
+                                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td>VN123456</td>
                                                     <td>Nguyễn Chí Thanh</td>
                                                     <td>phòng hành chính</td>
-                                                    <td></td>
+                                                    <td>
+                                                        <div className="">
+                                                            <div className="radio" style={{ marginTop: 0 }}>
+                                                                <label>
+                                                                    <input type="radio" name="optionsRadios3" id="optionsRadios1" defaultValue="Hoàn thành" />
+                                                                    &nbsp;Đạt&emsp;&emsp;
+                                                                                </label>
+                                                                <label>
+                                                                    <input type="radio" name="optionsRadios3" id="optionsRadios2" defaultValue="Không hoàn thành" />
+                                                                    &nbsp;Không đạt
+                                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td>VN123456</td>
                                                     <td>Nguyễn Chí Thanh</td>
                                                     <td>phòng hành chính</td>
-                                                    <td></td>
+                                                    <td>
+                                                        <div className="">
+                                                            <div className="radio" style={{ marginTop: 0 }}>
+                                                                <label>
+                                                                    <input type="radio" name="optionsRadios4" id="optionsRadios1" defaultValue="Hoàn thành" />
+                                                                    &nbsp;Đạt&emsp;&emsp;
+                                                                                </label>
+                                                                <label>
+                                                                    <input type="radio" name="optionsRadios4" id="optionsRadios2" defaultValue="Không hoàn thành" />
+                                                                    &nbsp;Không đạt
+                                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td>VN123456</td>
                                                     <td>Nguyễn Chí Thanh</td>
                                                     <td>phòng hành chính</td>
-                                                    <td></td>
+                                                    <td>
+                                                        <div className="">
+                                                            <div className="radio" style={{ marginTop: 0 }}>
+                                                                <label>
+                                                                    <input type="radio" name="optionsRadios5" id="optionsRadios1" defaultValue="Hoàn thành" />
+                                                                    &nbsp;Đạt&emsp;&emsp;
+                                                                                </label>
+                                                                <label>
+                                                                    <input type="radio" name="optionsRadios5" id="optionsRadios2" defaultValue="Không hoàn thành" />
+                                                                    &nbsp;Không đạt
+                                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
                                                 </tr>
 
                                             </tbody>

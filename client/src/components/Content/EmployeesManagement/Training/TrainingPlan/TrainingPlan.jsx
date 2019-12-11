@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { ModalDetailTrainingPlan } from './ModalDetailTrainingPlan';
 import { ModalEditTrainingPlan } from './ModalEditTrainingPlan';
 import { ModalDeleteTrainingPlan } from './ModalDeleteTrainingPlan';
+import { ModalAddTrainingPlan } from './ModalAddTrainingPlan';
 class TraningPlan extends Component {
     componentDidMount() {
         let script = document.createElement('script');
@@ -56,11 +57,12 @@ class TraningPlan extends Component {
                                             </div>
                                         </div>
                                         <div className="col-md-3" style={{ paddingTop: 5, paddingRight: 0 }}>
-                                            <button type="submit" className="btn btn-success pull-right" id="">Thêm khoá đào tạo</button>
+                                            <button type="submit" className="btn btn-success pull-right" id="" data-toggle="modal" data-target="#modal-addTrainingPlan" >Thêm khoá đào tạo</button>
                                         </div>
                                         <table id="listexample" className="table table-bordered table-hover">
                                             <thead>
                                                 <tr>
+                                                    <th>Mã đào tạo</th>
                                                     <th style={{ width: "22%" }}>Tên khoá đào tạo</th>
                                                     <th title="Thời gian bắt đầu">Bắt đầu</th>
                                                     <th title="Thời gian kết thúc">Kết thúc</th>
@@ -71,7 +73,8 @@ class TraningPlan extends Component {
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td>An toàn lao động</td>
+                                                    <td>12563</td>
+                                                    <td>An toàn lao động 2018</td>
                                                     <td>5/5/2018</td>
                                                     <td>9/10/2018</td>
                                                     <td>P-901</td>
@@ -85,7 +88,8 @@ class TraningPlan extends Component {
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Kinh nghiệm làm viêc</td>
+                                                    <td>12562</td>
+                                                    <td>Kinh nghiệm làm viêc 2019</td>
                                                     <td>06/5/2019</td>
                                                     <td>20/11/2019</td>
                                                     <td>P-901</td>
@@ -99,7 +103,8 @@ class TraningPlan extends Component {
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Kỹ năng giao tiếp</td>
+                                                    <td>12568</td>
+                                                    <td>Kỹ năng giao tiếp 2019</td>
                                                     <td>06/5/2019</td>
                                                     <td>20/11/2019</td>
                                                     <td>P-901</td>
@@ -113,7 +118,8 @@ class TraningPlan extends Component {
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Kỹ năng đàm phán</td>
+                                                    <td>12569</td>
+                                                    <td>Kỹ năng đàm phán 2019</td>
                                                     <td>06/5/2019</td>
                                                     <td>20/11/2019</td>
                                                     <td>P-901</td>
@@ -135,6 +141,7 @@ class TraningPlan extends Component {
                             <ModalDetailTrainingPlan />
                             <ModalEditTrainingPlan />
                             <ModalDeleteTrainingPlan />
+                            <ModalAddTrainingPlan />
                             {/* /.box */}
                         </div>
                         {/* /.col */}

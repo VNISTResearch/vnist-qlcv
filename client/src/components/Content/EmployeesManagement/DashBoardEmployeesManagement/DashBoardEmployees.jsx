@@ -46,7 +46,7 @@ class DashBoardEmployees extends Component {
                             {/* LINE CHART */}
                             <div className="box box-info">
                                 <div className="box-header with-border">
-                                    <h3 className="box-title">Tình hình tăng giảm trong 12 tháng gần nhất</h3>
+                                    <h3 className="box-title">Tình hình tăng giảm nhân sự trong 12 tháng gần nhất</h3>
                                     <div className="box-tools pull-right">
                                         <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus" />
                                         </button>

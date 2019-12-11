@@ -101,6 +101,7 @@ class ListEmployee extends Component {
             deputy = employees.deputyDepartment;
         }
         var { employee, employeeContact } = this.props.employees;
+        console.log(employee);
         return (
             <div className="content-wrapper">
                 {/* Content Header (Page header) */}
@@ -139,11 +140,31 @@ class ListEmployee extends Component {
                                             <div className="form-group col-md-8" style={{ paddingLeft: 0, paddingRight: 0 }}>
                                                 <select className="form-group" id="department" style={{ height: 32, width: "100%" }} onChange={this.handleChangeUnit}>
                                                     <option value="các đơn vị">-- Tất cả --</option>
-                                                    <option value="Phòng nhân sự">Phòng nhân sự</option>
-                                                    <option value="Phòng hành chính">Phòng hành chính</option>
-                                                    <option value="Phòng kinh doanh">Phòng kinh doanh</option>
-                                                    <option value="Phòng Marketing">Phòng Marketing</option>
-                                                    <option value="Ban hành chính">Ban hành chính</option>
+                                                    <optgroup label="MARKETING & NCPT sản phẩm">
+                                                        <option value="Phòng MARKETING">Phòng MARKETING</option>
+                                                        <option value="Phòng nghiên cứu phát triển sản phẩm">Phòng nghiên cứu phát triển sản phẩm</option>
+                                                    </optgroup>
+                                                    <optgroup label="Quản trị nhân sự">
+                                                        <option value="Phòng hành chính - quản trị">Phòng hành chính - quản trị</option>
+                                                        <option value="Tổ hỗ trợ">Tổ hỗ trợ</option>
+                                                    </optgroup>
+                                                    <optgroup label="Tài chính - kế toán">
+                                                        <option>Phòng kế toàn doanh nghiệp</option>
+                                                        <option>Phòng kế toàn ADMIN</option>
+                                                    </optgroup>
+                                                    <optgroup label="Nhà máy sản xuất">
+                                                        <option>Phòng công nghệ phát triển sản phẩm</option>
+                                                        <option>Văn phòng xưởng</option>
+                                                        <option>Phòng đảm bảo chất lượng</option>
+                                                        <option>Phòng kiểm tra chất lượng</option>
+                                                        <option>Phòng kế hoạch vật tư</option>
+                                                        <option>Xưởng thuốc bột GMP</option>
+                                                        <option>Xưởng thuốc nước GMP</option>
+                                                        <option>Xưởng thực phẩm chức năng</option>
+                                                    </optgroup>
+                                                    <option value="Phòng kinh doanh VIAVET">Phòng kinh doanh VIAVET</option>
+                                                    <option value="Phòng kinh doanh SANFOVET">Phòng kinh doanh SANFOVET</option>
+                                                    <option value="">Ban kinh doanh dự án</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -153,10 +174,11 @@ class ListEmployee extends Component {
                                             </div>
                                             <div className="form-group col-md-8" style={{ paddingLeft: 0, paddingRight: 0 }}>
                                                 <select className="form-group" defaultValue="1" style={{ height: 32, width: "99%" }}>
+                                                    <option value="1">--Tất cả--</option>
                                                     <option value="2">Nhân viên</option>
                                                     <option value="4">Trưởng phòng</option>
                                                     <option value="5">Phó phòng</option>
-                                                    <option value="1"></option>
+
                                                 </select>
                                             </div>
                                         </div>
@@ -283,9 +305,17 @@ class ListEmployee extends Component {
                                                             <td>{x.fullName}</td>
                                                             <td>{x.gender}</td>
                                                             <td>{x.brithday}</td>
-                                                            <td>nhân viên</td>
-                                                            <td></td>
-                                                            <td>
+                                                            {
+                                                                x.department && x.department.map((department, key) => (
+                                                                    <td key={{ key }}>{department.position}</td>
+                                                                ))
+                                                            }
+                                                            {
+                                                                x.department && x.department.map((department, keys) => (
+                                                                    <td key={{ keys }}>{department.nameDepartment}</td>
+                                                                ))
+                                                            }
+                                                            < td >
                                                                 <center>
                                                                     <a href="#view" title="Xem chi tiết nhân viên" data-toggle="modal" data-target="#modal-viewEmployee" onClick={() => this.view(x.employeeNumber)}><i className="material-icons">visibility</i></a>
                                                                     <a href="#abc" className="edit" title="Chỉnh sửa thông tin nhân viên " data-toggle="modal" data-target="#modal-editEmployee" onClick={() => this.edit(x.employeeNumber)} ><i className="material-icons"></i></a>

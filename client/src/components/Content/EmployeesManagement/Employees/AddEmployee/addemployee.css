@@ -87,3 +87,7 @@ input#file1 {
 span.required {
     color: #E34724;
 }
+
+.display {
+    display: none;
+}

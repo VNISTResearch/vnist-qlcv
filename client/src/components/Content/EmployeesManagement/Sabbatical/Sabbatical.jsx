@@ -31,10 +31,32 @@ class Sabbatical extends Component {
                                         </div>
                                         <div className="form-group col-md-8" style={{ paddingLeft: 0, paddingRight: 0 }}>
                                             <select className="form-control">
-                                                <option>Phòng nhân sự</option>
-                                                <option>Phòng hành chính</option>
-                                                <option>Phòng kinh doanh</option>
-                                                <option>Phòng Marketing</option>
+                                                <option value="các đơn vị">-- Tất cả --</option>
+                                                <optgroup label="MARKETING & NCPT sản phẩm">
+                                                    <option value="Phòng MARKETING">Phòng MARKETING</option>
+                                                    <option value="Phòng nghiên cứu phát triển sản phẩm">Phòng nghiên cứu phát triển sản phẩm</option>
+                                                </optgroup>
+                                                <optgroup label="Quản trị nhân sự">
+                                                    <option value="Phòng hành chính - quản trị">Phòng hành chính - quản trị</option>
+                                                    <option value="Tổ hỗ trợ">Tổ hỗ trợ</option>
+                                                </optgroup>
+                                                <optgroup label="Tài chính - kế toán">
+                                                    <option>Phòng kế toàn doanh nghiệp</option>
+                                                    <option>Phòng kế toàn ADMIN</option>
+                                                </optgroup>
+                                                <optgroup label="Nhà máy sản xuất">
+                                                    <option>Phòng công nghệ phát triển sản phẩm</option>
+                                                    <option>Văn phòng xưởng</option>
+                                                    <option>Phòng đảm bảo chất lượng</option>
+                                                    <option>Phòng kiểm tra chất lượng</option>
+                                                    <option>Phòng kế hoạch vật tư</option>
+                                                    <option>Xưởng thuốc bột GMP</option>
+                                                    <option>Xưởng thuốc nước GMP</option>
+                                                    <option>Xưởng thực phẩm chức năng</option>
+                                                </optgroup>
+                                                <option value="Phòng kinh doanh VIAVET">Phòng kinh doanh VIAVET</option>
+                                                <option value="Phòng kinh doanh SANFOVET">Phòng kinh doanh SANFOVET</option>
+                                                <option value="">Ban kinh doanh dự án</option>
                                             </select>
                                         </div>
                                     </div>
@@ -75,11 +97,9 @@ class Sabbatical extends Component {
                                     </div>
                                     <div className="col-md-3">
                                         <div className="form-group col-md-4" style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                            <label htmlFor="fullname">Tổng số ngày nghỉ:</label>
+                                            <label htmlFor="fullname" style={{ paddingTop: 5 }}>Tháng:</label>
                                         </div>
-                                        <div className="form-group col-md-8" style={{ paddingLeft: 0, paddingRight: 0 }}>
-                                            <input type="number" className="form-control" name="employeeNumber" />
-                                        </div>
+                                        <input type="text" style={{ width: "66%" }} className="form-control" name="month" id="datepicker2" data-date-format="mm-yyyy" />
                                     </div>
                                     <div className="col-md-3">
                                         <div className="form-group" style={{ paddingLeft: 0, paddingRight: 0 }}>
@@ -92,14 +112,13 @@ class Sabbatical extends Component {
                                     </div>
                                 </div>
                                 <div className="col-md-12">
-                                    <table className="table table-bordered table-hover listcourse">
+                                    <table className="table table-bordered">
                                         <thead>
                                             <tr>
                                                 <th style={{ width: "8%" }}>Mã NV</th>
                                                 <th style={{ width: "16%" }}>Tên nhân viên</th>
                                                 <th style={{ width: "8%" }}>Từ ngày</th>
                                                 <th style={{ width: "8%" }}>Đến ngày</th>
-                                                <th style={{ width: "10%" }}>Tổng số ngày nghỉ</th>
                                                 <th>Lý do</th>
                                                 <th style={{ width: "12%" }}>Đơn vị</th>
                                                 <th style={{ width: "10%" }}>Chức vụ</th>
@@ -114,7 +133,6 @@ class Sabbatical extends Component {
                                                 <td>Nguyễn Hoàng Quân</td>
                                                 <td>20/5/2019</td>
                                                 <td>22/5/2019</td>
-                                                <td>2</td>
                                                 <td>Về quê</td>
                                                 <td>P KTTT ViaVet</td>
                                                 <td>Nhân viên</td>
@@ -131,7 +149,6 @@ class Sabbatical extends Component {
                                                 <td>Lê Thị Phúc</td>
                                                 <td>20/5/2019</td>
                                                 <td>22/5/2019</td>
-                                                <td>2</td>
                                                 <td>Đi du lịch</td>
                                                 <td>PKD ViaVet</td>
                                                 <td>Nhân viên</td>

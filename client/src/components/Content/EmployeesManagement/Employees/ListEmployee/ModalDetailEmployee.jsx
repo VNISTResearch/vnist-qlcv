@@ -5,7 +5,6 @@ class ModalDetailEmployee extends Component {
         this.state = {
         };
     }
-
     render() {
         var employee = this.props.employee;
         var employeeContact = this.props.employeeContact;
@@ -28,7 +27,9 @@ class ModalDetailEmployee extends Component {
                                     <li><a style={{ paddingLeft: 5, paddingRight: 8 }} title="Tài khoản ngân hành - Thuế thu nhập các nhân" data-toggle="tab" href="#taikhoan">Tài khoản - Thuế</a></li>
                                     <li><a style={{ paddingLeft: 5, paddingRight: 8 }} title="Thông tin bảo hiểm" data-toggle="tab" href="#baohiem">Thông tin bảo hiểm</a></li>
                                     <li><a style={{ paddingLeft: 5, paddingRight: 8 }} title="Hợp đồng lao động - Quá trình đào tạo" data-toggle="tab" href="#hopdong">Hợp đồng - Đào tạo</a></li>
-                                    <li><a style={{ paddingLeft: 5, }} title="Tài liệu đính kèm" data-toggle="tab" href="#tailieu">Tài liệu</a></li>
+                                    <li><a style={{ paddingLeft: 5, paddingRight: 8 }} title="Khen thưởng - kỷ luật" data-toggle="tab" href="#khenthuong">Khen thưởng - Kỷ luật</a></li>
+                                    <li><a style={{ paddingLeft: 5, paddingRight: 8 }} title="Lịch sử tăng giảm lương" data-toggle="tab" href="#historySalary">Lịch sử tăng giảm lương</a></li>
+                                    <li><a style={{ paddingLeft: 5, }} title="Tài liệu đính kèm" data-toggle="tab" href="#tailieu">Tài liệu đính kèm</a></li>
                                 </ul>
                                 {employee && employee.map((x, index) => (
                                     <div className="tab-content" key={index}>
@@ -504,6 +505,84 @@ class ModalDetailEmployee extends Component {
                                                             </tbody>
                                                         </table>
                                                     </fieldset>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="khenthuong" className="tab-pane">
+                                            <div className="box-body">
+                                                <fieldset className="scheduler-border">
+                                                    <legend className="scheduler-border" style={{ marginBottom: 0 }} ><h4 className="box-title">Khen thưởng</h4></legend>
+                                                    <table className="table table-bordered" >
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Số quyết định</th>
+                                                                <th>Ngày quyết định</th>
+                                                                <th>Cấp ra quyết định</th>
+                                                                <th>Hình thức khen thưởng</th>
+                                                                <th style={{ width: "15%" }}>Thành tích (lý do)</th>
+                                                            </tr>
+
+                                                        </thead>
+                                                        <tbody>
+
+                                                        </tbody>
+                                                    </table>
+                                                </fieldset>
+                                                <fieldset className="scheduler-border">
+                                                    <legend className="scheduler-border" style={{ marginBottom: 0 }} ><h4 className="box-title">Kỷ luật</h4></legend>
+                                                    <table className="table table-bordered" >
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Số quyết định</th>
+                                                                <th>Ngày có hiệu lực</th>
+                                                                <th>Ngày hết hiệu lực</th>
+                                                                <th>Cấp ra quyết định</th>
+                                                                <th>Hình thức Kỷ luật</th>
+                                                                <th style={{width:"15%"}}>Lý do kỷ luật</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                        </tbody>
+                                                    </table>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                        <div id="historySalary" className="tab-pane">
+                                            <div className="box-body">
+                                                <div className="col-sm-12">
+                                                    <fieldset className="scheduler-border">
+                                                        <legend className="scheduler-border" style={{ marginBottom: 0 }} ><h4 className="box-title">Lịch sử tăng giảm lương</h4></legend>
+                                                        <table className="table table-bordered" >
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Tháng</th>
+                                                                    <th style={{ width: "50%" }}>Lương</th>
+                                                                    
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </fieldset>
+                                                    <fieldset className="scheduler-border">
+                                                        <legend className="scheduler-border" style={{ marginBottom: 0 }} ><h4 className="box-title">Thông tin nghỉ phép</h4></legend>
+                                                        <table className="table table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th >Từ ngày</th>
+                                                                    <th >Đến ngày</th>
+                                                                    <th>Lý do</th>
+                                                                    <th>Trạng thái</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </fieldset>
+
                                                 </div>
                                             </div>
                                         </div>

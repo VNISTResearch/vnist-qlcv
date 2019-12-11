@@ -4,10 +4,13 @@ import { employeeActions } from '../../../../../redux-actions/EmployeeActions';
 import { ToastContainer, toast } from 'react-toastify';
 import './addemployee.css';
 import 'react-toastify/dist/ReactToastify.css';
+import { ModalImportFileBHXH } from './ModalImportFileBHXH';
 class AddEmployee extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            show: "",
+            defaulte: "display",
             adding: false,
             employeeNew: {
                 avatar: 'adminLTE/dist/img/avatar5.png',
@@ -40,6 +43,7 @@ class AddEmployee extends Component {
         this.handleChangeBHXH = this.handleChangeBHXH.bind(this);
         this.handleChangeCourse = this.handleChangeCourse.bind(this);
         this.handleChangeFile = this.handleChangeFile.bind(this);
+        this.defaulteClick = this.defaulteClick.bind(this);
     }
 
     // function: notification the result of an action
@@ -445,6 +449,15 @@ class AddEmployee extends Component {
         };
     }
 
+    defaulteClick(event) {
+        event.preventDefault();
+        this.setState({
+            show: "display",
+            defaulte: "",
+
+        })
+    }
+
     // function add new employee
     handleSubmit(events) {
         events.preventDefault();
@@ -518,7 +531,9 @@ class AddEmployee extends Component {
                                         <li><a style={{ paddingLeft: 5, paddingRight: 8 }} title="Tài khoản ngân hành - Thuế thu nhập các nhân" data-toggle="tab" href="#taikhoan">Tài khoản - Thuế</a></li>
                                         <li><a style={{ paddingLeft: 5, paddingRight: 8 }} title="Thông tin bảo hiểm" data-toggle="tab" href="#baohiem">Thông tin bảo hiểm</a></li>
                                         <li><a style={{ paddingLeft: 5, paddingRight: 8 }} title="Hợp đồng lao động - Quá trình đào tạo" data-toggle="tab" href="#hopdong">Hợp đồng - Đào tạo</a></li>
-                                        <li><a style={{ paddingLeft: 5, }} title="Tài liệu đính kèm" data-toggle="tab" href="#tailieu">Tài liệu</a></li>
+                                        <li><a style={{ paddingLeft: 5, paddingRight: 8 }} title="Khen thưởng - Kỷ luật" data-toggle="tab" href="#khenthuong">Khen thưởng - kỷ luật</a></li>
+                                        <li><a style={{ paddingLeft: 5, paddingRight: 8 }} title="Lịch sử tăng giảm lương - Thông tin nghỉ phép" data-toggle="tab" href="#historySalary">Lịch sử lương - Nghỉ phép</a></li>
+                                        <li><a style={{ paddingLeft: 5, }} title="Tài liệu đính kèm" data-toggle="tab" href="#tailieu">Tài liệu đính kèm</a></li>
 
                                     </ul>
                                     < div className="tab-content">
@@ -785,11 +800,11 @@ class AddEmployee extends Component {
                                                         <thead>
                                                             <tr>
                                                                 <th style={{ width: "18%" }}>Tên bằng</th>
-                                                                <th style={{ width: "18%" }}>Nơi đào tạo</th>
+                                                                <th style={{ width: "16%" }}>Nơi đào tạo</th>
                                                                 <th style={{ width: "13%" }}>Năm tốt nghiệp</th>
-                                                                <th style={{ width: "15%" }}>Xếp loại</th>
+                                                                <th style={{ width: "13%" }}>Xếp loại</th>
                                                                 <th style={{ width: "30%" }}>File đính kèm</th>
-                                                                <th style={{ width: "5%" }}></th>
+                                                                <th style={{ width: "10%" }}>Hành động</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -821,11 +836,11 @@ class AddEmployee extends Component {
                                                         <thead>
                                                             <tr>
                                                                 <th style={{ width: "22%" }}>Tên chứng chỉ</th>
-                                                                <th style={{ width: "22%" }}>Nơi cấp</th>
+                                                                <th style={{ width: "17%" }}>Nơi cấp</th>
                                                                 <th style={{ width: "9%" }}>Ngày cấp</th>
                                                                 <th style={{ width: "12%" }}>Ngày hết hạn</th>
                                                                 <th style={{ width: "30%" }}>File đính kèm</th>
-                                                                <th style={{ width: "5%" }}></th>
+                                                                <th style={{ width: "10%" }}>Hành động</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -887,7 +902,7 @@ class AddEmployee extends Component {
                                                                 <th style={{ width: '14%' }}>Đến tháng/năm</th>
                                                                 <th>Đơn vị công tác</th>
                                                                 <th>Chức vụ</th>
-                                                                <th style={{ width: '5%' }}></th>
+                                                                <th style={{ width: '10%' }}>Hành động</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -933,16 +948,16 @@ class AddEmployee extends Component {
                                                     </div>
                                                     <div className="col-md-12">
                                                         <h4 className="col-md-6" style={{ paddingLeft: 0, fontSize: 16 }}>Quá trình đóng bảo hiểm xã hội:</h4>
-                                                        <button style={{ marginBottom: 5, marginLeft: 10 }} type="submit" className="btn btn-primary pull-right" id="editBHXH" title="Thêm mới bằng file excel" onClick={this.handleAddNew}>Import file</button>
+                                                        <button style={{ marginBottom: 5, marginLeft: 10 }} type="submit" className="btn btn-primary pull-right" id="editBHXH" data-toggle="modal" data-target="#modal-importFileBHXH" title="Thêm mới bằng file excel" onClick={this.handleAddNew}>Import file</button>
                                                         <button style={{ marginBottom: 5 }} type="submit" className="btn btn-success pull-right" id="BHXH" title="Thêm mới bảo hiểm" onClick={this.handleAddNew}>Thêm mới</button>
                                                         <table className="table table-bordered " >
                                                             <thead>
                                                                 <tr>
-                                                                    <th style={{ width: "16%" }}>Từ tháng</th>
-                                                                    <th style={{ width: "16%" }}>Đến tháng</th>
+                                                                    <th style={{ width: "15%" }}>Từ tháng</th>
+                                                                    <th style={{ width: "15%" }}>Đến tháng</th>
                                                                     <th style={{ width: "30%" }}>Chức vụ</th>
                                                                     <th style={{ width: "30%" }}>Đơn vị công tác</th>
-                                                                    <th style={{ width: '5%' }}></th>
+                                                                    <th style={{ width: '10%' }}>Hành động</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
@@ -977,7 +992,7 @@ class AddEmployee extends Component {
                                                                 <th style={{ width: "14%" }}>Ngày có hiệu lực</th>
                                                                 <th style={{ width: "13%" }}>Ngày hết hạn</th>
                                                                 <th style={{ width: "30%" }}>File đính kèm</th>
-                                                                <th style={{ width: '5%' }}></th>
+                                                                <th style={{ width: '10%' }}>Hành động</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -999,7 +1014,7 @@ class AddEmployee extends Component {
                                                 <fieldset className="scheduler-border">
                                                     <legend className="scheduler-border" style={{ marginBottom: 0 }} ><h4 className="box-title">Quá trình đào tạo</h4></legend>
                                                     <button style={{ marginBottom: 5 }} type="submit" className="btn btn-success pull-right" id="course" title="Thêm mới quá trình đào tạo" onClick={this.handleAddNew}>Thêm mới</button>
-                                                    <table className="table table-bordered table-hover" >
+                                                    <table className="table table-bordered" >
                                                         <thead>
                                                             <tr>
                                                                 <th style={{ width: '18%' }}>Tên khoá học</th>
@@ -1040,6 +1055,93 @@ class AddEmployee extends Component {
                                             </div>
 
                                         </div>
+                                        <div id="khenthuong" className="tab-pane">
+                                            <div className="box-body">
+                                                <fieldset className="scheduler-border">
+                                                    <legend className="scheduler-border" style={{ marginBottom: 0 }} ><h4 className="box-title">Khen thưởng</h4></legend>
+                                                    <button style={{ marginBottom: 5 }} type="submit" className="btn btn-success pull-right" title="Thêm mới khen thưởng" >Thêm mới</button>
+                                                    <table className="table table-bordered" >
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Số quyết định</th>
+                                                                <th>Ngày quyết định</th>
+                                                                <th>Cấp ra quyết định</th>
+                                                                <th>Hình thức khen thưởng</th>
+                                                                <th style={{ width: "15%" }}>Thành tích (lý do)</th>
+                                                                <th>Hành động</th>
+                                                            </tr>
+
+                                                        </thead>
+                                                        <tbody>
+
+                                                        </tbody>
+                                                    </table>
+                                                </fieldset>
+                                                <fieldset className="scheduler-border">
+                                                    <legend className="scheduler-border" style={{ marginBottom: 0 }} ><h4 className="box-title">Kỷ luật</h4></legend>
+                                                    <button style={{ marginBottom: 5 }} type="submit" className="btn btn-success pull-right" title="Thêm mới khen thưởng" >Thêm mới</button>
+                                                    <table className="table table-bordered" >
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Số quyết định</th>
+                                                                <th>Ngày có hiệu lực</th>
+                                                                <th>Ngày hết hiệu lực</th>
+                                                                <th>Cấp ra quyết định</th>
+                                                                <th>Hình thức Kỷ luật</th>
+                                                                <th>Lý do kỷ luật</th>
+                                                                <th>Hành động</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                        </tbody>
+                                                    </table>
+                                                </fieldset>
+
+                                            </div>
+                                        </div>
+                                        <div id="historySalary" className="tab-pane">
+                                            <div className="box-body">
+                                                <div className="col-sm-12">
+                                                    <fieldset className="scheduler-border">
+                                                        <legend className="scheduler-border" style={{ marginBottom: 0 }} ><h4 className="box-title">Lịch sử tăng giảm lương</h4></legend>
+                                                        <button style={{ marginBottom: 5 }} type="submit" className="btn btn-success pull-right" title="Thêm mới bảng lương" >Thêm mới</button>
+                                                        <table className="table table-bordered" >
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Tháng</th>
+                                                                    <th style={{ width: "50%" }}>Lương</th>
+                                                                    <th>Hành động</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </fieldset>
+                                                    <fieldset className="scheduler-border">
+                                                        <legend className="scheduler-border" style={{ marginBottom: 0 }} ><h4 className="box-title">Thông tin nghỉ phép</h4></legend>
+                                                        <button style={{ marginBottom: 5 }} type="submit" className="btn btn-success pull-right" title="Thêm mới nghỉ phép" >Thêm mới</button>
+                                                        <table className="table table-bordered">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th >Từ ngày</th>
+                                                                    <th >Đến ngày</th>
+                                                                    <th>Lý do</th>
+                                                                    <th>Trạng thái</th>
+                                                                    <th >Hành động</th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </fieldset>
+
+                                                </div>
+                                            </div>
+                                        </div>
                                         <div id="tailieu" className="tab-pane">
                                             <div className="box-body">
                                                 <div className="col-md-4">
@@ -1051,6 +1153,7 @@ class AddEmployee extends Component {
                                                 <div className="col-md-12">
                                                     <h4 className="col-md-6" style={{ paddingLeft: 0 }}>Danh sách tài liệu đính kèm:</h4>
                                                     <button style={{ marginBottom: 5 }} type="submit" className="btn btn-success pull-right" id="file" title="Thêm mới bảo hiểm" onClick={this.handleAddNew}>Thêm mới</button>
+                                                    <button style={{ marginBottom: 5, marginRight: 15 }} type="submit" className="btn btn-primary pull-right" onClick={this.defaulteClick} title="Thêm các tài liệu mặc định">Mặc định</button>
                                                     <table className="table table-bordered " >
                                                         <thead>
                                                             <tr>
@@ -1059,10 +1162,11 @@ class AddEmployee extends Component {
                                                                 <th style={{ width: "9%" }}>Số lượng</th>
                                                                 <th style={{ width: "12%" }}>Trạng thái</th>
                                                                 <th style={{ width: "30%" }}>File đính kèm</th>
-                                                                <th style={{ width: '5%' }}></th>
+                                                                <th style={{ width: '10%' }}>Hành động</th>
                                                             </tr>
+
                                                         </thead>
-                                                        <tbody>
+                                                        <tbody className={this.state.show}>
                                                             {this.state.employeeNew.file !== "" && this.state.employeeNew.file.map((x, index) => (
                                                                 <tr key={index}>
                                                                     <td><input className={index} value={x.nameFile} type="text" name="nameFile" style={{ width: "100%", height: 26 }} onChange={this.handleChangeFile} /></td>
@@ -1075,10 +1179,163 @@ class AddEmployee extends Component {
                                                                     </select></td>
                                                                     <td><div style={{ height: 26, paddingTop: 2 }} className="upload btn btn-default">Chọn tệp<input className={index} type="file" name="urlFile" id="file" onChange={this.handleChangeFile} /></div> {x.urlFile === "" ? "Chưa có tệp nào được chọn" : x.urlFile}</td>
                                                                     <td style={{ textAlign: "center" }}>
+                                                                        <a href="#abc" className="edit" title="Chỉnh sửa thông tin " data-toggle="modal" data-target="#modal"><i className="material-icons"></i></a>
                                                                         <a href="#abc" className="delete" title="Delete" data-toggle="tooltip" onClick={() => this.delete("file", index)}><i className="material-icons"></i></a>
                                                                     </td>
                                                                 </tr>
                                                             ))}
+                                                        </tbody>
+                                                        <tbody className={this.state.defaulte}>
+                                                            <tr>
+                                                                <td>Bằng cấp</td>
+                                                                <td>Bằng tốt nghiệp trình độ học vấn cao nhất</td>
+                                                                <td>1</td>
+                                                                <td><select style={{ width: "100%", height: 26, paddingTop: 0, paddingLeft: 0 }} name="status">
+                                                                    <option>Đã nộp</option>
+                                                                    <option>Chưa nộp</option>
+                                                                    <option>Đã trả</option>
+                                                                </select></td>
+                                                                <td></td>
+                                                                <td style={{ textAlign: "center" }}>
+                                                                    <a href="#abc" className="edit" title="Chỉnh sửa thông tin " data-toggle="modal" data-target="#modal"><i className="material-icons"></i></a>
+                                                                    <a href="#abc" className="delete" title="Delete" data-toggle="tooltip"><i className="material-icons"></i></a>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Sơ yếu lý lịch</td>
+                                                                <td>Sơ yếu lý lịch có công chứng</td>
+                                                                <td>1</td>
+                                                                <td><select style={{ width: "100%", height: 26, paddingTop: 0, paddingLeft: 0 }} name="status">
+                                                                    <option>Đã nộp</option>
+                                                                    <option>Chưa nộp</option>
+                                                                    <option>Đã trả</option>
+                                                                </select></td>
+                                                                <td></td>
+                                                                <td style={{ textAlign: "center" }}>
+                                                                    <a href="#abc" className="edit" title="Chỉnh sửa thông tin " data-toggle="modal" data-target="#modal"><i className="material-icons"></i></a>
+                                                                    <a href="#abc" className="delete" title="Delete" data-toggle="tooltip"><i className="material-icons"></i></a>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Ảnh</td>
+                                                                <td>Ảnh 4X6 </td>
+                                                                <td>3</td>
+                                                                <td><select style={{ width: "100%", height: 26, paddingTop: 0, paddingLeft: 0 }} name="status">
+                                                                    <option>Đã nộp</option>
+                                                                    <option>Chưa nộp</option>
+                                                                    <option>Đã trả</option>
+                                                                </select></td>
+                                                                <td></td>
+                                                                <td style={{ textAlign: "center" }}>
+                                                                    <a href="#abc" className="edit" title="Chỉnh sửa thông tin " data-toggle="modal" data-target="#modal"><i className="material-icons"></i></a>
+                                                                    <a href="#abc" className="delete" title="Delete" data-toggle="tooltip"><i className="material-icons"></i></a>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Bản sao CMND/Hộ chiếu</td>
+                                                                <td>Bản sao chứng minh thư nhân dân hoặc hộ chiếu có công chứng</td>
+                                                                <td>1</td>
+                                                                <td><select style={{ width: "100%", height: 26, paddingTop: 0, paddingLeft: 0 }} name="status">
+                                                                    <option>Đã nộp</option>
+                                                                    <option>Chưa nộp</option>
+                                                                    <option>Đã trả</option>
+                                                                </select></td>
+                                                                <td></td>
+                                                                <td style={{ textAlign: "center" }}>
+                                                                    <a href="#abc" className="edit" title="Chỉnh sửa thông tin " data-toggle="modal" data-target="#modal"><i className="material-icons"></i></a>
+                                                                    <a href="#abc" className="delete" title="Delete" data-toggle="tooltip"><i className="material-icons"></i></a>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Giấy khám sức khoẻ</td>
+                                                                <td>Giấy khám sức khoẻ có dấu đỏ</td>
+                                                                <td>1</td>
+                                                                <td><select style={{ width: "100%", height: 26, paddingTop: 0, paddingLeft: 0 }} name="status">
+                                                                    <option>Đã nộp</option>
+                                                                    <option>Chưa nộp</option>
+                                                                    <option>Đã trả</option>
+                                                                </select></td>
+                                                                <td></td>
+                                                                <td style={{ textAlign: "center" }}>
+                                                                    <a href="#abc" className="edit" title="Chỉnh sửa thông tin " data-toggle="modal" data-target="#modal"><i className="material-icons"></i></a>
+                                                                    <a href="#abc" className="delete" title="Delete" data-toggle="tooltip"><i className="material-icons"></i></a>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Giấy khai sinh</td>
+                                                                <td>Giấy khái sinh có công chứng</td>
+                                                                <td>1</td>
+                                                                <td><select style={{ width: "100%", height: 26, paddingTop: 0, paddingLeft: 0 }} name="status">
+                                                                    <option>Đã nộp</option>
+                                                                    <option>Chưa nộp</option>
+                                                                    <option>Đã trả</option>
+                                                                </select></td>
+                                                                <td></td>
+                                                                <td style={{ textAlign: "center" }}>
+                                                                    <a href="#abc" className="edit" title="Chỉnh sửa thông tin " data-toggle="modal" data-target="#modal"><i className="material-icons"></i></a>
+                                                                    <a href="#abc" className="delete" title="Delete" data-toggle="tooltip"><i className="material-icons"></i></a>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Đơn xin việc</td>
+                                                                <td>Đơn xin việc viết tay</td>
+                                                                <td>1</td>
+                                                                <td><select style={{ width: "100%", height: 26, paddingTop: 0, paddingLeft: 0 }} name="status">
+                                                                    <option>Đã nộp</option>
+                                                                    <option>Chưa nộp</option>
+                                                                    <option>Đã trả</option>
+                                                                </select></td>
+                                                                <td></td>
+                                                                <td style={{ textAlign: "center" }}>
+                                                                    <a href="#abc" className="edit" title="Chỉnh sửa thông tin " data-toggle="modal" data-target="#modal"><i className="material-icons"></i></a>
+                                                                    <a href="#abc" className="delete" title="Delete" data-toggle="tooltip"><i className="material-icons"></i></a>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td> CV</td>
+                                                                <td> CV của nhân viên</td>
+                                                                <td>1</td>
+                                                                <td><select style={{ width: "100%", height: 26, paddingTop: 0, paddingLeft: 0 }} name="status">
+                                                                    <option>Đã nộp</option>
+                                                                    <option>Chưa nộp</option>
+                                                                    <option>Đã trả</option>
+                                                                </select></td>
+                                                                <td></td>
+                                                                <td style={{ textAlign: "center" }}>
+                                                                    <a href="#abc" className="edit" title="Chỉnh sửa thông tin " data-toggle="modal" data-target="#modal"><i className="material-icons"></i></a>
+                                                                    <a href="#abc" className="delete" title="Delete" data-toggle="tooltip"><i className="material-icons"></i></a>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Cam kết</td>
+                                                                <td> Giấy cam kết làm việc</td>
+                                                                <td>1</td>
+                                                                <td><select style={{ width: "100%", height: 26, paddingTop: 0, paddingLeft: 0 }} name="status">
+                                                                    <option>Đã nộp</option>
+                                                                    <option>Chưa nộp</option>
+                                                                    <option>Đã trả</option>
+                                                                </select></td>
+                                                                <td></td>
+                                                                <td style={{ textAlign: "center" }}>
+                                                                    <a href="#abc" className="edit" title="Chỉnh sửa thông tin " data-toggle="modal" data-target="#modal"><i className="material-icons"></i></a>
+                                                                    <a href="#abc" className="delete" title="Delete" data-toggle="tooltip" ><i className="material-icons"></i></a>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Tạm trú tạm vắng</td>
+                                                                <td>Giấy xác nhận tạm trú tạm vắng</td>
+                                                                <td>1</td>
+                                                                <td><select style={{ width: "100%", height: 26, paddingTop: 0, paddingLeft: 0 }} name="status">
+                                                                    <option>Đã nộp</option>
+                                                                    <option>Chưa nộp</option>
+                                                                    <option>Đã trả</option>
+                                                                </select></td>
+                                                                <td></td>
+                                                                <td style={{ textAlign: "center" }}>
+                                                                    <a href="#abc" className="edit" title="Chỉnh sửa thông tin " data-toggle="modal" data-target="#modal"><i className="material-icons"></i></a>
+                                                                    <a href="#abc" className="delete" title="Delete" data-toggle="tooltip"><i className="material-icons"></i></a>
+                                                                </td>
+                                                            </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -1489,7 +1746,9 @@ class AddEmployee extends Component {
                             <ToastContainer />
                         </div>
                     </div>
-                </section></div >
+                </section>
+                <ModalImportFileBHXH />
+            </div >
         );
     };
 }

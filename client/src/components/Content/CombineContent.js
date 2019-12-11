@@ -24,3 +24,4 @@ export * from './EmployeesManagement/Training/TrainingPlan/TrainingPlan';
 export * from './EmployeesManagement/Training/ListCourse/ListCourse';
 export * from './EmployeesManagement/Sabbatical/Sabbatical';
 export * from './EmployeesManagement/DashBoardEmployeesManagement/DashBoardEmployees';
+export * from './EmployeesManagement/Discipline/Discipline';

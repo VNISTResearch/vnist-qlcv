@@ -1,22 +1,15 @@
 import React, { Component } from 'react';
 
-class ModalEditSalary extends Component {
-    componentDidMount() {
-        let script = document.createElement('script');
-        script.src = 'main/js/AddEmployee.js';
-        script.async = true;
-        script.defer = true;
-        document.body.appendChild(script);
-    }
+class ModalAddCourse extends Component {
     render() {
         return (
-            <div className="modal fade" id="modal-editSalary" tabIndex={-1} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div className="modal fade" id="modal-addCourse" tabIndex={-1} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
                             <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span></button>
-                            <h4 className="modal-title">Chỉnh sửa bảng lương</h4>
+                            <h4 className="modal-title">Thêm chương trình đào tạo</h4>
                         </div>
                         <div className="modal-body">
                             {/* /.box-header */}
@@ -28,16 +21,20 @@ class ModalEditSalary extends Component {
                                                         </label>
                                     </div>
                                     <div className="form-group">
-                                        <label htmlFor="employeeNumber">Mã nhân viên:<span className="required">&#42;</span></label>
-                                        <input type="text" className="form-control" value="20152369" name="employeeNumber" disabled />
+                                        <label htmlFor="employeeNumber">Mã chương trình đào tạo:<span className="required">&#42;</span></label>
+                                        <input type="text" className="form-control" name="employeeNumber" />
                                     </div>
                                     <div className="form-group">
-                                        <label htmlFor="employeeNumber">Tháng:<span className="required">&#42;</span></label>
-                                        <input type="text" className="form-control" name="month" id="datepickerEmployee3" data-date-format="mm-yyyy" />
+                                        <label htmlFor="employeeNumber">Tên chương trình đào tạo:<span className="required">&#42;</span></label>
+                                        <input type="text" className="form-control" name="employeeNumber" />
                                     </div>
                                     <div className="form-group">
-                                        <label htmlFor="employeeNumber">Lương:<span className="required">&#42;</span></label>
-                                        <input type="number" className="form-control" />
+                                        <label htmlFor="employeeNumber">Áp dụng cho đơn vị:<span className="required">&#42;</span></label>
+                                        <input type="text" className="form-control" name="employeeNumber" />
+                                    </div>
+                                    <div className="form-group">
+                                        <label htmlFor="employeeNumber">Áp dụng cho chức vụ:<span className="required">&#42;</span></label>
+                                        <input type="text" className="form-control" name="employeeNumber" />
                                     </div>
                                 </div>
                             </div>
@@ -45,7 +42,7 @@ class ModalEditSalary extends Component {
                         </div>
                         <div className="modal-footer">
                             <button style={{ marginRight: 45 }} type="button" className="btn btn-default pull-right" data-dismiss="modal">Đóng</button>
-                            <button style={{ marginRight: 15 }} type="button" title="Lưu lại các thay đổi" className="btn btn-success pull-right">Lưu thay đổi</button>
+                            <button style={{ marginRight: 15 }} type="button" title="Thêm mới chương trình đào tạo" className="btn btn-success pull-right">Thêm mới</button>
                         </div>
                     </div>
                 </div>
@@ -54,4 +51,4 @@ class ModalEditSalary extends Component {
     }
 };
 
-export { ModalEditSalary };
+export { ModalAddCourse };

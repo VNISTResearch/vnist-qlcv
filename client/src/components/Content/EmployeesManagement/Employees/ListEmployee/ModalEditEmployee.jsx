@@ -9,7 +9,6 @@ class ModalEditEmployee extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
             adding: false,
             employeeNew: {
                 avatar: 'adminLTE/dist/img/avatar5.png',
@@ -480,6 +479,9 @@ class ModalEditEmployee extends Component {
                                             <li><a style={{ paddingLeft: 5, paddingRight: 8 }} title="Tài khoản ngân hành - Thuế thu nhập các nhân" data-toggle="tab" href="#edittaikhoan">Tài khoản - Thuế</a></li>
                                             <li><a style={{ paddingLeft: 5, paddingRight: 8 }} title="Thông tin bảo hiểm" data-toggle="tab" href="#editbaohiem">Thông tin bảo hiểm</a></li>
                                             <li><a style={{ paddingLeft: 5, paddingRight: 8 }} title="Hợp đồng lao động - Quá trình đào tạo" data-toggle="tab" href="#edithopdong">Hợp đồng - Đào tạo</a></li>
+                                            <li><a style={{ paddingLeft: 5, paddingRight: 8 }} title="Khen thưởng - Kỷ luật" data-toggle="tab" href="#editkhenthuong">Khen thưởng - kỷ luật</a></li>
+                                            <li><a style={{ paddingLeft: 5, paddingRight: 8 }} title="Lịch sử tăng giảm lương - Thông tin nghỉ phép" data-toggle="tab" href="#edithistorySalary">Lịch sử lương - Nghỉ phép</a></li>
+
                                             <li><a style={{ paddingLeft: 5, }} title="Tài liệu đính kèm" data-toggle="tab" href="#edittailieu">Tài liệu đính kèm</a></li>
 
                                         </ul>
@@ -492,7 +494,7 @@ class ModalEditEmployee extends Component {
                                                                 <img className="attachment-img avarta" src={this.state.employeeNew.avatar} alt="Attachment" />
                                                                 <div className="upload btn btn-default" style={{ marginLeft: 55 }}>
                                                                     Chọn ảnh
-                                                    <input className="upload" type="file" name="file" onChange={this.handleUpload} />
+                                                                <input className="upload" type="file" name="file" onChange={this.handleUpload} />
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -519,6 +521,7 @@ class ModalEditEmployee extends Component {
                                                                 <input type="email" className="form-control" placeholder="Email công ty" name="emailCompany" defaultValue={employee.emailCompany} onChange={this.handleChange} />
                                                             </div>
                                                         </div>
+
                                                         <div className=" col-md-4 " style={{ marginTop: 30 }}>
                                                             <div className="form-group">
                                                                 <label htmlFor="MSCC">Mã số chấm công:<span className="required">&#42;</span></label>
@@ -1022,6 +1025,93 @@ class ModalEditEmployee extends Component {
                                                             </tbody>
                                                         </table>
                                                     </fieldset>
+                                                </div>
+                                            </div>
+                                            <div id="editkhenthuong" className="tab-pane">
+                                                <div className="box-body">
+                                                    <fieldset className="scheduler-border">
+                                                        <legend className="scheduler-border" style={{ marginBottom: 0 }} ><h4 className="box-title">Khen thưởng</h4></legend>
+                                                        <button style={{ marginBottom: 5 }} type="submit" className="btn btn-success pull-right" title="Thêm mới khen thưởng" >Thêm mới</button>
+                                                        <table className="table table-bordered" >
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Số quyết định</th>
+                                                                    <th>Ngày quyết định</th>
+                                                                    <th>Cấp ra quyết định</th>
+                                                                    <th>Hình thức khen thưởng</th>
+                                                                    <th style={{ width: "15%" }}>Thành tích (lý do)</th>
+                                                                    <th>Hành động</th>
+                                                                </tr>
+
+                                                            </thead>
+                                                            <tbody>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </fieldset>
+                                                    <fieldset className="scheduler-border">
+                                                        <legend className="scheduler-border" style={{ marginBottom: 0 }} ><h4 className="box-title">Kỷ luật</h4></legend>
+                                                        <button style={{ marginBottom: 5 }} type="submit" className="btn btn-success pull-right" title="Thêm mới khen thưởng" >Thêm mới</button>
+                                                        <table className="table table-bordered" >
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Số quyết định</th>
+                                                                    <th>Ngày có hiệu lực</th>
+                                                                    <th>Ngày hết hiệu lực</th>
+                                                                    <th>Cấp ra quyết định</th>
+                                                                    <th>Hình thức Kỷ luật</th>
+                                                                    <th>Lý do kỷ luật</th>
+                                                                    <th>Hành động</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </fieldset>
+
+                                                </div>
+                                            </div>
+                                            <div id="edithistorySalary" className="tab-pane">
+                                                <div className="box-body">
+                                                    <div className="col-sm-12">
+                                                        <fieldset className="scheduler-border">
+                                                            <legend className="scheduler-border" style={{ marginBottom: 0 }} ><h4 className="box-title">Lịch sử tăng giảm lương</h4></legend>
+                                                            <button style={{ marginBottom: 5 }} type="submit" className="btn btn-success pull-right" title="Thêm mới bảng lương" >Thêm mới</button>
+                                                            <table className="table table-bordered" >
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Tháng</th>
+                                                                        <th style={{ width: "50%" }}>Lương</th>
+                                                                        <th>Hành động</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+
+                                                                </tbody>
+                                                            </table>
+                                                        </fieldset>
+                                                        <fieldset className="scheduler-border">
+                                                            <legend className="scheduler-border" style={{ marginBottom: 0 }} ><h4 className="box-title">Thông tin nghỉ phép</h4></legend>
+                                                            <button style={{ marginBottom: 5 }} type="submit" className="btn btn-success pull-right" title="Thêm mới khen thưởng" >Thêm mới</button>
+                                                            <table className="table table-bordered">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th >Từ ngày</th>
+                                                                        <th >Đến ngày</th>
+                                                                        <th>Lý do</th>
+                                                                        <th>Trạng thái</th>
+                                                                        <th >Hành động</th>
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+
+                                                                </tbody>
+                                                            </table>
+                                                        </fieldset>
+
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div id="edittailieu" className="tab-pane">

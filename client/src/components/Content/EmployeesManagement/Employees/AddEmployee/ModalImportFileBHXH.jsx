@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 
-class ModalImportFileSalary extends Component {
+class ModalImportFileBHXH extends Component {
     render() {
         return (
-            <div className="modal fade" id="modal-importFileSalary" tabIndex={-1} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div className="modal fade" id="modal-importFileBHXH" tabIndex={-1} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
                     <div className="modal-content">
                         <div className="modal-header">
                             <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span></button>
-                            <h4 className="modal-title">Thêm nhiều bảng lương:</h4>
+                            <h4 className="modal-title">Thêm quá trình đóng BHXH:</h4>
                         </div>
                         <div className="modal-body" >
                             <div className="col-md-12">
@@ -21,7 +21,7 @@ class ModalImportFileSalary extends Component {
                         </div>
                         <div className="modal-footer">
                             <button style={{ marginRight: 15 }} type="button" className="btn btn-default pull-right" data-dismiss="modal">Đóng</button>
-                            <button style={{ marginRight: 15 }} type="button" className="btn btn-success" title="Thêm nhiều bảng lương" >Thêm mới</button>
+                            <button style={{ marginRight: 15 }} type="button" className="btn btn-success" title="Thêm quá trình đóng BHXH" >Thêm mới</button>
                         </div>
                     </div>
                 </div>
@@ -30,4 +30,5 @@ class ModalImportFileSalary extends Component {
     }
 };
 
-export { ModalImportFileSalary };
+
+export { ModalImportFileBHXH };

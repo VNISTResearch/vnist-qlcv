@@ -27,8 +27,15 @@ class ModalDetailTrainingPlan extends Component {
                                         {/* /.box-header */}
                                         <div className="box-body">
                                             <div className="col-md-12">
-                                                <div className="col-md-6">
+                                                <div className="col-md-12">
                                                     <div className="form-group" style={{ marginTop: 20 }}>
+                                                        <strong>Mã khoá đào tạo:&emsp; </strong>
+                                                        12563
+                                                        </div>
+                                                </div>
+
+                                                <div className="col-md-6">
+                                                    <div className="form-group">
                                                         <strong>Tên khoá đào tạo:&emsp; </strong>
                                                         An toàn lao động 2019
                                                         </div>
@@ -42,12 +49,12 @@ class ModalDetailTrainingPlan extends Component {
                                                         100.000.000 VND
                                                         </div>
                                                     <div className="form-group" style={{ marginTop: 20 }}>
-                                                        <strong>Thuộc chương trình đào tạo:&emsp; </strong>
-                                                        An toàn lao động
+                                                        <strong>Giảng viên:&emsp; </strong>
+                                                        Nguyễn văn A
                                                         </div>
                                                 </div>
                                                 <div className="col-md-6">
-                                                    <div className="form-group" style={{ marginTop: 20 }}>
+                                                    <div className="form-group">
                                                         <strong>Địa điểm đào tạo:&emsp; </strong>
                                                         P-901 Vnist
                                                         </div>
@@ -58,6 +65,10 @@ class ModalDetailTrainingPlan extends Component {
                                                     <div className="form-group" style={{ marginTop: 20 }}>
                                                         <strong>Đơn vị đào tạo:&emsp; </strong>
                                                         Công ty An toàn thông tin và truyền thông Việt Nam
+                                                        </div>
+                                                    <div className="form-group" style={{ marginTop: 20 }}>
+                                                        <strong>Thuộc chương trình đào tạo:&emsp; </strong>
+                                                        An toàn lao động
                                                         </div>
                                                 </div>
                                                 <div className="box-header col-md-12">
@@ -78,44 +89,32 @@ class ModalDetailTrainingPlan extends Component {
                                                                 <td>VN123456</td>
                                                                 <td>Nguyễn Chí Thanh</td>
                                                                 <td>phòng hành chính</td>
-                                                                <td>
-                                                                    <div className="">
-                                                                        <div className="radio" style={{ marginTop: 0 }}>
-                                                                            <label>
-                                                                                <input type="radio" name="optionsRadios" id="optionsRadios1" defaultValue="Hoàn thành" />
-                                                                                &nbsp;Đạt&emsp;&emsp;
-                                                                                </label>
-                                                                            <label>
-                                                                                <input type="radio" name="optionsRadios" id="optionsRadios2" defaultValue="Không hoàn thành" />
-                                                                                &nbsp;Không đạt
-                                                                                </label>
-                                                                        </div>
-                                                                    </div>
-                                                                </td>
+                                                                <td>Đạt</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>VN123456</td>
                                                                 <td>Nguyễn Chí Thanh</td>
                                                                 <td>phòng hành chính</td>
-                                                                <td></td>
+                                                                <td>Đạt</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>VN123456</td>
                                                                 <td>Nguyễn Chí Thanh</td>
                                                                 <td>phòng hành chính</td>
-                                                                <td></td>
+                                                                <td>Không đạt</td>
+
                                                             </tr>
                                                             <tr>
                                                                 <td>VN123456</td>
                                                                 <td>Nguyễn Chí Thanh</td>
                                                                 <td>phòng hành chính</td>
-                                                                <td></td>
+                                                                <td>Đạt</td>
                                                             </tr>
                                                             <tr>
                                                                 <td>VN123456</td>
                                                                 <td>Nguyễn Chí Thanh</td>
                                                                 <td>phòng hành chính</td>
-                                                                <td></td>
+                                                                <td>Đạt</td>
                                                             </tr>
 
                                                         </tbody>

@@ -80,6 +80,7 @@ class MainSideBar extends Component {
                                         <li><a href="/listemployee">Quản lý thông tin nhân viên</a></li>
                                         <li><a href="/salaryemployee">Lương nhân viên</a></li>
                                         <li><a href="/timekeeping">Chấm công nhân viên</a></li>
+                                        <li><a href="/discipline">Quản lý khen thưởng - kỷ luật</a></li>
                                         <li><a href="/sabbatical">Quản lý nghỉ phép</a></li>
                                     </ul>
                                 </li>

@@ -37,6 +37,7 @@ class ModalAddEmployeeSabbatical extends Component {
                                 <div className="form-group">
                                     <label htmlFor="employeeNumber">Trạng thái:<span className="required">&#42;</span></label>
                                     <select className="form-control">
+                                        <option>Đã chấp nhận</option>
                                         <option>Chờ phê duyệt</option>
                                         <option>Đã chấp nhận</option>
                                         <option>Không chấp nhận</option>
