@@ -13,6 +13,13 @@ class ModalEditTaskTemplate extends Component {
     componentDidMount() {
         this.props.getTaskTemplate(this.props.id);
     }
+    handleCloseModal = (id) => {
+        var element = document.getElementsByTagName("BODY")[0];
+        element.classList.remove("modal-open");
+        var modal = document.getElementById(`editTaskTemplate${id}`);
+        modal.classList.remove("in");
+        modal.style = "display: none;";
+    }
     render() {
         var template;
         const { tasktemplates } = this.props;
@@ -23,7 +30,7 @@ class ModalEditTaskTemplate extends Component {
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">
-                                <button type="button" className="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <button type="button" className="close" onClick={()=>this.handleCloseModal(this.props.id)} data-dismiss="modal" aria-hidden="true">×</button>
                                 <h3 className="modal-title">Chỉnh sửa {template && template.name}</h3>
                             </div>
                             <div className="modal-body">
@@ -33,11 +40,11 @@ class ModalEditTaskTemplate extends Component {
                                             <div className="box-body">
                                                 <div className="form-group">
                                                     <label>Tên mẫu công việc</label>
-                                                    <input name="url" type="text" className="form-control" defaultValue={template.name} />
+                                                    <input name="url" type="text" className="form-control" defaultValue={template.info.name} />
                                                 </div>
                                                 <div className="form-group">
                                                     <label>Mô tả mẫu công việc</label>
-                                                    <input name="description" type="text" className="form-control" defaultValue={template.description} />
+                                                    <input name="description" type="text" className="form-control" defaultValue={template.info.description} />
                                                 </div>
                                             </div>
                                         </form> : null
@@ -45,7 +52,7 @@ class ModalEditTaskTemplate extends Component {
                             </div>
                             <div className="modal-footer">
                                 <button className="btn btn-success">Lưu</button>
-                                <button type="cancel" className="btn btn-primary" data-dismiss="modal">Hủy bỏ</button>
+                                <button type="cancel" className="btn btn-primary" data-dismiss="modal" onClick={()=>this.handleCloseModal(this.props.id)}>Hủy bỏ</button>
                             </div>
                         </div>
                     </div>

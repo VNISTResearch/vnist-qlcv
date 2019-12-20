@@ -53,7 +53,7 @@ function getAllTaskTemplateByUser(id, pageNumber,arrayUnit) {
 function addNewTaskTemplate(newTaskTemplate) {
     const requestOptions = {
         method: 'POST',
-        headers: authHeader(),
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newTaskTemplate)
     };
 

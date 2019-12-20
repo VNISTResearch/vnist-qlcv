@@ -1,44 +1,45 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const Department = require('./Department.model');
+const DetailKPIUnit = require('./DetailKPIUnit.model');
+const User = require('./User.model');
 
-// Create Schema
+// Model cho chức năng quản lý KPI đơn vị
 const KPIUnitSchema = new Schema({
+    // Lưu thông tin đơn vị quản lý kpi này
     unit: {
         type: Schema.Types.ObjectId,
         ref: Department,
         required: true
     },
+    // Lưu thông tin người thiết lập kpi
     creater: {
-        type: String,
-    },
-    name: {
-        type: String,
-        required: true
-    },
-    parent: {
         type: Schema.Types.ObjectId,
+        ref: User,
+        required: true
     },
+    // KPi tháng nào
     time: {
-        type: String,
+        type: Date,
         required: true
     },
-    weight: {
+    // Danh sách các mục tiêu của kpi này
+    listtarget: [{
+        type: Schema.Types.ObjectId,
+        ref: DetailKPIUnit,
+        required: true
+    }],
+    result: {
         type: Number,
-        required: true
+        default: 0
     },
-    criteria: {
-        type: String,
-        required: true
-    },
-    confirm: {
-        type: Boolean,
-        required: true
-    },
-    evaluate: {
-        type: Boolean,
-        required: true
+    // Có 3 trang thái kpi đơn vị: 0: Đang thiết lập, 1: Đã kích hoạt, 2: Đã kết thúc
+    status: {
+        type: Number,
+        default: 0
     }
+}, {
+    timestamps: true
 });
 
 module.exports = KPIUnit = mongoose.model("kpiunits", KPIUnitSchema);

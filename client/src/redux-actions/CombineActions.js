@@ -1,5 +1,5 @@
 export * from './AlertActions';
-export * from './UserActions';
+export * from './User/User.action';
 export * from './TaskTemplateActions';
 export * from './JobTitleActions';
 export * from './DepartmentActions';

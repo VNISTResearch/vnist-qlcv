@@ -1,20 +1,16 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const TaskFile = require('./TaskFile.model');
 const Task = require('./Task.model');
-const ActionTask = require('./ActionTask.model');
 const User = require('./User.model');
 
-// Create Schema
+// Model quản lý các hoạt động hoặc bình luận của một công việc
 const CommentTaskSchema = new Schema({
-    task: { //lưu id của công việc 
+    task: {
         type: Schema.Types.ObjectId,
         ref: Task,
         required: true
     },
-    // actionTask: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: ActionTask,
-    // },
     creator: {
         type: Schema.Types.ObjectId,
         ref: User,
@@ -30,6 +26,11 @@ const CommentTaskSchema = new Schema({
     approved: {
         type: Number,
         default: 0,
+        required: true
+    },
+    file: {
+        type: Schema.Types.ObjectId,
+        ref: TaskFile,
         required: true
     }
 }, {

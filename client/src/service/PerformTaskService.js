@@ -1,12 +1,13 @@
 import {handleResponse} from '../helpers/HandleResponse';
 import { authHeader } from '../helpers/AuthHeader';
-import { LOCAL_SERVER_API } from '../redux-constants/config';
+// import { LOCAL_SERVER_API } from '../redux-constants/config';
 export const performTaskService = {
     getLogTimerTask,
     getTimerStatusTask,
     startTimerTask,
     stopTimerTask,
     pauseTimerTask,
+    continueTimerTask,
     addCommentTask,
     deleteCommentTask,
     editCommentTask,
@@ -23,44 +24,56 @@ function getLogTimerTask(task) {
 }
 
 // get current status task
-function getTimerStatusTask(task) {
+function getTimerStatusTask(task, user) {
     const requestOptions = {
         method: 'GET',
         headers: authHeader()
     };
 
-    return fetch(`/performtask/log-timer/currentTimer/${task}`, requestOptions).then(handleResponse);
+    return fetch(`/performtask/log-timer/currentTimer/${task}/${user}`, requestOptions).then(handleResponse);
 }
 
 // start timer task
 function startTimerTask(newTimer) {
     const requestOptions = {
         method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newTimer),
-        headers: authHeader()
     };
 
     return fetch(`/performtask/log-timer/start-timer`, requestOptions).then(handleResponse);
-
 }
 // stop timer task
-function stopTimerTask(id) {
+function stopTimerTask(id, newTimer) {
     const requestOptions = {
         method: 'PUT',
-        headers: authHeader()
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newTimer),
     };
 
     return fetch(`/performtask/log-timer/stop-timer/${id}`, requestOptions).then(handleResponse);
 }
 
 // pause timer task
-function pauseTimerTask(id) {
+function pauseTimerTask(id, newTimer) {
     const requestOptions = {
         method: 'PUT',
-        headers: authHeader()
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newTimer)
     };
 
     return fetch(`/performtask/log-timer/pause-timer/${id}`, requestOptions).then(handleResponse);
+}
+
+// continue timer task
+function continueTimerTask(id, newTimer) {
+    const requestOptions = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newTimer)
+    };
+
+    return fetch(`/performtask/log-timer/continue-timer/${id}`, requestOptions).then(handleResponse);
 }
 
 // get all comment task
@@ -75,21 +88,19 @@ function getCommentTask(task) {
 
 // add comment task
 function addCommentTask(newComment) {
-    console.log("service"+newComment.task);
     const requestOptions = {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newComment)
+        body: newComment
     };
 
-    return fetch(`${LOCAL_SERVER_API}/performtask/comment-task/create`, requestOptions).then(handleResponse);
+    return fetch(`/performtask/comment-task/create`, requestOptions).then(handleResponse);
 }
 
 // edit comment task
 function editCommentTask(id, newComment) {
     const requestOptions = {
         method: 'PUT',
-        headers: authHeader(),
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newComment)
     };
 
@@ -100,7 +111,6 @@ function editCommentTask(id, newComment) {
 function deleteCommentTask(id) {
     const requestOptions = {
         method: 'DELETE',
-        headers: authHeader()
     };
 
     return fetch(`/performtask/comment-task/${id}`, requestOptions).then(handleResponse);

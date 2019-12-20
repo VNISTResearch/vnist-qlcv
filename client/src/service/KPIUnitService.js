@@ -1,34 +1,19 @@
 import {handleResponse} from '../helpers/HandleResponse';
 export const kpiUnitService = {
-    getAll,
-    getById,
-    getAllTargetUnitByIdUnit,
-    getAllParentTargetUnitByIdUnit,
-    addNewTargetUnit,
-    editTargetUnit,
-    comfirmKPIUnit,
-    deleteTargetById
+    getAllKPIUnit,
+    getCurrentKPIUnit,
+    getKPIParent,
+    addKPIUnit,
+    addTargetKPIUnit,
+    editKPIUnit,
+    editStatusKPIUnit,
+    evaluateKPIUnit,
+    editTargetKPIUnit,
+    deleteKPIUnit,
+    deleteTargetKPIUnit
 };
-// get all target of aff unit
-function getAll() {
-    const requestOptions = {
-        method: 'GET',
-    };
-
-    return fetch('/kpiunits', requestOptions).then(handleResponse);
-}
-
-// get a target of unit by id target 
-function getById(id) {
-    const requestOptions = {
-        method: 'GET',
-    };
-
-    return fetch(`/kpiunits/${id}`, requestOptions).then(handleResponse);
-}
-
-// get all target of one unit
-function getAllTargetUnitByIdUnit(id) {
+// Lấy tất cả KPI đơn vị
+function getAllKPIUnit(id) {
     const requestOptions = {
         method: 'GET',
     };
@@ -36,52 +21,101 @@ function getAllTargetUnitByIdUnit(id) {
     return fetch(`/kpiunits/unit/${id}`, requestOptions).then(handleResponse);
 }
 
-// get all parent target of one unit
-function getAllParentTargetUnitByIdUnit(id) {
+// Lấy KPI đơn vị hiện tại
+function getCurrentKPIUnit(id) {
     const requestOptions = {
         method: 'GET',
     };
 
-    return fetch(`/kpiunits/parent/${id}`, requestOptions).then(handleResponse);
+    return fetch(`/kpiunits/current-unit/role/${id}`, requestOptions).then(handleResponse);
 }
 
-// add new target of one unit 
-function addNewTargetUnit(newTarget) {
+// Lấy KPI đơn vị cha
+function getKPIParent(parentUnit) {
+    const requestOptions = {
+        method: 'GET',
+    };
+    return fetch(`/kpiunits/parent/${parentUnit}`, requestOptions).then(handleResponse);
+}
+
+// Khởi tạo KPI đơn vị 
+function addKPIUnit(newKPI) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newKPI)
+    };
+
+    return fetch(`/kpiunits/create`, requestOptions).then(handleResponse);
+}
+
+// Thêm mục tiêu cho KPI đơn vị 
+function addTargetKPIUnit(newTarget) {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newTarget)
     };
 
-    return fetch(`/kpiunits/create`, requestOptions).then(handleResponse);
+    return fetch(`/kpiunits/create-target`, requestOptions).then(handleResponse);
 }
 
-// edit a target of unit by id
-function editTargetUnit(id, newTarget) {
+// Chỉnh sửa KPI đơn vị
+function editKPIUnit(id, newKPI) {
+    const requestOptions = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newKPI)
+    };
+
+    return fetch(`/kpiunits/${id}`, requestOptions).then(handleResponse);
+}
+
+// Chỉnh sửa trạng thái của KPI đơn vị
+function editStatusKPIUnit(id, status) {
+    const requestOptions = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+    };
+
+    return fetch(`/kpiunits/status/${id}/${status}`, requestOptions).then(handleResponse);
+}
+
+// Cập nhật dữ liệu cho KPI đơn vị
+function evaluateKPIUnit(id) {
+    const requestOptions = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+    };
+
+    return fetch(`/kpiunits/evaluate/${id}`, requestOptions).then(handleResponse);
+}
+
+// Chỉnh sửa mục tiêu của KPI đơn vị
+function editTargetKPIUnit(id, newTarget) {
     const requestOptions = {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newTarget)
     };
 
-    return fetch(`/kpiunits/${id}`, requestOptions).then(handleResponse);
+    return fetch(`/kpiunits/target/${id}`, requestOptions).then(handleResponse);
 }
 
-// confirm final KPI unit
-function comfirmKPIUnit(id) {
-    const requestOptions = {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-    };
-
-    return fetch(`/kpiunits/unit/${id}`, requestOptions).then(handleResponse);
-}
-
-// delete a target of unit
-function deleteTargetById(id) {
+// Xóa KPI đơn vị
+function deleteKPIUnit(id) {
     const requestOptions = {
         method: 'DELETE',
     };
 
     return fetch(`/kpiunits/${id}`, requestOptions).then(handleResponse);
+}
+
+// xóa mục tiêu của KPI đơn vị
+function deleteTargetKPIUnit(id, kpiunit) {
+    const requestOptions = {
+        method: 'DELETE',
+    };
+
+    return fetch(`/kpiunits/target/${kpiunit}/${id}`, requestOptions).then(handleResponse);
 }

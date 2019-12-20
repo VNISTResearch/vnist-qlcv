@@ -20,11 +20,11 @@ class MainHeaderMenu extends Component {
     componentDidMount(){
         this.props.getRoles();
     }
-
     selectHandle(e){
         this.setState({currentRole: e.target.value});
         localStorage.setItem('currentRole', e.target.value);
         this.props.getLinkOfRole();
+        // window.location.reload();
     }
 
     clickButton(){
@@ -34,7 +34,6 @@ class MainHeaderMenu extends Component {
     render() {
         const { auth, user, translate } = this.props; 
         const { currentRole } = this.state;
-        console.log( "current role: ", currentRole);
         return (
             <div className="navbar-custom-menu">
                 <ul className="nav navbar-nav">

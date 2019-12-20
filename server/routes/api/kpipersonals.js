@@ -2,34 +2,46 @@ const express = require("express");
 const router = express.Router();
 const KPIPersonalController = require("../../controllers/KPIPersonalController");
 
-// get all kpi personal
-router.get('/', KPIPersonalController.get);
+// Tìm kiếm KPI nhân viên
+router.get('/all-member/:role/:user/:status/:starttime/:endtime', KPIPersonalController.getKPIAllMember);
 
-// get target kpi personal by id
+// get all kpi personal
+router.get('/user/:id', KPIPersonalController.get);
+
+// Lấy kpi cá nhân theo id
 router.get('/:id', KPIPersonalController.getById);
 
-// get all target kpi of a personal
-router.get('/personal/:id', KPIPersonalController.getByUser);
+// lấy kpi cá nhân hiện tại
+router.get('/current/:id', KPIPersonalController.getByUser);
 
-// get all parent target kpi of a personal
-router.get('/parent/:id', KPIPersonalController.getParentTarget);
-
-// add a new target of personal
+// Khởi tạo KPI cá nhân
 router.post('/create', KPIPersonalController.create);
 
-// edit target of personal by id
+// edit kpi personal by id
 router.put('/:id', KPIPersonalController.edit);
 
-// confirm target of personal kpi
-router.put('/confirm/:id', KPIPersonalController.confirmKPIPersonal);
+// edit status of personal by id
+router.put('/status/:id/:status', KPIPersonalController.editStatusKPIPersonal);
 
-// approve target of personal kpi
-router.put('/approve/:id', KPIPersonalController.approveKPIPersonal);
+// phê duyệt tất cả mục tiêu của kpi cá nhân
+router.put('/approve/:id', KPIPersonalController.approveAllTarget);
 
-// request edit target of personal kpi
-router.put('/requestedit/:id', KPIPersonalController.requestEditKPIPersonal);
+// đánh giá mục tiêu của kpi cá nhân
+router.put('/evaluate/:id', KPIPersonalController.evaluateTarget);
+
+// delete kpi personal
+router.delete('/:id', KPIPersonalController.delete);
+
+// thêm mục tiêu cho kpi cá nhân
+router.post('/create-target', KPIPersonalController.createTarget);
+
+// chỉnh sửa trạng thái từng mục tiêu của kpi cá nhân
+router.put('/status-target/:kpipersonal/:id/:status', KPIPersonalController.editTatusTarget);
+
+// edit target of personal by id
+router.put('/target/:id', KPIPersonalController.editTarget);
 
 // delete target of personal
-router.delete('/:id', KPIPersonalController.delete);
+router.delete('/target/:kpipersonal/:id', KPIPersonalController.deleteTarget);
 
 module.exports = router;

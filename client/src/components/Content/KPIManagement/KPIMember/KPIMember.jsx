@@ -1,15 +1,42 @@
 import React, { Component } from 'react';
 import { ModalMemberApprove } from './ModalMemberApprove';
 import { ModalMemberEvaluate } from './ModalMemberEvaluate';
+import { connect } from 'react-redux';
+import { userActions, kpiPersonalActions } from '../../../../redux-actions/CombineActions';
+import Swal from 'sweetalert2';
 
 class KPIMember extends Component {
     constructor(props) {
         super(props);
         this.state = {
             commenting: false,
+            infosearch: {
+                role: localStorage.getItem("currentRole"),
+                user: "",
+                status: 4,
+                starttime: this.formatDate(Date.now()),
+                endtime: this.formatDate(Date.now())
+            },
+            showApproveModal: "",
+            showEvaluateModal: ""
         };
     }
     componentDidMount() {
+        var infosearch = {
+            role: localStorage.getItem("currentRole"),
+            user: "all",
+            status: 4,
+            starttime: this.formatDate(Date.now()),
+            endtime: this.formatDate(Date.now())
+        }
+        // Lấy tất cả nhân viên của phòng ban
+        this.props.getAllUserSameDepartment(localStorage.getItem("currentRole"));
+        this.props.getAllKPIPersonalOfUnit(infosearch);
+        let script = document.createElement('script');
+        script.src = '/main/js/CoCauToChuc.js';
+        script.async = true;
+        script.defer = true;
+        document.body.appendChild(script);
         this.handleResizeColumn();
     }
     handleResizeColumn = () => {
@@ -40,15 +67,79 @@ class KPIMember extends Component {
             });
         });
     }
-    UNSAFE_componentWillMount() {
-        let script = document.createElement('script');
-        script.src = '/main/js/Table.js';
-        script.async = true;
-        script.defer = true;
-        document.body.appendChild(script);
+    formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+
+        return [month, year].join('-');
+    }
+    checkStatusKPI = (status) => {
+        if (status === 0) {
+            return "Đang thiết lập";
+        } else if (status === 1) {
+            return "Chờ phê duyệt";
+        } else if (status === 2) {
+            return "Đã kích hoạt";
+        } else if (status === 3) {
+            return "Đã kết thúc"
+        }
+    }
+    handleSearchData = async () => {
+        await this.setState(state => {
+            return {
+                ...state,
+                infosearch: {
+                    ...state.infosearch,
+                    user: this.user.value,
+                    status: this.status.value,
+                    starttime: this.starttime.value,
+                    endtime: this.endtime.value
+                }
+            }
+        })
+        const { infosearch } = this.state;
+        if (infosearch.role && infosearch.user && infosearch.status && infosearch.starttime && infosearch.endtime) {
+            var starttime = infosearch.starttime.split("-");
+            var startdate = new Date(starttime[1], starttime[0], 0);
+            var endtime = infosearch.endtime.split("-");
+            var enddate = new Date(endtime[1], endtime[0], 28);
+            if(Date.parse(startdate)>Date.parse(enddate)){
+                Swal.fire({
+                    title: "Thời gian bắt đầu phải trước hoặc bằng thời gian kết thúc!",
+                    type: 'warning',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Xác nhận'
+                })
+            }else{
+                this.props.getAllKPIPersonalOfUnit(infosearch);
+            }
+        }
+    }
+    handleShowApproveModal = async (id) => {
+        await this.setState(state => {
+            return {
+                ...state,
+                showApproveModal: id
+            }
+        })
+        var element = document.getElementsByTagName("BODY")[0];
+        element.classList.add("modal-open");
+        var modal = document.getElementById(`memberKPIApprove${id}`);
+        modal.classList.add("in");
+        modal.style = "display: block; padding-right: 17px;";
     }
     render() {
-        console.log(this.state);
+        var userdepartments, kpimembers;
+        const { user, kpipersonals } = this.props;
+        if (user.userdepartments) userdepartments = user.userdepartments;
+        if (kpipersonals.kpipersonals) kpimembers = kpipersonals.kpipersonals;
         return (
             <div className="table-wrapper">
                 <div className="content-wrapper">
@@ -97,12 +188,11 @@ class KPIMember extends Component {
                                     <span className="info-box-icon bg-yellow"><i className="ion ion-ios-people-outline" /></span>
                                     <div className="info-box-content">
                                         <span className="info-box-text">Số nhân viên</span>
-                                        <span className="info-box-number">200</span>
+                                        <span className="info-box-number">{userdepartments && (userdepartments[1].id_user.length + userdepartments[2].id_user.length)}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                         <div className="row">
                             <div className="col-md-12">
                                 <div className="col-md-6">
@@ -113,8 +203,8 @@ class KPIMember extends Component {
                                                 <span className="label label-danger">8 nhân viên xuất sắc nhất</span>
                                                 <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus" />
                                                 </button>
-                                                <button type="button" className="btn btn-box-tool" data-widget="remove"><i className="fa fa-times" />
-                                                </button>
+                                                {/* <button type="button" className="btn btn-box-tool" data-widget="remove"><i className="fa fa-times" />
+                                                </button> */}
                                             </div>
                                         </div>
                                         <div className="box-body no-padding">
@@ -175,7 +265,6 @@ class KPIMember extends Component {
                                                 </button>
                                             </div>
                                         </div>
-                                        {/* /.box-header */}
                                         <div className="box-body">
                                             <ul className="products-list product-list-in-box">
                                                 <li className="item">
@@ -214,7 +303,6 @@ class KPIMember extends Component {
                                                         </span>
                                                     </div>
                                                 </li>
-                                                {/* /.item */}
                                                 <li className="item">
                                                     <div className="product-img">
                                                         <img src="/adminLTE/dist/img/user4-128x128.jpg" alt="Avatar member" />
@@ -227,14 +315,11 @@ class KPIMember extends Component {
                                                         </span>
                                                     </div>
                                                 </li>
-                                                {/* /.item */}
                                             </ul>
                                         </div>
-                                        {/* /.box-body */}
                                         <div className="box-footer text-center">
                                             <a href="#detailKPIPersonal2" data-toggle="modal" data-target="#memberKPIApprove2" className="uppercase">Xem tất cả yêu cầu</a>
                                         </div>
-                                        {/* /.box-footer */}
                                     </div>
 
                                 </div>
@@ -252,7 +337,59 @@ class KPIMember extends Component {
                                         {/* /.box-header */}
                                         <div className="box-body">
                                             <div className="table-responsive">
-                                                <table id="example1" className="table table-bordered table-striped">
+                                                <div className="col-xs-12">
+                                                    <div className='col-xs-4 item-container'>
+                                                        <label>Nhân viên:</label>
+                                                        {userdepartments && <select defaultValue="all" className="form-control select2" style={{ width: '55%' }} ref={input => this.user = input}>
+                                                            <option value="all">Tất cả nhân viên</option>
+                                                            <optgroup label="Phó phòng">
+                                                                {userdepartments[1].id_user.map(x => {
+                                                                    return <option key={x._id} value={x._id}>{x.name}</option>
+                                                                })}
+                                                            </optgroup>
+                                                            <optgroup label="Nhân viên">
+                                                                {userdepartments[2].id_user.map(x => {
+                                                                    return <option key={x._id} value={x._id}>{x.name}</option>
+                                                                })}
+                                                            </optgroup>
+                                                        </select>}
+                                                    </div>
+                                                    <div className='col-xs-4 item-container'>
+                                                        <label>Trạng thái:</label>
+                                                        <select defaultValue={4} className="form-control select2" style={{ width: '55%' }} ref={input => this.status = input}>
+                                                            <option value={0}>Đang thiết lập</option>
+                                                            <option value={1}>Chờ phê duyệt</option>
+                                                            <option value={2}>Đã kích hoạt</option>
+                                                            <option value={3}>Đã kết thúc</option>
+                                                            <option value={4}>Đang hoạt động</option>
+                                                            <option value={5}>Tất cả các trạng thái</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div className="col-xs-12">
+                                                    <div className="col-xs-4">
+                                                        <label className="col-xs-4" style={{ marginLeft: "-15px" }}>Từ tháng:</label>
+                                                        <div className='input-group col-sm-4 date has-feedback' style={{ display: "inline-table", marginLeft: "5px", marginTop: "-8px", width: "55%" }}>
+                                                            <div className="input-group-addon">
+                                                                <i className="fa fa-calendar" />
+                                                            </div>
+                                                            <input type="text" className="form-control pull-right" ref={input => this.starttime = input} defaultValue={this.formatDate(Date.now())} name="time" id="datepicker2" data-date-format="mm-yyyy" />
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-xs-4">
+                                                        <label className="col-xs-5" style={{ marginLeft: "-15px" }}>Đến tháng:</label>
+                                                        <div className='input-group col-sm-4 date has-feedback' style={{ display: "inline-table", marginLeft: "-20px", marginTop: "-8px", width: "55%" }}>
+                                                            <div className="input-group-addon">
+                                                                <i className="fa fa-calendar" />
+                                                            </div>
+                                                            <input type="text" className="form-control pull-right" ref={input => this.endtime = input} defaultValue={this.formatDate(Date.now())} name="time" id="datepicker6" data-date-format="mm-yyyy" />
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-xs-4" style={{ marginTop: "-8px", marginLeft: "-5%" }}>
+                                                        <button type="button" className="btn btn-success" onClick={() => this.handleSearchData()}>Tìm kiếm</button>
+                                                    </div>
+                                                </div>
+                                                <table className="table table-bordered table-striped">
                                                     <thead>
                                                         <tr>
                                                             <th style={{ width: "50px" }}>STT</th>
@@ -261,214 +398,31 @@ class KPIMember extends Component {
                                                             <th>Số lượng mục tiêu</th>
                                                             <th>Trạng thái KPI</th>
                                                             <th>Kết quả</th>
-                                                            <th style={{ width: "75px" }}>Hành động</th>
+                                                            <th style={{ width: "91px" }}>Hành động</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>12-2019</td>
-                                                            <td>Nguyễn Văn A</td>
-                                                            <td>4</td>
-                                                            <td>Đang thực hiện</td>
-                                                            <td>0</td>
-                                                            <td>
-                                                                <a href="#detailKPIPersonal1" data-toggle="modal" data-target="#memberKPIApprove1" className="approve" title="Phê duyệt kpi nhân viên này"><i className="material-icons">done_outline</i></a>
-                                                                <ModalMemberApprove id="1" name="Nguyễn Văn A"/>
-                                                                <a href="#memberEvaluate1" data-toggle="modal" data-target="#memberEvaluate1" className="copy" title="Đánh giá kpi nhân viên này"><i className="material-icons">done_all</i></a>
-                                                                <ModalMemberEvaluate id="1" name="Nguyễn Văn A"/>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td>12-2019</td>
-                                                            <td>Nguyễn Văn B</td>
-                                                            <td>4</td>
-                                                            <td>Chờ phê duyệt</td>
-                                                            <td>0</td>
-                                                            <td>
-                                                                <a href="#detailKPIPersonal2" data-toggle="modal" data-target="#memberKPIApprove2" className="approve" title="Phê duyệt kpi nhân viên này"><i className="material-icons">done_outline</i></a>
-                                                                <ModalMemberApprove id="2" name="Nguyễn Văn B"/>
-                                                                <a href="#memberEvaluate2" data-toggle="modal" data-target="#memberEvaluate2" className="copy" title="Đánh giá kpi nhân viên này"><i className="material-icons">done_all</i></a>
-                                                                <ModalMemberEvaluate id="2" name="Nguyễn Văn B"/>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>12-2019</td>
-                                                            <td>Nguyễn Văn C</td>
-                                                            <td>5</td>
-                                                            <td>Chờ phê duyệt</td>
-                                                            <td>0</td>
-                                                            <td>
-                                                                <a href="#detailKPIPersonal3" data-toggle="modal" data-target="#memberKPIApprove3" className="approve" title="Phê duyệt kpi nhân viên này"><i className="material-icons">done_outline</i></a>
-                                                                <ModalMemberApprove id="3" name="Nguyễn Văn C"/>
-                                                                <a href="#memberEvaluate3" data-toggle="modal" data-target="#memberEvaluate3" className="copy" title="Đánh giá kpi nhân viên này"><i className="material-icons">done_all</i></a>
-                                                                <ModalMemberEvaluate id="3" name="Nguyễn Văn C"/>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>4</td>
-                                                            <td>12-2019</td>
-                                                            <td>Nguyễn Văn D</td>
-                                                            <td>4</td>
-                                                            <td>Chờ phê duyệt</td>
-                                                            <td>0</td>
-                                                            <td>
-                                                                <a href="#detailKPIPersonal4" data-toggle="modal" data-target="#memberKPIApprove4" className="approve" title="Phê duyệt kpi nhân viên này"><i className="material-icons">done_outline</i></a>
-                                                                <ModalMemberApprove id="4" name="Nguyễn Văn D"/>
-                                                                <a href="#memberEvaluate4" data-toggle="modal" data-target="#memberEvaluate4" className="copy" title="Đánh giá kpi nhân viên này"><i className="material-icons">done_all</i></a>
-                                                                <ModalMemberEvaluate id="4" name="Nguyễn Văn D"/>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>5</td>
-                                                            <td>12-2019</td>
-                                                            <td>Nguyễn Văn E</td>
-                                                            <td>5</td>
-                                                            <td>Chờ phê duyệt</td>
-                                                            <td>0</td>
-                                                            <td>
-                                                                <a href="#detailKPIPersonal5" data-toggle="modal" data-target="#memberKPIApprove5" className="approve" title="Phê duyệt kpi nhân viên này"><i className="material-icons">done_outline</i></a>
-                                                                <ModalMemberApprove id="5" name="Nguyễn Văn E"/>
-                                                                <a href="#memberEvaluate5" data-toggle="modal" data-target="#memberEvaluate5" className="copy" title="Đánh giá kpi nhân viên này"><i className="material-icons">done_all</i></a>
-                                                                <ModalMemberEvaluate id="5" name="Nguyễn Văn E"/>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>6</td>
-                                                            <td>12-2019</td>
-                                                            <td>Nguyễn Văn F</td>
-                                                            <td>4</td>
-                                                            <td>Chờ phê duyệt</td>
-                                                            <td>0</td>
-                                                            <td>
-                                                                <a href="#detailKPIPersonal6" data-toggle="modal" data-target="#memberKPIApprove6" className="approve" title="Phê duyệt kpi nhân viên này"><i className="material-icons">done_outline</i></a>
-                                                                <ModalMemberApprove id="6" name="Nguyễn Văn F"/>
-                                                                <a href="#memberEvaluate6" data-toggle="modal" data-target="#memberEvaluate6" className="copy" title="Đánh giá kpi nhân viên này"><i className="material-icons">done_all</i></a>
-                                                                <ModalMemberEvaluate id="6" name="Nguyễn Văn F"/>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>7</td>
-                                                            <td>12-2019</td>
-                                                            <td>Nguyễn Văn G</td>
-                                                            <td>4</td>
-                                                            <td>Đang thực hiện</td>
-                                                            <td>0</td>
-                                                            <td>
-                                                                <a href="#detailKPIPersonal7" data-toggle="modal" data-target="#memberKPIApprove7" className="approve" title="Phê duyệt kpi nhân viên này"><i className="material-icons">done_outline</i></a>
-                                                                <ModalMemberApprove id="7" name="Nguyễn Văn G"/>
-                                                                <a href="#memberEvaluate7" data-toggle="modal" data-target="#memberEvaluate7" className="copy" title="Đánh giá kpi nhân viên này"><i className="material-icons">done_all</i></a>
-                                                                <ModalMemberEvaluate id="7" name="Nguyễn Văn G"/>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>8</td>
-                                                            <td>12-2019</td>
-                                                            <td>Nguyễn Văn H</td>
-                                                            <td>4</td>
-                                                            <td>Chờ phê duyệt</td>
-                                                            <td>0</td>
-                                                            <td>
-                                                                <a href="#detailKPIPersonal8" data-toggle="modal" data-target="#memberKPIApprove8" className="approve" title="Phê duyệt kpi nhân viên này"><i className="material-icons">done_outline</i></a>
-                                                                <ModalMemberApprove id="8" name="Nguyễn Văn H"/>
-                                                                <a href="#memberEvaluate8" data-toggle="modal" data-target="#memberEvaluate8" className="copy" title="Đánh giá kpi nhân viên này"><i className="material-icons">done_all</i></a>
-                                                                <ModalMemberEvaluate id="8" name="Nguyễn Văn H"/>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>9</td>
-                                                            <td>12-2019</td>
-                                                            <td>Nguyễn Thị Y</td>
-                                                            <td>5</td>
-                                                            <td>Đang thực hiện</td>
-                                                            <td>0</td>
-                                                            <td>
-                                                                <a href="#detailKPIPersonal9" data-toggle="modal" data-target="#memberKPIApprove9" className="approve" title="Phê duyệt kpi nhân viên này"><i className="material-icons">done_outline</i></a>
-                                                                <ModalMemberApprove id="9" name="Nguyễn Văn Y"/>
-                                                                <a href="#memberEvaluate9" data-toggle="modal" data-target="#memberEvaluate9" className="copy" title="Đánh giá kpi nhân viên này"><i className="material-icons">done_all</i></a>
-                                                                <ModalMemberEvaluate id="9" name="Nguyễn Văn Y"/>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>10</td>
-                                                            <td>12-2019</td>
-                                                            <td>Nguyễn Văn K</td>
-                                                            <td>4</td>
-                                                            <td>Đang thực hiện</td>
-                                                            <td>0</td>
-                                                            <td>
-                                                                <a href="#detailKPIPersonal10" data-toggle="modal" data-target="#memberKPIApprove10" className="approve" title="Phê duyệt kpi nhân viên này"><i className="material-icons">done_outline</i></a>
-                                                                <ModalMemberApprove id="10" name="Nguyễn Văn K"/>
-                                                                <a href="#memberEvaluate10" data-toggle="modal" data-target="#memberEvaluate10" className="copy" title="Đánh giá kpi nhân viên này"><i className="material-icons">done_all</i></a>
-                                                                <ModalMemberEvaluate id="10" name="Nguyễn Văn K"/>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>11</td>
-                                                            <td>12-2019</td>
-                                                            <td>Nguyễn Văn L</td>
-                                                            <td>4</td>
-                                                            <td>Chờ phê duyệt</td>
-                                                            <td>0</td>
-                                                            <td>
-                                                                <a href="#detailKPIPersonal11" data-toggle="modal" data-target="#memberKPIApprove11" className="approve" title="Phê duyệt kpi nhân viên này"><i className="material-icons">done_outline</i></a>
-                                                                <ModalMemberApprove id="11" name="Nguyễn Văn L"/>
-                                                                <a href="#memberEvaluate11" data-toggle="modal" data-target="#memberEvaluate11" className="copy" title="Đánh giá kpi nhân viên này"><i className="material-icons">done_all</i></a>
-                                                                <ModalMemberEvaluate id="11" name="Nguyễn Văn L"/>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>12</td>
-                                                            <td>12-2019</td>
-                                                            <td>Nguyễn Văn M</td>
-                                                            <td>4</td>
-                                                            <td>Chờ phê duyệt</td>
-                                                            <td>0</td>
-                                                            <td>
-                                                                <a href="#detailKPIPersonal12" data-toggle="modal" data-target="#memberKPIApprove12" className="approve" title="Phê duyệt kpi nhân viên này"><i className="material-icons">done_outline</i></a>
-                                                                <ModalMemberApprove id="12" name="Nguyễn Văn M"/>
-                                                                <a href="#memberEvaluate12" data-toggle="modal" data-target="#memberEvaluate12" className="copy" title="Đánh giá kpi nhân viên này"><i className="material-icons">done_all</i></a>
-                                                                <ModalMemberEvaluate id="12" name="Nguyễn Văn M"/>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>13</td>
-                                                            <td>12-2019</td>
-                                                            <td>Nguyễn Văn P</td>
-                                                            <td>4</td>
-                                                            <td>Đang thực hiện</td>
-                                                            <td>0</td>
-                                                            <td>
-                                                                <a href="#detailKPIPersonal13" data-toggle="modal" data-target="#memberKPIApprove13" className="approve" title="Phê duyệt kpi nhân viên này"><i className="material-icons">done_outline</i></a>
-                                                                <ModalMemberApprove id="13" name="Nguyễn Văn P"/>
-                                                                <a href="#memberEvaluate13" data-toggle="modal" data-target="#memberEvaluate13" className="copy" title="Đánh giá kpi nhân viên này"><i className="material-icons">done_all</i></a>
-                                                                <ModalMemberEvaluate id="13" name="Nguyễn Văn P"/>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>14</td>
-                                                            <td>12-2019</td>
-                                                            <td>Nguyễn Văn X</td>
-                                                            <td>5</td>
-                                                            <td>Đang thực hiện</td>
-                                                            <td>0</td>
-                                                            <td>
-                                                                <a href="#detailKPIPersonal14" data-toggle="modal" data-target="#memberKPIApprove14" className="approve" title="Phê duyệt kpi nhân viên này"><i className="material-icons">done_outline</i></a>
-                                                                <ModalMemberApprove id="14" name="Nguyễn Văn X"/>
-                                                                <a href="#memberEvaluate14" data-toggle="modal" data-target="#memberEvaluate14" className="copy" title="Đánh giá kpi nhân viên này"><i className="material-icons">done_all</i></a>
-                                                                <ModalMemberEvaluate id="14" name="Nguyễn Văn X"/>
-                                                            </td>
-                                                        </tr>
+                                                        {(typeof kpimembers !== "undefined" && kpimembers.length !== 0) ?
+                                                            kpimembers.map((item, index) =>
+                                                                <tr key={index + 1}>
+                                                                    <td>{index + 1}</td>
+                                                                    <td>{this.formatDate(item.time)}</td>
+                                                                    <td>{item.creater.name}</td>
+                                                                    <td>{item.listtarget.length}</td>
+                                                                    <td>{this.checkStatusKPI(item.status)}</td>
+                                                                    <td>{item.approverpoint === null ? "Chưa đánh giá" : item.approverpoint}</td>
+                                                                    <td>
+                                                                        <a href="#abc" onClick={()=>this.handleShowApproveModal(item._id)} data-toggle="modal" className="approve" title="Phê duyệt kpi nhân viên này"><i className="fa fa-bullseye"></i></a>
+                                                                        {this.state.showApproveModal===item._id?<ModalMemberApprove kpimember={item}/>:null}
+                                                                        <a href="#memberEvaluate1" data-toggle="modal" data-target="#memberEvaluate1" className="copy" title="Đánh giá kpi nhân viên này"><i className="fa fa-list"></i></a>
+                                                                        {/* <ModalMemberEvaluate id="1" name="Nguyễn Văn A"/> */}
+                                                                    </td>
+                                                                </tr>
+                                                            ) : <tr><td colSpan={7}>Không có dữ liệu thỏa mãn điều kiện</td></tr>}
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
-                                        {/* <div className="box-footer clearfix">
-                                            <a href="#detailKPIPersonal2" data-toggle="modal" data-target="#memberKPIApprove2" className="btn btn-sm btn-info btn-flat pull-left">Place New Order</a>
-                                            <a href="#detailKPIPersonal2" data-toggle="modal" data-target="#memberKPIApprove2" className="btn btn-sm btn-default btn-flat pull-right">add All Orders</a>
-                                        </div> */}
                                     </div>
                                 </div>
                             </div>
@@ -629,4 +583,14 @@ class KPIMember extends Component {
     }
 }
 
-export { KPIMember };
+function mapState(state) {
+    const { user, kpipersonals } = state;
+    return { user, kpipersonals };
+}
+
+const actionCreators = {
+    getAllUserSameDepartment: userActions.getAllUserSameDepartment,
+    getAllKPIPersonalOfUnit: kpiPersonalActions.getAllKPIPersonalOfUnit
+};
+const connectedKPIMember = connect(mapState, actionCreators)(KPIMember);
+export { connectedKPIMember as KPIMember };

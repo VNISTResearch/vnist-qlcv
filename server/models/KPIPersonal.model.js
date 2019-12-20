@@ -1,8 +1,10 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const Department = require('./Department.model');
+const User = require('./User.model');
+const DetailKPIPersonal = require('./DetailKPIPersonal.model');
 
-// Create Schema
+// Model quản lý dữ liệu của một kpi cá nhân
 const KPIPersonalSchema = new Schema({
     unit: {
         type: Schema.Types.ObjectId,
@@ -11,46 +13,42 @@ const KPIPersonalSchema = new Schema({
     },
     creater: {
         type: Schema.Types.ObjectId,
-        // ref: User,
+        ref: User,
         required: true
     },
     approver: {
         type: Schema.Types.ObjectId,
-        // ref: User,
-        required: true
-    },
-    name: {
-        type: String,
-        required: true
-    },
-    parent: {
-        type: Schema.Types.ObjectId,
+        ref: User,
         required: true
     },
     time: {
         type: Date,
         required: true
     },
-    weight: {
+    // 0: Đang thiết lập,1: Chờ phê duyệt, 2: Đã kích hoạt, 3: Đã kết thúc
+    status: {
         type: Number,
-        required: true
+        default: 0
     },
-    criteria: {
-        type: String,
-        required: true
+    systempoint: {
+        type: Number,
+        default: null
     },
-    confirm: {
-        type: Boolean,
-        required: true
+    mypoint: {
+        type: Number,
+        default: null
     },
-    approve: {
-        type: Boolean,
-        required: true
+    approverpoint: {
+        type: Number,
+        default: null
     },
-    evaluate: {
-        type: Boolean,
+    listtarget: [{
+        type: Schema.Types.ObjectId,
+        ref: DetailKPIPersonal,
         required: true
-    }
+    }]
+}, {
+    timestamps: true
 });
 
 module.exports = KPIPersonal = mongoose.model("kpipersonals", KPIPersonalSchema);

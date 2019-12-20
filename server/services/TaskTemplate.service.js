@@ -15,11 +15,19 @@ exports.get = (req, res) => {
 }
 
 //Lấy mẫu công việc theo Id
-exports.getById = (req, res) => {
-    TaskTemplate.findById(req.params.id)
-        .then(template => res.status(200).json(template))
-        .catch(err => res.status(400).json(err));
-    console.log("Get Task Template By Id");
+exports.getById = async (req, res) => {
+    try {
+        var tasktemplate = await TaskTemplate.findById(req.params.id).populate("unit creator responsible accounatable consulted informed");
+        var actionTemplates = await ActionTask.find({ tasktemplate: tasktemplate._id });
+        var informationTemplate = await InformationTaskTemplate.find({ tasktemplate: tasktemplate._id });
+        res.status(200).json({
+            "info": tasktemplate,
+            "actions": actionTemplates,
+            "informations": informationTemplate
+        })
+    } catch (error) {
+        res.status(400).json({ msg: error });
+    }
 }
 
 //Lấy mẫu công việc theo chức danh
@@ -57,14 +65,14 @@ exports.getByUser = async (req, res) => {
             tasktemplates = await Privilege.find({
                 role: { $in: allRole },
                 resource_type: 'TaskTemplate'
-            }).sort({'createdAt': 'desc'}).skip(2*(req.params.number-1)).limit(2).populate({ path: 'resource', model: TaskTemplate, populate: { path: 'creator unit' } });
+            }).sort({'createdAt': 'desc'}).skip(1*(req.params.number-1)).limit(1).populate({ path: 'resource', model: TaskTemplate, populate: { path: 'creator unit' } });
         } else {
             tasktemplates = await Privilege.find({
                 role: { $in: allRole },
                 resource_type: 'TaskTemplate'})
                 .sort({'createdAt': 'desc'})
-                .skip(2*(req.params.number-1))
-                .limit(2)
+                .skip(1*(req.params.number-1))
+                .limit(1)
                 .populate({ 
                     path: 'resource', 
                     model: TaskTemplate, 
@@ -77,7 +85,7 @@ exports.getByUser = async (req, res) => {
             role: { $in: allRole },
             resource_type: 'TaskTemplate'
         });
-        var totalPages = Math.ceil(totalCount / 2);
+        var totalPages = Math.ceil(totalCount / 1);
         res.status(200).json({"message" : tasktemplates,"pages": totalPages})
     } catch (error) {
         res.status(400).json({ msg: error });
@@ -98,7 +106,7 @@ exports.create = async (req, res) => {
             consulted: req.body.consulted,
             informed: req.body.informed,
             description: req.body.description,
-            formula: req.body.formula
+            formula: req.body.formula,
         });
         var reader = req.body.read; //role có quyền đọc
         var read = await Action.findOne({ name: "READ" }); //lấy quyền đọc
@@ -120,14 +128,13 @@ exports.create = async (req, res) => {
         var informations = req.body.listInfo.map((item, key) => {
             InformationTaskTemplate.create({
                 tasktemplate: tasktemplate._id,
-                code: "p"+key,
+                code: "p"+parseInt(key+1),
                 name: item.name,
                 description: item.description,
                 mandatary: item.mandatary,
                 type: item.type
             })
         });
-        console.log(privilege);
         var newTask = await Privilege.findById(privilege._id).populate({ path: 'resource', model: TaskTemplate, populate: { path: 'creator' } });
 
         res.status(200).json({

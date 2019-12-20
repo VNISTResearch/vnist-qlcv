@@ -4,8 +4,11 @@ const User = require('./User.model');
 const KPIPersonal = require('./KPIPersonal.model');
 const Department = require('./Department.model');
 const TaskTemplate = require('./TaskTemplate.model');
+const ResultTask = require('./ResultTask.model');
+const TaskFile = require('./TaskFile.model');
+const ResultInfo = require('./ResultInformationTask.model');
 
-// Create Schema
+// Model quản lý thông tin của một công việc và liên kết với tài liệu, kết quả thực hiện công việc
 const TaskSchema = new Schema({
     unit: {
         type: Schema.Types.ObjectId,
@@ -37,7 +40,7 @@ const TaskSchema = new Schema({
         type: String,
         required: true
     },
-    status: {
+    status: {// có 6 trạng thái công việc: Đang chờ, Đang thực hiện, Chờ phê duyệt, Đã hoàn thành, Bị hủy, Tạm hoãn
         type: String,
         default: "Đang chờ",
         required: true
@@ -84,6 +87,7 @@ const TaskSchema = new Schema({
     }],
     time: {
         type: Number,
+        default: 0,
         required: true
     },
     progress: {
@@ -95,7 +99,20 @@ const TaskSchema = new Schema({
         type: Number,
         default: 0,
         required: true
-    }
+    },
+    results: [{
+        type: Schema.Types.ObjectId,
+        ref: ResultTask,
+    }],
+    file: [{
+        type: Schema.Types.ObjectId,
+        ref: TaskFile,
+        required: true
+    }],
+    resultInfo: [{
+        type: Schema.Types.ObjectId,
+        ref: ResultInfo,
+    }]
 }, {
     timestamps: true
 });

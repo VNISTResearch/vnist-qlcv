@@ -48,6 +48,7 @@ export function tasktemplates(state = {}, action) {
         case taskTemplateConstants.GETTEMPLATE_BYID_REQUEST:
             return {
                 ...state,
+                template: null,
                 loadingById: true
             };
         case taskTemplateConstants.GETTEMPLATE_BYID_SUCCESS:

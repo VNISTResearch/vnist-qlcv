@@ -26,6 +26,10 @@ const menu = [
         path: '/task-template',
         icon: 'fa fa-tasks'
     }, {
+        name: 'kpimember',
+        path: '/kpi-member/overview',
+        icon: 'fa fa-tasks'
+    }, {
         name: 'cocautochuc',
         path: '/cocautochuc',
         icon: 'fa fa-th'
@@ -129,7 +133,7 @@ class MainSideBar extends Component {
                                             <ul className="treeview-menu">
                                                 <li><a href="/kpi-unit/overview">Tổng quan KPI đơn vị</a></li>
                                                 <li><a href="/kpi-unit/create">Thiết lập KPI đơn vị</a></li>
-                                                <li><a href="/kpi-unit/evaluate">Dữ liệu KPI đơn vị</a></li>
+                                                {/* <li><a href="/kpi-unit/evaluate">Dữ liệu KPI đơn vị</a></li> */}
                                             </ul>
                                         </li>
                                         <li className="treeview">
@@ -141,11 +145,11 @@ class MainSideBar extends Component {
                                             <ul className="treeview-menu">
                                                 <li><a href="/kpi-personal/overview">Tổng quan KPI cá nhân</a></li>
                                                 <li><a href="/kpi-personal/create">Thiết lập KPI cá nhân</a></li>
-                                                <li><a href="/kpi-personal/evaluate">Dữ liệu KPI cá nhân</a></li>
+                                                {/* <li><a href="/kpi-personal/evaluate">Dữ liệu KPI cá nhân</a></li> */}
                                             </ul>
                                         </li>
                                         <li><a href="/kpi-member/overview">Quản lý kpi nhân viên</a></li>
-                                        <li><a href="/kpi-member/approve">Đánh giá kpi nhân viên</a></li>
+                                        {/* <li><a href="/kpi-member/approve">Đánh giá kpi nhân viên</a></li> */}
 
                                     </ul>
                                 </li>

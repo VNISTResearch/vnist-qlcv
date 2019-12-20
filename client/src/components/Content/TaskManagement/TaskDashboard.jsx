@@ -173,132 +173,150 @@ class TaskDashboard extends Component {
         })
     }
     generateDataPoints(noOfDps) {
-		var xVal = 1, yVal = 100;
-		var dps = [];
-		for(var i = 0; i < noOfDps; i++) {
-			yVal = yVal +  Math.round(5 + Math.random() *(-5-5));
-			dps.push({x: xVal,y: yVal});	
-			xVal++;
-		}
-		return dps;
-	}
+        var xVal = 1, yVal = 100;
+        var dps = [];
+        for (var i = 0; i < noOfDps; i++) {
+            yVal = yVal + Math.round(5 + Math.random() * (-5 - 5));
+            dps.push({ x: xVal, y: yVal });
+            xVal++;
+        }
+        return dps;
+    }
     render() {
         const options1 = {
             animationEnabled: true,
             exportEnabled: true,
             theme: "light2", //"light1", "dark1", "dark2"
             title: {
-                text: "Simple Column Chart with Index Labels"
+                text: "Thống kê kết quả thực hiện tháng 11",
+                fontFamily: "tahoma",
+                fontWeight: "normal",
+            },
+            axisY: {
+                title: "Giá trị điểm",
+                includeZero: false,
+                fontWight: 13
+            },
+            axisX: {
+                title: "Số lượng người cùng điểm",
+                includeZero: false,
+                fontWight: 13
             },
             data: [{
-                type: "column", //change type to bar, line, area, pie, etc				
+                type: "column", //change type to bar, line, area, pie, etc                
                 indexLabelFontColor: "#5A5757",
                 indexLabelPlacement: "outside",
                 dataPoints: [
-                    { x: 10, y: 71 },
-                    { x: 20, y: 55 },
-                    { x: 30, y: 50 },
+                    { x: 10, y: 75 },
+                    { x: 20, y: 85 },
+                    { x: 30, y: 80 },
                     { x: 40, y: 65 },
-                    { x: 50, y: 71 },
-                    { x: 60, y: 68 },
-                    { x: 70, y: 38 },
-                    { x: 80, y: 92, indexLabel: "Highest" },
-                    { x: 90, y: 54 },
+                    { x: 50, y: 70 },
+                    { x: 60, y: 90 },
+                    { x: 70, y: 95 },
+                    { x: 80, y: 97, indexLabel: "Cao nhất" },
+                    { x: 90, y: 55 },
                     { x: 100, y: 60 },
-                    { x: 110, y: 21 },
-                    { x: 120, y: 49 },
-                    { x: 130, y: 36 }
+                    { x: 110, y: 5 },
+                    { x: 120, y: 50 }
                 ]
             }]
         }
         const options2 = {
-            animationEnabled: true,
-            title: {
-                text: "Daily High Temperature at Different Beaches"
+            animationEnabled: true,	
+            exportEnabled: true,
+            title:{
+                text: "Kết quả thực hiện công việc của các đơn vị năm 2019",
+                fontFamily: "tahoma",
+                fontWeight: "normal"
             },
-            axisX: {
-                valueFormatString: "DD MMM,YY"
-            },
-            axisY: {
-                title: "Temperature (in °C)",
-                includeZero: false,
-                suffix: " °C"
-            },
-            legend: {
-                cursor: "pointer",
-                fontSize: 16,
-                itemclick: window.toggleDataSeries
+            axisY : {
+                title: "Kết quả công việc",
+                includeZero: false
             },
             toolTip: {
                 shared: true
             },
             data: [{
-                name: "Myrtle Beach",
                 type: "spline",
-                yValueFormatString: "#0.## °C",
+                name: "Phòng đảm bảo chất lượng",
                 showInLegend: true,
                 dataPoints: [
-                    { x: new Date(2017, 6, 24), y: 31 },
-                    { x: new Date(2017, 6, 25), y: 31 },
-                    { x: new Date(2017, 6, 26), y: 29 },
-                    { x: new Date(2017, 6, 27), y: 29 },
-                    { x: new Date(2017, 6, 28), y: 31 },
-                    { x: new Date(2017, 6, 29), y: 30 },
-                    { x: new Date(2017, 6, 30), y: 29 }
+                    { y: 55, label: "Tháng 1" },
+                    { y: 95, label: "Tháng 2" },
+                    { y: 80, label: "Tháng 3" },
+                    { y: 78, label: "Tháng 4" },
+                    { y: 82, label: "Tháng 5" },
+                    { y: 68, label: "Tháng 6" },
+                    { y: 96, label: "Tháng 7" },
+                    { y: 75, label: "Tháng 8" },
+                    { y: 86, label: "Tháng 9" },
+                    { y: 88, label: "Tháng 10" },
+                    { y: 93, label: "Tháng 11" }
                 ]
             },
             {
-                name: "Martha Vineyard",
                 type: "spline",
-                yValueFormatString: "#0.## °C",
+                name: "Phòng sản xuất",
                 showInLegend: true,
                 dataPoints: [
-                    { x: new Date(2017, 6, 24), y: 20 },
-                    { x: new Date(2017, 6, 25), y: 20 },
-                    { x: new Date(2017, 6, 26), y: 25 },
-                    { x: new Date(2017, 6, 27), y: 25 },
-                    { x: new Date(2017, 6, 28), y: 25 },
-                    { x: new Date(2017, 6, 29), y: 25 },
-                    { x: new Date(2017, 6, 30), y: 25 }
+                    { y: 85, label: "Tháng 1" },
+                    { y: 90, label: "Tháng 2" },
+                    { y: 84, label: "Tháng 3" },
+                    { y: 98, label: "Tháng 4" },
+                    { y: 92, label: "Tháng 5" },
+                    { y: 88, label: "Tháng 6" },
+                    { y: 76, label: "Tháng 7" },
+                    { y: 75, label: "Tháng 8" },
+                    { y: 66, label: "Tháng 9" },
+                    { y: 78, label: "Tháng 10" },
+                    { y: 83, label: "Tháng 11" }
                 ]
-            },
-            {
-                name: "Nantucket",
+            },{
                 type: "spline",
-                yValueFormatString: "#0.## °C",
+                name: "Phòng kinh doanh",
                 showInLegend: true,
                 dataPoints: [
-                    { x: new Date(2017, 6, 24), y: 22 },
-                    { x: new Date(2017, 6, 25), y: 19 },
-                    { x: new Date(2017, 6, 26), y: 23 },
-                    { x: new Date(2017, 6, 27), y: 24 },
-                    { x: new Date(2017, 6, 28), y: 24 },
-                    { x: new Date(2017, 6, 29), y: 23 },
-                    { x: new Date(2017, 6, 30), y: 23 }
+                    { y: 80, label: "Tháng 1" },
+                    { y: 80, label: "Tháng 2" },
+                    { y: 84, label: "Tháng 3" },
+                    { y: 88, label: "Tháng 4" },
+                    { y: 72, label: "Tháng 5" },
+                    { y: 58, label: "Tháng 6" },
+                    { y: 86, label: "Tháng 7" },
+                    { y: 75, label: "Tháng 8" },
+                    { y: 86, label: "Tháng 9" },
+                    { y: 70, label: "Tháng 10" },
+                    { y: 63, label: "Tháng 11" }
                 ]
             }]
         }
         const options3 = {
-			theme: "light2", // "light1", "dark1", "dark2"
-			animationEnabled: true,
-			zoomEnabled: true,
-			title: {
-				text: "Try Zooming and Panning"
-			},
-			axisY: {
-				includeZero: false
-			},
-			data: [{
-				type: "area",
-				dataPoints: this.generateDataPoints(500)
-			}]
-		}
+            theme: "light2", // "light1", "dark1", "dark2"
+            animationEnabled: true,
+            zoomEnabled: true,
+            exportEnabled: true,
+            title: {
+                text: "Try Zooming and Panning",
+                fontWeight: "normal",
+                fontFamily: "tahoma",
+            },
+            axisY: {
+                includeZero: false
+            },
+            data: [{
+                type: "area",
+                dataPoints: this.generateDataPoints(500)
+            }]
+        }
         const options4 = {
             theme: "light2", // "light1", "light2", "dark1", "dark2"
             exportEnabled: true,
             animationEnabled: true,
             title: {
-                text: "Desktop Browser Market Share in 2016"
+                text: "Trạng thái công việc tháng 11",
+                fontFamily: "tahoma",
+                fontWeight: "normal",
             },
             data: [{
                 type: "pie",
@@ -309,29 +327,30 @@ class TaskDashboard extends Component {
                 indexLabelFontSize: 16,
                 indexLabel: "{label} - {y}%",
                 dataPoints: [
-                    { y: 51.08, label: "Chrome" },
-                    { y: 27.34, label: "Internet Explorer" },
-                    { y: 10.62, label: "Firefox" },
-                    { y: 5.02, label: "Microsoft Edge" },
-                    { y: 4.07, label: "Safari" },
-                    { y: 1.22, label: "Opera" },
-                    { y: 0.44, label: "Others" }
+                    { y: 51.08, label: "Đang chờ" },
+                    { y: 27.34, label: "Đang thực hiện" },
+                    { y: 5.02, label: "Bị hủy" },
+                    { y: 10.62, label: "Đã hoàn thành" },
+                    { y: 4.07, label: "Chờ phê duyệt" },
+                    { y: 1.66, label: "Tạm dừng" }
                 ]
             }]
         }
         const options5 = {
+            exportEnabled: true,
             title: {
-                text: "Weekly Weather Forecast"
+                text: "Miền kết quả công việc theo tháng",
+                fontFamily: "tahoma",
             },
             axisY: {
                 includeZero: false,
-                suffix: " °C",
-                maximum: 40,
+                // suffix: " °C",
+                maximum: 100,
                 gridThickness: 0
             },
             toolTip: {
                 shared: true,
-                content: "{name} </br> <strong>Temperature: </strong> </br> Min: {y[0]} °C, Max: {y[1]} °C"
+                content: "{name} </br> <strong>Kết quả: </strong> </br> Thấp nhất: {y[0]}, Cao nhất: {y[1]}"
             },
             data: [{
                 type: "rangeSplineArea",
@@ -339,13 +358,17 @@ class TaskDashboard extends Component {
                 color: "#91AAB1",
                 indexLabelFormatter: window.formatter,
                 dataPoints: [
-                    { label: "Monday", y: [15, 26], name: "rainy" },
-                    { label: "Tuesday", y: [15, 27], name: "rainy" },
-                    { label: "Wednesday", y: [13, 27], name: "sunny" },
-                    { label: "Thursday", y: [14, 27], name: "sunny" },
-                    { label: "Friday", y: [15, 26], name: "cloudy" },
-                    { label: "Saturday", y: [17, 26], name: "sunny" },
-                    { label: "Sunday", y: [16, 27], name: "rainy" }
+                    { label: "Tháng 1", y: [75, 95], name: "Tốt" },
+                    { label: "Tháng 2", y: [50, 80], name: "Trung bình" },
+                    { label: "Tháng 3", y: [70, 85], name: "Khá" },
+                    { label: "Tháng 4", y: [80, 95], name: "Tốt" },
+                    { label: "Tháng 5", y: [65, 87], name: "Khá" },
+                    { label: "Tháng 6", y: [79, 98], name: "Tốt" },
+                    { label: "Tháng 7", y: [45, 70], name: "Trung bình" },
+                    { label: "Tháng 8", y: [40, 68], name: "Trung bình" },
+                    { label: "Tháng 9", y: [50, 77], name: "Trung bình" },
+                    { label: "Tháng 10", y: [30, 70], name: "Trung bình" },
+                    { label: "Tháng 11", y: [60, 70], name: "Trung bình" },
                 ]
             }]
         }
@@ -405,17 +428,7 @@ class TaskDashboard extends Component {
                         <div className="row">
                             <div className="col-xs-6">
                                 <div className="box box-primary">
-                                    <CanvasJSReact options={options1} />
-                                </div>
-                            </div>
-                            <div className="col-xs-6">
-                                <div className="box box-primary">
-                                    <CanvasJSReact options={options2} />
-                                </div>
-                            </div>
-                            <div className="col-xs-6">
-                                <div className="box box-primary">
-                                    <CanvasJSReact options={options3} />
+                                    <CanvasJSReact options={options5} />
                                 </div>
                             </div>
                             <div className="col-xs-6">
@@ -425,7 +438,17 @@ class TaskDashboard extends Component {
                             </div>
                             <div className="col-xs-6">
                                 <div className="box box-primary">
-                                    <CanvasJSReact options={options5} />
+                                    <CanvasJSReact options={options2} />
+                                </div>
+                            </div>
+                            <div className="col-xs-6">
+                                <div className="box box-primary">
+                                    <CanvasJSReact options={options1} />
+                                </div>
+                            </div>
+                            <div className="col-xs-6">
+                                <div className="box box-primary">
+                                    <CanvasJSReact options={options3} />
                                 </div>
                             </div>
                             <div className="col-xs-6">
@@ -444,7 +467,7 @@ class TaskDashboard extends Component {
                                         </div>
                                     </div>
                                     {/* /.box-header */}
-                                    <div className="box-body">
+                                    <div className="box-body" style={{height: "300px"}}>
                                         {/* See dist/js/pages/dashboard.js to activate the todoList plugin */}
                                         <ul className="todo-list">
                                             <li>
@@ -538,7 +561,7 @@ class TaskDashboard extends Component {
                                     </div>
                                 </div>
                             </div>
-                            <div className="col-xs-6">
+                            {/* <div className="col-xs-6">
                                 <div className="box box-primary">
                                     <div className="box-header with-border">
                                         <h3 className="box-title">Danh sách các thông báo</h3>
@@ -548,7 +571,6 @@ class TaskDashboard extends Component {
                                             <button type="button" className="btn btn-box-tool" data-widget="remove"><i className="fa fa-times" /></button>
                                         </div>
                                     </div>
-                                    {/* /.box-header */}
                                     <div className="box-body">
                                         <ul className="products-list product-list-in-box">
                                             <li className="item">
@@ -563,7 +585,6 @@ class TaskDashboard extends Component {
                                                     </span>
                                                 </div>
                                             </li>
-                                            {/* /.item */}
                                             <li className="item">
                                                 <div className="product-img">
                                                     <img src="/adminLTE/dist/img/user2-160x160.jpg" alt="Avatar User" />
@@ -576,7 +597,6 @@ class TaskDashboard extends Component {
                                                     </span>
                                                 </div>
                                             </li>
-                                            {/* /.item */}
                                             <li className="item">
                                                 <div className="product-img">
                                                     <img src="/adminLTE/dist/img/user4-128x128.jpg" alt="Avatar User" />
@@ -588,7 +608,6 @@ class TaskDashboard extends Component {
                                                     </span>
                                                 </div>
                                             </li>
-                                            {/* /.item */}
                                             <li className="item">
                                                 <div className="product-img">
                                                     <img src="/adminLTE/dist/img/user6-128x128.jpg" alt="Avatar User" />
@@ -601,17 +620,13 @@ class TaskDashboard extends Component {
                                                     </span>
                                                 </div>
                                             </li>
-                                            {/* /.item */}
                                         </ul>
                                     </div>
-                                    {/* /.box-body */}
                                     <div className="box-footer text-center">
                                         <a href="#abc" className="uppercase">Xem tất cả các bình luận</a>
                                     </div>
-                                    {/* /.box-footer */}
                                 </div>
-
-                            </div>
+                            </div> */}
                             <div className="col-xs-12">
                                 {/* <div className="col-md-3">
                                     <div className="box box-solid">

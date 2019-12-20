@@ -51,7 +51,7 @@ class TaskManagement extends Component {
                         <ul className="nav nav-tabs">
                             <li className="active"><a href="#responsible" data-toggle="tab" onClick={() => this.handleChangeTab("responsible")}>Thực hiện chính</a></li>
                             <li><a href="#accountable" data-toggle="tab" onClick={() => this.handleChangeTab("accountable")}>Phê duyệt</a></li>
-                            <li><a href="#consulted " data-toggle="tab" onClick={() => this.handleChangeTab("consulted")}>Hỗ trợ thực hiện</a></li>
+                            <li><a href="#consulted" data-toggle="tab" onClick={() => this.handleChangeTab("consulted")}>Hỗ trợ thực hiện</a></li>
                             <li><a href="#creator" data-toggle="tab" onClick={() => this.handleChangeTab("creator")}>Thiết lập</a></li>
                             <li><a href="#informed" data-toggle="tab" onClick={() => this.handleChangeTab("informed")}>Quan sát</a></li>
                         </ul>

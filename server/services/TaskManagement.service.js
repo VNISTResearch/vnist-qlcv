@@ -17,7 +17,7 @@ exports.get = (req, res) => {
 exports.getById = async (req, res) => {
     try {
         var task = await Task.findById(req.params.id)
-            .populate({ path: "unit creator responsible accounatable consulted informed parent tasktemplate" });
+            .populate({ path: "unit creator responsible accounatable consulted informed parent tasktemplate comments" });
         if (task.tasktemplate !== null) {
             var actionTemplates = await ActionTask.find({ tasktemplate: task.tasktemplate._id });
             var informationTemplate = await InformationTaskTemplate.find({ tasktemplate: task.tasktemplate._id });
@@ -212,9 +212,9 @@ exports.create = async (req, res) => {
         // console.log(parent);
         // convert thời gian từ string sang date
         var starttime = req.body.startdate.split("-");
-        var startdate = new Date(starttime[2], starttime[1], starttime[0]);
+        var startdate = new Date(starttime[2], starttime[1]-1, starttime[0]);
         var endtime = req.body.enddate.split("-");
-        var enddate = new Date(endtime[2], endtime[1], endtime[0]);
+        var enddate = new Date(endtime[2], endtime[1]-1, endtime[0]);
         var task = await Task.create({ //Tạo dữ liệu mẫu công việc
             unit: req.body.unit,
             creator: req.body.creator, //id của người tạo
@@ -233,7 +233,11 @@ exports.create = async (req, res) => {
             consulted: req.body.consulted,
             informed: req.body.informed,
         });
-
+        if(req.body.tasktemplate !== null){
+            var tasktemplate = await TaskTemplate.findByIdAndUpdate(
+                req.body.tasktemplate, { $inc: { 'count': 1} }, { new: true }
+            );
+        }
         res.status(200).json({
             message: "Create Task Template Successfully!",
             data: task

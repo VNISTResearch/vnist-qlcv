@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { departmentActions } from '../../../../../redux-actions/CombineActions';
+import { departmentActions, userActions } from '../../../../../redux-actions/CombineActions';
 import { kpiPersonalActions } from '../../../../../redux-actions/CombineActions';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ModalAddTargetKPIPersonal } from './ModalAddTargetKPIPersonal';
+import { ModalStartKPIPersonal } from './ModalStartKPIPersonal';
+import Swal from 'sweetalert2';
+import { ModalEditTargetKPIPersonal } from './ModalEditTargetKPIPersonal';
 
 class KPIPersonalCreate extends Component {
     componentDidMount() {
         this.props.getDepartment(localStorage.getItem('id'));
-        this.props.getAllTarget(this.state.kpipersonal.creater);
-        this.props.getParentTarget(this.state.kpipersonal.unit);
+        this.props.getCurrentKPIPersonal(localStorage.getItem('id'));
         this.handleResizeColumn();
+    }
+    componentDidUpdate() {
         let script = document.createElement('script');
         script.src = '/main/js/CoCauToChuc.js';
         script.async = true;
@@ -21,44 +24,98 @@ class KPIPersonalCreate extends Component {
         super(props);
         this.state = {
             kpipersonal: {
-                unit: '5dcadf02f0343012f09c1193',
                 creater: localStorage.getItem("id"),
-                approver: '',
-                name: '',
-                parent: '',
-                time: '',
-                weight: '',
-                criteria: ''
             },
-            approverlist: [
-                {
-                    _id: "abcdef123456789987654321",
-                    name: "Trần Văn Dũng",
-                    parent: ""
-                },
-                {
-                    _id: "abcdef123456789987654322",
-                    name: "Lê Việt Anh",
-                    parent: "abcdef123456789987654321"
-                },
-                {
-                    _id: "abcdef123456789987654323",
-                    name: "Nguyễn Việt Anh",
-                    parent: "abcdef123456789987654321"
-                },
-                {
-                    _id: "abcdef123456789987654324",
-                    name: "Bùi Việt Anh",
-                    parent: "abcdef123456789987654321"
-                }
-            ],
             adding: false,
             editing: false,
+            editingTarget: "",
             submitted: false,
-            commenting: false
+            commenting: false,
+            currentRole: localStorage.getItem("currentRole")
         };
 
-        this.handleChange = this.handleChange.bind(this);
+    }
+    handleCommentKPI = async () => {
+        await this.setState(state => {
+            return {
+                ...state,
+                commenting: !state.commenting,
+            }
+        })
+    }
+    handleEditKPi = async (status) => {
+        if (status === 0) {
+            await this.setState(state => {
+                return {
+                    ...state,
+                    editing: !state.editing
+                }
+            })
+        } else if(status === 1){
+            Swal.fire({
+                title: "KPI đang được phê duyệt, bạn không thể chỉnh sửa. Nếu muốn sửa đổi hãy liên hệ với quản lý của bạn!",
+                type: 'warning',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Xác nhận'
+            })
+        } else {
+            Swal.fire({
+                title: "KPI đã được kích hoạt, bạn không thể chỉnh sửa. Nếu muốn sửa đổi hãy liên hệ với quản lý của bạn!",
+                type: 'warning',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Xác nhận'
+            })
+        }
+    }
+    deleteKPI = async (id, status) => {
+        if (status === 0) {
+            Swal.fire({
+                title: "Bạn chắc chắn muốn xóa KPI này?",
+                type: 'success',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xác nhận'
+            }).then((res) => {
+                if (res.value) {
+                    // Xóa KPI
+                    // this.props.deleteKPIPersonal(id);
+                }
+            });
+        } else if(status === 1){
+            Swal.fire({
+                title: "KPI đang được phê duyệt, bạn không thể xóa!",
+                type: 'warning',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Xác nhận'
+            })
+        } else {
+            Swal.fire({
+                title: "KPI đã được kích hoạt, bạn không thể xóa!",
+                type: 'warning',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Xác nhận'
+            })
+        }
+    }
+    saveEdit = async (id, unit) => {
+        await this.setState(state => {
+            return {
+                ...state,
+                editing: !state.editing,
+                kpipersonal: {
+                    ...state.kpipersonal,
+                    unit: unit,
+                    time: this.time.value,
+                    approver: this.approver.value
+                }
+            }
+        })
+        var { kpipersonal } = this.state;
+        console.log(kpipersonal);
+        if (kpipersonal.unit && kpipersonal.time && kpipersonal.creater) {
+            // this.props.editKPIUnit(id, kpipersonal);
+        }
     }
     handleResizeColumn = () => {
         window.$(function () {
@@ -88,34 +145,6 @@ class KPIPersonalCreate extends Component {
             });
         });
     }
-    handleCancel = () => {
-        this.setState({
-            kpipersonal: {
-                unit: '5dcadf02f0343012f09c1193',
-                creater: localStorage.getItem("id"),
-                approver: '',
-                name: '',
-                parent: '',
-                time: '',
-                weight: '',
-                criteria: ''
-            }
-        });
-    }
-
-    handleChange(event) {
-        const { name, value } = event.target;
-        const { kpipersonal } = this.state;
-        this.setState({
-            kpipersonal: {
-                ...kpipersonal,
-                [name]: value
-            }
-        });
-    }
-    // function: notification the result of an action
-    notify = (message) => toast(message);
-
     formatDate(date) {
         var d = new Date(date),
             month = '' + (d.getMonth() + 1),
@@ -129,120 +158,149 @@ class KPIPersonalCreate extends Component {
 
         return [month, year].join('-');
     }
-
-    // function: create new target of personal kpi
-    onAddItem = (event) => {
-        event.preventDefault();
-        const { kpipersonal } = this.state;
-        this.setState({
-            adding: true,
-            kpipersonal: {
-                ...kpipersonal,
-                time: this.time.value,
-                approver: this.approver.value
-            }
-        });
-        if (kpipersonal.approver && kpipersonal.parent && kpipersonal.name && kpipersonal.weight && kpipersonal.criteria) {
-            this.setState(state => {
-                // const list = [...state.list, state.kpipersonal];
-                this.props.createTarget(state.kpipersonal);
-                return {
-                    // list,
-                    kpipersonal: {
-                        unit: '5dcadf02f0343012f09c1193',
-                        creater: localStorage.getItem("id"),
-                        approver: '',
-                        name: '',
-                        parent: '',
-                        time: '',
-                        weight: '',
-                        criteria: ''
-                    },
-                    adding: false
-                };
+    deleteTargetKPIKPIPersonal = (statusTarget, status, id, kpipersonal) => {
+        if (status === 0) {
+            Swal.fire({
+                title: "Bạn chắc chắn muốn xóa mục tiêu KPI này?",
+                type: 'success',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xác nhận'
+            }).then((res) => {
+                if (res.value) {
+                    this.props.deleteTargetKPIPersonal(id, kpipersonal);
+                }
             });
-            this.notify("Thêm thành công");
+        } else if (status === 1) {
+            Swal.fire({
+                title: "KPI đang được phê duyệt, Bạn không thể xóa!",
+                type: 'warning',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Xác nhận'
+            })
+        } else {
+            Swal.fire({
+                title: "KPI đã được kích hoạt, Bạn không thể xóa!",
+                type: 'warning',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Xác nhận'
+            })
         }
-        console.log(this.state.kpipersonal);
-    }
 
-    edit = (item) => {
-        this.setState({
-            kpipersonal: {
-                unit: item.unit,
-                creater: item.creater,
-                approver: item.approver,
-                name: item.name,
-                parent: item.parent,
-                time: this.formatDate(item.time),
-                weight: item.weight,
-                criteria: item.criteria
-            },
-            editing: true,
-            idTarget: item._id
-        });
     }
-
-    saveEdit = (event) => {
-        event.preventDefault();
-        const { kpipersonal } = this.state;
-        this.setState({
-            editing: false,
-            kpipersonal: {
-                ...kpipersonal,
-                time: this.time.value
-            }
-        });
-        if (kpipersonal.approver && kpipersonal.parent && kpipersonal.name && kpipersonal.weight && kpipersonal.criteria) {
-            this.setState(state => {
-                // const list = [...state.list, state.kpipersonal];
-                this.props.editTarget(state.idTarget, state.kpipersonal);
+    editTargetKPIPersonal = async (statusTarget, statusKPI, target) => {
+        if (statusKPI === 0) {
+            await this.setState(state => {
                 return {
-                    // list,
-                    kpipersonal: {
-                        unit: '5dcadf02f0343012f09c1193',
-                        creater: localStorage.getItem("id"),
-                        approver: '',
-                        name: '',
-                        parent: '',
-                        time: '',
-                        weight: '',
-                        criteria: ''
-                    },
-                    adding: false
-                };
-            });
-            this.notify("Sửa thành công");
+                    ...state,
+                    editingTarget: target._id
+                }
+            })
+            var element = document.getElementsByTagName("BODY")[0];
+            element.classList.add("modal-open");
+            var modal = document.getElementById(`editTargetKPIPersonal${target._id}`);
+            modal.classList.add("in");
+            modal.style = "display: block; padding-right: 17px;";
+        } else if (statusKPI === 1) {
+            Swal.fire({
+                title: "KPI đang được phê duyệt, Bạn không thể chỉnh sửa!",
+                type: 'warning',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Xác nhận'
+            })
+        } else {
+            Swal.fire({
+                title: "KPI đã được kích hoạt, Bạn không thể chỉnh sửa!",
+                type: 'warning',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Xác nhận'
+            })
         }
-        this.handleCancel();
-    }
 
-    delete = (id) => {
-        this.props.deleteTarget(id);
     }
-
-    handleRequestEdit = () => {
-        this.setState({
-            commenting: true
-        });
+    checkStatusTarget = (status) => {
+        if (status === null) {
+            return "Chưa phê duyệt";
+        } else if (status === 0) {
+            return "Yêu cầu chỉnh sửa";
+        } else if (status === 1) {
+            return "Đã kích hoạt";
+        } else if (status === 2) {
+            return "Đã kết thúc"
+        }
     }
-
-    handleSubmitComment = () => {
-        this.setState({
-            commenting: false
-        });
+    checkStatusKPI = (status) => {
+        if (status === 0) {
+            return "Đang thiết lập";
+        } else if (status === 1) {
+            return "Chờ phê duyệt";
+        } else if (status === 2) {
+            return "Đã kích hoạt";
+        } else if (status === 3) {
+            return "Đã kết thúc"
+        }
     }
-
+    requestApproveKPI = (kpiersonal) => {
+        var totalWeight = kpiersonal.listtarget.map(item => parseInt(item.weight)).reduce((sum, number) => sum + number, 0);
+        if (totalWeight === 100) {
+            Swal.fire({
+                title: "Bạn chắc chắn muốn quản lý phê quyệt KPI này?",
+                type: 'success',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xác nhận'
+            }).then((res) => {
+                if (res.value) {
+                    this.props.editStatusKPIPersonal(kpiersonal._id, 1);
+                }
+            });
+        } else {
+            Swal.fire({
+                title: "Tổng trọng số phải bằng 100",
+                type: 'warning',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Xác nhận'
+            })
+        }
+    }
+    cancelApproveKPI = (kpiersonal) => {
+        if (kpiersonal.status === 1) {
+            Swal.fire({
+                title: "Bạn chắc chắn muốn hủy yêu cầu phê duyệt KPI này?",
+                type: 'success',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xác nhận'
+            }).then((res) => {
+                if (res.value) {
+                    this.props.editStatusKPIPersonal(kpiersonal._id, 0);
+                }
+            });
+        } else {
+            Swal.fire({
+                title: "KPI đã được kích hoạt bạn không thể hủy bỏ yêu cầu phê duyệt, nếu muốn sửa đổi hãy liên hệ với quản lý của bạn!",
+                type: 'warning',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Xác nhận'
+            })
+        }
+    }
     render() {
-        var unitList, list, parentTargets, approver;
-        const { kpipersonal, approverlist, adding, editing, commenting } = this.state;
-        const { departments, kpipersonals } = this.props;
-        if (departments.unitofuser) unitList = departments.unitofuser;
-        if (kpipersonals.items) list = kpipersonals.items;
-        if (kpipersonals.parents) parentTargets = kpipersonals.parents;
-        if (typeof list !== 'undefined' && list.length !== 0) {
-            approver = list[0].approver;
+        var unitList, currentUnit, currentKPI, userdepartments;
+        const { commenting, editing } = this.state;
+        const { departments, kpipersonals, user } = this.props;
+        if (departments.unitofuser) {
+            unitList = departments.unitofuser;
+            currentUnit = unitList.filter(item => (
+                item.dean === this.state.currentRole
+                || item.employee === this.state.currentRole
+                || item.vice_dean === this.state.currentRole));
         }
+        if (kpipersonals.currentKPI) currentKPI = kpipersonals.currentKPI;
+        if (user.userdepartments) userdepartments = user.userdepartments;
         return (
             <div className="table-wrapper">
                 <div className="content-wrapper">
@@ -260,201 +318,142 @@ class KPIPersonalCreate extends Component {
                         <div className="row">
                             <div className="col-xs-12">
                                 <div className="box">
-                                    <div className="box-header">
-                                        <h3 className="box-title"><b>Thiết lập KPI cá nhân</b></h3>
-                                    </div>
-                                    {/* /.box-header */}
                                     <div className="box-body">
                                         <div className="row">
-                                            <div className="col-md-12">
-                                                <div className="form-group">
-                                                    <label>Đơn vị:</label>
-                                                    <div className={'form-group has-feedback' + (adding && !kpipersonal.unit ? ' has-error' : '')}>
-                                                        <select className="form-control" id="selunit" name="unit" value={kpipersonal.unit} onChange={this.handleChange} disabled>
-                                                            <option>--Hãy chọn đơn vị--</option>
-                                                            {unitList &&
-                                                                unitList.map(x => {
-                                                                    return <option key={x._id} value={x._id}>{x.name}</option>
-                                                                })}
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div className="form-group">
-                                                    <label>Người thực hiện:</label>
-                                                    <div className={'form-group has-feedback' + (adding && !kpipersonal.creater ? ' has-error' : '')}>
-                                                        <input type="text" className="form-control" id="inputname" value="Lê Thị Phương - Trưởng P.ĐBCL" name="name" disabled />
-                                                    </div>
-                                                </div>
-                                                <div className="form-group">
-                                                    <label>Người phê duyệt:</label>
-                                                    <div className={'form-group has-feedback' + (adding && !kpipersonal.name ? ' has-error' : '')}>
-                                                        <select className="form-control" id="selparent" ref={input => this.approver = input} name="approver" value={approver ? approver : kpipersonal.approver} disabled={approver} onChange={this.handleChange}>
-                                                            <option>--Hãy chọn người phê duyệt--</option>
-                                                            <optgroup label="Giám đốc">
-                                                                {
-                                                                    approverlist && approverlist.map(item => {
-                                                                        if (item.parent === "") return <option key={item._id} value={item._id}>{item.name}</option>;
-                                                                        return true;
-                                                                    })
-                                                                }
-                                                            </optgroup>
-                                                            <optgroup label="Phó giám đốc">
-                                                                {
-                                                                    approverlist && approverlist.map(item => {
-                                                                        if (item.parent !== "") return <option key={item._id} value={item._id}>{item.name}</option>;
-                                                                        return true;
-                                                                    })
-                                                                }
-                                                            </optgroup>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div className="form-group">
-                                                    <label>Tên mục tiêu:</label>
-                                                    <div className={'form-group has-feedback' + (adding && !kpipersonal.name ? ' has-error' : '')}>
-                                                        <input type="text" className="form-control" id="inputname" value={kpipersonal.name} placeholder="Tên mục tiêu" name="name" onChange={this.handleChange} />
-                                                    </div>
-                                                </div>
-                                                <div className="form-group">
-                                                    <label>Thuộc mục tiêu:</label>
-                                                    <div className={'form-group has-feedback' + (adding && !kpipersonal.parent ? ' has-error' : '')}>
-                                                        <select className="form-control" id="selparent" name="parent" value={kpipersonal.parent} onChange={this.handleChange}>
-                                                            <option>--Hãy chọn mục tiêu cha--</option>
-                                                            {parentTargets &&
-                                                                parentTargets.map(x => {
-                                                                    return <option key={x._id} value={x._id}>{x.name}</option>
-                                                                })}
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div className="form-group">
-                                                    <label>Mô tả tiêu chí đánh giá:</label>
-                                                    <div className={'form-group has-feedback' + (adding && !kpipersonal.criteria ? ' has-error' : '')}>
-                                                        <textarea type="text" className='form-control' id="inputname" value={kpipersonal.criteria} placeholder="Đánh giá mức độ hoàn thành dựa trên tiêu chí nào?" name="criteria" onChange={this.handleChange} />
-                                                    </div>
-                                                </div>
-                                                <div className="form-group">
-                                                    <label>Trọng số:</label>
-                                                    <div className={'form-group has-feedback' + (adding && !kpipersonal.weight ? ' has-error' : '')} id="inputname">
-                                                        <input type="number" min="0" max="100" className="form-control pull-right" value={kpipersonal.weight} placeholder="Trọng số của mục tiêu" name="weight" onChange={this.handleChange} />
-                                                    </div>
-                                                </div>
-                                                <div className="form-group" >
-                                                    <label style={{ marginTop: "15px" }}>Tháng:</label>
-                                                    <div className={'input-group date has-feedback' + (adding && !kpipersonal.time ? ' has-error' : '')}>
-                                                        <div className="input-group-addon">
-                                                            <i className="fa fa-calendar" />
-                                                        </div>
-                                                        <input type="text" className="form-control pull-right" ref={input => this.time = input} value={kpipersonal.time} name="time" id="datepicker2" data-date-format="mm-yyyy" onChange={this.handleChange} />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="col-md-10 col-md-offset-8" style={{ marginTop: '15px' }}>
-                                                {
-                                                    editing === false ?
-                                                        <button className="btn btn-success col-md-2" onClick={this.onAddItem}>Thêm mục tiêu</button>
-                                                        : <button className="btn btn-info col-md-2" onClick={this.saveEdit}>Lưu thay đổi</button>
-                                                }
-                                                <button type="cancel" className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleCancel}>Xóa trắng</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-xs-12">
-                                <div className="box">
-                                    <div className="box-header">
-                                        <h3 className="box-title">Danh sách KPI cá nhân</h3>
-                                    </div>
-                                    <div className="box-body">
-                                        <form>
-                                            <div className="row">
-                                                {
-                                                    (typeof list !== 'undefined' && list.length !== 0) &&
-                                                    <div className="col-xs-12">
-                                                        <div className="form-group">
-                                                            <label className="col-sm-2">- Thời gian</label>
-                                                            <label className="col-sm-10">: {this.formatDate(list[0].time)}</label>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label className="col-sm-2">- Người phê duyệt</label>
-                                                            <label className="col-sm-10">:&nbsp;
-                                                            {typeof approverlist !== 'undefined' && approverlist.length !== 0 && approverlist.map(x => {
-                                                                if (list[0].approver === x._id) return x.name;
-                                                                return true;
-                                                            })}</label>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label className="col-sm-2">- Số mục tiêu</label>
-                                                            <label className="col-sm-10">: {list.reduce(sum => sum + 1, 0)}</label>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label className="col-sm-2"><b>- Tổng trọng số</b></label>
-                                                            <label className="col-sm-10">: {list.map(item => parseInt(item.weight)).reduce((sum, number) => sum + number, 0)}</label>
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <label className="col-sm-2"><b>- Ghi chú</b></label>
-                                                            <label className="col-sm-10">: {list.map(item => parseInt(item.weight)).reduce((sum, number) => sum + number, 0) !== 100 ? " Trọng số chưa thỏa mãn" : " Trọng số đã thỏa mãn"}</label>
-                                                        </div>
-                                                    </div>}
+                                            {(typeof currentKPI !== 'undefined' && currentKPI !== null) ?
                                                 <div className="col-xs-12">
-                                                    <table className="table table-bordered">
-                                                        <thead>
-                                                            <tr>
-                                                                <th title="Số thứ tự" style={{ width: "40px" }}>Stt</th>
-                                                                <th title="Tên mục tiêu">Tên mục tiêu</th>
-                                                                <th title="Mục tiêu cha">Mục tiêu cha</th>
-                                                                <th title="Tiêu chí đánh giá">Tiêu chí đánh giá</th>
-                                                                <th title="Trọng số">Trọng số</th>
-                                                                <th title="Trạng thái">Trạng thái</th>
-                                                                <th title="Hành động">Hành động</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {
-                                                                (typeof list === 'undefined' || list.length === 0) ? <tr><td colSpan={7}><center>No data</center></td></tr> :
-                                                                    list.map((item, index) =>
-                                                                        <tr key={index + 1}>
-                                                                            <td title={index + 1}>{index + 1}</td>
-                                                                            <td title={item.name}>{item.name}</td>
-                                                                            <td title={parentTargets && parentTargets.map(x => {
-                                                                                if (item.parent === x._id) return x.name;
-                                                                                return "";
-                                                                            })}>{parentTargets && parentTargets.map(x => {
-                                                                                if (item.parent === x._id) return x.name;
-                                                                                return "";
-                                                                            })}</td>
-                                                                            <td title={item.criteria}>{item.criteria}</td>
-                                                                            <td title={item.weight}>{item.weight}</td>
-                                                                            <td title={item.approve ? "Đã phê duyệt" : "Chờ phê duyệt"}>{item.approve ? "Đã phê duyệt" : "Chờ phê duyệt"}</td>
-                                                                            <td>
-                                                                                <a href="#edit" className="edit" title="Edit" data-toggle="tooltip" onClick={() => this.edit(item)}><i className="material-icons"></i></a>
-                                                                                <a href="#delete" className="delete" title="Delete" data-toggle="tooltip" onClick={() => this.delete(item._id)}><i className="material-icons"></i></a>
-                                                                            </td>
-                                                                        </tr>
-                                                                    )
-                                                            }
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                <div className="col-xs-10 col-xs-offset-8">
-                                                    <button type="submit" className="btn btn-success col-md-2">Yêu cầu phê duyệt</button>
-                                                    {commenting ? <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleSubmitComment}>Gửi phản hồi</button>
-                                                        : <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={this.handleRequestEdit}>Viết bình luận</button>}
-                                                </div>
-                                                {commenting && <div className="col-xs-12">
-                                                    <form>
-                                                        <div className="form-group">
-                                                            <label>Phản hồi:</label>
-                                                            <div className='form-group'>
-                                                                <textarea type="text" className='form-control' id="inputname" name="reason" />
+                                                    <h4 style={{ display: "inline", fontWeight: "600" }}>Thông tin chung</h4>
+                                                    {editing ? <a href="#abc" style={{ color: "green", marginLeft: "10px" }} onClick={() => this.saveEdit(currentKPI._id, currentUnit && currentUnit[0]._id)} title="Lưu thông tin chỉnh sửa"><i className="material-icons" style={{ fontSize: "16px" }}>save</i></a>
+                                                        : <a href="#abc" style={{ color: "#FFC107", marginLeft: "10px" }} onClick={() => this.handleEditKPi(currentKPI.status)} title="Chỉnh sửa thông tin chung"><i className="material-icons" style={{ fontSize: "16px" }}>edit</i></a>}
+                                                    <a href="#abc" style={{ color: "#E34724", marginLeft: "10px" }} onClick={() => this.deleteKPI(currentKPI._id, currentKPI.status)} title="Xóa bỏ KPI này"><i className="material-icons" style={{ fontSize: "16px" }}></i></a>
+                                                    <div className="form-group">
+                                                        <label className="col-sm-2" style={{ fontWeight: "500" }}>Đơn vị</label>
+                                                        <label className="col-sm-10" style={{ fontWeight: "400" }}>: {currentKPI.unit.name}</label>
+                                                    </div>
+                                                    <div className="form-group" style={{ paddingTop: editing && "15px" }}>
+                                                        <label className="col-sm-2" style={{ fontWeight: "500", marginTop: editing && "10px" }}>Thời gian</label>
+                                                        {editing ?
+                                                            <div className='input-group col-sm-3 date has-feedback' style={{ paddingLeft: "15px" }}>
+                                                                <div className="input-group-addon">
+                                                                    <i className="fa fa-calendar" />
+                                                                </div>
+                                                                <input type="text" className="form-control pull-right" ref={input => this.time = input} defaultValue={this.formatDate(currentKPI.time)} name="time" id="datepicker2" data-date-format="mm-yyyy" />
                                                             </div>
-                                                        </div>
-                                                    </form>
+                                                            : <label className="col-sm-10" style={{ fontWeight: "400" }}>: {this.formatDate(currentKPI.time)}</label>}
+                                                    </div>
+                                                    <div className="form-group">
+                                                        <label className="col-sm-2" style={{ fontWeight: "500", marginTop: editing && "8px" }}>Người phê duyệt</label>
+                                                        {editing ? userdepartments &&
+                                                            <div className="col-sm-10 input-group" style={{ width: "25%", paddingLeft: "15px" }}>
+                                                                <select defaultValue={currentKPI.approver._id} ref={input => this.approver = input} className="form-control select2">
+                                                                    <optgroup label={userdepartments[0].id_role.name}>
+                                                                        {userdepartments[0].id_user.map(x => {
+                                                                            return <option key={x._id} value={x._id}>{x.name}</option>
+                                                                        })}
+                                                                    </optgroup>
+                                                                    <optgroup label={userdepartments[1].id_role.name}>
+                                                                        {userdepartments[1].id_user.map(x => {
+                                                                            return <option key={x._id} value={x._id}>{x.name}</option>
+                                                                        })}
+                                                                    </optgroup>
+                                                                </select>
+                                                            </div> :
+                                                            <label className="col-sm-10" style={{ fontWeight: "400" }}>: {currentKPI.approver.name}</label>
+                                                        }
+                                                    </div>
+                                                    {editing === false &&
+                                                        <React.Fragment>
+                                                            <div className="form-group">
+                                                                <label className="col-sm-2" style={{ fontWeight: "500" }}>Trạng thái KPI</label>
+                                                                <label className="col-sm-10" style={{ fontWeight: "400" }}>: {this.checkStatusKPI(currentKPI.status)}</label>
+                                                            </div>
+                                                            <div className="form-group">
+                                                                <label className="col-sm-2" style={{ fontWeight: "500" }}>Số mục tiêu</label>
+                                                                <label className="col-sm-10" style={{ fontWeight: "400" }}>: {currentKPI.listtarget.reduce(sum => sum + 1, 0)}</label>
+                                                            </div>
+                                                            <div className="form-group">
+                                                                <label className="col-sm-2" style={{ fontWeight: "500" }}>Tổng điểm tối đa</label>
+                                                                <label className="col-sm-10" style={{ fontWeight: "400" }}>: {currentKPI.listtarget.map(item => parseInt(item.weight)).reduce((sum, number) => sum + number, 0)}/100</label>
+                                                            </div>
+                                                            <div className="form-group">
+                                                                <label className="col-sm-2" style={{ fontWeight: "500" }}>*Ghi chú</label>
+                                                                <label className="col-sm-10" style={{ fontWeight: "400" }}>: {currentKPI.listtarget.map(item => parseInt(item.weight)).reduce((sum, number) => sum + number, 0) !== 100 ? " Trọng số chưa thỏa mãn" : " Trọng số đã thỏa mãn"}</label>
+                                                            </div>
+                                                        </React.Fragment>
+                                                    }
+                                                </div> :
+                                                <div className="col-xs-12">
+                                                    <h4 style={{ display: "inline", fontWeight: "600" }}>Thông tin chung</h4>
+                                                    <div className="form-group">
+                                                        <label className="col-sm-2" style={{ fontWeight: "500" }}>Đơn vị</label>
+                                                        <label className="col-sm-10" style={{ fontWeight: "400" }}>: {currentUnit && currentUnit[0].name}</label>
+                                                    </div>
                                                 </div>}
+                                            <div className="col-xs-12">
+                                                <h4 style={{ display: "inline-block", fontWeight: "600" }}>Danh sách mục tiêu</h4>
+                                                {(typeof currentKPI !== 'undefined' && currentKPI !== null) ?
+                                                    currentKPI.status === 0 && <React.Fragment>
+                                                        <button type="button" className="btn btn-success" style={{ float: "right" }} data-toggle="modal" data-target="#addNewTargetKPIPersonal" data-backdrop="static" data-keyboard="false">Thêm mục tiêu</button>
+                                                        <ModalAddTargetKPIPersonal kpipersonal={currentKPI._id} unit={currentUnit && currentUnit[0]} />
+                                                    </React.Fragment> :
+                                                    <React.Fragment>
+                                                        <button type="button" className="btn btn-success" style={{ float: "right" }} data-toggle="modal" data-target="#startKPIPersonal" data-backdrop="static" data-keyboard="false">Khởi tạo KPI tháng mới</button>
+                                                        <ModalStartKPIPersonal unit={currentUnit && currentUnit[0]} />
+                                                    </React.Fragment>
+                                                }
+                                                <table className="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th title="Số thứ tự" style={{ width: "40px" }}>Stt</th>
+                                                            <th title="Tên mục tiêu">Tên mục tiêu</th>
+                                                            <th title="Mục tiêu cha">Mục tiêu cha</th>
+                                                            <th title="Tiêu chí đánh giá">Tiêu chí đánh giá</th>
+                                                            <th title="Trọng số" style={{ width: "95px" }}>Điểm tối đa</th>
+                                                            <th title="Trạng thái" style={{ width: "87px" }}>Trạng thái</th>
+                                                            <th title="Hành động">Hành động</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {
+                                                            (typeof currentKPI === 'undefined' || currentKPI === null) ? <tr><td colSpan={7}><center>Chưa khởi tạo KPI cá nhân tháng {this.formatDate(Date.now())}</center></td></tr> :
+                                                                currentKPI.listtarget.map((item, index) =>
+                                                                    <tr key={index + 1}>
+                                                                        <td title={index + 1}>{index + 1}</td>
+                                                                        <td title={item.name}>{item.name}</td>
+                                                                        <td title={item.parent.name}>{item.parent.name}</td>
+                                                                        <td title={item.criteria}>{item.criteria}</td>
+                                                                        <td title={item.weight}>{item.weight}</td>
+                                                                        <td title={this.checkStatusTarget(item.status)}>{this.checkStatusTarget(item.status)}</td>
+                                                                        <td>
+                                                                            <a href="#edit" className="edit" title="Edit" data-toggle="tooltip" onClick={() => this.editTargetKPIPersonal(item.status, currentKPI.status, item)}><i className="material-icons"></i></a>
+                                                                            {this.state.editingTarget === item._id ? <ModalEditTargetKPIPersonal target={item}/> : null}
+                                                                            {item.default === 0 ? <a href="#abc" className="delete" title="Delete" onClick={() => this.deleteTargetKPIKPIPersonal(item.status, currentKPI.status, item._id, currentKPI._id)}><i className="material-icons"></i></a> :
+                                                                                <a className="copy" title="Đây là mục tiêu mặc định (nếu cần thiết có thể sửa trọng số)"><i className="material-icons">notification_important</i></a>}
+                                                                        </td>
+                                                                    </tr>
+                                                                )
+                                                        }
+                                                    </tbody>
+                                                </table>
                                             </div>
-                                        </form>
-                                        <ToastContainer />
+                                            {(typeof currentKPI !== 'undefined' && currentKPI !== null) &&
+                                                <div className={currentKPI.status === 0 ? "col-xs-10 col-xs-offset-8" : "col-xs-10 col-xs-offset-7"}>
+                                                    {currentKPI.status === 0 ? <button type="submit" className="btn btn-success col-md-2" style={{ marginLeft: "3%" }} onClick={() => this.requestApproveKPI(currentKPI)}>Yêu cầu phê duyệt</button> :
+                                                        <button type="submit" className="btn btn-success col-md-3" style={{ marginLeft: "3%" }} onClick={() => this.cancelApproveKPI(currentKPI)}>Hủy yêu cầu phê duyệt</button>}
+                                                    {commenting ? <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={() => this.handleCommentKPI()}>Gửi phản hồi</button>
+                                                        : <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={() => this.handleCommentKPI()}>Viết bình luận</button>}
+                                                </div>}
+                                            {commenting && <div className="col-xs-12">
+                                                <form>
+                                                    <div className="form-group">
+                                                        <label>Phản hồi:</label>
+                                                        <div className='form-group'>
+                                                            <textarea type="text" className='form-control' id="inputname" name="reason" />
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -467,18 +466,18 @@ class KPIPersonalCreate extends Component {
 }
 
 function mapState(state) {
-    const { departments, kpipersonals } = state;
-    return { departments, kpipersonals };
+    const { departments, kpipersonals, user } = state;
+    return { departments, kpipersonals, user };
 }
 
 const actionCreators = {
+    getAllUserSameDepartment: userActions.getAllUserSameDepartment,
     getDepartment: departmentActions.getDepartmentOfUser,
-    getParentTarget: kpiPersonalActions.getAllParentTarget,
-    getAllTarget: kpiPersonalActions.getAllTargetByUser,
-    createTarget: kpiPersonalActions.addTarget,
-    editTarget: kpiPersonalActions.editTarget,
-    deleteTarget: kpiPersonalActions.delete,
-    confirmKPI: kpiPersonalActions.confirm
+    getCurrentKPIPersonal: kpiPersonalActions.getCurrentKPIPersonal,
+    deleteTargetKPIPersonal: kpiPersonalActions.deleteTarget,
+    editKPIPersonal: kpiPersonalActions.editKPIPersonal,
+    deleteKPIPersonal: kpiPersonalActions.deleteKPIPersonal,
+    editStatusKPIPersonal: kpiPersonalActions.editStatusKPIPersonal
 };
 const connectedKPIPersonalCreate = connect(mapState, actionCreators)(KPIPersonalCreate);
 export { connectedKPIPersonalCreate as KPIPersonalCreate };

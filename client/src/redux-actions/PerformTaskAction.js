@@ -1,12 +1,14 @@
-import { performTaskConstants } from "../redux-constants/PerformTaskConstants";
+import { taskManagementConstants, performTaskConstants } from "../redux-constants/CombineConstants";
 import { alertActions } from "./AlertActions";
 import { performTaskService } from "../service/CombineService";
+
 export const performTaskAction = {
     getLogTimerTask,
     getTimerStatusTask,
     startTimerTask,
     stopTimerTask,
     pauseTimerTask,
+    continueTimerTask,
     getCommentTask,
     addCommentTask,
     editCommentTask,
@@ -31,11 +33,11 @@ function getLogTimerTask(task) {
 }
 
 // Get timer status task
-function getTimerStatusTask(task) {
+function getTimerStatusTask(task, user) {
     return dispatch => {
         dispatch(request(task));
 
-        performTaskService.getTimerStatusTask(task)
+        performTaskService.getTimerStatusTask(task, user)
             .then(
                 currentTimer => dispatch(success(currentTimer)),
                 error => dispatch(failure(error.toString()))
@@ -51,16 +53,13 @@ function getTimerStatusTask(task) {
 function startTimerTask(timer) {
     return dispatch => {
         dispatch(request(timer));
-
         performTaskService.startTimerTask(timer)
             .then(
                 timer => { 
                     dispatch(success(timer));
-                    dispatch(alertActions.success('Bắt đầu tính giờ!'));
                 },
                 error => {
                     dispatch(failure(error.toString()));
-                    dispatch(alertActions.error(error.toString()));
                 }
             );
     };
@@ -79,11 +78,9 @@ function pauseTimerTask(id, newTimer) {
             .then(
                 newTimer => { 
                     dispatch(success(newTimer));
-                    dispatch(alertActions.success('Tạm dừng tính giờ'));
                 },
                 error => {
                     dispatch(failure(error.toString()));
-                    dispatch(alertActions.error(error.toString()));
                 }
             );
     };
@@ -93,6 +90,27 @@ function pauseTimerTask(id, newTimer) {
     function failure(error) { return { type: performTaskConstants.PAUSE_TIMER_FAILURE, error } }
 }
 
+// continue timer task
+function continueTimerTask(id, newTimer) {
+    return dispatch => {
+        dispatch(request(id));
+
+        performTaskService.continueTimerTask(id, newTimer)
+            .then(
+                newTimer => { 
+                    dispatch(success(newTimer));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            );
+    };
+
+    function request(id) { return { type: performTaskConstants.CONTINUE_TIMER_REQUEST, id } }
+    function success(newTimer) { return { type: performTaskConstants.CONTINUE_TIMER_SUCCESS, newTimer } }
+    function failure(error) { return { type: performTaskConstants.CONTINUE_TIMER_FAILURE, error } }
+}
+
 // stop timer task
 function stopTimerTask(id, newTimer) {
     return dispatch => {
@@ -100,19 +118,19 @@ function stopTimerTask(id, newTimer) {
 
         performTaskService.stopTimerTask(id, newTimer)
             .then(
-                newTimer => { 
-                    dispatch(success(newTimer));
-                    dispatch(alertActions.success('Kết thúc tính giờ'));
+                newTask => { 
+                    dispatch(success(newTask))
+                    dispatch(updatetask(newTask))
                 },
                 error => {
                     dispatch(failure(error.toString()));
-                    dispatch(alertActions.error(error.toString()));
                 }
             );
     };
 
     function request(id) { return { type: performTaskConstants.STOP_TIMER_REQUEST, id } }
-    function success(newTimer) { return { type: performTaskConstants.STOP_TIMER_SUCCESS, newTimer } }
+    function success(newTask) { return { type: performTaskConstants.STOP_TIMER_SUCCESS, newTask} }
+    function updatetask(newTask) { return { type: taskManagementConstants.EDIT_TASK_SUCCESS, newTask} }
     function failure(error) { return { type: performTaskConstants.STOP_TIMER_FAILURE, error } }
 }
 
@@ -142,11 +160,9 @@ function addCommentTask(newComment) {
             .then(
                 newComment => { 
                     dispatch(success(newComment));
-                    dispatch(alertActions.success('Thêm mới thành công bình luận'));
                 },
                 error => {
                     dispatch(failure(error.toString()));
-                    dispatch(alertActions.error(error.toString()));
                 }
             );
     };
@@ -165,7 +181,6 @@ function editCommentTask(id, newComment) {
             .then(
                 newComment => { 
                     dispatch(success(newComment));
-                    dispatch(alertActions.success('Chỉnh sửa thành công bình luận'));
                 },
                 error => {
                     dispatch(failure(error.toString()));
@@ -191,7 +206,7 @@ function deleteCommentTask(id) {
             );
     };
 
-    function request(id) { return { type: performTaskConstants.DELETE_TASK_REQUEST, id } }
-    function success(id) { return { type: performTaskConstants.DELETE_TASK_SUCCESS, id } }
-    function failure(id, error) { return { type: performTaskConstants.DELETE_TASK_FAILURE, id, error } }
+    function request(id) { return { type: performTaskConstants.DELETE_COMMENTTASK_REQUEST, id } }
+    function success(id) { return { type: performTaskConstants.DELETE_COMMENTTASK_SUCCESS, id } }
+    function failure(id, error) { return { type: performTaskConstants.DELETE_COMMENTTASK_FAILURE, id, error } }
 }

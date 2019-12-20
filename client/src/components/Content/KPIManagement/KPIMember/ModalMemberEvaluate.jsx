@@ -65,7 +65,7 @@ class ModalMemberEvaluate extends Component {
                 <div className="modal-dialog-full modal-tasktemplate">
                     <div className="modal-content">
                         {/* Modal Header */}
-                        <div className="modal-header" style={{ textAlign: "center", background: "#F1F4F8" }}>
+                        <div className="modal-header" style={{ textAlign: "center", background: "#605ca8", color: "white" }}>
                             <button type="button" className="close" data-dismiss="modal">
                                 <span aria-hidden="true">×</span>
                                 <span className="sr-only">Close</span>
@@ -75,30 +75,34 @@ class ModalMemberEvaluate extends Component {
                         {/* Modal Body */}
                         <div className="modal-body modal-body-perform-task" >
                             <div className="left-modal">
-                                <div className="header-left-modal" style={{ fontWeight: "500" }}>
+                                <div className="header-left-modal" style={{ fontWeight: "500", background: "slateblue", color: "white" }}>
                                     <h4>Danh sách mục tiêu</h4>
                                 </div>
                                 <div className="content-left-modal" id="style-1" style={{ width: "24.5%" }}>
                                     <div className="scroll-content" style={{ borderRight: "3px solid #ddd" }}>
                                         {list && list.map((item, index) =>
-                                            <a href="#abc" onClick={() => this.handleChangeContent(item._id)} className="list-group-item" key={index}>
-                                                {item.name}
-                                                <span className="badge">{15 + index}</span>
+                                            <a href="#abc" style={{color: "black"}} onClick={() => this.handleChangeContent(item._id)} className="list-group-item" key={index}>
+                                                {item.name}&nbsp;
+                                                <small style={{float: "right", textDecoration: "underline", color: "blue"}}>(15 công việc - 28 điểm)</small>
+                                                {/* <span className="badge">{15 + index}</span> */}
                                             </a>)}
                                         {list && list.map((item, index) =>
-                                            <a href="#abc" className="list-group-item" key={index}>
-                                                {item.name}
-                                                <span className="badge">{15 + index}</span>
+                                            <a href="#abc" style={{color: "black"}} className="list-group-item" key={index}>
+                                                {item.name}&nbsp;
+                                                <small style={{float: "right", textDecoration: "underline", color: "blue"}}>(15 công việc - 28 điểm)</small>
+                                                {/* <span className="badge">{15 + index}</span> */}
                                             </a>)}
                                         {list && list.map((item, index) =>
-                                            <a href="#abc" className="list-group-item" key={index}>
-                                                {item.name}
-                                                <span className="badge">{15 + index}</span>
+                                            <a href="#abc" style={{color: "black"}} className="list-group-item" key={index}>
+                                                {item.name}&nbsp;
+                                                <small style={{float: "right", textDecoration: "underline", color: "blue"}}>(15 công việc - 28 điểm)</small>
+                                                {/* <span className="badge">{15 + index}</span> */}
                                             </a>)}
                                         {list && list.map((item, index) =>
-                                            <a href="#abc" className="list-group-item" key={index}>
-                                                {item.name}
-                                                <span className="badge">{15 + index}</span>
+                                            <a href="#abc" style={{color: "black"}} className="list-group-item" key={index}>
+                                                {item.name}&nbsp;
+                                                <small style={{float: "right", textDecoration: "underline", color: "blue"}}>(15 công việc - 28 điểm)</small>
+                                                {/* <span className="badge">{15 + index}</span> */}
                                             </a>)}
                                     </div>
                                 </div>
@@ -144,9 +148,6 @@ class ModalMemberEvaluate extends Component {
                                                             <th>Tên công việc</th>
                                                             <th>Đơn vị</th>
                                                             <th>Mô tả công việc</th>
-                                                            <th>Người tạo</th>
-                                                            <th>Người phê duyệt</th>
-                                                            <th>Người hỗ trợ</th>
                                                             <th>Trạng thái</th>
                                                             <th>Kết quả đánh giá</th>
                                                         </tr>
@@ -157,9 +158,6 @@ class ModalMemberEvaluate extends Component {
                                                             <td>Kiểm thử lô hàng số 17</td>
                                                             <td>Đảm bảo chất lượng sản phẩm</td>
                                                             <td>Hoàn thành kiểm thử chất lượng, thành phần của sản phẩm</td>
-                                                            <td>Lê Thị Phương</td>
-                                                            <td>Lê Việt Anh</td>
-                                                            <td>Hoàng Thị Hạnh</td>
                                                             <td>Đang thực hiện</td>
                                                             <td>0</td>
                                                         </tr>
@@ -168,9 +166,6 @@ class ModalMemberEvaluate extends Component {
                                                             <td>Kiểm thử lô hàng số 13</td>
                                                             <td>Đảm bảo chất lượng sản phẩm</td>
                                                             <td>Hoàn thành kiểm thử chất lượng, thành phần của sản phẩm</td>
-                                                            <td>Lê Thị Phương</td>
-                                                            <td>Lê Việt Anh</td>
-                                                            <td>Hoàng Thị Hạnh</td>
                                                             <td>Đã hoàn thành</td>
                                                             <td>95</td>
                                                         </tr>
@@ -179,9 +174,6 @@ class ModalMemberEvaluate extends Component {
                                                             <td>Kiểm thử lô hàng số 15</td>
                                                             <td>Đảm bảo chất lượng sản phẩm</td>
                                                             <td>Hoàn thành kiểm thử chất lượng, thành phần của sản phẩm</td>
-                                                            <td>Lê Thị Phương</td>
-                                                            <td>Lê Việt Anh</td>
-                                                            <td>Hoàng Thị Hạnh</td>
                                                             <td>Đã hoàn thành</td>
                                                             <td>90</td>
                                                         </tr>
@@ -190,9 +182,6 @@ class ModalMemberEvaluate extends Component {
                                                             <td>Kiểm thử lô hàng số 19</td>
                                                             <td>Đảm bảo chất lượng sản phẩm</td>
                                                             <td>Hoàn thành kiểm thử chất lượng, thành phần của sản phẩm</td>
-                                                            <td>Lê Thị Phương</td>
-                                                            <td>Lê Việt Anh</td>
-                                                            <td>Hoàng Thị Hạnh</td>
                                                             <td>Đang thực hiện</td>
                                                             <td>0</td>
                                                         </tr>
@@ -201,9 +190,6 @@ class ModalMemberEvaluate extends Component {
                                                             <td>Kiểm thử lô hàng số 11</td>
                                                             <td>Đảm bảo chất lượng sản phẩm</td>
                                                             <td>Hoàn thành kiểm thử chất lượng, thành phần của sản phẩm</td>
-                                                            <td>Lê Thị Phương</td>
-                                                            <td>Lê Việt Anh</td>
-                                                            <td>Hoàng Thị Hạnh</td>
                                                             <td>Đã hoàn thành</td>
                                                             <td>85</td>
                                                         </tr>
@@ -212,9 +198,6 @@ class ModalMemberEvaluate extends Component {
                                                             <td>Kiểm thử lô hàng số 10</td>
                                                             <td>Đảm bảo chất lượng sản phẩm</td>
                                                             <td>Hoàn thành kiểm thử chất lượng, thành phần của sản phẩm</td>
-                                                            <td>Lê Thị Phương</td>
-                                                            <td>Lê Việt Anh</td>
-                                                            <td>Hoàng Thị Hạnh</td>
                                                             <td>Đang thực hiện</td>
                                                             <td>0</td>
                                                         </tr>
@@ -223,9 +206,6 @@ class ModalMemberEvaluate extends Component {
                                                             <td>Kiểm thử lô hàng số 1</td>
                                                             <td>Đảm bảo chất lượng sản phẩm</td>
                                                             <td>Hoàn thành kiểm thử chất lượng, thành phần của sản phẩm</td>
-                                                            <td>Lê Thị Phương</td>
-                                                            <td>Lê Việt Anh</td>
-                                                            <td>Hoàng Thị Hạnh</td>
                                                             <td>Đã hoàn thành</td>
                                                             <td>80</td>
                                                         </tr>
@@ -234,9 +214,6 @@ class ModalMemberEvaluate extends Component {
                                                             <td>Kiểm thử lô hàng số 8</td>
                                                             <td>Đảm bảo chất lượng sản phẩm</td>
                                                             <td>Hoàn thành kiểm thử chất lượng, thành phần của sản phẩm</td>
-                                                            <td>Lê Thị Phương</td>
-                                                            <td>Lê Việt Anh</td>
-                                                            <td>Hoàng Thị Hạnh</td>
                                                             <td>Đã hủy</td>
                                                             <td>0</td>
                                                         </tr>
@@ -245,9 +222,6 @@ class ModalMemberEvaluate extends Component {
                                                             <td>Kiểm thử lô hàng số 7</td>
                                                             <td>Đảm bảo chất lượng sản phẩm</td>
                                                             <td>Hoàn thành kiểm thử chất lượng, thành phần của sản phẩm</td>
-                                                            <td>Lê Thị Phương</td>
-                                                            <td>Lê Việt Anh</td>
-                                                            <td>Hoàng Thị Hạnh</td>
                                                             <td>Đang thực hiện</td>
                                                             <td>0</td>
                                                         </tr>

@@ -1,131 +1,222 @@
 import { kpiUnitConstants } from "../redux-constants/CombineConstants";
-import { alertActions } from "./AlertActions";
 import { kpiUnitService } from "../service/CombineService";
 export const kpiUnitActions = {
-    getAllTargetByUnitId,
-    getAllParentTargetByUnitId,
-    addTarget,
-    editTarget,
-    confirm,
-    delete: _delete,
+    getAllKPIUnit,
+    getCurrentKPIUnit,
+    getKPIParent,
+    addKPIUnit,
+    addTargetKPIUnit,
+    editKPIUnit,
+    editStatusKPIUnit,
+    evaluateKPIUnit,
+    editTargetKPIUnit,
+    deleteKPIUnit,
+    deleteTargetKPIUnit
 };
 
-// Get all target of a Unit by Unit id
-function getAllTargetByUnitId(id) {
+// lấy tất cả các KPI của đơn vị
+function getAllKPIUnit(id) {
     return dispatch => {
         dispatch(request(id));
 
-        kpiUnitService.getAllTargetUnitByIdUnit(id)
+        kpiUnitService.getAllKPIUnit(id)
             .then(
-                targets => dispatch(success(targets)),
+                kpis => dispatch(success(kpis)),
                 error => dispatch(failure(error.toString()))
             );
     };
 
-    function request(id) { return { type: kpiUnitConstants.GETALLTARGET_BYIDUNIT_REQUEST, id } }
-    function success(targets) { return { type: kpiUnitConstants.GETALLTARGET_BYIDUNIT_SUCCESS, targets } }
-    function failure(error) { return { type: kpiUnitConstants.GETALLTARGET_BYIDUNIT_FAILURE, error } }
+    function request(id) { return { type: kpiUnitConstants.GETALL_KPIUNIT_REQUEST, id } }
+    function success(kpis) { return { type: kpiUnitConstants.GETALL_KPIUNIT_SUCCESS, kpis } }
+    function failure(error) { return { type: kpiUnitConstants.GETALL_KPIUNIT_FAILURE, error } }
 }
 
-// Get all target of a Unit by Unit id
-function getAllParentTargetByUnitId(id) {
+// lấy kpi đơn vị hiện tại
+function getCurrentKPIUnit(id) {
     return dispatch => {
         dispatch(request(id));
 
-        kpiUnitService.getAllParentTargetUnitByIdUnit(id)
+        kpiUnitService.getCurrentKPIUnit(id)
             .then(
-                targets => dispatch(success(targets)),
+                currentKPI => dispatch(success(currentKPI)),
                 error => dispatch(failure(error.toString()))
             );
     };
 
-    function request(id) { return { type: kpiUnitConstants.GETALL_PARENTTARGET_REQUEST, id } }
-    function success(targets) { return { type: kpiUnitConstants.GETALL_PARENTTARGET_SUCCESS, targets } }
-    function failure(error) { return { type: kpiUnitConstants.GETALL_PARENTTARGET_FAILURE, error } }
+    function request(id) { return { type: kpiUnitConstants.GETCURRENT_KPIUNIT_REQUEST, id } }
+    function success(currentKPI) { return { type: kpiUnitConstants.GETCURRENT_KPIUNIT_SUCCESS, currentKPI } }
+    function failure(error) { return { type: kpiUnitConstants.GETCURRENT_KPIUNIT_FAILURE, error } }
 }
 
-// Add a new target of unit
-function addTarget(target) {
+// lấy kpi đơn vị cha
+function getKPIParent(currentRole) {
     return dispatch => {
-        dispatch(request(target));
+        dispatch(request(currentRole));
 
-        kpiUnitService.addNewTargetUnit(target)
+        kpiUnitService.getKPIParent(currentRole)
             .then(
-                target => { 
-                    dispatch(success(target));
-                    dispatch(alertActions.success('Add target successful'));
+                parentKPI => dispatch(success(parentKPI)),
+                error => dispatch(failure(error.toString()))
+            );
+    };
+
+    function request(currentRole) { return { type: kpiUnitConstants.GETPARENT_KPIUNIT_REQUEST, currentRole } }
+    function success(parentKPI) { return { type: kpiUnitConstants.GETPARENT_KPIUNIT_SUCCESS, parentKPI } }
+    function failure(error) { return { type: kpiUnitConstants.GETPARENT_KPIUNIT_FAILURE, error } }
+}
+
+// Khởi tạo KPI đơn vị
+function addKPIUnit(newKPI) {
+    return dispatch => {
+        dispatch(request(newKPI));
+
+        kpiUnitService.addKPIUnit(newKPI)
+            .then(
+                newKPI => { 
+                    dispatch(success(newKPI));
                 },
                 error => {
                     dispatch(failure(error.toString()));
-                    dispatch(alertActions.error(error.toString()));
                 }
             );
     };
 
-    function request(target) { return { type: kpiUnitConstants.ADDTARGET_REQUEST, target } }
-    function success(target) { return { type: kpiUnitConstants.ADDTARGET_SUCCESS, target } }
-    function failure(error) { return { type: kpiUnitConstants.ADDTARGET_FAILURE, error } }
+    function request(newKPI) { return { type: kpiUnitConstants.ADD_KPIUNIT_REQUEST, newKPI } }
+    function success(newKPI) { return { type: kpiUnitConstants.ADD_KPIUNIT_SUCCESS, newKPI } }
+    function failure(error) { return { type: kpiUnitConstants.ADD_KPIUNIT_FAILURE, error } }
 }
 
-// Edit a target of unit
-function editTarget(id, target) {
+// Thêm mục tiêu cho KPI đơn vị
+function addTargetKPIUnit(newTarget) {
     return dispatch => {
-        dispatch(request(id));
+        dispatch(request(newTarget));
 
-        kpiUnitService.editTargetUnit(id, target)
+        kpiUnitService.addTargetKPIUnit(newTarget)
             .then(
-                target => { 
-                    dispatch(success(target));
-                    dispatch(alertActions.success('Edit target successful'));
+                newKPI => { 
+                    dispatch(success(newKPI));
                 },
                 error => {
                     dispatch(failure(error.toString()));
-                    dispatch(alertActions.error(error.toString()));
                 }
             );
     };
 
-    function request(id) { return { type: kpiUnitConstants.EDITTARGET_REQUEST, id } }
-    function success(target) { return { type: kpiUnitConstants.EDITTARGET_SUCCESS, target } }
-    function failure(error) { return { type: kpiUnitConstants.EDITTARGET_FAILURE, error } }
+    function request(newTarget) { return { type: kpiUnitConstants.ADDTARGET_KPIUNIT_REQUEST, newTarget } }
+    function success(newKPI) { return { type: kpiUnitConstants.ADDTARGET_KPIUNIT_SUCCESS, newKPI } }
+    function failure(error) { return { type: kpiUnitConstants.ADDTARGET_KPIUNIT_FAILURE, error } }
 }
-
-// confirm kpi unit final
-function confirm(id) {
+// Chỉnh sửa kpi đơn vị
+function editKPIUnit(id, newKPI) {
     return dispatch => {
         dispatch(request(id));
 
-        kpiUnitService.comfirmKPIUnit(id)
+        kpiUnitService.editKPIUnit(id, newKPI)
             .then(
-                target => { 
-                    dispatch(success(id));
-                    dispatch(alertActions.success('Confirm KPI Unit successful'));
+                newKPI => { 
+                    dispatch(success(newKPI));
                 },
                 error => {
                     dispatch(failure(error.toString()));
-                    dispatch(alertActions.error(error.toString()));
                 }
             );
     };
 
-    function request(id) { return { type: kpiUnitConstants.CONFIRM_REQUEST, id } }
-    function success(id) { return { type: kpiUnitConstants.CONFIRM_SUCCESS, id } }
-    function failure(error) { return { type: kpiUnitConstants.CONFIRM_FAILURE, error } }
+    function request(id) { return { type: kpiUnitConstants.EDIT_KPIUNIT_REQUEST, id } }
+    function success(newKPI) { return { type: kpiUnitConstants.EDIT_KPIUNIT_SUCCESS, newKPI } }
+    function failure(error) { return { type: kpiUnitConstants.EDIT_KPIUNIT_FAILURE, error } }
 }
-
-// prefixed function name with underscore because delete is a reserved word in javascript
-function _delete(id) {
+// Chỉnh sửa mục tiêu của kpi đơn vị
+function editTargetKPIUnit(id, newTarget) {
     return dispatch => {
         dispatch(request(id));
 
-        kpiUnitService.deleteTargetById(id)
+        kpiUnitService.editTargetKPIUnit(id, newTarget)
             .then(
-                target => dispatch(success(id)),
+                newTarget => { 
+                    dispatch(success(newTarget));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            );
+    };
+
+    function request(id) { return { type: kpiUnitConstants.EDITTARGET_KPIUNIT_REQUEST, id } }
+    function success(newTarget) { return { type: kpiUnitConstants.EDITTARGET_KPIUNIT_SUCCESS, newTarget } }
+    function failure(error) { return { type: kpiUnitConstants.EDITTARGET_KPIUNIT_FAILURE, error } }
+}
+// Chỉnh sửa trạng thái KPI đơn vị
+function editStatusKPIUnit(id, status) {
+    return dispatch => {
+        dispatch(request(id));
+
+        kpiUnitService.editStatusKPIUnit(id, status)
+            .then(
+                newKPI => { 
+                    dispatch(success(newKPI));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            );
+    };
+
+    function request(id) { return { type: kpiUnitConstants.EDITSTATUS_KPIUNIT_REQUEST, id } }
+    function success(newKPI) { return { type: kpiUnitConstants.EDITSTATUS_KPIUNIT_SUCCESS, newKPI } }
+    function failure(error) { return { type: kpiUnitConstants.EDITSTATUS_KPIUNIT_FAILURE, error } }
+}
+// Cập nhật dữ liệu cho kpi đơn vị
+function evaluateKPIUnit(id) {
+    return dispatch => {
+        dispatch(request(id));
+
+        kpiUnitService.evaluateKPIUnit(id)
+            .then(
+                newKPI => { 
+                    dispatch(success(newKPI));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            );
+    };
+
+    function request(id) { return { type: kpiUnitConstants.EVALUATE_KPIUNIT_REQUEST, id } }
+    function success(newKPI) { return { type: kpiUnitConstants.EVALUATE_KPIUNIT_SUCCESS, newKPI } }
+    function failure(error) { return { type: kpiUnitConstants.EVALUATE_KPIUNIT_FAILURE, error } }
+}
+
+
+// Xóa KPI đơn vị
+function deleteKPIUnit(id) {
+    return dispatch => {
+        dispatch(request(id));
+
+        kpiUnitService.deleteKPIUnit(id)
+            .then(
+                kpiUnit => dispatch(success(id)),
                 error => dispatch(failure(id, error.toString()))
             );
     };
 
-    function request(id) { return { type: kpiUnitConstants.DELETETARGET_REQUEST, id } }
-    function success(id) { return { type: kpiUnitConstants.DELETETARGET_SUCCESS, id } }
-    function failure(id, error) { return { type: kpiUnitConstants.DELETETARGET_FAILURE, id, error } }
+    function request(id) { return { type: kpiUnitConstants.DELETE_KPIUNIT_REQUEST, id } }
+    function success(id) { return { type: kpiUnitConstants.DELETE_KPIUNIT_SUCCESS, id } }
+    function failure(id, error) { return { type: kpiUnitConstants.DELETE_KPIUNIT_FAILURE, id, error } }
+}
+// Xóa mục tiêu KPI đơn vị
+function deleteTargetKPIUnit(id, kpiunit) {
+    return dispatch => {
+        dispatch(request(id));
+
+        kpiUnitService.deleteTargetKPIUnit(id, kpiunit)
+            .then(
+                newKPI => dispatch(success(newKPI)),
+                error => dispatch(failure(id, error.toString()))
+            );
+    };
+
+    function request(id) { return { type: kpiUnitConstants.DELETETARGET_KPIUNIT_REQUEST, id } }
+    function success(newKPI) { return { type: kpiUnitConstants.DELETETARGET_KPIUNIT_SUCCESS, newKPI } }
+    function failure(id, error) { return { type: kpiUnitConstants.DELETETARGET_KPIUNIT_FAILURE, id, error } }
 }

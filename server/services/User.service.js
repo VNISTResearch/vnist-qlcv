@@ -41,9 +41,25 @@ exports.getUsersSameDepartment = async(req, res) => {
             ]  
         });
         
-        var dean = await UserRole.findOne({ id_role: department.dean}).populate('id_user');
-        var vice_dean = await UserRole.findOne({ id_role: department.vice_dean}).populate('id_user');
-        var employee = await UserRole.findOne({ id_role: department.employee}).populate('id_user');
+        var dean = await UserRole.findOne({ id_role: department.dean}).populate('id_user id_role');
+        var vice_dean = await UserRole.findOne({ id_role: department.vice_dean}).populate('id_user id_role');
+        var employee = await UserRole.findOne({ id_role: department.employee}).populate('id_user id_role');
+        var users = [];
+        users = users.concat(dean, vice_dean, employee);
+
+        res.status(200).json(users); //tra ve list cac user theo 3 chuc danh cua phong ban
+    } catch (error) {
+        res.status(400).json({msg: error});
+    }
+}
+//lấy tất cả các user theo đơn vị
+exports.getUsersOfDepartment = async(req, res) => {
+    console.log("get user of department");
+    try {
+        var department = await Department.findById(req.params.id);
+        var dean = await UserRole.findOne({ id_role: department.dean}).populate('id_user id_role');
+        var vice_dean = await UserRole.findOne({ id_role: department.vice_dean}).populate('id_user id_role');
+        var employee = await UserRole.findOne({ id_role: department.employee}).populate('id_user id_role');
         var users = [];
         users = users.concat(dean, vice_dean, employee);
 

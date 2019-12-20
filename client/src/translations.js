@@ -72,7 +72,8 @@ export default {
                 resource: 'Tài nguyên',
                 tasktemplate: 'Mẫu Công Việc',
                 cocautochuc: 'Cơ Cấu Tổ Chức',
-                taskmanagement: 'Quản Lý Công Việc'
+                taskmanagement: 'Quản Lý Công Việc',
+                kpimember: 'Quản lý KPI nhân viên'
             },
             footer: {
                 copyRight: 'Bản quyền thuộc về',

@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 const User = require('./User.model');
 const Department = require('./Department.model');
 
-// Create Schema
+// Model quản lý dữ liệu của một mẫu công việc
 const TaskTemplateSchema = new Schema({
     unit: {
         type: Schema.Types.ObjectId,

@@ -12,6 +12,10 @@ exports.getUsersSameDepartment = (req, res) => {
     return UserService.getUsersSameDepartment(req, res);
 }
 
+exports.getUsersOfDepartment = (req, res) => {
+    return UserService.getUsersOfDepartment(req, res);
+}
+
 exports.create = (req, res) => {
     return UserService.create(req, res);
 };

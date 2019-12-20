@@ -1,16 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { taskTemplateActions, departmentActions } from '../../../redux-actions/CombineActions';
+import { taskTemplateActions, departmentActions, userActions } from '../../../redux-actions/CombineActions';
 import Sortable from 'sortablejs';
 
 class ModalAddTaskTemplate extends Component {
     componentDidMount() {
-        //get department of current user
+        // get department of current user
         this.props.getDepartment(localStorage.getItem('id'));
-        //Load js for form
-        this.handleLoadJS();
-        //Load library for sort action table
+        // lấy tất cả nhân viên của công ty
+        this.props.getAllUserOfCompany();
+        // Lấy tất cả nhân viên của phòng ban
+        // this.props.getAllUserOfDepartment();
+        this.props.getAllUserSameDepartment(localStorage.getItem("currentRole"));
+        // Lấy tất cả vai trò cùng phòng ban
+        this.props.getRoleSameDepartment(localStorage.getItem("currentRole"));
+        // Load js for form
+        // this.handleLoadJS();
+        // Load library for sort action table
         this.handleSortable();
+    }
+    componentDidUpdate() {
+        this.handleLoadJS();
     }
     constructor(props) {
         super(props);
@@ -19,7 +29,7 @@ class ModalAddTaskTemplate extends Component {
             newTemplate: {
                 unit: '',
                 name: '',
-                read: [localStorage.getItem('currentRole')],
+                read: '',
                 responsible: [],
                 accounatable: [],
                 informed: [],
@@ -40,28 +50,6 @@ class ModalAddTaskTemplate extends Component {
                 type: 'Văn bản',
                 mandatary: true
             },
-            member: [
-                {
-                    _id: "abcdef123456789987654321",
-                    name: "Trần Văn Dũng",
-                    parent: ""
-                },
-                {
-                    _id: "abcdef123456789987654322",
-                    name: "Lê Việt Anh",
-                    parent: "abcdef123456789987654321"
-                },
-                {
-                    _id: "abcdef123456789987654323",
-                    name: "Nguyễn Việt Anh",
-                    parent: "abcdef123456789987654321"
-                },
-                {
-                    _id: "abcdef123456789987654324",
-                    name: "Bùi Việt Anh",
-                    parent: "abcdef123456789987654321"
-                }
-            ],
             submitted: false,
             editAction: false,
             addAction: false,
@@ -342,7 +330,7 @@ class ModalAddTaskTemplate extends Component {
         })
     }
     // update state before submit because setState async
-    updateState = () => {
+    updateState = async () => {
         // get data in action table
         var el1 = document.getElementById('actions');
         let dataActions = [...el1.rows].map(t => [...t.children].map(u => u.innerText));
@@ -370,17 +358,28 @@ class ModalAddTaskTemplate extends Component {
             return map;
         })
         // get data in multi select
-        // let select = this.refs.read;
-        // let values = [].filter.call(select.options, o => o.selected).map(o => o.value);
-        this.setState(state => {
+        let selectResponsible = this.refs.responsible;
+        let responsible = [].filter.call(selectResponsible.options, o => o.selected).map(o => o.value);
+        let selectAccounatable = this.refs.accounatable;
+        let accounatable = [].filter.call(selectAccounatable.options, o => o.selected).map(o => o.value);
+        let selectConsulted = this.refs.consulted;
+        let consulted = [].filter.call(selectConsulted.options, o => o.selected).map(o => o.value);
+        let selectInformed = this.refs.informed;
+        let informed = [].filter.call(selectInformed.options, o => o.selected).map(o => o.value);
+        await this.setState(state => {
             return {
                 ...state,
                 newTemplate: {
                     ...state.newTemplate,
-                    // unit: this.unit.selected,
+                    unit: this.refs.unit.value,
                     listAction: newListActions,
                     listInfo: newListInfos,
                     name: this.name.value,
+                    read: this.refs.read.value,
+                    responsible: responsible,
+                    accounatable: accounatable,
+                    consulted: consulted,
+                    informed: informed,
                     description: this.description.value,
                     formula: this.formula.value,
                 },
@@ -404,16 +403,18 @@ class ModalAddTaskTemplate extends Component {
             });
             // this.handleCancel();
         }
-        window.$("#myModalHorizontal").modal("hide");
+        window.$("#addTaskTemplate").modal("hide");
     }
     render() {
-        var units, listAction, listInfo;
-        const { newTemplate, submitted, action, information, member, addAction, addInfo } = this.state;
-        const { departments } = this.props;
+        var units, listAction, listInfo, listRole, usercompanys, userdepartments;
+        const { newTemplate, submitted, action, information, addAction, addInfo } = this.state;
+        const { departments, user } = this.props;
         if (newTemplate.listAction) listAction = newTemplate.listAction;
         if (newTemplate.listInfo) listInfo = newTemplate.listInfo;
         if (departments.unitofuser) units = departments.unitofuser;
-        console.log(this.state);
+        if (user.roledepartments) listRole = user.roledepartments;
+        if (user.usercompanys) usercompanys = user.usercompanys;
+        if (user.userdepartments) userdepartments = user.userdepartments;
         return (
             <div className="modal modal-full fade" id="addTaskTemplate" tabIndex={-1} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div className="modal-dialog-full">
@@ -431,24 +432,24 @@ class ModalAddTaskTemplate extends Component {
                             <form className="form-horizontal">
                                 <div className="row">
                                     <div className="col-sm-6">
-                                        <div className={'form-group has-feedback' + (submitted && newTemplate.unit ? ' has-error' : '')}>
+                                        <div className={'form-group has-feedback' + (submitted && newTemplate.unit==="" ? ' has-error' : '')}>
                                             <label className="col-sm-5 control-label" style={{ width: '100%', textAlign: 'left' }}>Đơn vị*:</label>
                                             <div className="col-sm-10" style={{ width: '100%' }}>
                                                 {units &&
-                                                    <select defaultValue={units[0]._id} className="form-control select2" ref="unit" data-placeholder="Chọn đơn vị quản lý mẫu" style={{ width: '100%' }}>
+                                                    <select defaultValue={units[1]._id} className="form-control select2" ref="unit" data-placeholder="Chọn đơn vị quản lý mẫu" style={{ width: '100%' }}>
                                                         {units.map(x => {
                                                             return <option key={x._id} value={x._id}>{x.name}</option>
                                                         })}
-                                                </select>}
+                                                    </select>}
                                             </div>
-                                            {submitted && newTemplate.read === [] &&
-                                                <div className="col-sm-4 help-block">Hãy đơn vị quản lý mẫu</div>
+                                            {submitted && newTemplate.unit === "" &&
+                                                <div className="col-sm-4 help-block">Hãy chọn đơn vị quản lý mẫu</div>
                                             }
                                         </div>
                                         <div className={'form-group has-feedback' + (submitted && !newTemplate.name ? ' has-error' : '')}>
-                                            <label className="col-sm-4 control-label" htmlFor="inputName3" style={{ width: '100%', textAlign: 'left' }}>Tên mẫu*</label>
+                                            <label className="col-sm-4 control-label" style={{ width: '100%', textAlign: 'left' }}>Tên mẫu*</label>
                                             <div className="col-sm-10" style={{ width: '100%' }}>
-                                                <input type="Name" className="form-control" id="inputName3" placeholder="Tên mẫu công việc" defaultValue={newTemplate.name} ref={input => this.name = input} />
+                                                <input type="Name" className="form-control" placeholder="Tên mẫu công việc" defaultValue={newTemplate.name} ref={input => this.name = input} />
                                             </div>
                                             {submitted && !newTemplate.name &&
                                                 <div className="col-sm-4 help-block">Hãy điền tên mẫu công việc</div>
@@ -457,48 +458,69 @@ class ModalAddTaskTemplate extends Component {
                                         <div className={'form-group has-feedback' + (submitted && newTemplate.read === [] ? ' has-error' : '')}>
                                             <label className="col-sm-5 control-label" style={{ width: '100%', textAlign: 'left' }}>Những người được phép xem*</label>
                                             <div className="col-sm-10" style={{ width: '100%' }}>
-                                                <select defaultValue={newTemplate.read} className="form-control select2" multiple="multiple" ref="read" data-placeholder="Chọn vị trí được xem" style={{ width: '100%' }}>
-                                                    {/* {course &&
-                                                        course.map(x => {
-                                                            return <option key={x._id} value={x._id}>{x.name}</option>
-                                                        })} */}
-                                                </select>
+                                                {listRole &&
+                                                    <select defaultValue={listRole.dean._id} className="form-control select2" ref="read" data-placeholder="Chọn vai trò được phép xem mẫu" style={{ width: '100%' }}>
+                                                        <option value={listRole.dean._id}>{listRole.dean.name}</option>
+                                                        <option value={listRole.vice_dean._id}>{listRole.vice_dean.name}</option>
+                                                        <option value={listRole.employee._id}>{listRole.employee.name}</option>
+                                                    </select>}
                                             </div>
-                                            {submitted && newTemplate.read === [] &&
+                                            {submitted && newTemplate.read === "" &&
                                                 <div className="col-sm-4 help-block">Hãy phân quyền những người được xem mẫu này</div>
                                             }
                                         </div>
                                         <div className='form-group has-feedback'>
                                             <label className="col-sm-5 control-label" style={{ width: '100%', textAlign: 'left' }}>Người thực hiện</label>
                                             <div className="col-sm-10" style={{ width: '100%' }}>
-                                                <select defaultValue={newTemplate.responsible} className="form-control select2" multiple="multiple" ref="responsible" data-placeholder="Chọn người thực hiện" style={{ width: '100%' }}>
-                                                    {member &&
-                                                        member.map(x => {
+                                                {userdepartments && <select defaultValue={[userdepartments[1].id_user[0]._id]} className="form-control select2" multiple="multiple" ref="responsible" data-placeholder="Chọn người thực hiện" style={{ width: '100%' }}>
+                                                    <optgroup label={userdepartments[1].id_role.name}>
+                                                        {userdepartments[1].id_user.map(x => {
                                                             return <option key={x._id} value={x._id}>{x.name}</option>
                                                         })}
-                                                </select>
+                                                    </optgroup>
+                                                    <optgroup label={userdepartments[2].id_role.name}>
+                                                        {userdepartments[2].id_user.map(x => {
+                                                            return <option key={x._id} value={x._id}>{x.name}</option>
+                                                        })}
+                                                    </optgroup>
+                                                </select>}
                                             </div>
                                         </div>
                                         <div className='form-group has-feedback'>
                                             <label className="col-sm-5 control-label" style={{ width: '100%', textAlign: 'left' }}>Người phê duyệt</label>
                                             <div className="col-sm-10" style={{ width: '100%' }}>
-                                                <select defaultValue={newTemplate.accounatable} className="form-control select2" multiple="multiple" ref="accounatable" data-placeholder="Chọn người phê duyệt" style={{ width: '100%' }}>
-                                                    {member &&
-                                                        member.map(x => {
+                                                {userdepartments && <select defaultValue={[userdepartments[0].id_user[0]._id]} className="form-control select2" multiple="multiple" ref="accounatable" data-placeholder="Chọn người thực hiện" style={{ width: '100%' }}>
+                                                    <optgroup label={userdepartments[0].id_role.name}>
+                                                        {userdepartments[0].id_user.map(x => {
                                                             return <option key={x._id} value={x._id}>{x.name}</option>
                                                         })}
-                                                </select>
+                                                    </optgroup>
+                                                    <optgroup label={userdepartments[1].id_role.name}>
+                                                        {userdepartments[1].id_user.map(x => {
+                                                            return <option key={x._id} value={x._id}>{x.name}</option>
+                                                        })}
+                                                    </optgroup>
+                                                </select>}
+                                            </div>
+                                        </div>
+                                        <div className='form-group has-feedback'>
+                                            <label className="col-sm-5 control-label" style={{ width: '100%', textAlign: 'left' }}>Người hỗ trợ</label>
+                                            <div className="col-sm-10" style={{ width: '100%' }}>
+                                                {usercompanys && <select defaultValue={[usercompanys[1]._id]} className="form-control select2" multiple="multiple" ref="consulted" data-placeholder="Chọn người thực hiện" style={{ width: '100%' }}>
+                                                    {usercompanys.map(x => {
+                                                        return <option key={x._id} value={x._id}>{x.name}</option>
+                                                    })}
+                                                </select>}
                                             </div>
                                         </div>
                                         <div className='form-group has-feedback'>
                                             <label className="col-sm-5 control-label" style={{ width: '100%', textAlign: 'left' }}>Người quan sát</label>
                                             <div className="col-sm-10" style={{ width: '100%' }}>
-                                                <select defaultValue={newTemplate.informed} className="form-control select2" multiple="multiple" ref="informed" data-placeholder="Chọn người quan sát" style={{ width: '100%' }}>
-                                                    {member &&
-                                                        member.map(x => {
-                                                            return <option key={x._id} value={x._id}>{x.name}</option>
-                                                        })}
-                                                </select>
+                                                {usercompanys && <select defaultValue={[usercompanys[1]._id]} className="form-control select2" multiple="multiple" ref="informed" data-placeholder="Chọn người thực hiện" style={{ width: '100%' }}>
+                                                    {usercompanys.map(x => {
+                                                        return <option key={x._id} value={x._id}>{x.name}</option>
+                                                    })}
+                                                </select>}
                                             </div>
                                         </div>
                                         <fieldset className="scheduler-border">
@@ -514,9 +536,9 @@ class ModalAddTaskTemplate extends Component {
                                                     }
                                                 </div>
                                                 <div className={'form-group has-feedback' + (addAction && !action.description ? ' has-error' : '')}>
-                                                    <label className="col-sm-4 control-label" htmlFor="inputDescription3" style={{ width: '100%', textAlign: 'left' }}>Mô tả hoạt động*</label>
+                                                    <label className="col-sm-4 control-label" style={{ width: '100%', textAlign: 'left' }}>Mô tả hoạt động*</label>
                                                     <div className="col-sm-10" style={{ width: '100%' }}>
-                                                        <textarea type="text" className="form-control" id="inputDescription3" name="description" placeholder="Mô tả hoạt động" ref={input => this.desAction = input} />
+                                                        <textarea type="text" className="form-control"name="description" placeholder="Mô tả hoạt động" ref={input => this.desAction = input} />
                                                     </div>
                                                     {addAction && !action.description &&
                                                         <div className="col-sm-4 help-block">Hãy điền mô tả cho hoạt động</div>
@@ -577,7 +599,7 @@ class ModalAddTaskTemplate extends Component {
                                         <div className={'form-group has-feedback' + (submitted && !newTemplate.formula ? ' has-error' : '')}>
                                             <label className="col-sm-4 control-label" htmlFor="inputName3" style={{ width: '100%', textAlign: 'left' }}>Công thức tính điểm KPI công việc</label>
                                             <div className="col-sm-10" style={{ width: '100%' }}>
-                                                <input type="text" className="form-control" id="inputName3" placeholder="100*(1-(TT1/TT2)-(TT3/TT4)-(D0/D)-(AD/A))" defaultValue={newTemplate.name} ref={input => this.formula = input} />
+                                                <input type="text" className="form-control" id="inputName3" placeholder="100*(1-(p1/p2)-(p3/p4)-(d0/d)-(ad/a))" defaultValue={newTemplate.name} ref={input => this.formula = input} />
                                             </div>
                                             {submitted && !newTemplate.formula &&
                                                 <div className=" col-sm-4 help-block">Hãy điền công thức tính điểm KPI công việc</div>
@@ -680,14 +702,18 @@ class ModalAddTaskTemplate extends Component {
 }
 
 function mapState(state) {
-    const { departments } = state;
+    const { departments, user } = state;
     const adding = state.tasktemplates;
-    return { adding, departments };
+    return { adding, departments, user };
 }
 
 const actionCreators = {
     addNewTemplate: taskTemplateActions.addTaskTemplate,
-    getDepartment: departmentActions.getDepartmentOfUser
+    getDepartment: departmentActions.getDepartmentOfUser,
+    getAllUserOfCompany: userActions.getAllUserOfCompany,
+    getAllUserOfDepartment: userActions.getAllUserOfDepartment,
+    getRoleSameDepartment: userActions.getRoleSameDepartment,
+    getAllUserSameDepartment: userActions.getAllUserSameDepartment
 };
 const connectedModalAddTaskTemplate = connect(mapState, actionCreators)(ModalAddTaskTemplate);
 export { connectedModalAddTaskTemplate as ModalAddTaskTemplate };

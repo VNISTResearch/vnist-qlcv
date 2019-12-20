@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const User = require('./User.model');
-// Create Schema
+
+// Model quản lý dữ liệu lịch sử bấm giờ thực hiện công việc
 const HistoryWorkingTimeSchema = new Schema({
     task: { //lưu id của công việc 
         type: Schema.Types.ObjectId,
@@ -13,15 +14,25 @@ const HistoryWorkingTimeSchema = new Schema({
         ref: User,
         required: true
     },
-    startTime: {
-        type: Date,
+    start: {
+        type: Number,
         required: true
     },
-    endTime: {
-        type: Date
+    startTimer: {
+        type: Number,
+        required: true
+    },
+    stopTimer: {
+        type: Number
     },
     time: {
-        type: Number
+        type: Number,
+        default: 0
+    },
+    pause: {
+        type: Boolean,
+        default: false,
+        required: true
     }
 });
 

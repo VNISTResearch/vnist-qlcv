@@ -419,7 +419,7 @@ class TabTaskContent extends Component {
                         <button type="button" className="btn btn-primary" onClick={this.handleUpdateData} style={{ width: "135%" }}>Trở về mặc định</button>
                     </div>
                     <div className="col-xs-8" style={{ marginLeft: "-12px" }}>
-                        <button className="btn btn-default" style={{ background: "none", border: "none", marginTop: "-5%" }} onClick={this.handleExtendProperties}>{extendProperties ? "Cơ bản " : "Nâng cao "}<i className="fa fa-angle-double-down"></i></button>
+                        <button className="btn btn-default" style={{ background: "none", border: "none", fontWeight: "700"}} onClick={this.handleExtendProperties}>{extendProperties ? "Cơ bản " : "Nâng cao "}<i className="fa fa-angle-double-down"></i></button>
                     </div>
                 </div>
                 <div className="col-xs-2 col-xs-offset-3" style={{ marginTop: "4.5%" }}>
@@ -467,7 +467,7 @@ class TabTaskContent extends Component {
                             </th>
                         </tr>
                     </thead>
-                    <tbody id="taskTable">
+                    <tbody id="taskTable" className="task-table">
                         {
                             (typeof currentTasks !== 'undefined' && currentTasks.length !== 0) ?
                                 this.list_to_tree(currentTasks).map(item =>
@@ -520,7 +520,7 @@ const actionCreators = {
     getConsultedTaskByUser: taskManagementActions.getConsultedTaskByUser,
     getInformedTaskByUser: taskManagementActions.getInformedTaskByUser,
     getCreatorTaskByUser: taskManagementActions.getCreatorTaskByUser,
-    getDepartment: departmentActions.getDepartmentOfUser,
+    getDepartment: departmentActions.getDepartmentOfUser
 };
 const connectedTabTaskContent = connect(mapState, actionCreators)(TabTaskContent);
 export { connectedTabTaskContent as TabTaskContent };

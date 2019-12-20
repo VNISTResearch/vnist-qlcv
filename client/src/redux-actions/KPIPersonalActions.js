@@ -1,131 +1,270 @@
 import { kpiPersonalConstants } from "../redux-constants/CombineConstants";
-import { alertActions } from "./AlertActions";
 import { kpiPersonalService } from "../service/CombineService";
 export const kpiPersonalActions = {
-    getAllTargetByUser,
-    getAllParentTarget,
-    addTarget,
-    editTarget,
-    confirm,
-    delete: _delete,
+    getAllKPIPersonalOfUnit,
+    getAllKPIPersonal,
+    getCurrentKPIPersonal,
+    createKPIPersonal,
+    editKPIPersonal,
+    editStatusKPIPersonal,
+    approveKPIPersonal,
+    deleteKPIPersonal,
+    addNewTargetPersonal,
+    editTargetKPIPersonal,
+    editStatusTarget,
+    evaluateTarget,
+    deleteTarget
 };
 
-// Get all target of a user
-function getAllTargetByUser(id) {
+// Lấy tất cả KPI cá nhân
+function getAllKPIPersonalOfUnit(infosearch) {
     return dispatch => {
-        dispatch(request(id));
+        dispatch(request(infosearch));
 
-        kpiPersonalService.getAllTargetPersonalByUserId(id)
+        kpiPersonalService.getAllKPIPersonalOfUnit(infosearch)
             .then(
-                targets => dispatch(success(targets)),
+                kpipersonals => dispatch(success(kpipersonals)),
                 error => dispatch(failure(error.toString()))
             );
     };
 
-    function request(id) { return { type: kpiPersonalConstants.GETALLTARGET_BYIDUSER_REQUEST, id } }
-    function success(targets) { return { type: kpiPersonalConstants.GETALLTARGET_BYIDUSER_SUCCESS, targets } }
-    function failure(error) { return { type: kpiPersonalConstants.GETALLTARGET_BYIDUSER_FAILURE, error } }
+    function request(infosearch) { return { type: kpiPersonalConstants.GETALL_KPIPERSONAL_OfUNIT_REQUEST, infosearch } }
+    function success(kpipersonals) { return { type: kpiPersonalConstants.GETALL_KPIPERSONAL_OfUNIT_SUCCESS, kpipersonals } }
+    function failure(error) { return { type: kpiPersonalConstants.GETALL_KPIPERSONAL_OfUNIT_FAILURE, error } }
 }
-
-// Get all target of a Unit by Unit id
-function getAllParentTarget(id) {
+// Lấy tất cả KPI cá nhân
+function getAllKPIPersonal(id) {
     return dispatch => {
         dispatch(request(id));
 
-        kpiPersonalService.getAllParentTarget(id)
+        kpiPersonalService.getAllKPIPersonal(id)
             .then(
-                targets => dispatch(success(targets)),
+                kpipersonals => dispatch(success(kpipersonals)),
                 error => dispatch(failure(error.toString()))
             );
     };
 
-    function request(id) { return { type: kpiPersonalConstants.GETALL_PARENTTARGET_REQUEST, id } }
-    function success(targets) { return { type: kpiPersonalConstants.GETALL_PARENTTARGET_SUCCESS, targets } }
-    function failure(error) { return { type: kpiPersonalConstants.GETALL_PARENTTARGET_FAILURE, error } }
+    function request(id) { return { type: kpiPersonalConstants.GETALL_KPIPERSONAL_REQUEST, id } }
+    function success(kpipersonals) { return { type: kpiPersonalConstants.GETALL_KPIPERSONAL_SUCCESS, kpipersonals } }
+    function failure(error) { return { type: kpiPersonalConstants.GETALL_KPIPERSONAL_FAILURE, error } }
 }
 
-// Add a new target of unit
-function addTarget(target) {
+// Lấy KPI cá nhân hiện tại
+function getCurrentKPIPersonal(id) {
     return dispatch => {
-        dispatch(request(target));
+        dispatch(request(id));
 
-        kpiPersonalService.addNewTargetPersonal(target)
+        kpiPersonalService.getCurrentKPIPersonal(id)
             .then(
-                target => { 
-                    dispatch(success(target));
-                    dispatch(alertActions.success('Add target successful'));
+                kpipersonal => dispatch(success(kpipersonal)),
+                error => dispatch(failure(error.toString()))
+            );
+    };
+
+    function request(id) { return { type: kpiPersonalConstants.GETCURRENT_KPIPERSONAL_REQUEST, id } }
+    function success(kpipersonal) { return { type: kpiPersonalConstants.GETCURRENT_KPIPERSONAL_SUCCESS, kpipersonal } }
+    function failure(error) { return { type: kpiPersonalConstants.GETCURRENT_KPIPERSONAL_FAILURE, error } }
+}
+
+// Khởi tạo KPI cá nhân
+function createKPIPersonal(newKPI) {
+    return dispatch => {
+        dispatch(request(newKPI));
+
+        kpiPersonalService.createKPIPersonal(newKPI)
+            .then(
+                newKPI => { 
+                    dispatch(success(newKPI));
                 },
                 error => {
                     dispatch(failure(error.toString()));
-                    dispatch(alertActions.error(error.toString()));
                 }
             );
     };
 
-    function request(target) { return { type: kpiPersonalConstants.ADDTARGET_REQUEST, target } }
-    function success(target) { return { type: kpiPersonalConstants.ADDTARGET_SUCCESS, target } }
-    function failure(error) { return { type: kpiPersonalConstants.ADDTARGET_FAILURE, error } }
+    function request(newKPI) { return { type: kpiPersonalConstants.ADD_KPIPERSONAL_REQUEST, newKPI } }
+    function success(newKPI) { return { type: kpiPersonalConstants.ADD_KPIPERSONAL_SUCCESS, newKPI } }
+    function failure(error) { return { type: kpiPersonalConstants.ADD_KPIPERSONAL_FAILURE, error } }
 }
 
-// Edit a target of unit
-function editTarget(id, target) {
+// Chỉnh sửa KPI cá nhân
+function editKPIPersonal(id, kpipersonal) {
     return dispatch => {
         dispatch(request(id));
 
-        kpiPersonalService.editTargetPersonal(id, target)
+        kpiPersonalService.editKPIPersonal(id, kpipersonal)
             .then(
-                target => { 
-                    dispatch(success(target));
-                    dispatch(alertActions.success('Edit target successful'));
+                kpipersonal => { 
+                    dispatch(success(kpipersonal));
                 },
                 error => {
                     dispatch(failure(error.toString()));
-                    dispatch(alertActions.error(error.toString()));
                 }
             );
     };
 
-    function request(id) { return { type: kpiPersonalConstants.EDITTARGET_REQUEST, id } }
-    function success(target) { return { type: kpiPersonalConstants.EDITTARGET_SUCCESS, target } }
-    function failure(error) { return { type: kpiPersonalConstants.EDITTARGET_FAILURE, error } }
+    function request(id) { return { type: kpiPersonalConstants.EDIT_KPIPERSONAL_REQUEST, id } }
+    function success(kpipersonal) { return { type: kpiPersonalConstants.EDIT_KPIPERSONAL_SUCCESS, kpipersonal } }
+    function failure(error) { return { type: kpiPersonalConstants.EDIT_KPIPERSONAL_FAILURE, error } }
 }
 
-// confirm kpi unit final
-function confirm(id) {
+// Chỉnh sửa trạng thái KPI cá nhân
+function editStatusKPIPersonal(id, status) {
     return dispatch => {
         dispatch(request(id));
-
-        kpiPersonalService.comfirmKPIUnit(id)
+        kpiPersonalService.editStatusKPIPersonal(id, status)
             .then(
-                target => { 
-                    dispatch(success(id));
-                    dispatch(alertActions.success('Confirm KPI Unit successful'));
+                newKPI => { 
+                    dispatch(success(newKPI));
                 },
                 error => {
                     dispatch(failure(error.toString()));
-                    dispatch(alertActions.error(error.toString()));
                 }
             );
     };
 
-    function request(id) { return { type: kpiPersonalConstants.CONFIRM_REQUEST, id } }
-    function success(id) { return { type: kpiPersonalConstants.CONFIRM_SUCCESS, id } }
-    function failure(error) { return { type: kpiPersonalConstants.CONFIRM_FAILURE, error } }
+    function request(id) { return { type: kpiPersonalConstants.EDITSTATUS_KPIPERSONAL_REQUEST, id } }
+    function success(newKPI) { return { type: kpiPersonalConstants.EDITSTATUS_KPIPERSONAL_SUCCESS, newKPI } }
+    function failure(error) { return { type: kpiPersonalConstants.EDITSTATUS_KPIPERSONAL_FAILURE, error } }
 }
 
-// prefixed function name with underscore because delete is a reserved word in javascript
-function _delete(id) {
+// Phê duyệt toàn bộ KPI cá nhân
+function approveKPIPersonal(id) {
     return dispatch => {
         dispatch(request(id));
 
-        kpiPersonalService.deleteTargetById(id)
+        kpiPersonalService.approveKPIPersonal(id)
+            .then(
+                newKPI => { 
+                    dispatch(success(newKPI));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            );
+    };
+
+    function request(id) { return { type: kpiPersonalConstants.APPROVE_KPIPERSONAL_REQUEST, id } }
+    function success(newKPI) { return { type: kpiPersonalConstants.APPROVE_KPIPERSONAL_SUCCESS, newKPI } }
+    function failure(error) { return { type: kpiPersonalConstants.APPROVE_KPIPERSONAL_FAILURE, error } }
+}
+
+
+// Xóa KPI cá nhân
+function deleteKPIPersonal(id) {
+    return dispatch => {
+        dispatch(request(id));
+
+        kpiPersonalService.deleteKPIPersonal(id)
             .then(
                 target => dispatch(success(id)),
                 error => dispatch(failure(id, error.toString()))
             );
     };
 
-    function request(id) { return { type: kpiPersonalConstants.DELETETARGET_REQUEST, id } }
-    function success(id) { return { type: kpiPersonalConstants.DELETETARGET_SUCCESS, id } }
-    function failure(id, error) { return { type: kpiPersonalConstants.DELETETARGET_FAILURE, id, error } }
+    function request(id) { return { type: kpiPersonalConstants.DELETE_KPIPERSONAL_REQUEST, id } }
+    function success(id) { return { type: kpiPersonalConstants.DELETE_KPIPERSONAL_SUCCESS, id } }
+    function failure(id, error) { return { type: kpiPersonalConstants.DELETE_KPIPERSONAL_FAILURE, id, error } }
+}
+
+// thêm mục tiêu KPI cá nhân
+function addNewTargetPersonal(newTarget) {
+    console.log(newTarget);
+    return dispatch => {
+        dispatch(request(newTarget));
+
+        kpiPersonalService.addNewTargetPersonal(newTarget)
+            .then(
+                newKPI => { 
+                    dispatch(success(newKPI));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            );
+    };
+
+    function request(newTarget) { return { type: kpiPersonalConstants.ADDTARGET_KPIPERSONAL_REQUEST, newTarget } }
+    function success(newKPI) { return { type: kpiPersonalConstants.ADDTARGET_KPIPERSONAL_SUCCESS, newKPI } }
+    function failure(error) { return { type: kpiPersonalConstants.ADDTARGET_KPIPERSONAL_FAILURE, error } }
+}
+
+// Chỉnh sửa mục tiêu KPI cá nhân
+function editTargetKPIPersonal(id, newTarget) {
+    return dispatch => {
+        dispatch(request(id));
+
+        kpiPersonalService.editTargetKPIPersonal(id, newTarget)
+            .then(
+                newTarget => { 
+                    dispatch(success(newTarget));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            );
+    };
+
+    function request(id) { return { type: kpiPersonalConstants.EDITTARGET_KPIPERSONAL_REQUEST, id } }
+    function success(newTarget) { return { type: kpiPersonalConstants.EDITTARGET_KPIPERSONAL_SUCCESS, newTarget } }
+    function failure(error) { return { type: kpiPersonalConstants.EDITTARGET_KPIPERSONAL_FAILURE, error } }
+}
+
+// Chỉnh sửa trạng thái mục tiêu KPI cá nhân
+function editStatusTarget(id) {
+    return dispatch => {
+        dispatch(request(id));
+
+        kpiPersonalService.editStatusTarget(id)
+            .then(
+                newTarget => { 
+                    dispatch(success(newTarget));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            );
+    };
+
+    function request(id) { return { type: kpiPersonalConstants.EDITSTATUS_TARGET_KPIPERSONAL_REQUEST, id } }
+    function success(newTarget) { return { type: kpiPersonalConstants.EDITSTATUS_TARGET_KPIPERSONAL_SUCCESS, newTarget } }
+    function failure(error) { return { type: kpiPersonalConstants.EDITSTATUS_TARGET_KPIPERSONAL_FAILURE, error } }
+}
+
+// Đánh giá mục tiêu KPI cá nhân
+function evaluateTarget(id, result) {
+    return dispatch => {
+        dispatch(request(id));
+
+        kpiPersonalService.evaluateTarget(id, result)
+            .then(
+                newTarget => { 
+                    dispatch(success(newTarget));
+                },
+                error => {
+                    dispatch(failure(error.toString()));
+                }
+            );
+    };
+
+    function request(id) { return { type: kpiPersonalConstants.EVALUATETARGET_KPIPERSONAL_REQUEST, id } }
+    function success(newTarget) { return { type: kpiPersonalConstants.EVALUATETARGET_KPIPERSONAL_SUCCESS, newTarget } }
+    function failure(error) { return { type: kpiPersonalConstants.EVALUATETARGET_KPIPERSONAL_FAILURE, error } }
+}
+
+// Xóa mục tiêu KPI cá nhân
+function deleteTarget(id, kpipersonal) {
+    return dispatch => {
+        dispatch(request(id));
+
+        kpiPersonalService.deleteTarget(id, kpipersonal)
+            .then(
+                newKPI => dispatch(success(newKPI)),
+                error => dispatch(failure(id, error.toString()))
+            );
+    };
+
+    function request(id) { return { type: kpiPersonalConstants.DELETETARGET_KPIPERSONAL_REQUEST, id } }
+    function success(newKPI) { return { type: kpiPersonalConstants.DELETETARGET_KPIPERSONAL_SUCCESS, newKPI } }
+    function failure(id, error) { return { type: kpiPersonalConstants.DELETETARGET_KPIPERSONAL_FAILURE, id, error } }
 }

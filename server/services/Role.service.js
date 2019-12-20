@@ -66,8 +66,8 @@ exports.getRoleSameDepartment = async (req, res) => {
                 {'employee':id}
             ]  
         }).populate([
-			{path:'dean'}, 
-			{path:'vice_dean'}, 
+            {path:'dean'}, 
+            {path:'vice_dean'}, 
             {path:'employee'}]
         );
         

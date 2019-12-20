@@ -5,7 +5,7 @@ import { kpiUnitActions } from '../../../../../redux-actions/CombineActions';
 class ModalDetailKPI extends Component {
     componentDidMount() {
         // get all target of unit
-        this.props.getAllTarget(this.state.unit);
+        this.props.getCurrentKPIUnit(localStorage.getItem('currentRole'));
     }
 
     constructor(props) {
@@ -25,15 +25,15 @@ class ModalDetailKPI extends Component {
         console.log(this.state);
     }
     render() {
-        var list;
-        const { kpiunits } = this.props;
-        if (kpiunits.items) list = kpiunits.items;
+        var currentKPI;
+        const { kpiunits, kpiunit } = this.props;
+        if (kpiunits.currentKPI) currentKPI = kpiunits.currentKPI;
         return (
-            <div className="modal modal-full fade" id={"dataResultTask" + this.props.id} tabIndex={-1} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div className="modal modal-full fade" id={"dataResultTask" + this.props.kpiunit._id} tabIndex={-1} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div className="modal-dialog-full modal-tasktemplate">
                     <div className="modal-content">
                         {/* Modal Header */}
-                        <div className="modal-header" style={{ textAlign: "center", background: "#F1F4F8" }}>
+                        <div className="modal-header" style={{ textAlign: "center", background: "#605ca8", color: "white" }}>
                             <button type="button" className="close" data-dismiss="modal">
                                 <span aria-hidden="true">×</span>
                                 <span className="sr-only">Close</span>
@@ -43,28 +43,13 @@ class ModalDetailKPI extends Component {
                         {/* Modal Body */}
                         <div className="modal-body modal-body-perform-task" >
                             <div className="left-modal">
-                                <div className="header-left-modal" style={{ fontWeight: "500" }}>
+                                <div className="header-left-modal" style={{ fontWeight: "500", background: "slateblue", color: "white" }}>
                                     <h4>Danh sách mục tiêu</h4>
                                 </div>
                                 <div className="content-left-modal" id="style-1" style={{ width: "24.5%" }}>
                                     <div className="scroll-content" style={{ borderRight: "3px solid #ddd" }}>
-                                        {list && list.map((item, index) =>
-                                            <a href="#abc" onClick={() => this.handleChangeContent(item._id)} className="list-group-item" key={index}>
-                                                {item.name}
-                                                <span className="badge">{15 + index}</span>
-                                            </a>)}
-                                        {list && list.map((item, index) =>
-                                            <a href="#abc" className="list-group-item" key={index}>
-                                                {item.name}
-                                                <span className="badge">{15 + index}</span>
-                                            </a>)}
-                                        {list && list.map((item, index) =>
-                                            <a href="#abc" className="list-group-item" key={index}>
-                                                {item.name}
-                                                <span className="badge">{15 + index}</span>
-                                            </a>)}
-                                        {list && list.map((item, index) =>
-                                            <a href="#abc" className="list-group-item" key={index}>
+                                        {typeof kpiunit !== 'undefined' && kpiunit !== null && kpiunit.listtarget.map((item, index) =>
+                                            <a href="#abc" style={{color: "black"}} onClick={() => this.handleChangeContent(item._id)} className="list-group-item" key={index}>
                                                 {item.name}
                                                 <span className="badge">{15 + index}</span>
                                             </a>)}
@@ -73,7 +58,7 @@ class ModalDetailKPI extends Component {
                             </div>
                             <div className="right-modal">
                                 {
-                                    list && list.map(item => {
+                                    currentKPI && currentKPI.listtarget.map(item => {
                                         if (item._id === this.state.content) return <React.Fragment key={item._id}>
                                             <div className="header-content-right">
                                                 <div className="col-sm-12" style={{ fontWeight: "500" }}>
@@ -245,7 +230,7 @@ function mapState(state) {
 }
 
 const actionCreators = {
-    getAllTarget: kpiUnitActions.getAllTargetByUnitId,
+    getCurrentKPIUnit: kpiUnitActions.getCurrentKPIUnit,
 };
 const connectedModalDetailKPI = connect(mapState, actionCreators)(ModalDetailKPI);
 export { connectedModalDetailKPI as ModalDetailKPI };

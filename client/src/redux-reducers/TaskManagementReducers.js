@@ -19,8 +19,8 @@ export function tasks(state = {}, action) {
         case taskManagementConstants.GETTASK_BYID_REQUEST:
             return {
                 ...state,
+                task: null,
                 loading: true,
-                task: null
             };
         case taskManagementConstants.GETTASK_BYID_SUCCESS:
             return {
@@ -125,8 +125,8 @@ export function tasks(state = {}, action) {
         case taskManagementConstants.ADDNEW_TASK_SUCCESS:
             return {
                 ...state,
-                items: [
-                    ...state.items,
+                tasks: [
+                    ...state.tasks,
                     action.task.data
                 ]
             };
@@ -146,10 +146,11 @@ export function tasks(state = {}, action) {
         case taskManagementConstants.EDIT_TASK_SUCCESS:
             return {
                 ...state,
-                items: state.items.map(task =>
-                    task._id === action.task.task._id
-                        ? action.task.task : task
-                )
+                tasks: state.tasks.map(task =>
+                    task._id === action.newTask.info._id
+                        ? action.newTask.info : task
+                ),
+                task: action.newTask
             };
         case taskManagementConstants.EDIT_TASK_FAILURE:
             return {

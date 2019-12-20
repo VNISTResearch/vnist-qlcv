@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-// Create Schema
+// Model quản lý các hoạt động của một công việc theo mẫu
 const ActionTaskTemplateSchema = new Schema({
     tasktemplate: {
         type: Schema.Types.ObjectId,

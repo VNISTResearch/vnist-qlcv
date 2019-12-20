@@ -3,10 +3,9 @@ import { connect } from 'react-redux';
 import { kpiUnitActions } from '../../../../../redux-actions/CombineActions';
 
 class ModalDetailKPIPersonal extends Component {
-    componentDidMount() {
-        // get all target of unit
-        this.props.getAllTarget(this.state.unit);
-    }
+    // componentDidMount() {
+    //     this.props.getAllTarget(this.state.unit);
+    // }
 
     constructor(props) {
         super(props);
@@ -55,47 +54,45 @@ class ModalDetailKPIPersonal extends Component {
         })
         console.log(this.state);
     }
+    formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+
+        return [month, year].join('-');
+    }
     render() {
         var list;
-        const { kpiunits } = this.props;
-        if (kpiunits.items) list = kpiunits.items;
+        const { kpipersonal } = this.props;
+        if (kpipersonal.listtarget) list = kpipersonal.listtarget;
         return (
-            <div className="modal modal-full fade" id={"detailKPIPersonal" + this.props.id} tabIndex={-1} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div className="modal modal-full fade" id={"detailKPIPersonal" + kpipersonal._id} tabIndex={-1} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div className="modal-dialog-full modal-tasktemplate">
                     <div className="modal-content">
                         {/* Modal Header */}
-                        <div className="modal-header" style={{ textAlign: "center", background: "#F1F4F8" }}>
+                        <div className="modal-header" style={{ textAlign: "center", background: "#605ca8", color: "white" }}>
                             <button type="button" className="close" data-dismiss="modal">
                                 <span aria-hidden="true">×</span>
                                 <span className="sr-only">Close</span>
                             </button>
-                            <h3 className="modal-title" id="myModalLabel">Thông tin chi tiết kpi cá nhân tháng {12-this.props.id}</h3>
+                            <h3 className="modal-title" id="myModalLabel">Thông tin chi tiết kpi cá nhân tháng {this.formatDate(kpipersonal.time)}</h3>
                         </div>
                         {/* Modal Body */}
                         <div className="modal-body modal-body-perform-task" >
                             <div className="left-modal">
-                                <div className="header-left-modal" style={{ fontWeight: "500" }}>
+                                <div className="header-left-modal" style={{ fontWeight: "500", background: "slateblue", color: "white" }}>
                                     <h4>Danh sách mục tiêu</h4>
                                 </div>
                                 <div className="content-left-modal" id="style-1" style={{ width: "24.5%" }}>
                                     <div className="scroll-content" style={{ borderRight: "3px solid #ddd" }}>
                                         {list && list.map((item, index) =>
                                             <a href="#abc" onClick={() => this.handleChangeContent(item._id)} className="list-group-item" key={index}>
-                                                {item.name}
-                                                <span className="badge">{15 + index}</span>
-                                            </a>)}
-                                        {list && list.map((item, index) =>
-                                            <a href="#abc" className="list-group-item" key={index}>
-                                                {item.name}
-                                                <span className="badge">{15 + index}</span>
-                                            </a>)}
-                                        {list && list.map((item, index) =>
-                                            <a href="#abc" className="list-group-item" key={index}>
-                                                {item.name}
-                                                <span className="badge">{15 + index}</span>
-                                            </a>)}
-                                        {list && list.map((item, index) =>
-                                            <a href="#abc" className="list-group-item" key={index}>
                                                 {item.name}
                                                 <span className="badge">{15 + index}</span>
                                             </a>)}
@@ -115,26 +112,26 @@ class ModalDetailKPIPersonal extends Component {
                                                     <label className="col-sm-10" style={{ fontWeight: "400" }}>{item.name}</label>
                                                 </div>
                                                 <div className="col-sm-12">
-                                                    <label className="col-sm-2" style={{ fontWeight: "400" }}>Trọng số:</label>
+                                                    <label className="col-sm-2" style={{ fontWeight: "400" }}>Điểm tối đa:</label>
                                                     <label className="col-sm-10" style={{ fontWeight: "400" }}>{item.weight}</label>
                                                 </div>
                                                 <div className="col-sm-12">
                                                     <label className="col-sm-2" style={{ fontWeight: "400" }}>Hệ thống đánh giá:</label>
-                                                    <label className="col-sm-10" style={{ fontWeight: "400" }}>11.5/{item.weight}</label>
+                                                    <label className="col-sm-10" style={{ fontWeight: "400" }}>{item.systempoint==null?"Chưa đánh giá":item.systempoint}</label>
                                                 </div>
                                                 <div className="col-sm-12">
                                                     <label className="col-sm-2" style={{ fontWeight: "400" }}>Quản lý đánh giá:</label>
-                                                    <label className="col-sm-10" style={{ fontWeight: "400" }}>0</label>
+                                                    <label className="col-sm-10" style={{ fontWeight: "400" }}>{item.approverpoint===null?"Chưa đánh giá":item.approverpoint}</label>
                                                 </div>
                                                 <div className="col-sm-12">
-                                                    <label className="col-sm-2" style={{ fontWeight: "400" }}>Tự đánh giá:</label>
+                                                    <label className="col-sm-2" style={{ fontWeight: "400" }}>Cá nhân tự đánh giá:</label>
                                                     {
-                                                        this.props.id === "1" ?
+                                                        kpipersonal.status !== 3 ?
                                                             <React.Fragment>
                                                                 <input type="number" min="0" max={item.weight} className="col-sm-4" defaultValue="0" name="value" />
                                                                 <button className="col-sm-2 col-sm-offset-4 btn btn-success">Lưu</button>
                                                             </React.Fragment>
-                                                            : <label className="col-sm-10" style={{ fontWeight: "400" }}>0</label>
+                                                            : <label className="col-sm-10" style={{ fontWeight: "400" }}>{item.mypoint}</label>
                                                     }
                                                 </div>
                                             </div>

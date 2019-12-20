@@ -1,172 +1,163 @@
 import React, { Component } from 'react';
 import { ModalDetailKPIPersonal } from './ModalDetailKPIPersonal';
+import { connect } from 'react-redux';
+import { kpiPersonalActions } from '../../../../../redux-actions/CombineActions';
+import CanvasJSReact from '../../../TaskManagement/Chart/canvasjs.react';
 
 class KPIPersonalOverview extends Component {
-    UNSAFE_componentWillMount(){
+    componentDidMount() {
+        this.props.getAllKPIPersonal(localStorage.getItem("id"));
         let script = document.createElement('script');
         script.src = '/main/js/Table.js';
         script.async = true;
         script.defer = true;
         document.body.appendChild(script);
-        this.showChart();
     }
-    showChart = () => {
-        window.$(function () {
-            /*
-             * BAR CHART
-             * ---------
-             */
-        
-            var bar_data = {
-                data: [['4-2019', 90], ['5-2019', 90], ['6-2019', 95], ['7-2019', 90], ['8-2019', 85], ['9-2019', 95]],
-                color: '#3c8dbc'
-            }
-            window.$.plot('#bar-chart', [bar_data], {
-                grid: {
-                    borderWidth: 1,
-                    borderColor: '#f3f3f3',
-                    tickColor: '#f3f3f3'
-                },
-                series: {
-                    bars: {
-                        show: true,
-                        barWidth: 0.5,
-                        align: 'center'
-                    }
-                },
-                xaxis: {
-                    mode: 'categories',
-                    tickLength: 0
-                }
-            })
-            /* END BAR CHART */
-        
-            /*
-             * DONUT CHART
-             * -----------
-             */
-        
-            var donutData = [
-                { label: 'Mục tiêu 1', data: 30, color: '#3c8dbc' },
-                { label: 'Mục tiêu 2', data: 20, color: '#0073b7' },
-                { label: 'Mục tiêu 3', data: 20, color: '#00c0ef' },
-                { label: 'Mục tiêu 4', data: 30, color: '#B1D1E4' }
-            ]
-            window.$.plot('#donut-chart', donutData, {
-                series: {
-                    pie: {
-                        show: true,
-                        radius: 1,
-                        innerRadius: 0.5,
-                        label: {
-                            show: true,
-                            radius: 2 / 3,
-                            formatter: labelFormatter,
-                            threshold: 0.1
-                        }
-        
-                    }
-                },
-                legend: {
-                    show: false
-                }
-            })
-            /*
-             * END DONUT CHART
-             */
-        
-            /*
-            * Custom Label formatter
-            * ----------------------
-            */
-            function labelFormatter(label, series) {
-                return '<div style="font-size:13px; text-align:center; padding:2px; color: #fff; font-weight: 600;">'
-                    + label
-                    + '<br>'
-                    + Math.round(series.percent) + '%</div>'
-            }
-        })
-        
-        window.$(function () {
-            /* ChartJS
-             * -------
-             * Here we will create a few charts using ChartJS
-             */
-            //-------------
-            //- PIE CHART -
-            //-------------
-            // Get context with jQuery - using jQuery's .get() method.
-            var pieChartCanvas = window.$('#pieChart').get(0).getContext('2d');
-            var pieChart       = new window.Chart(pieChartCanvas);
-            var PieData        = [
-              {
-                value    : 20,
-                color    : '#f56954',
-                highlight: '#f56954',
-                label    : 'Thực hiện đúng quy định chung của công ty'
-              },
-              {
-                value    : 30,
-                color    : '#00a65a',
-                highlight: '#00a65a',
-                label    : 'Đảm bảo chất lượng sản phẩm theo lô'
-              },
-              {
-                value    : 30,
-                color    : '#f39c12',
-                highlight: '#f39c12',
-                label    : 'Hoàn thành các khóa đào đạo bắt buộc'
-              },
-              {
-                value    : 20,
-                color    : '#00c0ef',
-                highlight: '#00c0ef',
-                label    : 'Đảm bảo chất lượng sản phẩm'
-              }
-            //   },
-            //   {
-            //     value    : 300,
-            //     color    : '#3c8dbc',
-            //     highlight: '#3c8dbc',
-            //     label    : 'Opera'
-            //   },
-            //   {
-            //     value    : 100,
-            //     color    : '#d2d6de',
-            //     highlight: '#d2d6de',
-            //     label    : 'Navigator'
-            //   }
-            ]
-            var pieOptions     = {
-              //Boolean - Whether we should show a stroke on each segment
-              segmentShowStroke    : true,
-              //String - The colour of each segment stroke
-              segmentStrokeColor   : '#fff',
-              //Number - The width of each segment stroke
-              segmentStrokeWidth   : 2,
-              //Number - The percentage of the chart that we cut out of the middle
-              percentageInnerCutout: 50, // This is 0 for Pie charts
-              //Number - Amount of animation steps
-              animationSteps       : 100,
-              //String - Animation easing effect
-              animationEasing      : 'easeOutBounce',
-              //Boolean - Whether we animate the rotation of the Doughnut
-              animateRotate        : true,
-              //Boolean - Whether we animate scaling the Doughnut from the centre
-              animateScale         : false,
-              //Boolean - whether to make the chart responsive to window resizing
-              responsive           : true,
-              // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
-              maintainAspectRatio  : true,
-              //String - A legend template
-              legendTemplate       : '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<segments.length; i++){%><li><span style="background-color:<%=segments[i].fillColor%>"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>'
-            }
-            //Create pie or douhnut chart
-            // You can switch between pie and douhnut using the method below.
-            pieChart.Doughnut(PieData, pieOptions)
-          })
+    // componentDidUpdate() {
+    //     let script = document.createElement('script');
+    //     script.src = '/main/js/Table.js';
+    //     script.async = true;
+    //     script.defer = true;
+    //     document.body.appendChild(script);
+    // }
+    formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+
+        return [month, year].join('-');
     }
     render() {
+        var listkpi;
+        var currentKPI, currentTargets, kpiApproved, systempoint, mypoint, approverpoint, targetA, targetC, targetOther, misspoint;
+        const { kpipersonals } = this.props;
+        if (kpipersonals.kpipersonals) {
+            listkpi = kpipersonals.kpipersonals;
+            kpiApproved = listkpi.filter(item => item.status === 3);
+            currentKPI = listkpi.filter(item => item.status !== 3);
+            currentTargets = currentKPI[0].listtarget.map(item => { return { y: item.weight, name: item.name } });
+            systempoint = kpiApproved.map(item => {
+                return { label: this.formatDate(item.time), y: item.systempoint }
+            }).reverse();
+            mypoint = kpiApproved.map(item => {
+                return { label: this.formatDate(item.time), y: item.mypoint }
+            }).reverse();
+            approverpoint = kpiApproved.map(item => {
+                return { label: this.formatDate(item.time), y: item.approverpoint }
+            }).reverse();
+            targetA = kpiApproved.map(item => {
+                return { label: this.formatDate(item.time), y: item.listtarget[0].approverpoint }
+            }).reverse();
+            targetC = kpiApproved.map(item => {
+                return { label: this.formatDate(item.time), y: item.listtarget[1].approverpoint }
+            }).reverse();
+            targetOther = kpiApproved.map(item => {
+                return { label: this.formatDate(item.time), y: (item.approverpoint - item.listtarget[0].approverpoint - item.listtarget[1].approverpoint) }
+            }).reverse();
+            misspoint = kpiApproved.map(item => {
+                return { label: this.formatDate(item.time), y: (100 - item.approverpoint) }
+            }).reverse();
+        }
+        const options2 = {
+            animationEnabled: true,
+            exportEnabled: true,
+            title: {
+                text: "Biểu đồ kết quả KPI 2019",
+                fontFamily: "tahoma",
+                fontWeight: "normal"
+            },
+            axisY: {
+                title: "Điểm",
+            },
+            toolTip: {
+                shared: true
+            },
+            legend: {
+                fontSize: 13
+            },
+            data: [{
+                type: "stackedColumn100",
+                showInLegend: true,
+                name: "Hoàn thành vai trò quản lý (A)",
+                dataPoints: targetA
+            },
+            {
+                type: "stackedColumn100",
+                showInLegend: true,
+                name: "Liên kết nhân viên (C)",
+                dataPoints: targetC
+            },
+            {
+                type: "stackedColumn100",
+                showInLegend: true,
+                name: "Mục tiêu khác",
+                dataPoints: targetOther
+            },
+            {
+                type: "stackedColumn100",
+                showInLegend: true,
+                name: "Điểm bị trừ",
+                dataPoints: misspoint
+            }]
+        }
+        const options1 = {
+            animationEnabled: true,
+            exportEnabled: true,
+            title: {
+                text: "Kết quả KPI cá nhân năm 2019",
+                fontFamily: "tahoma",
+                fontWeight: "normal"
+            },
+            axisY: {
+                title: "Kết quả",
+                includeZero: false
+            },
+            toolTip: {
+                shared: true
+            },
+            data: [{
+                type: "spline",
+                name: "Hệ thống đánh giá",
+                showInLegend: true,
+                dataPoints: systempoint
+            },
+            {
+                type: "spline",
+                name: "Cá nhân tự đánh giá",
+                showInLegend: true,
+                dataPoints: mypoint
+            }, {
+                type: "spline",
+                name: "Quản lý đánh giá",
+                showInLegend: true,
+                dataPoints: approverpoint
+            }]
+        }
+        const options3 = {
+            exportEnabled: true,
+            animationEnabled: true,
+            title: {
+                text: "Phân bố mục tiêu tháng 12",
+                fontFamily: "tahoma",
+                fontWeight: "normal"
+            },
+            legend: {
+                cursor: "pointer",
+            },
+            data: [{
+                type: "pie",
+                showInLegend: true,
+                toolTipContent: "{name}: <strong>{y}%</strong>",
+                indexLabel: "{name} - {y}%",
+                dataPoints: currentTargets
+            }]
+        }
         return (
             <div className="table-wrapper">
                 <div className="content-wrapper">
@@ -182,38 +173,19 @@ class KPIPersonalOverview extends Component {
                     </section>
                     <section className="content">
                         <div className="row">
-                            <div className="col-xs-6">
-                                {/* Bar chart */}
+                            <div className="col-xs-12">
                                 <div className="box box-primary">
-                                    <div className="box-header with-border">
-                                        <i className="fa fa-bar-chart-o" />
-                                        <h3 className="box-title">Kết quả KPI 6 tháng gần nhất</h3>
-                                        <div className="box-tools pull-right">
-                                            <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus" />
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div className="box-body">
-                                        <div id="bar-chart" style={{ height: 300 }} />
-                                    </div>
-                                    {/* /.box-body*/}
+                                    <CanvasJSReact options={options2} />
                                 </div>
-                                {/* /.box */}
                             </div>
                             <div className="col-xs-6">
-                                <div className="box box-danger">
-                                    <div className="box-header with-border">
-                                        <h3 className="box-title">Biểu đồ phân bố mục tiêu
-                                        <small> Di chuyển chuột vào từng vùng để xem thông tin</small>
-                                        </h3>
-                                        <div className="box-tools pull-right">
-                                            <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus" />
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div className="box-body" style={{ height:"318px" }}>
-                                        <canvas id="pieChart"/>
-                                    </div>
+                                <div className="box box-primary">
+                                    <CanvasJSReact options={options1} />
+                                </div>
+                            </div>
+                            <div className="col-xs-6">
+                                <div className="box box-primary">
+                                    <CanvasJSReact options={options3} />
                                 </div>
                             </div>
                             <div className="col-xs-12">
@@ -222,106 +194,35 @@ class KPIPersonalOverview extends Component {
                                         <h3 className="box-title">Bảng thống kê kpi cá nhân hàng tháng</h3>
                                     </div>
                                     <div className="box-body">
-                                        <table id="example1" className="table table-bordered table-striped">
+                                        <table id="example4" className="table table-bordered table-striped">
                                             <thead>
                                                 <tr>
                                                     <th>Thời gian</th>
                                                     <th>Số lượng mục tiêu</th>
-                                                    <th>Kết quả đánh giá</th>
+                                                    <th>Hệ thống đánh giá</th>
+                                                    <th>Kết quả tự đánh giá</th>
+                                                    <th>Quản lý đánh giá</th>
                                                     <th>Hành động</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>11-2019</td>
-                                                    <td>4</td>
-                                                    <td>0</td>
-                                                    <td>
-                                                        <a href="#detailKPIPersonal1" data-toggle="modal"  title="Xem chi tiết dữ liệu KPI này" data-target="#detailKPIPersonal1"><i className="material-icons">view_list</i></a>
-                                                        <ModalDetailKPIPersonal id="1"/>
-                                                        <a href="#abc" className="copy" title="Thiết lập KPI tháng 12 từ KPI này" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>10-2019</td>
-                                                    <td>4</td>
-                                                    <td>90</td>
-                                                    <td>
-                                                        <a href="#detailKPIPersonal2" data-toggle="modal"  title="Xem chi tiết dữ liệu KPI này" data-target="#detailKPIPersonal2"><i className="material-icons">view_list</i></a>
-                                                        <ModalDetailKPIPersonal id="2"/>
-                                                        <a href="#abc" className="copy" title="Thiết lập KPI tháng 12 từ KPI này" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>09-2019</td>
-                                                    <td>4</td>
-                                                    <td>90</td>
-                                                    <td>
-                                                        <a href="#detailKPIPersonal3" data-toggle="modal"  title="Xem chi tiết dữ liệu KPI này" data-target="#detailKPIPersonal3"><i className="material-icons">view_list</i></a>
-                                                        <ModalDetailKPIPersonal id="3"/>
-                                                        <a href="#abc" className="copy" title="Thiết lập KPI tháng 12 từ KPI này" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>08-2019</td>
-                                                    <td>4</td>
-                                                    <td>90</td>
-                                                    <td>
-                                                        <a href="#detailKPIPersonal4" data-toggle="modal"  title="Xem chi tiết dữ liệu KPI này" data-target="#detailKPIPersonal4"><i className="material-icons">view_list</i></a>
-                                                        <ModalDetailKPIPersonal id="4"/>
-                                                        <a href="#abc" className="copy" title="Thiết lập KPI tháng 12 từ KPI này" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>07-2019</td>
-                                                    <td>4</td>
-                                                    <td>90</td>
-                                                    <td>
-                                                        <a href="#detailKPIPersonal5" data-toggle="modal"  title="Xem chi tiết dữ liệu KPI này" data-target="#detailKPIPersonal5"><i className="material-icons">view_list</i></a>
-                                                        <ModalDetailKPIPersonal id="4"/>
-                                                        <a href="#abc" className="copy" title="Thiết lập KPI tháng 12 từ KPI này" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>06-2019</td>
-                                                    <td>4</td>
-                                                    <td>90</td>
-                                                    <td>
-                                                        <a href="#detailKPIPersonal6" data-toggle="modal"  title="Xem chi tiết dữ liệu KPI này" data-target="#detailKPIPersonal6"><i className="material-icons">view_list</i></a>
-                                                        <ModalDetailKPIPersonal id="6"/>
-                                                        <a href="#abc" className="copy" title="Thiết lập KPI tháng 12 từ KPI này" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>05-2019</td>
-                                                    <td>4</td>
-                                                    <td>90</td>
-                                                    <td>
-                                                        <a href="#detailKPIPersonal7" data-toggle="modal"  title="Xem chi tiết dữ liệu KPI này" data-target="#detailKPIPersonal7"><i className="material-icons">view_list</i></a>
-                                                        <ModalDetailKPIPersonal id="7"/>
-                                                        <a href="#abc" className="copy" title="Thiết lập KPI tháng 12 từ KPI này" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>04-2019</td>
-                                                    <td>4</td>
-                                                    <td>90</td>
-                                                    <td>
-                                                        <a href="#detailKPIPersonal8" data-toggle="modal"  title="Xem chi tiết dữ liệu KPI này" data-target="#detailKPIPersonal8"><i className="material-icons">view_list</i></a>
-                                                        <ModalDetailKPIPersonal id="8"/>
-                                                        <a href="#abc" className="copy" title="Thiết lập KPI tháng 12 từ KPI này" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>03-2019</td>
-                                                    <td>4</td>
-                                                    <td>90</td>
-                                                    <td>
-                                                        <a href="#detailKPIPersonal9" data-toggle="modal"  title="Xem chi tiết dữ liệu KPI này" data-target="#detailKPIPersonal9"><i className="material-icons">view_list</i></a>
-                                                        <ModalDetailKPIPersonal id="9"/>
-                                                        <a href="#abc" className="copy" title="Thiết lập KPI tháng 12 từ KPI này" data-toggle="tooltip"><i className="material-icons">content_copy</i></a>
-                                                    </td>
-                                                </tr>
+                                                {(typeof listkpi !== "undefined" && listkpi.length !== 0) ?
+                                                    listkpi.map((item, index) =>
+                                                        <tr key={index}>
+                                                            <td>{this.formatDate(item.time)}</td>
+                                                            <td>{item.listtarget.length}</td>
+                                                            <td>{item.systempoint === null ? "Chưa đánh giá" : item.systempoint}</td>
+                                                            <td>{item.mypoint === null ? "Chưa đánh giá" : item.mypoint}</td>
+                                                            <td>{item.approverpoint === null ? "Chưa đánh giá" : item.approverpoint}</td>
+                                                            <td>
+                                                                <a href={`#detailKPIPersonal${item._id}`} data-toggle="modal" data-backdrop="static" data-keyboard="false" title="Xem chi tiết KPI tháng này" ><i className="material-icons">view_list</i></a>
+                                                                <ModalDetailKPIPersonal kpipersonal={item} />
+                                                                {<a href="#abc" onClick={() => this.showModalCopy(item._id)} className="copy" data-toggle="modal" data-backdrop="static" data-keyboard="false" title="Thiết lập kpi tháng mới từ kpi tháng này"><i className="material-icons">content_copy</i></a>}
+                                                                {/* {this.state.showModalCopy === item._id ? <ModalCopyKPIUnit kpiunit={item} /> : null} */}
+                                                                {/* {item.status === 1 ? <a style={{ color: "navy" }} href="#abc" onClick={() => this.props.refreshData(item._id)} title="Cập nhật kết quả mới nhất của KPI này" ><i className="material-icons">refresh</i></a> : null} */}
+                                                            </td>
+                                                        </tr>) : null
+                                                }
                                             </tbody>
                                         </table>
                                     </div>
@@ -335,4 +236,13 @@ class KPIPersonalOverview extends Component {
     }
 }
 
-export { KPIPersonalOverview };
+function mapState(state) {
+    const { kpipersonals } = state;
+    return { kpipersonals };
+}
+
+const actionCreators = {
+    getAllKPIPersonal: kpiPersonalActions.getAllKPIPersonal
+};
+const connectedKPIPersonalOverview = connect(mapState, actionCreators)(KPIPersonalOverview);
+export { connectedKPIPersonalOverview as KPIPersonalOverview };

@@ -2,115 +2,185 @@ import { kpiUnitConstants } from "../redux-constants/CombineConstants";
 
 export function kpiunits(state = {}, action) {
   switch (action.type) {
-    case  kpiUnitConstants.GETALLTARGET_BYIDUNIT_REQUEST:
-      return {
-        loadingMany: true
-      };
-    case kpiUnitConstants.GETALLTARGET_BYIDUNIT_SUCCESS:
-      return {
-        ...state,
-        items: action.targets.content
-      };
-    case kpiUnitConstants.GETALLTARGET_BYIDUNIT_FAILURE:
-      return { 
-        error: action.error
-      };
-    case  kpiUnitConstants.GETALL_PARENTTARGET_REQUEST:
+    case kpiUnitConstants.GETALL_KPIUNIT_REQUEST:
       return {
         loading: true
       };
-    case kpiUnitConstants.GETALL_PARENTTARGET_SUCCESS:
+    case kpiUnitConstants.GETALL_KPIUNIT_SUCCESS:
       return {
         ...state,
-        parents: action.targets.content
+        loading: false,
+        kpis: action.kpis.content
       };
-    case kpiUnitConstants.GETALL_PARENTTARGET_FAILURE:
-      return { 
+    case kpiUnitConstants.GETALL_KPIUNIT_FAILURE:
+      return {
         error: action.error
       };
-    case  kpiUnitConstants.GETTARGET_BYID_REQUEST:
-      return {
-        loadingOne: true
-      };
-    case kpiUnitConstants.GETTARGET_BYID_SUCCESS:
+    case kpiUnitConstants.GETCURRENT_KPIUNIT_REQUEST:
       return {
         ...state,
-        items: action.departments
+        loading: true
       };
-    case kpiUnitConstants.GETTARGET_BYID_FAILURE:
-      return { 
+    case kpiUnitConstants.GETCURRENT_KPIUNIT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        currentKPI: action.currentKPI.content
+      };
+    case kpiUnitConstants.GETCURRENT_KPIUNIT_FAILURE:
+      return {
         error: action.error
       };
-    case  kpiUnitConstants.ADDTARGET_REQUEST:
+    case kpiUnitConstants.GETPARENT_KPIUNIT_REQUEST:
+      return {
+        ...state,
+        loading: true
+      };
+    case kpiUnitConstants.GETPARENT_KPIUNIT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        parent: action.parentKPI.content
+      };
+    case kpiUnitConstants.GETPARENT_KPIUNIT_FAILURE:
+      return {
+        error: action.error
+      };
+    case kpiUnitConstants.ADD_KPIUNIT_REQUEST:
       return {
         ...state,
         adding: true
       };
-    case kpiUnitConstants.ADDTARGET_SUCCESS:
+    case kpiUnitConstants.ADD_KPIUNIT_SUCCESS:
       return {
-          ...state,
-          items: [
-            ...state.items,
-            action.target.kpiunit
-          ]
+        ...state,
+        adding: false,
+        currentKPI: action.newKPI.kpiunit
       };
-    case kpiUnitConstants.ADDTARGET_FAILURE:
-      return { 
+    case kpiUnitConstants.ADD_KPIUNIT_FAILURE:
+      return {
         error: action.error
       };
-    case  kpiUnitConstants.EDITTARGET_REQUEST:
+    case kpiUnitConstants.EDIT_KPIUNIT_REQUEST:
       return {
         ...state,
-        items: state.items.map(kpiunit =>
-          kpiunit._id === action.id
-            ? { ...kpiunit, editing: true }
-            : kpiunit
-        )
+        editing: true
       };
-    case kpiUnitConstants.EDITTARGET_SUCCESS:
+    case kpiUnitConstants.EDIT_KPIUNIT_SUCCESS:
       return {
         ...state,
-        items: state.items.map(kpiunit =>
-          kpiunit._id === action.target.kpiunit._id
-            ? action.target.kpiunit:kpiunit
-            )
+        editing: false,
+        currentKPI: action.newKPI.kpiunit
       };
-    case kpiUnitConstants.EDITTARGET_FAILURE:
-      return { 
+    case kpiUnitConstants.EDIT_KPIUNIT_FAILURE:
+      return {
         error: action.error
       };
-    case  kpiUnitConstants.CONFIRM_REQUEST:
+    case kpiUnitConstants.EDITSTATUS_KPIUNIT_REQUEST:
       return {
         ...state,
-        confirming: true
+        editing: true
       };
-    case kpiUnitConstants.CONFIRM_SUCCESS:
+    case kpiUnitConstants.EDITSTATUS_KPIUNIT_SUCCESS:
       return {
         ...state,
-        items: state.items.map(kpiunit => ({
-            ...kpiunit, confirm: true
-        }))
+        editing: false,
+        currentKPI: action.newKPI.kpiunit
       };
-    case kpiUnitConstants.CONFIRM_FAILURE:
-      return { 
+    case kpiUnitConstants.EDITSTATUS_KPIUNIT_FAILURE:
+      return {
         error: action.error
       };
-    case  kpiUnitConstants.DELETETARGET_REQUEST:
+    case kpiUnitConstants.EVALUATE_KPIUNIT_REQUEST:
       return {
         ...state,
-        items: state.items.map(kpiunit =>
-          kpiunit._id === action.id
-            ? { ...kpiunit, deleting: true }
-            : kpiunit
-        )
+        kpis: state.kpis.map(kpiunit =>
+          kpiunit._id === action._id
+            ? {...kpiunit, evaluating: true} : kpiunit)
       };
-    case kpiUnitConstants.DELETETARGET_SUCCESS:
+    case kpiUnitConstants.EVALUATE_KPIUNIT_SUCCESS:
       return {
         ...state,
-        items: state.items.filter(kpiunit => kpiunit._id !== action.id)
+        kpis: state.kpis.map(kpiunit =>
+          kpiunit._id === action.newKPI._id
+            ? action.newKPI.kpiunit : kpiunit)
       };
-    case kpiUnitConstants.DELETETARGET_FAILURE:
-      return { 
+    case kpiUnitConstants.EVALUATE_KPIUNIT_FAILURE:
+      return {
+        error: action.error
+      };
+    case kpiUnitConstants.DELETE_KPIUNIT_REQUEST:
+      return {
+        ...state,
+        deleting: true
+      };
+    case kpiUnitConstants.DELETE_KPIUNIT_SUCCESS:
+      return {
+        ...state,
+        deleting: false,
+        currentKPI: null
+      };
+    case kpiUnitConstants.DELETE_KPIUNIT_FAILURE:
+      return {
+        error: action.error
+      };
+    case kpiUnitConstants.ADDTARGET_KPIUNIT_REQUEST:
+      return {
+        ...state,
+        adding: true
+      };
+    case kpiUnitConstants.ADDTARGET_KPIUNIT_SUCCESS:
+      return {
+        ...state,
+        currentKPI: action.newKPI.kpiunit
+      };
+    case kpiUnitConstants.ADDTARGET_KPIUNIT_FAILURE:
+      return {
+        error: action.error
+      };
+    case kpiUnitConstants.EDITTARGET_KPIUNIT_REQUEST:
+      return {
+        ...state,
+        currentKPI: {
+          ...state.currentKPI,
+          listtarget: state.currentKPI.listtarget.map(target =>
+            target._id === action.id
+              ? { ...target, editing: true }
+              : target)
+        }
+      };
+    case kpiUnitConstants.EDITTARGET_KPIUNIT_SUCCESS:
+      return {
+        ...state,
+        currentKPI: {
+          ...state.currentKPI,
+          listtarget: state.currentKPI.listtarget.map(target =>
+            target._id === action.newTarget.target._id
+              ? action.newTarget.target : target)
+        }
+      };
+    case kpiUnitConstants.EDITTARGET_KPIUNIT_FAILURE:
+      return {
+        error: action.error
+      };
+    case kpiUnitConstants.DELETETARGET_KPIUNIT_REQUEST:
+      return {
+        ...state,
+        currentKPI: {
+          ...state.currentKPI,
+          listtarget: state.currentKPI.listtarget.map(target =>
+            target._id === action.id
+              ? { ...target, deleting: true }
+              : target)
+        }
+      };
+    case kpiUnitConstants.DELETETARGET_KPIUNIT_SUCCESS:
+      return {
+        ...state,
+        currentKPI: action.newKPI.kpiunit
+      };
+    case kpiUnitConstants.DELETETARGET_KPIUNIT_FAILURE:
+      return {
         error: action.error
       };
     default:

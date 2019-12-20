@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const TaskTemplate = require('./TaskTemplate.model');
 
-// Create Schema
+// Model lưu dữ liệu của các thông tin công việc theo mẫu công việc
 const InformationTaskTemplateSchema = new Schema({
     tasktemplate:{
         type: Schema.Types.ObjectId,

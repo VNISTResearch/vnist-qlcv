@@ -25,10 +25,27 @@ class TaskTemplate extends Component {
             currentPage: 1,
             perPage: 15,
             unit: [],
+            currentRole: localStorage.getItem("currentRole"),
+            showView: "",
+            showEdit: "",
         };
         this.handleUpdateData = this.handleUpdateData.bind(this);
     }
-
+    // handleInputSearchPage = (e) => {
+    //     // if (e.key === 'Enter') {
+    //     //     console.log('do validate');
+    //     // }
+    //     var input = document.getElementById("input-search-page");
+    //     input.addEventListener("keyup", function(event) {
+    //         // Number 13 is the "Enter" key on the keyboard
+    //         if (event.keyCode === 13) {
+    //           // Cancel the default action, if needed
+    //           event.preventDefault();
+    //           // Trigger the button element with a click
+    //           document.getElementById("search-page").click();
+    //         }
+    //       });
+    // }
     handleSetting = async () => {
         // Cập nhật cột muốn ấn
         var test = window.$("#multiSelectShowColumn").val();
@@ -165,33 +182,86 @@ class TaskTemplate extends Component {
             }
         })
     }
+    handleShowView = async (id) => {
+        await this.setState(state=>{
+            return{
+                ...state,
+                showView: id
+            }
+        })
+        var element = document.getElementsByTagName("BODY")[0];
+        element.classList.add("modal-open");
+        var modal = document.getElementById(`viewTaskTemplate${id}`);
+        modal.classList.add("in");
+        modal.style = "display: block; padding-right: 17px;";
+    }
+    handleShowEdit = async (id) => {
+        await this.setState(state => {
+            return {
+                ...state,
+                showEdit: id
+            }
+        })
+        var element = document.getElementsByTagName("BODY")[0];
+        element.classList.add("modal-open");
+        var modal = document.getElementById(`editTaskTemplate${id}`);
+        modal.classList.add("in");
+        modal.style = "display: block; padding-right: 17px;";
+    }
+    handleSearchPage = async () => {
+        var newCurrentPage = this.newCurrentPage.value;
+        console.log(typeof newCurrentPage);
+        if (newCurrentPage) {
+            this.handleGetDataPagination(parseInt(newCurrentPage));
+            var element = document.getElementById("search-page");
+            element.classList.remove("in");
+            element.setAttribute("aria-expanded", "false");
+        }
+    }
+    checkPermisson = (deanCurrentUnit) => {
+        var currentRole = localStorage.getItem("currentRole");
+        return (currentRole === deanCurrentUnit);
+    }
     render() {
-        var list, pageTotal, units;
+        var list, pageTotal, units, currentUnit;
         const { tasktemplates, departments } = this.props;
         const { currentPage } = this.state;
-        if (tasktemplates.items) list = tasktemplates.items;
         if (tasktemplates.pageTotal) pageTotal = tasktemplates.pageTotal;
-        if (departments.unitofuser) units = departments.unitofuser;
-        const items = [];
-        if (pageTotal > 5) {
-            if (currentPage < 3) {
+        if (departments.unitofuser) {
+            units = departments.unitofuser;
+            currentUnit = units.filter(item =>
+                item.dean === localStorage.getItem("currentRole")
+                || item.vice_dean === localStorage.getItem("currentRole")
+                || item.employee === localStorage.getItem("currentRole"));
+        }
+        console.log(currentUnit);
+        if (tasktemplates.items) {
+            list = tasktemplates.items;
+        }
+        var items = [];
+        if (typeof pageTotal !== "undefined" && pageTotal > 5) {
+            if (currentPage <= 3) {
                 for (let i = 0; i < 5; i++) {
                     items.push(<li key={i + 1} className={currentPage === i + 1 ? "active" : ""}><a href="#abc" onClick={() => this.handleGetDataPagination(i + 1)}>{i + 1}</a></li>);
                 }
-                items.push(<li className="disable" key={pageTotal}><a href="#abc">...</a></li>);
+                items.push(<li className="disable" key={pageTotal + 1}><a href="#search-page" data-toggle="collapse">...</a></li>);
+                items.push(<li key={pageTotal} className={currentPage === pageTotal ? "active" : ""}><a href="#abc" onClick={() => this.handleGetDataPagination(pageTotal)}>{pageTotal}</a></li>);
             } else if (currentPage >= pageTotal - 3) {
-                items.push(<li className="disable" key={0}><a href="#abc">...</a></li>);
+                items.push(<li key={1} className={currentPage === 1 ? "active" : ""}><a href="#abc" onClick={() => this.handleGetDataPagination(1)}>1</a></li>);
+                items.push(<li className="disable" key={0}><a href="#search-page" data-toggle="collapse">...</a></li>);
                 for (let i = pageTotal - 5; i < pageTotal; i++) {
                     items.push(<li key={i + 1} className={currentPage === i + 1 ? "active" : ""}><a href="#abc" onClick={() => this.handleGetDataPagination(i + 1)}>{i + 1}</a></li>);
                 }
             } else {
-                items.push(<li className="disable" key={0}><a href="#abc">...</a></li>);
-                for (let i = currentPage - 2; i < currentPage + 3; i++) {
+                items.push(<li key={1} className={currentPage === 1 ? "active" : ""}><a href="#abc" onClick={() => this.handleGetDataPagination(1)}>1</a></li>);
+                items.push(<li className="disable" key={0}><a href="#search-page" data-toggle="collapse">...</a></li>);
+                for (let i = currentPage - 3; i < currentPage + 2; i++) {
                     items.push(<li key={i + 1} className={currentPage === i + 1 ? "active" : ""}><a href="#abc" onClick={() => this.handleGetDataPagination(i + 1)}>{i + 1}</a></li>);
                 }
-                items.push(<li className="disable" key={pageTotal + 1}><a href="#abc">...</a></li>);
+                items.push(<li className="disable" key={pageTotal + 1}><a href="#search-page" data-toggle="collapse">...</a></li>);
+                items.push(<li key={pageTotal} className={currentPage === pageTotal ? "active" : ""}><a href="#abc" onClick={() => this.handleGetDataPagination(pageTotal)}>{pageTotal}</a></li>);
             }
-        } else {
+        } else if (typeof pageTotal !== "undefined") {
             for (let i = 0; i < pageTotal; i++) {
                 items.push(<li key={i + 1} className={currentPage === i + 1 ? "active" : ""}><a href="#abc" onClick={() => this.handleGetDataPagination(i + 1)}>{i + 1}</a></li>);
             }
@@ -242,21 +312,10 @@ class TaskTemplate extends Component {
                                                 <button type="button" className="btn btn-success" onClick={this.handleUpdateData}>Tìm kiếm</button>
                                             </div>
                                             <div className="col-xs-2 col-xs-offset-2">
-                                                {/* {
-                                                this.getPermision().createForm && */}
-                                                <button type="button" className="btn btn-success" data-toggle="modal" data-target="#addTaskTemplate" data-backdrop="static" data-keyboard="false">Thêm 1 mẫu công việc</button>
-                                                {/* } */}
+                                                {this.checkPermisson(currentUnit && currentUnit[0].dean) &&
+                                                    <button type="button" className="btn btn-success" data-toggle="modal" data-target="#addTaskTemplate" data-backdrop="static" data-keyboard="false">Thêm 1 mẫu công việc</button>}
                                                 <ModalAddTaskTemplate />
                                             </div>
-                                            {/* <div className="setting-table">
-                                            <button type="button" data-toggle="collapse" data-target="#setting-table" className="btn btn-default"><i className="fa fa-gears"></i></button>
-                                        </div>
-                                        <div id="setting-table" className="row collapse">
-                                            <fieldset className="scheduler-border">
-                                                <legend className="scheduler-border">Bảng cấu hình</legend>
-
-                                            </fieldset>
-                                        </div> */}
                                         </div>
                                         <div className="col-xs-12">
                                             <table className="table table-bordered table-striped" id="myTable">
@@ -267,9 +326,10 @@ class TaskTemplate extends Component {
                                                         <th title="Số lần sử dụng">Số lần sử dụng</th>
                                                         <th title="Người tạo mẫu">Người tạo mẫu</th>
                                                         <th title="Đơn vị">Đơn vị</th>
+
                                                         <th style={{ width: "121px" }}>
                                                             Hoạt động
-                                                    <button type="button" data-toggle="collapse" data-target="#setting-table" style={{ border: "none", background: "none" }}><i className="fa fa-gear"></i></button>
+                                                            <button type="button" data-toggle="collapse" data-target="#setting-table" style={{ border: "none", background: "none" }}><i className="fa fa-gear"></i></button>
                                                             <div id="setting-table" className="row collapse" style={{ width: "26%" }}>
                                                                 <span className="pop-arw arwTop L-auto" style={{ right: "13px" }}></span>
                                                                 <div className="col-xs-12">
@@ -294,7 +354,7 @@ class TaskTemplate extends Component {
                                                         </th>
                                                     </tr>
                                                 </thead>
-                                                <tbody>
+                                                <tbody className="task-table">
                                                     {
                                                         (typeof list !== 'undefined' && list.length !== 0) ?
                                                             list.map(item =>
@@ -305,14 +365,16 @@ class TaskTemplate extends Component {
                                                                     <td title={item.resource.creator.name}>{item.resource.creator.name}</td>
                                                                     <td title={item.resource.unit.name}>{item.resource.unit.name}</td>
                                                                     <td>
-                                                                        {/* <center><button type="button" data-toggle="collapse" data-target={`#action${item._id}`} style={{ border: "none", background: "none" }}><i className="fa fa-ellipsis-v"></i></button></center>
-                                                                <div id={`action${item._id}`} className="collapse action-template"> */}
-                                                                        <a href={`#viewTaskTemplate${item.resource._id}`} data-toggle="modal" title="Xem chi tiết mẫu công việc này"><i className="material-icons">view_list</i></a>
-                                                                        <a href={`#editTaskTemplate${item.resource._id}`} data-toggle="modal" className="edit" title="Sửa mẫu công việc này"><i className="material-icons"></i></a>
-                                                                        <a href="#abc" className="delete" title="Xóa mẫu công việc này"><i className="material-icons"></i></a>
-                                                                        {/* </div> */}
-                                                                        <ModalEditTaskTemplate id={item.resource._id} />
-                                                                        <ModalViewTaskTemplate id={item.resource._id} />
+                                                                        <a href="#abc" onClick={()=>this.handleShowView(item.resource._id)} data-toggle="modal" title="Xem chi tiết mẫu công việc này">
+                                                                            <i className="material-icons" style={!this.checkPermisson(currentUnit && currentUnit[0].dean) ? { paddingLeft: "35px" } : { paddingLeft: "0px" }}>view_list</i>
+                                                                        </a>
+                                                                        {this.state.showView===item.resource._id&&<ModalViewTaskTemplate id={item.resource._id} />}
+                                                                        {this.checkPermisson(currentUnit && currentUnit[0].dean) &&
+                                                                            <React.Fragment>
+                                                                                <a href="#abc" onClick={()=>this.handleShowEdit(item.resource._id)}  data-toggle="modal" className="edit" title="Sửa mẫu công việc này"><i className="material-icons"></i></a>
+                                                                                <a href="#abc" className="delete" title="Xóa mẫu công việc này"><i className="material-icons"></i></a>
+                                                                            </React.Fragment>}
+                                                                        {this.state.showEdit===item.resource._id&&<ModalEditTaskTemplate id={item.resource._id} />}
                                                                     </td>
                                                                 </tr>
                                                             ) : <tr><td colSpan={6}><center>Không có dữ liệu</center></td></tr>
@@ -327,6 +389,10 @@ class TaskTemplate extends Component {
                                             {items}
                                             <li><a href="#abc" onClick={() => this.nextPage(pageTotal)}>»</a></li>
                                         </ul>
+                                        <div id="search-page" className="col-sm-12 collapse" style={{ width: "26%" }}>
+                                            <input className="col-sm-6 form-control" type="number" min="1" max={pageTotal} style={{ width: "60%" }} ref={input => this.newCurrentPage = input} />
+                                            <button className="col-sm-4 btn btn-success" style={{ width: "35%", marginLeft: "5%" }} onClick={() => this.handleSearchPage()}>Tìm kiếm</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

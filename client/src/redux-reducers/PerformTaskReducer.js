@@ -2,6 +2,91 @@ import { performTaskConstants } from "../redux-constants/CombineConstants";
 
 export function performtasks(state = {}, action) {
     switch (action.type) {
+        case performTaskConstants.GET_LOGTIMER_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case performTaskConstants.GET_LOGTIMER_SUCCESS:
+            return {
+                ...state,
+                logtimer: action.logtimer
+            };
+        case performTaskConstants.GET_LOGTIMER_FAILURE:
+            return {
+                error: action.error
+            };
+        case performTaskConstants.GET_TIMERSTATUS_REQUEST:
+            return {
+                ...state,
+                currentTimer: null,
+                loading: true
+            };
+        case performTaskConstants.GET_TIMERSTATUS_SUCCESS:
+            return {
+                ...state,
+                currentTimer: action.currentTimer
+            };
+        case performTaskConstants.GET_TIMERSTATUS_FAILURE:
+            return {
+                error: action.error
+            };
+        case performTaskConstants.START_TIMER_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case performTaskConstants.START_TIMER_SUCCESS:
+            return {
+                ...state,
+                currentTimer: action.timer.timerStatus
+            };
+        case performTaskConstants.START_TIMER_FAILURE:
+            return {
+                error: action.error
+            };
+        case performTaskConstants.PAUSE_TIMER_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case performTaskConstants.PAUSE_TIMER_SUCCESS:
+            return {
+                ...state,
+                currentTimer: action.newTimer.timerStatus
+            };
+        case performTaskConstants.PAUSE_TIMER_FAILURE:
+            return {
+                error: action.error
+            };
+        case performTaskConstants.CONTINUE_TIMER_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case performTaskConstants.CONTINUE_TIMER_SUCCESS:
+            return {
+                ...state,
+                currentTimer: action.newTimer.timerStatus
+            };
+        case performTaskConstants.CONTINUE_TIMER_FAILURE:
+            return {
+                error: action.error
+            };
+        case performTaskConstants.STOP_TIMER_REQUEST:
+            return {
+                ...state,
+                loading: true
+            };
+        case performTaskConstants.STOP_TIMER_SUCCESS:
+            return {
+                ...state,
+                currentTimer: null
+            };
+        case performTaskConstants.STOP_TIMER_FAILURE:
+            return {
+                error: action.error
+            };
         case performTaskConstants.GET_COMMENTTASK_REQUEST:
             return {
                 ...state,
@@ -36,18 +121,18 @@ export function performtasks(state = {}, action) {
         case performTaskConstants.EDIT_COMMENTTASK_REQUEST:
             return {
                 ...state,
-                items: state.items.map(task =>
-                    task._id === action.id
-                        ? { ...task, editing: true }
-                        : task
+                commenttasks: state.commenttasks.map(comment =>
+                    comment._id === action.id
+                        ? { ...comment, editing: true }
+                        : comment
                 )
             };
         case performTaskConstants.EDIT_COMMENTTASK_SUCCESS:
             return {
                 ...state,
-                items: state.items.map(task =>
-                    task._id === action.task.task._id
-                        ? action.task.task : task
+                commenttasks: state.commenttasks.map(comment =>
+                    comment._id === action.newComment.commentTask._id
+                        ? action.newComment.commentTask : comment
                 )
             };
         case performTaskConstants.EDIT_COMMENTTASK_FAILURE:
@@ -57,16 +142,16 @@ export function performtasks(state = {}, action) {
         case performTaskConstants.DELETE_COMMENTTASK_REQUEST:
             return {
                 ...state,
-                items: state.items.map(task =>
-                    task._id === action.id
-                        ? { ...task, deleting: true }
-                        : task
+                commenttasks: state.commenttasks.map(comment =>
+                    comment._id === action.id
+                        ? { ...comment, deleting: true }
+                        : comment
                 )
             };
         case performTaskConstants.DELETE_COMMENTTASK_SUCCESS:
             return {
                 ...state,
-                items: state.items.filter(task => task._id !== action.id)
+                commenttasks: state.commenttasks.filter(comment => comment._id !== action.id)
             };
         case performTaskConstants.DELETE_COMMENTTASK_FAILURE:
             return {
