@@ -2,7 +2,9 @@ import {handleResponse} from '../helpers/HandleResponse';
 export const kpiPersonalService = {
     getAllKPIPersonalOfUnit,
     getAllKPIPersonal,
+    getKPIMemberByMonth,
     getCurrentKPIPersonal,
+    getKPIPersonalById,
     createKPIPersonal,
     editKPIPersonal,
     editStatusKPIPersonal,
@@ -30,6 +32,22 @@ function getAllKPIPersonal(id) {
     };
 
     return fetch(`/kpipersonals/user/${id}`, requestOptions).then(handleResponse);
+}
+// Lấy KPI cá nhân của nhân vien theo id
+function getKPIPersonalById(id) {
+    const requestOptions = {
+        method: 'GET',
+    };
+
+    return fetch(`/kpipersonals/${id}`, requestOptions).then(handleResponse);
+}
+// Lấy KPI cá nhân của nhân vien theo tháng
+function getKPIMemberByMonth(id, time) {
+    const requestOptions = {
+        method: 'GET',
+    };
+
+    return fetch(`/kpipersonals/member/${id}/${time}`, requestOptions).then(handleResponse);
 }
 // Lấy KPI cá nhân hiện tại
 function getCurrentKPIPersonal(id) {

@@ -4,6 +4,8 @@ export const kpiPersonalActions = {
     getAllKPIPersonalOfUnit,
     getAllKPIPersonal,
     getCurrentKPIPersonal,
+    getKPIMemberByMonth,
+    getKPIPersonalById,
     createKPIPersonal,
     editKPIPersonal,
     editStatusKPIPersonal,
@@ -47,6 +49,40 @@ function getAllKPIPersonal(id) {
     function request(id) { return { type: kpiPersonalConstants.GETALL_KPIPERSONAL_REQUEST, id } }
     function success(kpipersonals) { return { type: kpiPersonalConstants.GETALL_KPIPERSONAL_SUCCESS, kpipersonals } }
     function failure(error) { return { type: kpiPersonalConstants.GETALL_KPIPERSONAL_FAILURE, error } }
+}
+
+// Lấy KPI cá nhân theo id
+function getKPIPersonalById(id) {
+    return dispatch => {
+        dispatch(request(id));
+
+        kpiPersonalService.getKPIPersonalById(id)
+            .then(
+                kpipersonal => dispatch(success(kpipersonal)),
+                error => dispatch(failure(error.toString()))
+            );
+    };
+
+    function request(id) { return { type: kpiPersonalConstants.GET_KPIPERSONAL_BYID_REQUEST, id } }
+    function success(kpipersonal) { return { type: kpiPersonalConstants.GET_KPIPERSONAL_BYID_SUCCESS, kpipersonal } }
+    function failure(error) { return { type: kpiPersonalConstants.GET_KPIPERSONAL_BYID_FAILURE, error } }
+}
+
+// Lấy KPI cá nhân theo id
+function getKPIMemberByMonth(id, time) {
+    return dispatch => {
+        dispatch(request(id));
+
+        kpiPersonalService.getKPIMemberByMonth(id, time)
+            .then(
+                kpipersonal => dispatch(success(kpipersonal)),
+                error => dispatch(failure(error.toString()))
+            );
+    };
+
+    function request(id) { return { type: kpiPersonalConstants.GET_KPIPERSONAL_BYMONTH_REQUEST, id } }
+    function success(kpipersonal) { return { type: kpiPersonalConstants.GET_KPIPERSONAL_BYMONTH_SUCCESS, kpipersonal } }
+    function failure(error) { return { type: kpiPersonalConstants.GET_KPIPERSONAL_BYMONTH_FAILURE, error } }
 }
 
 // Lấy KPI cá nhân hiện tại

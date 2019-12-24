@@ -30,6 +30,36 @@ export function kpipersonals(state = {}, action) {
       return { 
         error: action.error
       };
+    case  kpiPersonalConstants.GET_KPIPERSONAL_BYID_REQUEST:
+      return {
+        ...state,
+        loading: true
+      };
+    case kpiPersonalConstants.GET_KPIPERSONAL_BYID_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        kpipersonal: action.kpipersonal.content
+      };
+    case kpiPersonalConstants.GET_KPIPERSONAL_BYID_FAILURE:
+      return { 
+        error: action.error
+      };
+    case  kpiPersonalConstants.GET_KPIPERSONAL_BYMONTH_REQUEST:
+      return {
+        ...state,
+        loading: true
+      };
+    case kpiPersonalConstants.GET_KPIPERSONAL_BYMONTH_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        kpimember: action.kpipersonal.content
+      };
+    case kpiPersonalConstants.GET_KPIPERSONAL_BYMONTH_FAILURE:
+      return { 
+        error: action.error
+      };
     case  kpiPersonalConstants.GETCURRENT_KPIPERSONAL_REQUEST:
       return {
         loading: true

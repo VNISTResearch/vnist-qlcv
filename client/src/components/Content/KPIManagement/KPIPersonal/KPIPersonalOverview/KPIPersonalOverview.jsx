@@ -202,7 +202,7 @@ class KPIPersonalOverview extends Component {
                                                     <th>Hệ thống đánh giá</th>
                                                     <th>Kết quả tự đánh giá</th>
                                                     <th>Quản lý đánh giá</th>
-                                                    <th>Hành động</th>
+                                                    <th style={{ width: "100px" }}>Hành động</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

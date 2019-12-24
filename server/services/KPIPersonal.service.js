@@ -4,6 +4,22 @@ const KPIUnit = require('../models/KPIUnit.model');
 const DetailKPIPersonal = require('../models/DetailKPIPersonal.model');
 
 // File này làm nhiệm vụ thao tác với cơ sở dữ liệu của module quản lý kpi cá nhân
+// Lấy tất cả kpi cá nhân theo tháng
+exports.getByMonth = async (req, res) => {
+    try {
+        var time = req.params.time.split("-");
+        var month = new Date(time[1], time[0], 0);
+        var kpipersonals = await KPIPersonal.findOne({ creater: req.params.id, time: month})
+            .populate("unit creater approver")
+            .populate({ path: "listtarget", populate: { path: 'parent' } });
+        res.json({
+            message: "Lấy tất cả các mục tiêu kpi cá nhân thành công",
+            content: kpipersonals
+        });
+    } catch (error) {
+        res.json({ message: error });
+    }
+}
 // Lấy tất cả KPI cá nhân hiện tại của một phòng ban
 exports.getKPIAllMember = async (req, res) => {
     try {
@@ -92,7 +108,7 @@ exports.getById = async (req, res) => {
             .populate("unit creater approver")
             .populate({ path: "listtarget", populate: { path: 'parent' } });
         res.json({
-            message: "Lấy mục tiêu của kpi cá nhân theo id thành công",
+            message: "Lấy kpi cá nhân theo id thành công",
             content: kpipersonal
         });
     } catch (error) {

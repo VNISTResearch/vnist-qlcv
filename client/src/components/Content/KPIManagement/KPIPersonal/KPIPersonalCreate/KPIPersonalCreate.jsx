@@ -410,7 +410,7 @@ class KPIPersonalCreate extends Component {
                                                             <th title="Tiêu chí đánh giá">Tiêu chí đánh giá</th>
                                                             <th title="Trọng số" style={{ width: "95px" }}>Điểm tối đa</th>
                                                             <th title="Trạng thái" style={{ width: "87px" }}>Trạng thái</th>
-                                                            <th title="Hành động">Hành động</th>
+                                                            <th title="Hành động" style={{ width: "100px" }}>Hành động</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -425,7 +425,7 @@ class KPIPersonalCreate extends Component {
                                                                         <td title={item.weight}>{item.weight}</td>
                                                                         <td title={this.checkStatusTarget(item.status)}>{this.checkStatusTarget(item.status)}</td>
                                                                         <td>
-                                                                            <a href="#edit" className="edit" title="Edit" data-toggle="tooltip" onClick={() => this.editTargetKPIPersonal(item.status, currentKPI.status, item)}><i className="material-icons"></i></a>
+                                                                            <a href="#abc" className="edit" title="Edit" data-toggle="tooltip" onClick={() => this.editTargetKPIPersonal(item.status, currentKPI.status, item)}><i className="material-icons"></i></a>
                                                                             {this.state.editingTarget === item._id ? <ModalEditTargetKPIPersonal target={item}/> : null}
                                                                             {item.default === 0 ? <a href="#abc" className="delete" title="Delete" onClick={() => this.deleteTargetKPIKPIPersonal(item.status, currentKPI.status, item._id, currentKPI._id)}><i className="material-icons"></i></a> :
                                                                                 <a className="copy" title="Đây là mục tiêu mặc định (nếu cần thiết có thể sửa trọng số)"><i className="material-icons">notification_important</i></a>}

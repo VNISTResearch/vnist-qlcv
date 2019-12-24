@@ -281,7 +281,7 @@ class KPIUnitCreate extends Component {
                                                             <th title="Tên mục tiêu">Tên mục tiêu</th>
                                                             <th title="Tiêu chí đánh giá">Tiêu chí đánh giá</th>
                                                             <th title="Trọng số" style={{ width: "100px" }}>Trọng số</th>
-                                                            {this.checkPermisson(currentUnit && currentUnit[0].dean) && <th>Hành động</th>}
+                                                            {this.checkPermisson(currentUnit && currentUnit[0].dean) && <th style={{ width: "100px" }}>Hành động</th>}
                                                         </tr>
                                                     </thead>
                                                     <tbody>

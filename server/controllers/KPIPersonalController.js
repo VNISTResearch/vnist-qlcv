@@ -9,6 +9,10 @@ exports.getKPIAllMember = (req, res) => {
 exports.get = (req, res) => {
     return KPIPersonalService.get(req, res);
 };
+// Lấy KPI cá nhân theo tháng
+exports.getByMonth = (req, res) => {
+    return KPIPersonalService.getByMonth(req, res);
+};
 
 // get target of personal kpi by id
 exports.getById = (req, res) => {

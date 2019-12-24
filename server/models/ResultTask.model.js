@@ -10,7 +10,7 @@ const ResultTaskSchema = new Schema({
         ref: User,
         required: true
     },
-    // Điểm hệ thống đánh giá
+    // Điểm hệ thống đánh giámem
     systempoint: {
         type: Number,
         default: 0

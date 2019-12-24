@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 // Model lưu thông tin của các nhãn thông tin nhập liệu cho công việc
-const LabelInformationTaskSchema = new Schema({
+const ValueDomainInformationTaskSchema = new Schema({
     name: {
         type: String,
         required: true
@@ -13,4 +13,4 @@ const LabelInformationTaskSchema = new Schema({
     }
 });
 
-module.exports = LabelInformationTask = mongoose.model("label_info_task", LabelInformationTaskSchema);
+module.exports = ValueDomainInformationTask = mongoose.model("value_domain_info_task", ValueDomainInformationTaskSchema);

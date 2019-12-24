@@ -11,6 +11,9 @@ router.get('/user/:id', KPIPersonalController.get);
 // Lấy kpi cá nhân theo id
 router.get('/:id', KPIPersonalController.getById);
 
+// Lấy kpi cá nhân theo tháng
+router.get('/member/:id/:time', KPIPersonalController.getByMonth);
+
 // lấy kpi cá nhân hiện tại
 router.get('/current/:id', KPIPersonalController.getByUser);
 
