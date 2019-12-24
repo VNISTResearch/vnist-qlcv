@@ -14,7 +14,7 @@ class ModalDetailCourse extends Component {
                         <div className="modal-body" style={{ paddingTop: 0 }}>
                             <div className="col-md-12">
                                 <div className="box-header col-md-12" style={{ paddingLeft: 0 }}>
-                                    <h3 className="box-title">Danh sách nhân viên tham gia khoá đào tạo:</h3>
+                                    <h3 className="box-title">Danh sách khoá đào tạo của chương trình đào tạo:</h3>
                                 </div>
                                 <div className="col-md-3">
                                     <div className="form-group col-md-4" style={{ paddingLeft: 0 }}>
@@ -45,7 +45,7 @@ class ModalDetailCourse extends Component {
                                             <th title="Thời gian bắt đầu">Bắt đầu</th>
                                             <th title="Thời gian kết thúc">Kết thúc</th>
                                             <th title="Địa điểm đào tạo">Địa điểm</th>
-                                            <th style={{ width: "20%" }}>Nơi đào tạo</th>
+                                            <th style={{ width: "20%" }}>Đơn vị đào tạo</th>
                                             <th style={{ width: "12%" }}>Loại đào tạo</th>
                                         </tr>
                                     </thead>

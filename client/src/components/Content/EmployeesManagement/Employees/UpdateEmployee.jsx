@@ -14,11 +14,10 @@ class UpdateEmployee extends Component {
         this.handleClick = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         //this.handleChecked
-
     }
 
     componentDidMount() {
-        this.props.getInformationEmployee("123654");
+        this.props.getInformationEmployee("123653");
 
     }
 
@@ -177,10 +176,15 @@ class UpdateEmployee extends Component {
                                                                 <label htmlFor="MSCC">Mã số chấm công:</label>
                                                                 <input type="text" className="form-control " id="MSCC" defaultValue={x.MSCC} disabled />
                                                             </div>
-                                                            <div className="form-group">
-                                                                <label htmlFor="department">Đơn vị:</label>
-                                                                <input type="text" className="form-control " id="department" defaultValue={x.department} disabled />
-                                                            </div>
+                                                            {
+                                                                x.department && x.department.map((department, key) => (
+                                                                    <div className="form-group" key={key}>
+                                                                        <label htmlFor="department">Đơn vị:</label>
+                                                                        <input type="text" className="form-control " id="department" defaultValue={department.nameDepartment} disabled />
+                                                                    </div>
+                                                                ))
+                                                            }
+
                                                             <div className="form-group">
                                                                 <label style={{ display: 'block', paddingBottom: 7 }}>Tình trạng hôn nhân:</label>
                                                                 {

@@ -5,10 +5,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import './addemployee.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { ModalImportFileBHXH } from './ModalImportFileBHXH';
+import { OutTable, ExcelRenderer } from 'react-excel-renderer';
 class AddEmployee extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            rows: "",
+            cols: "",
             show: "",
             defaulte: "display",
             adding: false,
@@ -974,6 +977,11 @@ class AddEmployee extends Component {
                                                                 ))}
                                                             </tbody>
                                                         </table>
+                                                        {(this.state.rows !== "" && this.state.cols !== "") ? <OutTable data={this.state.rows} columns={this.state.cols} tableClassName="ExcelTable2007" tableHeaderRowClass="heading" /> : <div></div>
+                                                        }
+
+
+
                                                     </div>
                                                 </fieldset>
                                             </div>

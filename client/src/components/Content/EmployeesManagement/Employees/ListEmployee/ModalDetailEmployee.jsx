@@ -80,14 +80,23 @@ class ModalDetailEmployee extends Component {
                                                             <strong>Mã số chấm công:&emsp; </strong>
                                                             {x.MSCC}
                                                         </div>
-                                                        <div className="form-group">
-                                                            <strong>Đơn vị:&emsp; </strong>
+                                                        {
+                                                            x.department && x.department.map((department, keys) => (
+                                                                <div className="form-group" key={keys}>
+                                                                    <strong>Đơn vị:&emsp; </strong>
+                                                                    {department.nameDepartment}
+                                                                </div>
+                                                            ))
+                                                        }
 
-                                                        </div>
-                                                        <div className="form-group">
-                                                            <strong>Chức vụ:&emsp;</strong>
-                                                            Giam đốc
-                                                            </div>
+                                                        {
+                                                            x.department && x.department.map((department, key) => (
+                                                                <div className="form-group" key={key}>
+                                                                    <strong>Chức vụ:&emsp;</strong>
+                                                                    {department.position}
+                                                                </div>
+                                                            ))
+                                                        }
                                                         <div className="form-group" >
                                                             <strong>Số CMND/Hộ chiếu:&emsp; </strong>
                                                             {x.CMND}
@@ -538,7 +547,7 @@ class ModalDetailEmployee extends Component {
                                                                 <th>Ngày hết hiệu lực</th>
                                                                 <th>Cấp ra quyết định</th>
                                                                 <th>Hình thức Kỷ luật</th>
-                                                                <th style={{width:"15%"}}>Lý do kỷ luật</th>
+                                                                <th style={{ width: "15%" }}>Lý do kỷ luật</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -558,7 +567,7 @@ class ModalDetailEmployee extends Component {
                                                                 <tr>
                                                                     <th>Tháng</th>
                                                                     <th style={{ width: "50%" }}>Lương</th>
-                                                                    
+
                                                                 </tr>
                                                             </thead>
                                                             <tbody>

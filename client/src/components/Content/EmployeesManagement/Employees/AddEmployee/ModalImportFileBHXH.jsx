@@ -1,7 +1,30 @@
 import React, { Component } from 'react';
-
+import { ExcelRenderer } from 'react-excel-renderer';
 class ModalImportFileBHXH extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+
+        };
+        this.fileHandler = this.fileHandler.bind(this);
+    }
+    fileHandler = (event) => {
+        let fileObj = event.target.files[0];
+        ExcelRenderer(fileObj, (err, resp) => {
+            if (err) {
+                console.log(err);
+            }
+            else {
+                this.setState({
+                    cols: resp.cols,
+                    rows: resp.rows
+                });
+            }
+        });
+    }
+
     render() {
+        console.log(this.state);
         return (
             <div className="modal fade" id="modal-importFileBHXH" tabIndex={-1} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div className="modal-dialog">
@@ -15,7 +38,7 @@ class ModalImportFileBHXH extends Component {
                             <div className="col-md-12">
                                 <div className="form-group">
                                     <label htmlFor="employeeNumber">Chọn file Import:</label>
-                                    <input type="file" className="form-control" />
+                                    <input type="file" className="form-control" onChange={this.fileHandler} />
                                 </div>
                             </div>
                         </div>

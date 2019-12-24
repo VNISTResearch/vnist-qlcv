@@ -9,6 +9,7 @@ const jobtitles = require("./routes/api/jobtitles");
 const kpiunits = require("./routes/api/kpiunits");
 const kpipersonals = require("./routes/api/kpipersonals");
 const employees = require("./routes/api/employees");
+const tranningcourse = require("./routes/api/tranningcourse");
 const cors = require('cors');
 
 const app = express();
@@ -49,6 +50,7 @@ app.use("/jobtitles", jobtitles);
 app.use("/kpiunits", kpiunits);
 app.use("/kpipersonals", kpipersonals);
 app.use("/employees", employees);
+app.use("/tranningcourse", tranningcourse);
 
 const port = process.env.PORT || 5000;
 
