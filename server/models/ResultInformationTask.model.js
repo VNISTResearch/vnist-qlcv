@@ -16,8 +16,7 @@ const ResultInfoTaskSchema = new Schema({
         required: true
     },
     value: {
-        type: String,
-        required: true
+        type: Schema.Types.Mixed,
     }
 }, {
     timestamps: true

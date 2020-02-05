@@ -156,6 +156,18 @@ exports.create = async (req, res) => {
         res.json({ message: error });
     }
 }
+// Lấy tất cả mục tiêu con của mục tiêu hiện tại
+exports.getChildTargetByParentId = async (req, res) => {
+    try {
+        var childTarget = await DetailKPIUnit.find({parent: req.params.id});
+        res.json({
+            message: "Lấy mục tiêu con theo id của mục tiêu cha thành công",
+            content: childTarget
+        });
+    } catch (error) {
+        res.json({ message: error });
+    }
+}
 // Thêm mục tiêu cho KPI đơn vị
 exports.createTarget = async (req, res) => {
     try {
@@ -224,7 +236,6 @@ exports.editStatusKPIUnit = async (req, res) => {
         res.json({ message: error });
     }
 }
-
 // Chỉnh sửa thông tin chung của KPI đơn vị
 exports.editById = async (req, res) => {
     try {
@@ -240,7 +251,6 @@ exports.editById = async (req, res) => {
         res.json({ message: error });
     }
 }
-
 // Xóa toàn bộ KPI đơn vị
 exports.delete = async (req, res) => {
     try {
@@ -262,7 +272,6 @@ exports.delete = async (req, res) => {
         res.json({ message: error });
     }
 }
-
 // Cập nhật điểm mới nhất (Refresh Data)
 exports.evaluateKPI = async (req, res) => {
     try {
@@ -312,7 +321,6 @@ exports.evaluateKPI = async (req, res) => {
         res.json({ message: error });
     }
 }
-
 // Sao chép một KPI cũ sang KPI tháng mới
 exports.copyOldKPIToNewTime = async (req, res) => {
     try {

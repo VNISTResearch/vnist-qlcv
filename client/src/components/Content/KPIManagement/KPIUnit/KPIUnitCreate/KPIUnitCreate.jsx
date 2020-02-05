@@ -112,58 +112,85 @@ class KPIUnitCreate extends Component {
             }
         });
     }
-    approveKPIUnit = (event, currentKPI, status) => {
+    approveKPIUnit = (event,currentStatus, currentKPI, status) => {
         event.preventDefault();
         var totalWeight = currentKPI.listtarget.map(item => parseInt(item.weight)).reduce((sum, number) => sum + number, 0);
-        if (totalWeight === 100) {
+        if(currentStatus === 1){
             Swal.fire({
-                title: "Bạn chắc chắn muốn kích hoạt KPI này?",
+                title: "KPI đã kích hoạt!",
                 type: 'success',
-                showCancelButton: true,
-                cancelButtonColor: '#d33',
                 confirmButtonColor: '#3085d6',
                 confirmButtonText: 'Xác nhận'
-            }).then((res) => {
-                if (res.value) {
-                this.props.editStatusKPIUnit(currentKPI._id, status);
-                }
-            });
+            })
         } else {
+            if (totalWeight === 100) {
+                Swal.fire({
+                    title: "Bạn chắc chắn muốn kích hoạt KPI này?",
+                    type: 'success',
+                    showCancelButton: true,
+                    cancelButtonColor: '#d33',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Xác nhận'
+                }).then((res) => {
+                    if (res.value) {
+                    this.props.editStatusKPIUnit(currentKPI._id, status);
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: "Tổng trọng số phải bằng 100",
+                    type: 'warning',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Xác nhận'
+                })
+            }
+        }
+    }
+    deleteKPI = (status, id) => {
+        if (status === 1) {
             Swal.fire({
-                title: "Tổng trọng số phải bằng 100",
+                title: "KPI đã kích hoạt, bạn không thể xóa!",
                 type: 'warning',
                 confirmButtonColor: '#3085d6',
                 confirmButtonText: 'Xác nhận'
             })
+        } else {
+            Swal.fire({
+                title: "Bạn chắc chắn muốn xóa toàn bộ KPI này?",
+                type: 'success',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xác nhận'
+            }).then((res) => {
+                if (res.value) {
+                this.props.deleteKPIUnit(id);
+                }
+            });
         }
     }
-    deleteKPI = (id) => {
-        Swal.fire({
-            title: "Bạn chắc chắn muốn xóa toàn bộ KPI này?",
-            type: 'success',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Xác nhận'
-        }).then((res) => {
-            if (res.value) {
-            this.props.deleteKPIUnit(id);
-            }
-        });
-    }
-    deleteTargetKPIUnit = (id, kpiunit) => {
-        Swal.fire({
-            title: "Bạn chắc chắn muốn xóa mục tiêu này?",
-            type: 'success',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Xác nhận'
-        }).then((res) => {
-            if (res.value) {
-                this.props.deleteTargetKPIUnit(id, kpiunit);
-            }
-        });
+    deleteTargetKPIUnit = (status ,id, kpiunit) => {
+        if (status === 1) {
+            Swal.fire({
+                title: "KPI đã kích hoạt, Bạn không thể xóa!",
+                type: 'warning',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Xác nhận'
+            })
+        } else {
+            Swal.fire({
+                title: "Bạn chắc chắn muốn xóa mục tiêu này?",
+                type: 'success',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xác nhận'
+            }).then((res) => {
+                if (res.value) {
+                    this.props.deleteTargetKPIUnit(id, kpiunit);
+                }
+            });
+        }
     }
     formatDate(date) {
         var d = new Date(date),
@@ -220,7 +247,7 @@ class KPIUnitCreate extends Component {
                                                         <React.Fragment>
                                                             {editing ? <a href="#abc" style={{ color: "green", marginLeft: "10px" }} onClick={() => this.saveEdit(currentKPI._id, currentUnit && currentUnit[0]._id)} title="Lưu thông tin chỉnh sửa"><i className="material-icons" style={{ fontSize: "16px" }}>save</i></a>
                                                                 : <a href="#abc" style={{ color: "#FFC107", marginLeft: "10px" }} onClick={() => this.handleEditKPi()} title="Chỉnh sửa thông tin chung"><i className="material-icons" style={{ fontSize: "16px" }}>edit</i></a>}
-                                                            <a href="#abc" style={{ color: "#E34724", marginLeft: "10px" }} onClick={() => this.deleteKPI(currentKPI._id)} title="Xóa bỏ KPI này"><i className="material-icons" style={{ fontSize: "16px" }}></i></a>
+                                                            <a href="#abc" style={{ color: "#E34724", marginLeft: "10px" }} onClick={() => this.deleteKPI(currentKPI.status, currentKPI._id)} title="Xóa bỏ KPI này"><i className="material-icons" style={{ fontSize: "16px" }}></i></a>
                                                         </React.Fragment>}
                                                     <div className="form-group">
                                                         <label className="col-sm-2" style={{ fontWeight: "500" }}>Tên đơn vị</label>
@@ -297,7 +324,7 @@ class KPIUnitCreate extends Component {
                                                                             <td>
                                                                                 <a href="#abc" className="edit" title="Edit" data-toggle="modal" data-target={`#editTargetKPIUnit${item._id}`} data-backdrop="static" data-keyboard="false"><i className="material-icons"></i></a>
                                                                                 <ModalEditTargetKPIUnit target={item} unit={currentUnit && currentUnit[0]} />
-                                                                                {item.default === 0 ? <a href="#abc" className="delete" title="Delete" onClick={() => this.deleteTargetKPIUnit(item._id, currentKPI._id)}><i className="material-icons"></i></a> :
+                                                                                {item.default === 0 ? <a href="#abc" className="delete" title="Delete" onClick={() => this.deleteTargetKPIUnit(currentKPI.status, item._id, currentKPI._id)}><i className="material-icons"></i></a> :
                                                                                     <a className="copy" title="Đây là mục tiêu mặc định (nếu cần thiết có thể sửa trọng số)"><i className="material-icons">notification_important</i></a>}
                                                                             </td>
                                                                         }
@@ -309,7 +336,7 @@ class KPIUnitCreate extends Component {
                                             </div>
                                             {(typeof currentKPI !== 'undefined' && currentKPI !== null) && this.checkPermisson(currentUnit && currentUnit[0].dean) &&
                                                 <div className="col-xs-8 col-xs-offset-9">
-                                                    <button type="submit" className="btn btn-success col-md-2" onClick={(event) => this.approveKPIUnit(event, currentKPI, 1)}>Kích hoạt</button>
+                                                    <button type="submit" className="btn btn-success col-md-2" onClick={(event) => this.approveKPIUnit(event,currentKPI.status, currentKPI, 1)}>Kích hoạt</button>
                                                     <button className="btn btn-primary col-md-2" style={{ marginLeft: "15px" }} onClick={(event) => this.cancelKPIUnit(event, currentKPI._id, 0)}>Bỏ kích hoạt</button>
                                                 </div>
                                             }

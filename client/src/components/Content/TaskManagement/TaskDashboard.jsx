@@ -191,6 +191,7 @@ class TaskDashboard extends Component {
                 text: "Thống kê kết quả thực hiện tháng 11",
                 fontFamily: "tahoma",
                 fontWeight: "normal",
+                fontSize: 25,
             },
             axisY: {
                 title: "Giá trị điểm",
@@ -228,7 +229,8 @@ class TaskDashboard extends Component {
             title:{
                 text: "Kết quả thực hiện công việc của các đơn vị năm 2019",
                 fontFamily: "tahoma",
-                fontWeight: "normal"
+                fontWeight: "normal",
+                fontSize: 25,
             },
             axisY : {
                 title: "Kết quả công việc",
@@ -300,6 +302,7 @@ class TaskDashboard extends Component {
                 text: "Try Zooming and Panning",
                 fontWeight: "normal",
                 fontFamily: "tahoma",
+                fontSize: 25,
             },
             axisY: {
                 includeZero: false
@@ -317,6 +320,7 @@ class TaskDashboard extends Component {
                 text: "Trạng thái công việc tháng 11",
                 fontFamily: "tahoma",
                 fontWeight: "normal",
+                fontSize: 25,
             },
             data: [{
                 type: "pie",
@@ -341,6 +345,7 @@ class TaskDashboard extends Component {
             title: {
                 text: "Miền kết quả công việc theo tháng",
                 fontFamily: "tahoma",
+                fontSize: 25,
             },
             axisY: {
                 includeZero: false,

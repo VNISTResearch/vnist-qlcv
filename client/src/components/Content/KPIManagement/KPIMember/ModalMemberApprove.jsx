@@ -6,10 +6,13 @@ class ModalMemberApprove extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            editing: false,
             edit: "",
             compare: false,
-            checkInput: false
+            checkInput: false,
+            checkWeight: false
         };
+        this.newWeight = [];
     }
     componentDidMount() {
         this.props.getKPIPersonalById(this.props.id);
@@ -49,9 +52,33 @@ class ModalMemberApprove extends Component {
         await this.setState(state => {
             return {
                 ...state,
-                edit: state.edit === "" ? id : ""
+                editing: true,
+                edit: state.edit ===id ? "" : id
             }
         })
+    }
+    handleSaveEdit = async (target) => {
+        await this.setState(state=>{
+            return{
+                ...state,
+                newTarget: {
+                    ...target,
+                    weight: parseInt(this.newWeight[target._id].value)
+                },
+            }
+        })
+        const {newTarget} = this.state;
+        if(this.newWeight[target._id].value!==""){
+            this.props.editTarget(target._id, newTarget);
+            await this.setState(state=>{
+                return{
+                    ...state,
+                    edit: "",
+                    checkWeight: false,
+                    editing: true
+                }
+            })
+        }
     }
     handleCompare = async (id) => {
         let script = document.createElement('script');
@@ -83,11 +110,16 @@ class ModalMemberApprove extends Component {
         return [month, year].join('-');
     }
     formatDateBack(date) {
-        var d = new Date(date),
-            month = '' + (d.getMonth()),
-            day = '' + d.getDate(),
+        var d = new Date(date), month, day, year;
+        if(d.getMonth()===0){
+            month = '' + 12;
+            day = '' + d.getDate();
+            year = d.getFullYear()-1;
+        } else{
+            month = '' + d.getMonth();
+            day = '' + d.getDate();
             year = d.getFullYear();
-
+        }
         if (month.length < 2)
             month = '0' + month;
         if (day.length < 2)
@@ -95,12 +127,22 @@ class ModalMemberApprove extends Component {
 
         return [month, year].join('-');
     }
-    handleCloseModal = (id) => {
-        var element = document.getElementsByTagName("BODY")[0];
-        element.classList.remove("modal-open");
-        var modal = document.getElementById(`memberKPIApprove${id}`);
-        modal.classList.remove("in");
-        modal.style = "display: none;";
+    handleCloseModal = async (id, listTarget) => {
+        var totalWeight = listTarget.map(item => parseInt(item.weight)).reduce((sum, number) => sum + number, 0);
+        if(totalWeight!==100&&this.state.editing){
+            await this.setState(state => {
+                return{
+                    ...state,
+                    checkWeight: true
+                }
+            })
+        } else {
+            var element = document.getElementsByTagName("BODY")[0];
+            element.classList.remove("modal-open");
+            var modal = document.getElementById(`memberKPIApprove${id}`);
+            modal.classList.remove("in");
+            modal.style = "display: none;";
+        }
     }
     checkStatusTarget = (status) => {
         if (status === null) {
@@ -120,10 +162,9 @@ class ModalMemberApprove extends Component {
                 checkInput: false
             }
         })
-        var time = this.time.value;
-        var searchtime = time.split("-");
+        var searchtime = this.time.value.split("-");
         var time = new Date(searchtime[1], searchtime[0], 0);
-        if ((Date.parse(time) >= Date.parse(currentTime)) || this.time.value==="") {
+        if ((Date.parse(time) >= currentTime) || this.time.value==="") {
             await this.setState(state => {
                 return {
                     ...state,
@@ -134,18 +175,37 @@ class ModalMemberApprove extends Component {
             this.props.getKPIMemberByMonth(id, this.time.value);
         }
     }
+    handleEditStatusTarget = (event, id, status) => {
+        event.preventDefault();
+        if(id){
+            this.props.editStatusTarget(id, status);
+        }
+    }
+    handleApproveKPI = async (id, listTarget) => {
+        var totalWeight = listTarget.map(item => parseInt(item.weight)).reduce((sum, number) => sum + number, 0);
+        if(totalWeight!==100){
+            await this.setState(state => {
+                return{
+                    ...state,
+                    checkWeight: true
+                }
+            })
+        } else {
+            this.props.approveKPIPersonal(id);
+        }
+    }
     render() {
         var kpipersonal, kpimember;
         const { kpipersonals } = this.props;
         const { checkInput } = this.state;
-        if (kpipersonals.kpipersonal) kpipersonal = kpipersonals.kpipersonal;
+        if (kpipersonals.currentKPI) kpipersonal = kpipersonals.currentKPI;
         if (kpipersonals.kpimember) kpimember = kpipersonals.kpimember;
         return (
             <div className="modal modal-full fade" id={"memberKPIApprove" + this.props.id} tabIndex={-1} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div className="modal-dialog-full">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <button type="button" className="close" data-dismiss="modal" onClick={() => this.handleCloseModal(this.props.id)}>
+                            <button type="button" className="close" data-dismiss="modal" onClick={() => this.handleCloseModal(this.props.id, kpipersonal.listtarget)}>
                                 <span aria-hidden="true">×</span>
                                 <span className="sr-only">Close</span>
                             </button>
@@ -153,13 +213,14 @@ class ModalMemberApprove extends Component {
                                 <h3 className="modal-title" id="myModalLabel">Phê duyệt KPI nhân viên {kpipersonal && kpipersonal.creater.name}</h3>
                             </div>
                             <div className="col-sm-5" style={{ marginTop: "-5px", marginLeft: "7%" }}>
-                                {this.state.compare ? <button className="col-sm-3 btn btn-success" style={{ marginLeft: "48%" }} onClick={() => this.handleCompare()}>Tắt so sánh</button>
+                                {this.state.compare ? <button className="col-sm-3 btn btn-success" style={{marginLeft:"48%"}} onClick={() => this.handleCompare()}>Tắt so sánh</button>
                                     : <button className="col-sm-3 btn btn-success" style={{ marginLeft: "48%" }} onClick={() => this.handleCompare(kpipersonal.creater._id)}>So sánh với KPI cũ</button>}
-                                <button className="col-sm-3 btn btn-success" style={{ marginLeft: "10px" }}>Lưu thông tin</button>
+                                <button className="col-sm-3 btn btn-success" style={{ marginLeft: "10px" }} onClick={()=>this.handleApproveKPI(kpipersonal._id, kpipersonal.listtarget)}>Duyệt toàn bộ KPI</button>
                             </div>
                         </div>
                         <div className="modal-body modal-body-perform-task" >
                             <div className="col-xs-12" style={{ marginLeft: "-30px" }}>
+                                {this.state.checkWeight&&<div className="col-sm-12" style={{color: "red"}}><label>Trọng số đang không thỏa mãn!</label></div>}
                                 <div className="col-xs-12">
                                     <label className="col-sm-2"><b>Người thực hiện:</b></label>
                                     <label className="col-sm-10">{kpipersonal && kpipersonal.creater.name}</label>
@@ -171,13 +232,14 @@ class ModalMemberApprove extends Component {
                                 <div className="col-xs-12" style={{ marginBottom: "10px" }}>
                                     <label className="col-sm-2">Số mục tiêu:</label>
                                     <label className="col-sm-2">{kpipersonal && kpipersonal.listtarget.length}</label>
+                                    {/* {!this.state.compare && <button className="btn btn-success" style={{position: "absolute", right: "-2%", marginTop: "-1%"}}>Duyệt toàn bộ KPI</button>} */}
                                 </div>
                             </div>
                             {this.state.compare &&
                                 <div className="col-xs-12">
                                     <div className="col-xs-12" style={{ marginLeft: "-30px" }}>
                                         <div className="col-xs-4">
-                                            <label className="col-xs-4" style={{ marginLeft: "-15px" }}>Từ tháng:</label>
+                                            <label className="col-xs-4" style={{ marginLeft: "-15px" }}>KPI tháng:</label>
                                             <div className={'input-group col-sm-4 date has-feedback' + (checkInput ? ' has-error' : '')} style={{ display: "inline-table", marginLeft: "5px", marginTop: "-8px", width: "55%" }}>
                                                 <div className="input-group-addon">
                                                     <i className="fa fa-calendar" />
@@ -189,7 +251,7 @@ class ModalMemberApprove extends Component {
                                             }
                                         </div>
                                         <div className="col-xs-4" style={{ marginTop: "-8px", marginLeft: "-5%" }}>
-                                            <button className="btn btn-success" onClick={() => this.searchKPIPersonalByMonth(kpipersonal.creater._id, kpipersonal.time)}>Tìm kiếm</button>
+                                            <button className="btn btn-success" onClick={() => this.searchKPIPersonalByMonth(kpipersonal.creater._id, Date.now())}>Tìm kiếm</button>
                                         </div>
                                     </div>
                                     <table className="table table-bordered table-striped">
@@ -218,8 +280,9 @@ class ModalMemberApprove extends Component {
                                     </table>
                                 </div>}
                             <div className="col-xs-12">
-                                {this.state.compare && <div className="col-xs-12" style={{ marginLeft: "-15px" }}>
-                                    <h4><b>KPI tháng này</b></h4>
+                                {this.state.compare && <div style={{marginBottom: "5px"}}>
+                                    <h4 style={{display: "inline"}}><b>KPI tháng này</b></h4>
+                                    {/* <button className="btn btn-success" style={{marginLeft: "80%"}}>Duyệt toàn bộ KPI</button> */}
                                 </div>}
                                 <table className="table table-bordered table-striped">
                                     <thead>
@@ -239,12 +302,13 @@ class ModalMemberApprove extends Component {
                                                     <td>{item.name}</td>
                                                     <td>{item.parent.name}</td>
                                                     <td>{item.criteria}</td>
-                                                    <td>{this.state.edit === item._id ? <input min="0" max="100" defaultValue={item.weight} style={{ width: "60px" }} /> : item.weight}</td>
+                                                    <td>{this.state.edit === item._id ? <input min="0" max="100" ref={input => this.newWeight[item._id] = input} defaultValue={item.weight} style={{ width: "60px" }} /> : item.weight}</td>
                                                     <td>{this.checkStatusTarget(item.status)}</td>
                                                     <td>
-                                                        <a href="#edit" className="edit" title="Chỉnh sửa mục tiêu này" onClick={() => this.handleEdit(item._id)}><i className="material-icons">edit</i></a>
-                                                        <a href="#edit" className="add" title="Phê duyệt mục tiêu này"><i className="material-icons">check_circle</i></a>
-                                                        <a href="#delete" className="delete" title="Không đạt"><i className="material-icons">cancel</i></a>
+                                                        {this.state.edit === item._id?<a href="#edit" className="approve" title="Lưu kết quả" onClick={() => this.handleSaveEdit(item)}><i className="material-icons">save</i></a>
+                                                        :<a href="#edit" className="edit" title="Chỉnh sửa mục tiêu này" onClick={() => this.handleEdit(item._id)}><i className="material-icons">edit</i></a>}
+                                                        <a href="#edit" className="add_circle" title="Đạt" onClick={(event)=>this.handleEditStatusTarget(event, item._id, 1)}><i className="material-icons">check_circle</i></a>
+                                                        <a href="#abc" className="delete" title="Không đạt" onClick={(event)=>this.handleEditStatusTarget(event, item._id, 0)}><i className="material-icons">cancel</i></a>
                                                     </td>
                                                 </tr>
                                             )
@@ -267,7 +331,10 @@ function mapState(state) {
 
 const actionCreators = {
     getKPIPersonalById: kpiPersonalActions.getKPIPersonalById,
-    getKPIMemberByMonth: kpiPersonalActions.getKPIMemberByMonth
+    getKPIMemberByMonth: kpiPersonalActions.getKPIMemberByMonth,
+    editStatusTarget: kpiPersonalActions.editStatusTarget,
+    approveKPIPersonal: kpiPersonalActions.approveKPIPersonal,
+    editTarget: kpiPersonalActions.editTargetKPIPersonal
 };
 const connectedModalMemberApprove = connect(mapState, actionCreators)(ModalMemberApprove);
 export { connectedModalMemberApprove as ModalMemberApprove };

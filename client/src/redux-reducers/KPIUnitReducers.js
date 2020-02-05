@@ -31,6 +31,21 @@ export function kpiunits(state = {}, action) {
       return {
         error: action.error
       };
+    case kpiUnitConstants.GETCHILDTARGET_CURRENTTARGET_REQUEST:
+      return {
+        ...state,
+        loading: true
+      };
+    case kpiUnitConstants.GETCHILDTARGET_CURRENTTARGET_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        childtarget: action.childtarget.content
+      };
+    case kpiUnitConstants.GETCHILDTARGET_CURRENTTARGET_FAILURE:
+      return {
+        error: action.error
+      };
     case kpiUnitConstants.GETPARENT_KPIUNIT_REQUEST:
       return {
         ...state,
@@ -95,14 +110,14 @@ export function kpiunits(state = {}, action) {
       return {
         ...state,
         kpis: state.kpis.map(kpiunit =>
-          kpiunit._id === action._id
+          kpiunit._id === action.id
             ? {...kpiunit, evaluating: true} : kpiunit)
       };
     case kpiUnitConstants.EVALUATE_KPIUNIT_SUCCESS:
       return {
         ...state,
         kpis: state.kpis.map(kpiunit =>
-          kpiunit._id === action.newKPI._id
+          kpiunit._id === action.newKPI.kpiunit._id
             ? action.newKPI.kpiunit : kpiunit)
       };
     case kpiUnitConstants.EVALUATE_KPIUNIT_FAILURE:

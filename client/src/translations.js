@@ -70,10 +70,11 @@ export default {
                 department: 'Cơ cấu tổ chức',
                 role: 'Phân quyền',
                 resource: 'Tài nguyên',
-                tasktemplate: 'Mẫu Công Việc',
-                cocautochuc: 'Cơ Cấu Tổ Chức',
-                taskmanagement: 'Quản Lý Công Việc',
-                kpimember: 'Quản lý KPI nhân viên'
+                tasktemplate: 'Quản lý mẫu công việc',
+                cocautochuc: 'Cơ cấu tổ chức',
+                taskmanagement: 'Quản lý công việc',
+                kpimember: 'Quản lý KPI nhân viên',
+                reporttask: 'Quản lý báo cáo công việc',
             },
             footer: {
                 copyRight: 'Bản quyền thuộc về',

@@ -135,7 +135,7 @@ exports.create = async (req, res) => {
                 type: item.type
             })
         });
-        var newTask = await Privilege.findById(privilege._id).populate({ path: 'resource', model: TaskTemplate, populate: { path: 'creator' } });
+        var newTask = await Privilege.findById(privilege._id).populate({ path: 'resource', model: TaskTemplate, populate: { path: 'creator unit' } });
 
         res.status(200).json({
             message: "Create Task Template Successfully!",

@@ -8,33 +8,33 @@ class TabTaskContent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            perPage: 10,
+            perPage: 20,
             extendProperties: false,
             startTimer: false,
             currentTimer: "",
             currentPage: 1,
             showModal: ""
         };
-        // this.loadJS();
     }
     componentDidMount() {
         this.props.getDepartment(localStorage.getItem('id'));
         var content = this.props.role;
         if (content === "responsible") {
-            this.props.getResponsibleTaskByUser(localStorage.getItem('id'), "[]", 1, 10, "[]", "[]", "[]", null);
+            this.props.getResponsibleTaskByUser(localStorage.getItem('id'), "[]", 1, 20, "[]", "[]", "[]", null);
         } else if (content === "accountable") {
-            this.props.getAccounatableTaskByUser(localStorage.getItem('id'), "[]", 1, 10, "[]", "[]", "[]", null);
+            this.props.getAccounatableTaskByUser(localStorage.getItem('id'), "[]", 1, 20, "[]", "[]", "[]", null);
         } else if (content === "consulted") {
-            this.props.getConsultedTaskByUser(localStorage.getItem('id'), "[]", 1, 10, "[]", "[]", "[]", null);
+            this.props.getConsultedTaskByUser(localStorage.getItem('id'), "[]", 1, 20, "[]", "[]", "[]", null);
         } else if (content === "creator") {
-            this.props.getCreatorTaskByUser(localStorage.getItem('id'), "[]", 1, 10, "[]", "[]", "[]", null);
+            this.props.getCreatorTaskByUser(localStorage.getItem('id'), "[]", 1, 20, "[]", "[]", "[]", null);
         } else {
-            this.props.getInformedTaskByUser(localStorage.getItem('id'), "[]", 1, 10, "[]", "[]", "[]", null);
+            this.props.getInformedTaskByUser(localStorage.getItem('id'), "[]", 1, 20, "[]", "[]", "[]", null);
         }
         this.defindMultiSelect();
         this.loadJS();
         this.handleResizeColumn();
     }
+
     UNSAFE_componentWillUpdate() {
         let script = document.createElement('script');
         script.src = 'main/js/GridTableVers1.js';
@@ -149,7 +149,6 @@ class TabTaskContent extends Component {
             return newarr;
         }
         let flat = change(roots).map(x => delete x.children && x);
-        console.log(flat);
         return flat;
     }
     handleSetting = async () => {
@@ -219,15 +218,15 @@ class TabTaskContent extends Component {
         if (oldCurrentPage !== index) {
             var content = this.props.role;
             if (content === "responsible") {
-                this.props.getResponsibleTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 10, status, "[]", "[]", null);
+                this.props.getResponsibleTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 20, status, "[]", "[]", null);
             } else if (content === "accountable") {
-                this.props.getAccounatableTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 10, status, "[]", "[]", null);
+                this.props.getAccounatableTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 20, status, "[]", "[]", null);
             } else if (content === "consulted") {
-                this.props.getConsultedTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 10, status, "[]", "[]", null);
+                this.props.getConsultedTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 20, status, "[]", "[]", null);
             } else if (content === "creator") {
-                this.props.getCreatorTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 10, status, "[]", "[]", null);
+                this.props.getCreatorTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 20, status, "[]", "[]", null);
             } else {
-                this.props.getInformedTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 10, status, "[]", "[]", null);
+                this.props.getInformedTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 20, status, "[]", "[]", null);
             }
         };
     }
@@ -245,15 +244,15 @@ class TabTaskContent extends Component {
         if (oldCurrentPage !== newCurrentPage) {
             var content = this.props.role;
             if (content === "responsible") {
-                this.props.getResponsibleTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 10, status, "[]", "[]", null);
+                this.props.getResponsibleTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 20, status, "[]", "[]", null);
             } else if (content === "accountable") {
-                this.props.getAccounatableTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 10, status, "[]", "[]", null);
+                this.props.getAccounatableTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 20, status, "[]", "[]", null);
             } else if (content === "consulted") {
-                this.props.getConsultedTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 10, status, "[]", "[]", null);
+                this.props.getConsultedTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 20, status, "[]", "[]", null);
             } else if (content === "creator") {
-                this.props.getCreatorTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 10, status, "[]", "[]", null);
+                this.props.getCreatorTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 20, status, "[]", "[]", null);
             } else {
-                this.props.getInformedTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 10, status, "[]", "[]", null);
+                this.props.getInformedTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 20, status, "[]", "[]", null);
             }
         };
     }
@@ -271,15 +270,15 @@ class TabTaskContent extends Component {
         if (oldCurrentPage !== newCurrentPage) {
             var content = this.props.role;
             if (content === "responsible") {
-                this.props.getResponsibleTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 10, status, "[]", "[]", null);
+                this.props.getResponsibleTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 20, status, "[]", "[]", null);
             } else if (content === "accountable") {
-                this.props.getAccounatableTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 10, status, "[]", "[]", null);
+                this.props.getAccounatableTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 20, status, "[]", "[]", null);
             } else if (content === "consulted") {
-                this.props.getConsultedTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 10, status, "[]", "[]", null);
+                this.props.getConsultedTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 20, status, "[]", "[]", null);
             } else if (content === "creator") {
-                this.props.getCreatorTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 10, status, "[]", "[]", null);
+                this.props.getCreatorTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 20, status, "[]", "[]", null);
             } else {
-                this.props.getInformedTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 10, status, "[]", "[]", null);
+                this.props.getInformedTaskByUser(localStorage.getItem('id'), unit, newCurrentPage, 20, status, "[]", "[]", null);
             }
         };
     }
@@ -288,15 +287,15 @@ class TabTaskContent extends Component {
         var status = window.$("#multiSelectStatus").val();
         var content = this.props.role;
         if (content === "responsible") {
-            this.props.getResponsibleTaskByUser(localStorage.getItem('id'), unit, 1, 10, status, "[]", "[]", null);
+            this.props.getResponsibleTaskByUser(localStorage.getItem('id'), unit, 1, 20, status, "[]", "[]", null);
         } else if (content === "accountable") {
-            this.props.getAccounatableTaskByUser(localStorage.getItem('id'), unit, 1, 10, status, "[]", "[]", null);
+            this.props.getAccounatableTaskByUser(localStorage.getItem('id'), unit, 1, 20, status, "[]", "[]", null);
         } else if (content === "consulted") {
-            this.props.getConsultedTaskByUser(localStorage.getItem('id'), unit, 1, 10, status, "[]", "[]", null);
+            this.props.getConsultedTaskByUser(localStorage.getItem('id'), unit, 1, 20, status, "[]", "[]", null);
         } else if (content === "creator") {
-            this.props.getCreatorTaskByUser(localStorage.getItem('id'), unit, 1, 10, status, "[]", "[]", null);
+            this.props.getCreatorTaskByUser(localStorage.getItem('id'), unit, 1, 20, status, "[]", "[]", null);
         } else {
-            this.props.getInformedTaskByUser(localStorage.getItem('id'), unit, 1, 10, status, "[]", "[]", null);
+            this.props.getInformedTaskByUser(localStorage.getItem('id'), unit, 1, 20, status, "[]", "[]", null);
         }
         this.setState(state => {
             return {
@@ -415,16 +414,15 @@ class TabTaskContent extends Component {
                     <div className="col-xs-3 item-container">
                         <button type="button" className="btn btn-success" onClick={this.handleUpdateData} style={{ width: "135%" }}>Tìm kiếm</button>
                     </div>
-                    <div className="col-xs-3 item-container">
-                        <button type="button" className="btn btn-primary" onClick={this.handleUpdateData} style={{ width: "135%" }}>Trở về mặc định</button>
-                    </div>
                     <div className="col-xs-8" style={{ marginLeft: "-12px" }}>
-                        <button className="btn btn-default" style={{ background: "none", border: "none", fontWeight: "700"}} onClick={this.handleExtendProperties}>{extendProperties ? "Cơ bản " : "Nâng cao "}<i className="fa fa-angle-double-down"></i></button>
+                        <button className="btn btn-default" style={{ background: "none", border: "none", fontWeight: "700" }} onClick={this.handleExtendProperties}>{extendProperties ? "Cơ bản " : "Nâng cao "}<i className={extendProperties?"fa fa-angle-double-up":"fa fa-angle-double-down"}></i></button>
                     </div>
                 </div>
                 <div className="col-xs-2 col-xs-offset-3" style={{ marginTop: "4.5%" }}>
-                    <button type="button" className="btn btn-success" data-toggle="modal" data-target="#addNewTask" data-backdrop="static" data-keyboard="false" style={{ width: "100%" }}>Thêm công việc</button>
-                    <ModalAddTask id="" />
+                    {this.props.role !== "informed" &&
+                        <button type="button" className="btn btn-success" data-toggle="modal" title="Thêm mới một công việc" data-target="#addNewTask" data-backdrop="static" data-keyboard="false" style={{ width: "100%" }}>Thêm mới</button>
+                    }
+                    <ModalAddTask currentTasks={(typeof currentTasks !== 'undefined' && currentTasks.length !== 0)&&this.list_to_tree(currentTasks)} id=""/>
                 </div>
                 <table id="tree-table" className="table table-hover table-bordered">
                     <thead>
@@ -482,15 +480,21 @@ class TabTaskContent extends Component {
                                         <td title={this.convertTime(item.time)}>{this.convertTime(item.time)}</td>
                                         <td >
                                             <a href={`#modelPerformTask${item._id}`} className="edit" data-toggle="modal" onClick={() => this.handleShowModal(item._id)} title={"Bắt đầu" + item.name}><i className="material-icons">edit</i></a>
-                                            {this.state.showModal === item._id ? <ModalPerformTask id={item._id} role={this.props.role}/> : null}
-                                            <a href="#abc" className={startTimer && currentTimer === item._id ? "edit" : "timer"} id="task-timer" title="Bắt đầu bấm giờ" onClick={() => this.handleCountTime(item._id)}><i className="material-icons">timer</i></a>
+                                            {this.state.showModal === item._id ? <ModalPerformTask responsible={item.responsible} unit={item.unit._id} id={item._id} role={this.props.role} /> : null}
+                                            {
+                                                this.props.role !== "creator" && this.props.role !== "informed"
+                                                && <a href="#abc" className={startTimer && currentTimer === item._id ? "edit" : "timer"} id="task-timer" title="Bắt đầu bấm giờ" onClick={() => this.handleCountTime(item._id)}><i className="material-icons">timer</i></a>
+                                            }
                                             <button type="button" data-toggle="collapse" data-target={`#actionTask${item._id}`} style={{ border: "none", background: "none" }}><i className="fa fa-ellipsis-v"></i></button>
                                             <div id={`actionTask${item._id}`} className="collapse action-template">
                                                 <a href={`#addNewTask${item._id}`} onClick={this.handleCheckClick} data-toggle="modal" className="add_circle" title="Thêm công việc con cho công việc này"><i className="material-icons">add_circle</i></a>
                                                 <a href="#abc" className="all_inbox" title="Lưu công việc này vào kho"><i className="material-icons">all_inbox</i></a>
-                                                <a href="#abc" className="delete" onClick={() => this.handleAction(item._id)} title="Xóa mẫu công việc này"><i className="material-icons"></i></a>
+                                                {
+                                                    this.props.role === "accountable" &&
+                                                    <a href="#abc" className="delete" onClick={() => this.handleAction(item._id)} title="Xóa công việc này"><i className="material-icons"></i></a>
+                                                }
                                             </div>
-                                            <ModalAddTask id={item._id} role={this.props.role}/>
+                                            <ModalAddTask currentTasks={(typeof currentTasks !== 'undefined' && currentTasks.length !== 0)&&this.list_to_tree(currentTasks)} id={item._id} role={this.props.role} />
                                         </td>
                                     </tr>
                                 ) : null

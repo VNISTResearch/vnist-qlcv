@@ -14,10 +14,12 @@ const HistoryWorkingTimeSchema = new Schema({
         ref: User,
         required: true
     },
+    // Thời gian bắt đầu bấm giờ 
     start: {
         type: Number,
         required: true
     },
+    // Thời gian bắt đầu tính giờ hiện tại
     startTimer: {
         type: Number,
         required: true

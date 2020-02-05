@@ -36,6 +36,7 @@ exports.getKPIAllMember = async (req, res) => {
         var endtime = req.params.endtime.split("-");
         var enddate = new Date(endtime[1], endtime[0], 28);
         var status = parseInt(req.params.status);
+        console.log(enddate);
         if (req.params.user === "all") {
             if (status===5) {
                 kpipersonals = await KPIPersonal.find({ 
@@ -86,18 +87,32 @@ exports.getKPIAllMember = async (req, res) => {
         res.json({ message: error });
     }
 }
-// Lấy tất cả kpi cá nhân
-exports.get = async (req, res) => {
+// Lấy tất cả KPI cá nhân theo người thiết lập
+exports.getByMember = async (req, res) => {
     try {
-        var kpipersonals = await KPIPersonal.find({ creater: req.params.id }).sort({ 'time': 'desc' }).skip(0).limit(12)
+        var kpipersonals = await KPIPersonal.find({ creater: { $in: req.params.member.split(",") } })
+            .sort({ 'time': 'desc' })
             .populate("unit creater approver")
-            .populate({ path: "listtarget", populate: { path: 'parent' } });
+            .populate({ path: "listtarget"});
         res.json({
             message: "Lấy tất cả các mục tiêu kpi cá nhân thành công",
             content: kpipersonals
         });
     } catch (error) {
-
+        res.json({ message: error });
+    }
+}
+// Lấy tất cả KPI cá nhân của người thực hiện trong công việc
+exports.getKPIResponsible = async (req, res) => {
+    try {
+        var kpipersonals = await KPIPersonal.find({ creater: { $in: req.params.member.split(",") }, status: { $ne: 3 } })
+            .populate("unit creater approver")
+            .populate({ path: "listtarget"});
+        res.json({
+            message: "Lấy tất cả các mục tiêu kpi cá nhân thành công",
+            content: kpipersonals
+        });
+    } catch (error) {
         res.json({ message: error });
     }
 }
@@ -242,17 +257,28 @@ exports.editStatusKPIPersonal = async (req, res) => {
     }
 }
 // Phê duyệt từng mục tiêu
-exports.editTatusTarget = async (req, res) => {
+exports.editStatusTarget = async (req, res) => {
     try {
         var target = await DetailKPIPersonal.findByIdAndUpdate(req.params.id, { $set: { status: req.params.status } }, { new: true });
-        var kpipersonal = await KPIPersonal.findById(req.params.kpipersonal).populate("listtarget");
-        var listtarget = kpipersonal.listTarget;
-        // TH1: Hủy phê duyệt 1 mục tiêu của kpi từ trạng thái đã phê duyệt tất cả
-        // TH2: Phê duyệt mục tiêu cuối cùng của kpi
-        // TH3: Yêu cầu sửa lại mục tiêu thì trạng thái kpi phải trở về đang thiết lập (status=0)
+        var kpipersonal = await KPIPersonal.findOne({listtarget: { $in: req.params.id }}).populate("listtarget");
+        var listtarget = kpipersonal.listtarget;
+        var checkFullApprove = 2;
+        await listtarget.map(item=>{
+            if(item.status===null||item.status===0){
+                if(parseInt(req.params.status) === 1){
+                    checkFullApprove = 1;
+                } else {
+                    checkFullApprove = 0;
+                }
+            }
+            return true;
+        })
+        kpipersonal = await KPIPersonal.findByIdAndUpdate(kpipersonal._id, {$set: {status: checkFullApprove}}, { new: true })
+            .populate("unit creater approver")
+            .populate({ path: "listtarget", populate: { path: 'parent' } });
         res.json({
             message: "Phê duyệt mục tiêu thành công",
-            newTarget: target
+            newKPI: kpipersonal
         });
     } catch (error) {
         res.json({ message: error });
@@ -266,7 +292,7 @@ exports.approveAllTarget = async (req, res) => {
         if (kpipersonal.listtarget) targets = kpipersonal.listtarget;
         if (targets !== []) {
             var targets = await Promise.all(targets.map(async (item) => {
-                var defaultT = await DetailKPIPersonal.findByIdAndUpdate(item._id, { $set: { status: 2 } }, { new: true })
+                var defaultT = await DetailKPIPersonal.findByIdAndUpdate(item._id, { $set: { status: 1 } }, { new: true })
                 return defaultT;
             }))
         }

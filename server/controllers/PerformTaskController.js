@@ -41,6 +41,31 @@ exports.createCommentTask = (req, res) => {
     return PerformTaskService.createCommentTask(req, res);
 }
 
+// Test thêm 1 kết quả nhập liệu cho thông tin mẫu công việc
+exports.createResultInfoTask = (req, res) => {
+    return PerformTaskService.createResultInfoTask(req, res);
+}
+
+// Thêm dữ liệu nhập liệu cho thông tin mẫu công việc
+exports.createResultInformationTask = (req, res) => {
+    return PerformTaskService.createResultInformationTask(req, res);
+}
+
+// Chỉnh sửa dữ liệu nhập liệu cho thông tin mẫu công việc
+exports.editResultInformationTask = (req, res) => {
+    return PerformTaskService.editResultInformationTask(req, res);
+}
+
+// Thêm kết quả đánh giá công việc cho từng người tham gia
+exports.createResultTask = (req, res) => {
+    return PerformTaskService.createResultTask(req, res);
+}
+
+// Chỉnh sửa kết quả đánh giá công việc cho từng người tham gia
+exports.editResultTask = (req, res) => {
+    return PerformTaskService.editResultTask(req, res);
+}
+
 // Chỉnh sửa một hoạt động hoặc bình luận
 exports.editCommentTask = (req, res) => {
     return PerformTaskService.editCommentTask(req, res);

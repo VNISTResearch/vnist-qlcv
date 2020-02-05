@@ -6,7 +6,10 @@ const KPIPersonalController = require("../../controllers/KPIPersonalController")
 router.get('/all-member/:role/:user/:status/:starttime/:endtime', KPIPersonalController.getKPIAllMember);
 
 // get all kpi personal
-router.get('/user/:id', KPIPersonalController.get);
+router.get('/user/:member', KPIPersonalController.getByMember);
+
+// get all kpi personal
+router.get('/task/:member', KPIPersonalController.getKPIResponsible);
 
 // Lấy kpi cá nhân theo id
 router.get('/:id', KPIPersonalController.getById);
@@ -39,7 +42,7 @@ router.delete('/:id', KPIPersonalController.delete);
 router.post('/create-target', KPIPersonalController.createTarget);
 
 // chỉnh sửa trạng thái từng mục tiêu của kpi cá nhân
-router.put('/status-target/:kpipersonal/:id/:status', KPIPersonalController.editTatusTarget);
+router.put('/status-target/:id/:status', KPIPersonalController.editStatusTarget);
 
 // edit target of personal by id
 router.put('/target/:id', KPIPersonalController.editTarget);

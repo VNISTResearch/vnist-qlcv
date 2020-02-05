@@ -6,8 +6,12 @@ exports.getKPIAllMember = (req, res) => {
     return KPIPersonalService.getKPIAllMember(req, res);
 };
 // get all target of personal kpi
-exports.get = (req, res) => {
-    return KPIPersonalService.get(req, res);
+exports.getByMember = (req, res) => {
+    return KPIPersonalService.getByMember(req, res);
+};
+// lấy tất cả các kpi cá nhân của nhân viên trong công việc
+exports.getKPIResponsible = (req, res) => {
+    return KPIPersonalService.getKPIResponsible(req, res);
 };
 // Lấy KPI cá nhân theo tháng
 exports.getByMonth = (req, res) => {
@@ -55,8 +59,8 @@ exports.editTarget = (req, res) => {
 }
 
 // Phê duyệt từng mục tiêu của KPI
-exports.editTatusTarget = (req, res) => {
-    return KPIPersonalService.editTatusTarget(req, res);
+exports.editStatusTarget = (req, res) => {
+    return KPIPersonalService.editStatusTarget(req, res);
 }
 
 // Phê duyệt tất cả mục tiêu của KPI

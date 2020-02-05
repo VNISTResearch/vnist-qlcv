@@ -4,6 +4,7 @@ import { ModalMemberEvaluate } from './ModalMemberEvaluate';
 import { connect } from 'react-redux';
 import { userActions, kpiPersonalActions } from '../../../../redux-actions/CombineActions';
 import Swal from 'sweetalert2';
+import CanvasJSReact from '../../TaskManagement/Chart/canvasjs.react';
 
 class KPIMember extends Component {
     constructor(props) {
@@ -32,6 +33,7 @@ class KPIMember extends Component {
         // Lấy tất cả nhân viên của phòng ban
         this.props.getAllUserSameDepartment(localStorage.getItem("currentRole"));
         this.props.getAllKPIPersonalOfUnit(infosearch);
+        this.props.getAllKPIPersonal(localStorage.getItem("id"));
         let script = document.createElement('script');
         script.src = '/main/js/CoCauToChuc.js';
         script.async = true;
@@ -110,14 +112,14 @@ class KPIMember extends Component {
             var startdate = new Date(starttime[1], starttime[0], 0);
             var endtime = infosearch.endtime.split("-");
             var enddate = new Date(endtime[1], endtime[0], 28);
-            if(Date.parse(startdate)>Date.parse(enddate)){
+            if (Date.parse(startdate) > Date.parse(enddate)) {
                 Swal.fire({
                     title: "Thời gian bắt đầu phải trước hoặc bằng thời gian kết thúc!",
                     type: 'warning',
                     confirmButtonColor: '#3085d6',
                     confirmButtonText: 'Xác nhận'
                 })
-            }else{
+            } else {
                 this.props.getAllKPIPersonalOfUnit(infosearch);
             }
         }
@@ -135,11 +137,73 @@ class KPIMember extends Component {
         modal.classList.add("in");
         modal.style = "display: block; padding-right: 17px;";
     }
+    showEvaluateModal = async (id) => {
+        await this.setState(state => {
+            return {
+                ...state,
+                showEvaluateModal: id
+            }
+        })
+        var element = document.getElementsByTagName("BODY")[0];
+        element.classList.add("modal-open");
+        var modal = document.getElementById(`memberEvaluate${id}`);
+        modal.classList.add("in");
+        modal.style = "display: block; padding-right: 17px;";
+    }
     render() {
         var userdepartments, kpimembers;
         const { user, kpipersonals } = this.props;
         if (user.userdepartments) userdepartments = user.userdepartments;
         if (kpipersonals.kpipersonals) kpimembers = kpipersonals.kpipersonals;
+        var listkpi;
+        var kpiApproved, systempoint, mypoint, approverpoint, targetA, targetC, targetOther, misspoint;
+        if (kpipersonals.kpipersonals) {
+            listkpi = kpipersonals.kpipersonals;
+            kpiApproved = listkpi.filter(item => item.status === 3);
+            systempoint = kpiApproved.map(item => {
+                return { label: this.formatDate(item.time), y: item.systempoint }
+            }).reverse();
+            mypoint = kpiApproved.map(item => {
+                return { label: this.formatDate(item.time), y: item.mypoint }
+            }).reverse();
+            approverpoint = kpiApproved.map(item => {
+                return { label: this.formatDate(item.time), y: item.approverpoint }
+            }).reverse();
+        }
+        const options1 = {
+            animationEnabled: true,
+            exportEnabled: true,
+            // title: {
+            //     text: "Kết quả KPI cá nhân năm 2019",
+            //     fontFamily: "tahoma",
+            //     fontWeight: "normal",
+            //     fontSize: 25,
+            // },
+            axisY: {
+                title: "Kết quả",
+                includeZero: false
+            },
+            toolTip: {
+                shared: true
+            },
+            data: [{
+                type: "spline",
+                name: "Hệ thống đánh giá",
+                showInLegend: true,
+                dataPoints: systempoint
+            },
+            {
+                type: "spline",
+                name: "Cá nhân tự đánh giá",
+                showInLegend: true,
+                dataPoints: mypoint
+            }, {
+                type: "spline",
+                name: "Quản lý đánh giá",
+                showInLegend: true,
+                dataPoints: approverpoint
+            }]
+        }
         return (
             <div className="table-wrapper">
                 <div className="content-wrapper">
@@ -328,7 +392,64 @@ class KPIMember extends Component {
                                 <div className="col-md-12">
                                     <div className="box box-info">
                                         <div className="box-header with-border">
-                                            <h3 className="box-title">Bảng tổng hợp KPI nhân viên</h3>
+                                            <h3 className="box-title">Thống kê kết quả thực hiện mục tiêu của nhân viên</h3>
+                                            <div className="box-tools pull-right">
+                                                <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus" />
+                                                </button>
+                                            </div>
+                                        </div>
+                                        {/* /.box-header */}
+                                        <div className="box-body">
+                                                <div className="col-xs-12">
+                                                    <div className='col-xs-4 item-container'>
+                                                        <label>Nhân viên:</label>
+                                                        {userdepartments && <select defaultValue={userdepartments[1].id_user[0]._id} className="form-control select2" style={{ width: '55%' }} ref={input => this.user = input}>
+                                                            <optgroup label="Phó phòng">
+                                                                {userdepartments[1].id_user.map(x => {
+                                                                    return <option key={x._id} value={x._id}>{x.name}</option>
+                                                                })}
+                                                            </optgroup>
+                                                            <optgroup label="Nhân viên">
+                                                                {userdepartments[2].id_user.map(x => {
+                                                                    return <option key={x._id} value={x._id}>{x.name}</option>
+                                                                })}
+                                                            </optgroup>
+                                                        </select>}
+                                                    </div>
+                                                    <div className="col-xs-4" style={{marginLeft: "-60px", marginTop: "7px"}}>
+                                                        <label className="col-xs-4" style={{ marginLeft: "-15px" }}>Từ tháng:</label>
+                                                        <div className='input-group col-sm-4 date has-feedback' style={{ display: "inline-table", marginLeft: "5px", marginTop: "-8px", width: "55%" }}>
+                                                            <div className="input-group-addon">
+                                                                <i className="fa fa-calendar" />
+                                                            </div>
+                                                            <input type="text" className="form-control pull-right" ref={input => this.starttime = input} defaultValue={this.formatDate(Date.now())} name="time" id="datepicker2" data-date-format="mm-yyyy" />
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-xs-4" style={{marginLeft: "-62px", marginTop: "7px"}}>
+                                                        <label className="col-xs-5" style={{ marginLeft: "-15px" }}>Đến tháng:</label>
+                                                        <div className='input-group col-sm-4 date has-feedback' style={{ display: "inline-table", marginLeft: "-20px", marginTop: "-8px", width: "55%" }}>
+                                                            <div className="input-group-addon">
+                                                                <i className="fa fa-calendar" />
+                                                            </div>
+                                                            <input type="text" className="form-control pull-right" ref={input => this.endtime = input} defaultValue={this.formatDate(Date.now())} name="time" id="datepicker6" data-date-format="mm-yyyy" />
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-xs-2" style={{ marginTop: "-1px", marginLeft: "-5%" }}>
+                                                        <button type="button" className="btn btn-success" onClick={() => this.handleSearchData()}>Tìm kiếm</button>
+                                                    </div>
+                                                </div>
+                                                <div className="col-xs-12">
+                                                    <CanvasJSReact options={options1} />
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-md-12">
+                                <div className="col-md-12">
+                                    <div className="box box-info">
+                                        <div className="box-header with-border">
+                                            <h3 className="box-title">Tra cứu, phê duyệt và đánh giá KPI nhân viên</h3>
                                             <div className="box-tools pull-right">
                                                 <button type="button" className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus" />
                                                 </button>
@@ -412,10 +533,10 @@ class KPIMember extends Component {
                                                                     <td>{this.checkStatusKPI(item.status)}</td>
                                                                     <td>{item.approverpoint === null ? "Chưa đánh giá" : item.approverpoint}</td>
                                                                     <td>
-                                                                        <a href="#abc" onClick={()=>this.handleShowApproveModal(item._id)} data-toggle="modal" className="approve" title="Phê duyệt kpi nhân viên này"><i className="fa fa-bullseye"></i></a>
-                                                                        {this.state.showApproveModal===item._id?<ModalMemberApprove id={item._id}/>:null}
-                                                                        <a href="#memberEvaluate1" data-toggle="modal" data-target="#memberEvaluate1" className="copy" title="Đánh giá kpi nhân viên này"><i className="fa fa-list"></i></a>
-                                                                        {/* <ModalMemberEvaluate id="1" name="Nguyễn Văn A"/> */}
+                                                                        <a href="#abc" onClick={() => this.handleShowApproveModal(item._id)} data-toggle="modal" className="approve" title="Phê duyệt kpi nhân viên này"><i className="fa fa-bullseye"></i></a>
+                                                                        {this.state.showApproveModal === item._id ? <ModalMemberApprove id={item._id} /> : null}
+                                                                        <a href="#memberEvaluate1" onClick={() => this.showEvaluateModal(item._id)} data-toggle="modal" className="copy" title="Đánh giá kpi nhân viên này"><i className="fa fa-list"></i></a>
+                                                                        {this.state.showEvaluateModal === item._id ? <ModalMemberEvaluate name={item.creater.name} id={item._id} /> : null}
                                                                     </td>
                                                                 </tr>
                                                             ) : <tr><td colSpan={7}>Không có dữ liệu thỏa mãn điều kiện</td></tr>}
@@ -590,7 +711,8 @@ function mapState(state) {
 
 const actionCreators = {
     getAllUserSameDepartment: userActions.getAllUserSameDepartment,
-    getAllKPIPersonalOfUnit: kpiPersonalActions.getAllKPIPersonalOfUnit
+    getAllKPIPersonalOfUnit: kpiPersonalActions.getAllKPIPersonalOfUnit,
+    getAllKPIPersonal: kpiPersonalActions.getAllKPIPersonalByMember
 };
 const connectedKPIMember = connect(mapState, actionCreators)(KPIMember);
 export { connectedKPIMember as KPIMember };

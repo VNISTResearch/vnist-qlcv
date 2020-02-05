@@ -17,7 +17,7 @@ exports.get = (req, res) => {
 exports.getById = async (req, res) => {
     try {
         var task = await Task.findById(req.params.id)
-            .populate({ path: "unit creator responsible accounatable consulted informed parent tasktemplate comments" });
+            .populate({ path: "unit responsible accounatable consulted informed parent tasktemplate comments" });
         if (task.tasktemplate !== null) {
             var actionTemplates = await ActionTask.find({ tasktemplate: task.tasktemplate._id });
             var informationTemplate = await InformationTaskTemplate.find({ tasktemplate: task.tasktemplate._id });
@@ -55,7 +55,7 @@ exports.getTaskResponsibleByUser = async (req, res) => {
         var page = Number(req.params.number);
         if (req.params.unit === "[]" && req.params.status === "[]") {
             taskResponsibles = await Task.find({ responsible: { $in: [req.params.user] } }).sort({ 'createdAt': 'asc' })
-                .skip(perPage * (page - 1)).limit(perPage).populate({ path: "unit creator responsible accounatable consulted informed parent" });
+                .skip(perPage * (page - 1)).limit(perPage).populate({ path: "unit creator parent" });
         } else {
             taskResponsibles = await Task.find({
                 responsible: { $in: [req.params.user] },
@@ -64,7 +64,7 @@ exports.getTaskResponsibleByUser = async (req, res) => {
                     { status: { $in: req.params.status.split(",") } }
                 ]
             }).sort({ 'createdAt': 'asc' })
-                .skip(perPage * (page - 1)).limit(perPage).populate({ path: "unit creator responsible accounatable consulted informed parent" });
+                .skip(perPage * (page - 1)).limit(perPage).populate({ path: "unit creator parent" });
         }
         var totalCount = await Task.count({ responsible: { $in: [req.params.user] } });
         var totalPages = Math.ceil(totalCount / perPage);
@@ -85,7 +85,7 @@ exports.getTaskAccounatableByUser = async (req, res) => {
         var page = Number(req.params.number);
         if (req.params.unit === "[]" && req.params.status === "[]") {
             taskAccounatables = await Task.find({ accounatable: { $in: [req.params.user] } }).sort({ 'createdAt': 'asc' })
-                .skip(perPage * (page - 1)).limit(perPage).populate({ path: "unit creator responsible accounatable consulted informed parent" });
+                .skip(perPage * (page - 1)).limit(perPage).populate({ path: "unit creator parent" });
         } else {
             taskAccounatables = await Task.find({
                 accounatable: { $in: [req.params.user] },
@@ -94,7 +94,7 @@ exports.getTaskAccounatableByUser = async (req, res) => {
                     { status: { $in: req.params.status.split(",") } }
                 ]
             }).sort({ 'createdAt': 'asc' })
-                .skip(perPage * (page - 1)).limit(perPage).populate({ path: "unit creator responsible accounatable consulted informed parent" });
+                .skip(perPage * (page - 1)).limit(perPage).populate({ path: "unit creator parent" });
         }
         var totalCount = await Task.count({ accounatable: { $in: [req.params.user] } });
         var totalPages = Math.ceil(totalCount / perPage);
@@ -115,7 +115,7 @@ exports.getTaskConsultedByUser = async (req, res) => {
         var page = Number(req.params.number);
         if (req.params.unit === "[]" && req.params.status === "[]") {
             taskConsulteds = await Task.find({ consulted: { $in: [req.params.user] } }).sort({ 'createdAt': 'asc' })
-                .skip(perPage * (page - 1)).limit(perPage).populate({ path: "unit creator responsible accounatable consulted informed parent" });
+                .skip(perPage * (page - 1)).limit(perPage).populate({ path: "unit creator parent" });
         } else {
             taskConsulteds = await Task.find({
                 consulted: { $in: [req.params.user] },
@@ -124,7 +124,7 @@ exports.getTaskConsultedByUser = async (req, res) => {
                     { status: { $in: req.params.status.split(",") } }
                 ]
             }).sort({ 'createdAt': 'asc' })
-                .skip(perPage * (page - 1)).limit(perPage).populate({ path: "unit creator responsible accounatable consulted informed parent" });
+                .skip(perPage * (page - 1)).limit(perPage).populate({ path: "unit creator parent" });
         }
         var totalCount = await Task.count({ consulted: { $in: [req.params.user] } });
         var totalPages = Math.ceil(totalCount / perPage);
@@ -145,7 +145,7 @@ exports.getTaskCreatorByUser = async (req, res) => {
         var page = Number(req.params.number);
         if (req.params.unit === "[]" && req.params.status === "[]") {
             taskCreators = await Task.find({ creator: { $in: [req.params.user] } }).sort({ 'createdAt': 'asc' })
-                .skip(perPage * (page - 1)).limit(perPage).populate({ path: "unit creator responsible accounatable consulted informed parent" });
+                .skip(perPage * (page - 1)).limit(perPage).populate({ path: "unit creator parent" });
         } else {
             taskCreators = await Task.find({
                 creator: { $in: [req.params.user] },
@@ -154,7 +154,7 @@ exports.getTaskCreatorByUser = async (req, res) => {
                     { status: { $in: req.params.status.split(",") } }
                 ]
             }).sort({ 'createdAt': 'asc' })
-                .skip(perPage * (page - 1)).limit(perPage).populate({ path: "unit creator responsible accounatable consulted informed parent" });
+                .skip(perPage * (page - 1)).limit(perPage).populate({ path: "unit creator parent" });
         }
         var totalCount = await Task.count({ creator: { $in: [req.params.user] } });
         var totalPages = Math.ceil(totalCount / perPage);
@@ -176,7 +176,7 @@ exports.getTaskInformedByUser = async (req, res) => {
         if (req.params.unit === "[]" && req.params.status === "[]") {
             taskInformeds = await Task.find({ informed: { $in: [req.params.user] } }).sort({ 'createdAt': 'asc' })
                 .skip(perPage * (page - 1)).limit(perPage)
-                .populate({ path: "unit creator responsible accounatable consulted informed parent" });
+                .populate({ path: "unit creator parent" });
         } else {
             taskInformeds = await Task.find({
                 informed: { $in: [req.params.user] },
@@ -185,7 +185,7 @@ exports.getTaskInformedByUser = async (req, res) => {
                     { status: { $in: req.params.status.split(",") } }
                 ]
             }).sort({ 'createdAt': 'asc' })
-                .skip(perPage * (page - 1)).limit(perPage).populate({ path: "unit creator responsible accounatable consulted informed parent" });
+                .skip(perPage * (page - 1)).limit(perPage).populate({ path: "unit creator parent" });
         }
         var totalCount = await Task.count({ informed: { $in: [req.params.user] } });
         var totalPages = Math.ceil(totalCount / perPage);
@@ -238,6 +238,7 @@ exports.create = async (req, res) => {
                 req.body.tasktemplate, { $inc: { 'count': 1} }, { new: true }
             );
         }
+        task = await task.populate("unit").execPopulate();
         res.status(200).json({
             message: "Create Task Template Successfully!",
             data: task
@@ -246,7 +247,6 @@ exports.create = async (req, res) => {
 
         res.status(400).json(error);
     }
-    console.log("Create Task Template");
 }
 
 // Sửa thông tin công việc

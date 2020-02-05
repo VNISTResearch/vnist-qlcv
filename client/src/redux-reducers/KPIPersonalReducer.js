@@ -18,6 +18,7 @@ export function kpipersonals(state = {}, action) {
       };
     case  kpiPersonalConstants.GETALL_KPIPERSONAL_REQUEST:
       return {
+        ...state,
         loading: true
       };
     case kpiPersonalConstants.GETALL_KPIPERSONAL_SUCCESS:
@@ -30,6 +31,21 @@ export function kpipersonals(state = {}, action) {
       return { 
         error: action.error
       };
+    case  kpiPersonalConstants.GETALL_KPIPERSONAL_OFTASK_REQUEST:
+      return {
+        ...state,
+        loading: true
+      };
+    case kpiPersonalConstants.GETALL_KPIPERSONAL_OFTASK_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        kpipersonals: action.kpipersonals.content
+      };
+    case kpiPersonalConstants.GETALL_KPIPERSONAL_OFTASK_FAILURE:
+      return { 
+        error: action.error
+      };
     case  kpiPersonalConstants.GET_KPIPERSONAL_BYID_REQUEST:
       return {
         ...state,
@@ -39,7 +55,7 @@ export function kpipersonals(state = {}, action) {
       return {
         ...state,
         loading: false,
-        kpipersonal: action.kpipersonal.content
+        currentKPI: action.kpipersonal.content
       };
     case kpiPersonalConstants.GET_KPIPERSONAL_BYID_FAILURE:
       return { 
@@ -128,9 +144,9 @@ export function kpipersonals(state = {}, action) {
     case kpiPersonalConstants.APPROVE_KPIPERSONAL_SUCCESS:
       return {
         ...state,
-        items: state.items.map(kpipersonal => ({
-            ...kpipersonal, confirm: true
-        }))
+        currentKPI: action.newKPI.kpipersonal,
+        kpipersonals: state.kpipersonals.map(item=>
+          item._id===action.newKPI.kpipersonal._id?action.newKPI.kpipersonal:item)
       };
     case kpiPersonalConstants.APPROVE_KPIPERSONAL_FAILURE:
       return { 
@@ -192,19 +208,15 @@ export function kpipersonals(state = {}, action) {
     case  kpiPersonalConstants.EDITSTATUS_TARGET_KPIPERSONAL_REQUEST:
       return {
         ...state,
-        items: state.items.map(kpipersonal =>
-          kpipersonal._id === action.id
-            ? { ...kpipersonal, editing: true }
-            : kpipersonal
-        )
+        editing: true
       };
     case kpiPersonalConstants.EDITSTATUS_TARGET_KPIPERSONAL_SUCCESS:
       return {
         ...state,
-        items: state.items.map(kpipersonal =>
-          kpipersonal._id === action.target.kpipersonal._id
-            ? action.target.kpipersonal:kpipersonal
-            )
+        editing: false,
+        currentKPI: action.newKPI.newKPI,
+        kpipersonals: state.kpipersonals.map(item=>
+          item._id===action.newKPI.newKPI._id?action.newKPI.newKPI:item)
       };
     case kpiPersonalConstants.EDITSTATUS_TARGET_KPIPERSONAL_FAILURE:
       return { 

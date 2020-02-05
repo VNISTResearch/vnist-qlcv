@@ -2,6 +2,7 @@ import {handleResponse} from '../helpers/HandleResponse';
 export const kpiUnitService = {
     getAllKPIUnit,
     getCurrentKPIUnit,
+    getChildTargetOfCurrentTarget,
     getKPIParent,
     addKPIUnit,
     addTargetKPIUnit,
@@ -19,6 +20,14 @@ function getAllKPIUnit(id) {
     };
 
     return fetch(`/kpiunits/unit/${id}`, requestOptions).then(handleResponse);
+}
+// Lấy tất cả KPI đơn vị
+function getChildTargetOfCurrentTarget(id) {
+    const requestOptions = {
+        method: 'GET',
+    };
+
+    return fetch(`/kpiunits/child-target/${id}`, requestOptions).then(handleResponse);
 }
 
 // Lấy KPI đơn vị hiện tại

@@ -11,6 +11,9 @@ router.get('/:id', KPIUnitController.getById);
 // Lấy KPI đơn vị hiện tại qua vai trò
 router.get('/current-unit/role/:id', KPIUnitController.getByRole);
 
+// Lấy tất cả mục tiêu con của mục tiêu hiện tại
+router.get('/child-target/:id', KPIUnitController.getChildTargetByParentId);
+
 // get all target kpi of a unit
 router.get('/current-unit/:id', KPIUnitController.getByUnit);
 

@@ -93,7 +93,7 @@ function getCreatorTaskByUser(user, unit, number, perpage, status, priority, spe
 function addNewTask(newTask) {
     const requestOptions = {
         method: 'POST',
-        headers: authHeader(),
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newTask)
     };
 

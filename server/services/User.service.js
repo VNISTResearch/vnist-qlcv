@@ -62,7 +62,6 @@ exports.getUsersOfDepartment = async(req, res) => {
         var employee = await UserRole.findOne({ id_role: department.employee}).populate('id_user id_role');
         var users = [];
         users = users.concat(dean, vice_dean, employee);
-
         res.status(200).json(users); //tra ve list cac user theo 3 chuc danh cua phong ban
     } catch (error) {
         res.status(400).json({msg: error});

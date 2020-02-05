@@ -62,7 +62,7 @@ class TaskTemplate extends Component {
                 perPage: this.perPage.value
             }
         })
-
+        this.props.getTaskTemplateByUser(localStorage.getItem('id'), this.perPage.value, "[]");
     }
     // handleAction = (id) => {
     //     // Đóng cửa sổ cài đặt
@@ -283,13 +283,6 @@ class TaskTemplate extends Component {
                     <div className="row">
                         <div className="col-xs-12">
                             <div className="box">
-                                <div className="box-header">
-                                    <div className="row">
-                                        <div className="col-xs-10">
-                                            <h3 className="box-title">Bảng danh sách mẫu công việc</h3>
-                                        </div>
-                                    </div>
-                                </div>
                                 {/* /.box-header */}
                                 <div className="box-body">
                                     <div className="row">
@@ -309,12 +302,12 @@ class TaskTemplate extends Component {
                                                 }
                                             </div>
                                             <div className="col-xs-2" style={{ marginLeft: "-5%" }}>
-                                                <button type="button" className="btn btn-success" onClick={this.handleUpdateData}>Tìm kiếm</button>
+                                                <button type="button" className="btn btn-success" title="Tìm tiếm mẫu công việc" onClick={this.handleUpdateData}>Tìm kiếm</button>
                                             </div>
-                                            <div className="col-xs-2 col-xs-offset-2">
+                                            <div className="col-xs-1" style={{marginLeft: "28.5%"}}>
                                                 {this.checkPermisson(currentUnit && currentUnit[0].dean) &&
-                                                    <button type="button" className="btn btn-success" data-toggle="modal" data-target="#addTaskTemplate" data-backdrop="static" data-keyboard="false">Thêm 1 mẫu công việc</button>}
-                                                <ModalAddTaskTemplate />
+                                                    <button type="button" className="btn btn-success" data-toggle="modal" title="Thêm mới một mẫu công việc" data-target="#addTaskTemplate" data-backdrop="static" data-keyboard="false">Thêm mới</button>}
+                                                    <ModalAddTaskTemplate />
                                             </div>
                                         </div>
                                         <div className="col-xs-12">
@@ -345,7 +338,7 @@ class TaskTemplate extends Component {
                                                                 </div>
                                                                 <div className="col-xs-12" style={{ marginTop: "10px" }}>
                                                                     <label style={{ marginRight: "15px" }}>Số dòng/trang:</label>
-                                                                    <input className="form-control" type="text" defaultValue={20} ref={input => this.perPage = input} />
+                                                                    <input className="form-control" type="text" defaultValue={1} ref={input => this.perPage = input} />
                                                                 </div>
                                                                 <div className="col-xs-2 col-xs-offset-6" style={{ marginTop: "10px" }}>
                                                                     <button type="button" className="btn btn-success" onClick={this.handleSetting}>Cập nhật</button>

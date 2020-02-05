@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { kpiUnitActions } from '../../../../redux-actions/CombineActions';
+import { kpiPersonalActions } from '../../../../redux-actions/CombineActions';
 
 class ModalMemberEvaluate extends Component {
     componentDidMount() {
-        // get all target of unit
-        this.props.getAllTarget(this.state.unit);
-        
+        // get kpi personal member
+        this.props.getKPIPersonalById(this.props.id);
     }
 
     constructor(props) {
@@ -56,17 +55,26 @@ class ModalMemberEvaluate extends Component {
         })
         console.log(this.state);
     }
+    handleCloseModal = async (id) => {
+        var element = document.getElementsByTagName("BODY")[0];
+        element.classList.remove("modal-open");
+        var modal = document.getElementById(`memberEvaluate${id}`);
+        modal.classList.remove("in");
+        modal.style = "display: none;";
+    }
     render() {
         var list;
-        const { kpiunits } = this.props;
-        if (kpiunits.items) list = kpiunits.items;
+        const { kpipersonals } = this.props;
+        if (kpipersonals.currentKPI) {
+            list = kpipersonals.currentKPI.listtarget;
+        }
         return (
             <div className="modal modal-full fade" id={"memberEvaluate" + this.props.id} tabIndex={-1} role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div className="modal-dialog-full modal-tasktemplate">
                     <div className="modal-content">
                         {/* Modal Header */}
                         <div className="modal-header" style={{ textAlign: "center", background: "#605ca8", color: "white" }}>
-                            <button type="button" className="close" data-dismiss="modal">
+                            <button type="button" className="close" data-dismiss="modal" onClick={() => this.handleCloseModal(this.props.id)}>
                                 <span aria-hidden="true">×</span>
                                 <span className="sr-only">Close</span>
                             </button>
@@ -81,27 +89,9 @@ class ModalMemberEvaluate extends Component {
                                 <div className="content-left-modal" id="style-1" style={{ width: "24.5%" }}>
                                     <div className="scroll-content" style={{ borderRight: "3px solid #ddd" }}>
                                         {list && list.map((item, index) =>
-                                            <a href="#abc" style={{color: "black"}} onClick={() => this.handleChangeContent(item._id)} className="list-group-item" key={index}>
+                                            <a href="#abc" style={{ color: "black" }} onClick={() => this.handleChangeContent(item._id)} className="list-group-item" key={index}>
                                                 {item.name}&nbsp;
-                                                <small style={{float: "right", textDecoration: "underline", color: "blue"}}>(15 công việc - 28 điểm)</small>
-                                                {/* <span className="badge">{15 + index}</span> */}
-                                            </a>)}
-                                        {list && list.map((item, index) =>
-                                            <a href="#abc" style={{color: "black"}} className="list-group-item" key={index}>
-                                                {item.name}&nbsp;
-                                                <small style={{float: "right", textDecoration: "underline", color: "blue"}}>(15 công việc - 28 điểm)</small>
-                                                {/* <span className="badge">{15 + index}</span> */}
-                                            </a>)}
-                                        {list && list.map((item, index) =>
-                                            <a href="#abc" style={{color: "black"}} className="list-group-item" key={index}>
-                                                {item.name}&nbsp;
-                                                <small style={{float: "right", textDecoration: "underline", color: "blue"}}>(15 công việc - 28 điểm)</small>
-                                                {/* <span className="badge">{15 + index}</span> */}
-                                            </a>)}
-                                        {list && list.map((item, index) =>
-                                            <a href="#abc" style={{color: "black"}} className="list-group-item" key={index}>
-                                                {item.name}&nbsp;
-                                                <small style={{float: "right", textDecoration: "underline", color: "blue"}}>(15 công việc - 28 điểm)</small>
+                                                <small style={{ float: "right", textDecoration: "underline", color: "blue" }}>(9 công việc - 0 điểm)</small>
                                                 {/* <span className="badge">{15 + index}</span> */}
                                             </a>)}
                                     </div>
@@ -117,7 +107,7 @@ class ModalMemberEvaluate extends Component {
                                                 </div>
                                                 <div className="col-sm-12">
                                                     <label className="col-sm-2" style={{ fontWeight: "400" }}>Tiêu chí đính giá:</label>
-                                                    <label className="col-sm-10" style={{ fontWeight: "400" }}>{item.name}</label>
+                                                    <label className="col-sm-10" style={{ fontWeight: "400" }}>{item.criteria}</label>
                                                 </div>
                                                 <div className="col-sm-12">
                                                     <label className="col-sm-2" style={{ fontWeight: "400" }}>Trọng số:</label>
@@ -125,7 +115,7 @@ class ModalMemberEvaluate extends Component {
                                                 </div>
                                                 <div className="col-sm-12">
                                                     <label className="col-sm-2" style={{ fontWeight: "400" }}>Hệ thống đánh giá:</label>
-                                                    <label className="col-sm-10" style={{ fontWeight: "400" }}>11.5/{item.weight}</label>
+                                                    <label className="col-sm-10" style={{ fontWeight: "400" }}>{item.systempoint === null ? 0 : item.systempoint}/{item.weight}</label>
                                                 </div>
                                                 <div className="col-sm-12">
                                                     <label className="col-sm-2" style={{ fontWeight: "400" }}>Quản lý đánh giá:</label>
@@ -133,7 +123,7 @@ class ModalMemberEvaluate extends Component {
                                                 </div>
                                                 <div className="col-sm-12">
                                                     <label className="col-sm-2" style={{ fontWeight: "400" }}>Tự đánh giá:</label>
-                                                    <label className="col-sm-4" style={{ fontWeight: "400" }}>0</label>
+                                                    <label className="col-sm-4" style={{ fontWeight: "400" }}>{item.mypoint === null ? 0 : item.mypoint}/{item.weight}</label>
                                                     <button className="col-sm-2 col-sm-offset-4 btn btn-success">Lưu</button>
                                                 </div>
                                             </div>
@@ -245,12 +235,12 @@ class ModalMemberEvaluate extends Component {
 }
 
 function mapState(state) {
-    const { kpiunits } = state;
-    return { kpiunits };
+    const { kpipersonals } = state;
+    return { kpipersonals };
 }
 
 const actionCreators = {
-    getAllTarget: kpiUnitActions.getAllTargetByUnitId,
+    getKPIPersonalById: kpiPersonalActions.getKPIPersonalById,
 };
 const connectedModalMemberEvaluate = connect(mapState, actionCreators)(ModalMemberEvaluate);
 export { connectedModalMemberEvaluate as ModalMemberEvaluate };

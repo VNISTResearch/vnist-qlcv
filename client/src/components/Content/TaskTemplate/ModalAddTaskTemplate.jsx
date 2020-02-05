@@ -54,7 +54,8 @@ class ModalAddTaskTemplate extends Component {
             editAction: false,
             addAction: false,
             editInfo: false,
-            addInfo: false
+            addInfo: false,
+            currentRole: localStorage.getItem('currentRole')
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -284,16 +285,14 @@ class ModalAddTaskTemplate extends Component {
     }
 
     // function: reset all data fields of action table
-    handleCancelAction = (event) => {
-        event.preventDefault();
+    handleCancelAction = () => {
         this.nameAction.value = "";
         this.desAction.value = "";
         this.mandataryAction.checked = true;
     }
 
     // function: reset all data fields of information table
-    handleCancelInformation = (event) => {
-        event.preventDefault();
+    handleCancelInformation = () => {
         this.nameInfo.value = "";
         this.desInfo.value = "";
         this.mandataryInfo.checked = true;
@@ -324,7 +323,7 @@ class ModalAddTaskTemplate extends Component {
                 editAction: false,
                 addAction: false,
                 editInfo: false,
-                addInfo: false
+                addInfo: false,
             }
 
         })
@@ -393,7 +392,6 @@ class ModalAddTaskTemplate extends Component {
         event.preventDefault();
         await this.updateState();
         const { newTemplate } = this.state;
-        console.log(newTemplate);
         if (newTemplate.name && newTemplate.description && newTemplate.formula && newTemplate.listAction && newTemplate.listInfo) {
             this.props.addNewTemplate(newTemplate);
             this.setState(state => {
@@ -401,17 +399,22 @@ class ModalAddTaskTemplate extends Component {
                     submitted: false
                 }
             });
-            // this.handleCancel();
         }
         window.$("#addTaskTemplate").modal("hide");
     }
     render() {
-        var units, listAction, listInfo, listRole, usercompanys, userdepartments;
+        var units, currentUnit, listAction, listInfo, listRole, usercompanys, userdepartments;
         const { newTemplate, submitted, action, information, addAction, addInfo } = this.state;
         const { departments, user } = this.props;
         if (newTemplate.listAction) listAction = newTemplate.listAction;
         if (newTemplate.listInfo) listInfo = newTemplate.listInfo;
-        if (departments.unitofuser) units = departments.unitofuser;
+        if (departments.unitofuser) {
+            units = departments.unitofuser;
+            currentUnit = units.filter(item =>
+                item.dean === this.state.currentRole
+                || item.vice_dean === this.state.currentRole
+                || item.employee === this.state.currentRole);
+        }
         if (user.roledepartments) listRole = user.roledepartments;
         if (user.usercompanys) usercompanys = user.usercompanys;
         if (user.userdepartments) userdepartments = user.userdepartments;
@@ -436,7 +439,7 @@ class ModalAddTaskTemplate extends Component {
                                             <label className="col-sm-5 control-label" style={{ width: '100%', textAlign: 'left' }}>Đơn vị*:</label>
                                             <div className="col-sm-10" style={{ width: '100%' }}>
                                                 {units &&
-                                                    <select defaultValue={units[1]._id} className="form-control select2" ref="unit" data-placeholder="Chọn đơn vị quản lý mẫu" style={{ width: '100%' }}>
+                                                    <select defaultValue={currentUnit[0]._id} className="form-control select2" ref="unit" data-placeholder="Chọn đơn vị quản lý mẫu" style={{ width: '100%' }}>
                                                         {units.map(x => {
                                                             return <option key={x._id} value={x._id}>{x.name}</option>
                                                         })}
@@ -559,10 +562,10 @@ class ModalAddTaskTemplate extends Component {
                                                     <thead>
                                                         <tr>
                                                             <th style={{ width: '10%' }}>STT</th>
-                                                            <th>Tên hoạt động</th>
-                                                            <th>Mô tả</th>
-                                                            <th>Bắt buộc</th>
-                                                            <th>Hành động</th>
+                                                            <th title="Tên hoạt động">Tên hoạt động</th>
+                                                            <th title="Mô tả">Mô tả</th>
+                                                            <th title="Bắt buộc">Bắt buộc</th>
+                                                            <th title="Hành động">Hành động</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody id="actions">
@@ -644,7 +647,7 @@ class ModalAddTaskTemplate extends Component {
                                                 </div>
                                                 <div className="form-group">
                                                     <label className="col-sm-2 control-label">
-                                                        Bắt buộc &nbsp;
+                                                        Chỉ quản lý được điền? &nbsp;
                                                         <input type="checkbox" className="flat-red" defaultChecked ref={input => this.mandataryInfo = input} />
                                                     </label>
                                                 </div>
@@ -657,10 +660,10 @@ class ModalAddTaskTemplate extends Component {
                                                     <thead>
                                                         <tr>
                                                             <th style={{ width: '10%' }}>Stt</th>
-                                                            <th>Tên trường thông tin</th>
-                                                            <th>Mô tả</th>
-                                                            <th>Kiểu dữ liệu</th>
-                                                            <th>Bắt buộc</th>
+                                                            <th title="Tên trường thông tin">Tên trường thông tin</th>
+                                                            <th title="Mô tả">Mô tả</th>
+                                                            <th title="Kiểu dữ liệu">Kiểu dữ liệu</th>
+                                                            <th title="Chỉ quản lý được điền?">Chỉ quản lý được điền?</th>
                                                             <th>Hành động</th>
                                                         </tr>
                                                     </thead>

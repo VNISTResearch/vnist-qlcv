@@ -3,15 +3,24 @@ import { ModalDetailKPIPersonal } from './ModalDetailKPIPersonal';
 import { connect } from 'react-redux';
 import { kpiPersonalActions } from '../../../../../redux-actions/CombineActions';
 import CanvasJSReact from '../../../TaskManagement/Chart/canvasjs.react';
+import { ModalCopyKPIPersonal } from './ModalCopyKPIPersonal';
 
 class KPIPersonalOverview extends Component {
-    componentDidMount() {
+    UNSAFE_componentWillMount() {
         this.props.getAllKPIPersonal(localStorage.getItem("id"));
+    }
+    componentDidMount() {
         let script = document.createElement('script');
         script.src = '/main/js/Table.js';
         script.async = true;
         script.defer = true;
         document.body.appendChild(script);
+    }
+    constructor(props) {
+        super(props);
+        this.state = {
+            showModalCopy: ""
+        };
     }
     // componentDidUpdate() {
     //     let script = document.createElement('script');
@@ -32,6 +41,19 @@ class KPIPersonalOverview extends Component {
             day = '0' + day;
 
         return [month, year].join('-');
+    }
+    showModalCopy = async (id) => {
+        await this.setState(state => {
+            return {
+                ...state,
+                showModalCopy: id
+            }
+        })
+        var element = document.getElementsByTagName("BODY")[0];
+        element.classList.add("modal-open");
+        var modal = document.getElementById(`copyOldKPIToNewTime${id}`);
+        modal.classList.add("in");
+        modal.style = "display: block; padding-right: 17px;";
     }
     render() {
         var listkpi;
@@ -70,7 +92,8 @@ class KPIPersonalOverview extends Component {
             title: {
                 text: "Biểu đồ kết quả KPI 2019",
                 fontFamily: "tahoma",
-                fontWeight: "normal"
+                fontWeight: "normal",
+                fontSize: 25,
             },
             axisY: {
                 title: "Điểm",
@@ -112,7 +135,8 @@ class KPIPersonalOverview extends Component {
             title: {
                 text: "Kết quả KPI cá nhân năm 2019",
                 fontFamily: "tahoma",
-                fontWeight: "normal"
+                fontWeight: "normal",
+                fontSize: 25,
             },
             axisY: {
                 title: "Kết quả",
@@ -145,7 +169,8 @@ class KPIPersonalOverview extends Component {
             title: {
                 text: "Phân bố mục tiêu tháng 12",
                 fontFamily: "tahoma",
-                fontWeight: "normal"
+                fontWeight: "normal",
+                fontSize: 25,
             },
             legend: {
                 cursor: "pointer",
@@ -158,6 +183,7 @@ class KPIPersonalOverview extends Component {
                 dataPoints: currentTargets
             }]
         }
+        
         return (
             <div className="table-wrapper">
                 <div className="content-wrapper">
@@ -218,8 +244,7 @@ class KPIPersonalOverview extends Component {
                                                                 <a href={`#detailKPIPersonal${item._id}`} data-toggle="modal" data-backdrop="static" data-keyboard="false" title="Xem chi tiết KPI tháng này" ><i className="material-icons">view_list</i></a>
                                                                 <ModalDetailKPIPersonal kpipersonal={item} />
                                                                 {<a href="#abc" onClick={() => this.showModalCopy(item._id)} className="copy" data-toggle="modal" data-backdrop="static" data-keyboard="false" title="Thiết lập kpi tháng mới từ kpi tháng này"><i className="material-icons">content_copy</i></a>}
-                                                                {/* {this.state.showModalCopy === item._id ? <ModalCopyKPIUnit kpiunit={item} /> : null} */}
-                                                                {/* {item.status === 1 ? <a style={{ color: "navy" }} href="#abc" onClick={() => this.props.refreshData(item._id)} title="Cập nhật kết quả mới nhất của KPI này" ><i className="material-icons">refresh</i></a> : null} */}
+                                                                {this.state.showModalCopy === item._id ? <ModalCopyKPIPersonal kpipersonal={item} /> : null}
                                                             </td>
                                                         </tr>) : null
                                                 }
@@ -242,7 +267,7 @@ function mapState(state) {
 }
 
 const actionCreators = {
-    getAllKPIPersonal: kpiPersonalActions.getAllKPIPersonal
+    getAllKPIPersonal: kpiPersonalActions.getAllKPIPersonalByMember
 };
 const connectedKPIPersonalOverview = connect(mapState, actionCreators)(KPIPersonalOverview);
 export { connectedKPIPersonalOverview as KPIPersonalOverview };

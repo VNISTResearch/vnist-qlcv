@@ -20,7 +20,10 @@ exports.getByRole = (req, res) => {
 exports.getByUnit = (req, res) => {
     return KPIUnitService.getByUnit(req, res);
 }
-
+// Lấy tất cả các mục tiêu con của mục tiêu hiện tại
+exports.getChildTargetByParentId = (req, res) => {
+    return KPIUnitService.getChildTargetByParentId(req, res);
+}
 // lấy KPI đơn vị của đơn vị cha
 exports.getParentByUnit = (req, res) => {
     return KPIUnitService.getParentByUnit(req, res);

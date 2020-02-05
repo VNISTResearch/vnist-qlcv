@@ -125,7 +125,8 @@ class KPIUnitOverview extends Component {
             title: {
                 text: "Kết quả KPI đơn vị năm 2019",
                 fontFamily: "tahoma",
-                fontWeight: "normal"
+                fontWeight: "normal",
+                fontSize: 25,
             },
             axisX: {
                 title: "Tháng"
@@ -144,7 +145,8 @@ class KPIUnitOverview extends Component {
             title: {
                 text: "Biểu đồ kết quả KPI 2019",
                 fontFamily: "tahoma",
-                fontWeight: "normal"
+                fontWeight: "normal",
+                fontSize: 25,
             },
             axisY: {
                 title: "Điểm",
@@ -186,7 +188,8 @@ class KPIUnitOverview extends Component {
             title: {
                 text: "Phân bố mục tiêu tháng 12",
                 fontFamily: "tahoma",
-                fontWeight: "normal"
+                fontWeight: "normal",
+                fontSize: 25,
             },
             legend: {
                 cursor: "pointer",
@@ -199,6 +202,82 @@ class KPIUnitOverview extends Component {
                 dataPoints: currentTargets
             }]
         }
+        const options4 = {
+            exportEnabled: true,
+            animationEnabled: true,
+            theme: "light2", //"light1", "dark1", "dark2"
+            title: {
+                text: "Xu hướng thực hiện mục tiêu của nhân viên"
+            },
+            axisY: {
+                interval: 10,
+                suffix: "%"
+            },
+            toolTip: {
+                shared: true
+            },
+            data: [{
+                type: "stackedBar100",
+                toolTipContent: "{label}<br><b>{name}:</b> {y} (#percent%)",
+                showInLegend: true,
+                name: "Mục tiêu số 1",
+                dataPoints: [
+                    { y: 27, label: "Thời gian thực hiện" },
+                    { y: 12, label: "Số lượng công việc" },
+                    { y: 6, label: "Người tham gia" },
+                    { y: 8, label: "Mục tiêu con" },
+                    { y: 10, label: "Trọng số" }
+                ]
+            },{
+                type: "stackedBar100",
+                toolTipContent: "{label}<br><b>{name}:</b> {y} (#percent%)",
+                showInLegend: true,
+                name: "Mục tiêu số 2",
+                dataPoints: [
+                    { y: 115, label: "Thời gian thực hiện" },
+                    { y: 27, label: "Số lượng công việc" },
+                    { y: 14, label: "Người tham gia" },
+                    { y: 21, label: "Mục tiêu con" },
+                    { y: 20, label: "Trọng số" }
+                ]
+            },{
+                type: "stackedBar100",
+                toolTipContent: "{label}<br><b>{name}:</b> {y} (#percent%)",
+                showInLegend: true,
+                name: "Mục tiêu số 3",
+                dataPoints: [
+                    { y: 175, label: "Thời gian thực hiện" },
+                    { y: 47, label: "Số lượng công việc" },
+                    { y: 17, label: "Người tham gia" },
+                    { y: 25, label: "Mục tiêu con" },
+                    { y: 30, label: "Trọng số" }
+                ]
+            },{
+                type: "stackedBar100",
+                toolTipContent: "{label}<br><b>{name}:</b> {y} (#percent%)",
+                showInLegend: true,
+                name: "Mục tiêu số 4",
+                dataPoints: [
+                    { y: 47, label: "Thời gian thực hiện" },
+                    { y: 15, label: "Số lượng công việc" },
+                    { y: 7, label: "Người tham gia" },
+                    { y: 9, label: "Mục tiêu con" },
+                    { y: 20, label: "Trọng số" }
+                ]
+            },{
+                type: "stackedBar100",
+                toolTipContent: "{label}<br><b>{name}:</b> {y} (#percent%)",
+                showInLegend: true,
+                name: "Mục tiêu số 5",
+                dataPoints: [
+                    { y: 54, label: "Thời gian thực hiện" },
+                    { y: 13, label: "Số lượng công việc" },
+                    { y: 8, label: "Người tham gia" },
+                    { y: 11, label: "Mục tiêu con" },
+                    { y: 20, label: "Trọng số" }
+                ]
+            }
+        ]}
         return (
             <div className="table-wrapper">
                 <div className="content-wrapper">
@@ -218,6 +297,11 @@ class KPIUnitOverview extends Component {
                             <div className="col-xs-12">
                                 <div className="box box-primary">
                                     <CanvasJSReact options={options2} />
+                                </div>
+                            </div>
+                            <div className="col-xs-12">
+                                <div className="box box-primary">
+                                    <CanvasJSReact options={options4} />
                                 </div>
                             </div>
                             <div className="col-xs-6">

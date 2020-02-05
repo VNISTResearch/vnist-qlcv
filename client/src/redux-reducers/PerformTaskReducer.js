@@ -10,7 +10,8 @@ export function performtasks(state = {}, action) {
         case performTaskConstants.GET_LOGTIMER_SUCCESS:
             return {
                 ...state,
-                logtimer: action.logtimer
+                loading: false,
+                logtimer: action.logTimer
             };
         case performTaskConstants.GET_LOGTIMER_FAILURE:
             return {

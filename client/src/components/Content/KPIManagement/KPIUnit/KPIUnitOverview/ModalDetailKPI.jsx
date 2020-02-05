@@ -22,7 +22,7 @@ class ModalDetailKPI extends Component {
                 content: id
             }
         })
-        console.log(this.state);
+        this.props.getChildTarget(id);
     }
     render() {
         var currentKPI;
@@ -38,7 +38,7 @@ class ModalDetailKPI extends Component {
                                 <span aria-hidden="true">×</span>
                                 <span className="sr-only">Close</span>
                             </button>
-                            <h3 className="modal-title" id="myModalLabel">Thông tin chi tiết kpi đơn vị tháng 11</h3>
+                            <h3 className="modal-title" id="myModalLabel">Thông tin chi tiết kpi đơn vị tháng 1 năm 2020</h3>
                         </div>
                         {/* Modal Body */}
                         <div className="modal-body modal-body-perform-task" >
@@ -49,7 +49,7 @@ class ModalDetailKPI extends Component {
                                 <div className="content-left-modal" id="style-1" style={{ width: "24.5%" }}>
                                     <div className="scroll-content" style={{ borderRight: "3px solid #ddd" }}>
                                         {typeof kpiunit !== 'undefined' && kpiunit !== null && kpiunit.listtarget.map((item, index) =>
-                                            <a href="#abc" style={{color: "black"}} onClick={() => this.handleChangeContent(item._id)} className="list-group-item" key={index}>
+                                            <a href="#abc" style={{ color: "black" }} onClick={() => this.handleChangeContent(item._id)} className="list-group-item" key={index}>
                                                 {item.name}
                                                 <span className="badge">{15 + index}</span>
                                             </a>)}
@@ -74,7 +74,7 @@ class ModalDetailKPI extends Component {
                                                 </div>
                                                 <div className="col-sm-12">
                                                     <label className="col-sm-2" style={{ fontWeight: "400" }}>Kết quả thực hiện:</label>
-                                                    <label className="col-sm-10" style={{ fontWeight: "400" }}>{item.weight}</label>
+                                                    <label className="col-sm-10" style={{ fontWeight: "400" }}>{item.result}</label>
                                                 </div>
                                             </div>
                                             <div className="body-content-right">
@@ -96,9 +96,9 @@ class ModalDetailKPI extends Component {
                                                         <tr>
                                                             <td>1</td>
                                                             <td>Hoàn thành quy trình kiểm thử</td>
-                                                            <td>Nguyễn Văn Hải</td>
+                                                            <td>Lê Thị Phương</td>
                                                             <td>Phòng đảm bảo chất lượng</td>
-                                                            <td>Các công việc theo mục tiêu đều đặt yêu cầu đầu ra</td>
+                                                            <td>Các công việc theo mục tiêu đều đạt yêu cầu đầu ra</td>
                                                             <td>0</td>
                                                         </tr>
                                                         <tr>
@@ -106,7 +106,7 @@ class ModalDetailKPI extends Component {
                                                             <td>Hoàn thành quy trình kiểm thử</td>
                                                             <td>Nguyễn Văn Hải</td>
                                                             <td>Phòng đảm bảo chất lượng</td>
-                                                            <td>Các công việc theo mục tiêu đều đặt yêu cầu đầu ra</td>
+                                                            <td>Các công việc theo mục tiêu đều đạt yêu cầu đầu ra</td>
                                                             <td>0</td>
                                                         </tr>
                                                         <tr>
@@ -114,7 +114,7 @@ class ModalDetailKPI extends Component {
                                                             <td>Hoàn thành quy trình kiểm thử</td>
                                                             <td>Nguyễn Văn Hải</td>
                                                             <td>Phòng đảm bảo chất lượng</td>
-                                                            <td>Các công việc theo mục tiêu đều đặt yêu cầu đầu ra</td>
+                                                            <td>Các công việc theo mục tiêu đều đạt yêu cầu đầu ra</td>
                                                             <td>0</td>
                                                         </tr>
                                                         <tr>
@@ -122,7 +122,7 @@ class ModalDetailKPI extends Component {
                                                             <td>Hoàn thành quy trình kiểm thử</td>
                                                             <td>Nguyễn Văn Hải</td>
                                                             <td>Phòng đảm bảo chất lượng</td>
-                                                            <td>Các công việc theo mục tiêu đều đặt yêu cầu đầu ra</td>
+                                                            <td>Các công việc theo mục tiêu đều đạt yêu cầu đầu ra</td>
                                                             <td>0</td>
                                                         </tr>
                                                         <tr>
@@ -130,7 +130,7 @@ class ModalDetailKPI extends Component {
                                                             <td>Hoàn thành quy trình kiểm thử</td>
                                                             <td>Nguyễn Văn Hải</td>
                                                             <td>Phòng đảm bảo chất lượng</td>
-                                                            <td>Các công việc theo mục tiêu đều đặt yêu cầu đầu ra</td>
+                                                            <td>Các công việc theo mục tiêu đều đạt yêu cầu đầu ra</td>
                                                             <td>0</td>
                                                         </tr>
                                                         <tr>
@@ -138,7 +138,7 @@ class ModalDetailKPI extends Component {
                                                             <td>Hoàn thành quy trình kiểm thử</td>
                                                             <td>Nguyễn Văn Hải</td>
                                                             <td>Phòng đảm bảo chất lượng</td>
-                                                            <td>Các công việc theo mục tiêu đều đặt yêu cầu đầu ra</td>
+                                                            <td>Các công việc theo mục tiêu đều đạt yêu cầu đầu ra</td>
                                                             <td>0</td>
                                                         </tr>
                                                         <tr>
@@ -146,7 +146,7 @@ class ModalDetailKPI extends Component {
                                                             <td>Hoàn thành quy trình kiểm thử</td>
                                                             <td>Nguyễn Văn Hải</td>
                                                             <td>Phòng đảm bảo chất lượng</td>
-                                                            <td>Các công việc theo mục tiêu đều đặt yêu cầu đầu ra</td>
+                                                            <td>Các công việc theo mục tiêu đều đạt yêu cầu đầu ra</td>
                                                             <td>0</td>
                                                         </tr>
                                                         <tr>
@@ -154,7 +154,7 @@ class ModalDetailKPI extends Component {
                                                             <td>Hoàn thành quy trình kiểm thử</td>
                                                             <td>Nguyễn Văn Hải</td>
                                                             <td>Phòng đảm bảo chất lượng</td>
-                                                            <td>Các công việc theo mục tiêu đều đặt yêu cầu đầu ra</td>
+                                                            <td>Các công việc theo mục tiêu đều đạt yêu cầu đầu ra</td>
                                                             <td>0</td>
                                                         </tr>
                                                         <tr>
@@ -162,7 +162,7 @@ class ModalDetailKPI extends Component {
                                                             <td>Hoàn thành quy trình kiểm thử</td>
                                                             <td>Nguyễn Văn Hải</td>
                                                             <td>Phòng đảm bảo chất lượng</td>
-                                                            <td>Các công việc theo mục tiêu đều đặt yêu cầu đầu ra</td>
+                                                            <td>Các công việc theo mục tiêu đều đạt yêu cầu đầu ra</td>
                                                             <td>0</td>
                                                         </tr>
                                                         <tr>
@@ -170,7 +170,7 @@ class ModalDetailKPI extends Component {
                                                             <td>Hoàn thành quy trình kiểm thử</td>
                                                             <td>Nguyễn Văn Hải</td>
                                                             <td>Phòng đảm bảo chất lượng</td>
-                                                            <td>Các công việc theo mục tiêu đều đặt yêu cầu đầu ra</td>
+                                                            <td>Các công việc theo mục tiêu đều đạt yêu cầu đầu ra</td>
                                                             <td>0</td>
                                                         </tr>
                                                         <tr>
@@ -178,7 +178,7 @@ class ModalDetailKPI extends Component {
                                                             <td>Hoàn thành quy trình kiểm thử</td>
                                                             <td>Nguyễn Văn Hải</td>
                                                             <td>Phòng đảm bảo chất lượng</td>
-                                                            <td>Các công việc theo mục tiêu đều đặt yêu cầu đầu ra</td>
+                                                            <td>Các công việc theo mục tiêu đều đạt yêu cầu đầu ra</td>
                                                             <td>0</td>
                                                         </tr>
                                                         <tr>
@@ -186,7 +186,7 @@ class ModalDetailKPI extends Component {
                                                             <td>Hoàn thành quy trình kiểm thử</td>
                                                             <td>Nguyễn Văn Hải</td>
                                                             <td>Phòng đảm bảo chất lượng</td>
-                                                            <td>Các công việc theo mục tiêu đều đặt yêu cầu đầu ra</td>
+                                                            <td>Các công việc theo mục tiêu đều đạt yêu cầu đầu ra</td>
                                                             <td>0</td>
                                                         </tr>
                                                         <tr>
@@ -194,7 +194,7 @@ class ModalDetailKPI extends Component {
                                                             <td>Hoàn thành quy trình kiểm thử</td>
                                                             <td>Nguyễn Văn Hải</td>
                                                             <td>Phòng đảm bảo chất lượng</td>
-                                                            <td>Các công việc theo mục tiêu đều đặt yêu cầu đầu ra</td>
+                                                            <td>Các công việc theo mục tiêu đều đạt yêu cầu đầu ra</td>
                                                             <td>0</td>
                                                         </tr>
                                                         <tr>
@@ -202,7 +202,7 @@ class ModalDetailKPI extends Component {
                                                             <td>Hoàn thành quy trình kiểm thử</td>
                                                             <td>Nguyễn Văn Hải</td>
                                                             <td>Phòng đảm bảo chất lượng</td>
-                                                            <td>Các công việc theo mục tiêu đều đặt yêu cầu đầu ra</td>
+                                                            <td>Các công việc theo mục tiêu đều đạt yêu cầu đầu ra</td>
                                                             <td>0</td>
                                                         </tr>
                                                     </tbody>
@@ -231,6 +231,7 @@ function mapState(state) {
 
 const actionCreators = {
     getCurrentKPIUnit: kpiUnitActions.getCurrentKPIUnit,
+    getChildTarget: kpiUnitActions.getChildTargetOfCurrentTarget
 };
 const connectedModalDetailKPI = connect(mapState, actionCreators)(ModalDetailKPI);
 export { connectedModalDetailKPI as ModalDetailKPI };

@@ -73,26 +73,30 @@ function getAllUserOfCompany() {
     function failure(error) { return { type: userConstants.GETALLUSER_OFCOMPANY_FAILURE, error } }
 }
 
-function getAllUserOfDepartment() {
+function getAllUserOfDepartment(id) {
     return dispatch => {
-        userService.getAllUserOfDepartment()
+        dispatch(request(id));
+        userService.getAllUserOfDepartment(id)
             .then(
                 users => dispatch(success(users)),
                 error => dispatch(failure(error.toString()))
             );
     };
+    function request(id) { return { type: userConstants.GETALLUSER_OFDEPARTMENT_REQUEST, id } }
     function success(users) { return { type: userConstants.GETALLUSER_OFDEPARTMENT_SUCCESS, users } }
     function failure(error) { return { type: userConstants.GETALLUSER_OFDEPARTMENT_FAILURE, error } }
 }
 
 function getAllUserSameDepartment(currentRole) {
     return dispatch => {
+        dispatch(request(currentRole));
         userService.getAllUserSameDepartment(currentRole)
             .then(
                 users => dispatch(success(users)),
                 error => dispatch(failure(error.toString()))
             );
     };
+    function request(id) { return { type: userConstants.GETALLUSER_SAMEDEPARTMENT_REQUEST, id } }
     function success(users) { return { type: userConstants.GETALLUSER_SAMEDEPARTMENT_SUCCESS, users } }
     function failure(error) { return { type: userConstants.GETALLUSER_SAMEDEPARTMENT_FAILURE, error } }
 }

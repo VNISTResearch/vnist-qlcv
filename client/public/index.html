@@ -44,6 +44,8 @@
   <link rel="stylesheet" href="%PUBLIC_URL%/main/css/fieldset.css">
   <!-- tree grid table data -->
   <link rel="stylesheet" href="%PUBLIC_URL%/main/css/gridtable.css">
+  <!-- css for modal perform task -->
+  <link rel="stylesheet" href="%PUBLIC_URL%/main/css/performtask.css">
   <!-- BEGIN CO CAU TO CHUC-->
   <!-- daterange picker -->
   <link rel="stylesheet" href="%PUBLIC_URL%/adminLTE/bower_components/bootstrap-daterangepicker/daterangepicker.css">
@@ -200,6 +202,11 @@
   <!-- Upload File -->
   <script src="%PUBLIC_URL%/main/js/uploadfile/jquery.filer.min.js" type="text/javascript"></script>
   <!-- <script src="%PUBLIC_URL%/main/js/uploadfile/custom.js" type="text/javascript"></script> -->
+  <script>
+    $(document).ready(function () {
+      $('[data-toggle="tooltip"]').tooltip();
+    });
+  </script>
 </body>
 
 </html>

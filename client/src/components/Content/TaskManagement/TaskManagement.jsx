@@ -8,13 +8,6 @@ class TaskManagement extends Component {
             currentTab: "responsible",
         };
     }
-    componentDidMount() {
-        let script1 = document.createElement('script');
-        script1.src = 'main/js/defindMultiSelect.js';
-        script1.async = true;
-        script1.defer = true;
-        document.body.appendChild(script1);
-    }
     handleChangeTab = async (role) => {
         let script = document.createElement('script');
         script.src = 'main/js/GridTableVers1.js';
@@ -27,11 +20,6 @@ class TaskManagement extends Component {
                 currentTab: role
             }
         })
-        let script1 = document.createElement('script');
-        script1.src = 'main/js/defindMultiSelect.js';
-        script1.async = true;
-        script1.defer = true;
-        document.body.appendChild(script1);
     }
     render() {
         const { currentTab } = this.state

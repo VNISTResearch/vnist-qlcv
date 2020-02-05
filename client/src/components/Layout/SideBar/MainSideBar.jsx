@@ -33,6 +33,10 @@ const menu = [
         name: 'cocautochuc',
         path: '/cocautochuc',
         icon: 'fa fa-th'
+    }, {
+        name: 'reporttask',
+        path: '/task-report',
+        icon: 'fa fa-th'
     }
 ];
 
@@ -98,7 +102,6 @@ class MainSideBar extends Component {
                                         ))
                                     ) : null
                             }
-                            <li className="header">MAIN NAVIGATION</li>
                             {
                                 this.checkURL("/target") &&
                                 <li className="treeview">
@@ -148,9 +151,7 @@ class MainSideBar extends Component {
                                                 {/* <li><a href="/kpi-personal/evaluate">Dữ liệu KPI cá nhân</a></li> */}
                                             </ul>
                                         </li>
-                                        <li><a href="/kpi-member/overview">Quản lý kpi nhân viên</a></li>
-                                        {/* <li><a href="/kpi-member/approve">Đánh giá kpi nhân viên</a></li> */}
-
+                                        {/* <li><a href="/kpi-member/overview">Quản lý kpi nhân viên</a></li> */}
                                     </ul>
                                 </li>
                             }

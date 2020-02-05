@@ -3,6 +3,7 @@ import { kpiUnitService } from "../service/CombineService";
 export const kpiUnitActions = {
     getAllKPIUnit,
     getCurrentKPIUnit,
+    getChildTargetOfCurrentTarget,
     getKPIParent,
     addKPIUnit,
     addTargetKPIUnit,
@@ -46,6 +47,23 @@ function getCurrentKPIUnit(id) {
     function request(id) { return { type: kpiUnitConstants.GETCURRENT_KPIUNIT_REQUEST, id } }
     function success(currentKPI) { return { type: kpiUnitConstants.GETCURRENT_KPIUNIT_SUCCESS, currentKPI } }
     function failure(error) { return { type: kpiUnitConstants.GETCURRENT_KPIUNIT_FAILURE, error } }
+}
+
+// lấy mục tiêu con của mục tiêu hiện tại
+function getChildTargetOfCurrentTarget(id) {
+    return dispatch => {
+        dispatch(request(id));
+
+        kpiUnitService.getChildTargetOfCurrentTarget(id)
+            .then(
+                childtarget => dispatch(success(childtarget)),
+                error => dispatch(failure(error.toString()))
+            );
+    };
+
+    function request(id) { return { type: kpiUnitConstants.GETCHILDTARGET_CURRENTTARGET_REQUEST, id } }
+    function success(childtarget) { return { type: kpiUnitConstants.GETCHILDTARGET_CURRENTTARGET_SUCCESS, childtarget } }
+    function failure(error) { return { type: kpiUnitConstants.GETCHILDTARGET_CURRENTTARGET_FAILURE, error } }
 }
 
 // lấy kpi đơn vị cha

@@ -1,7 +1,8 @@
 import {handleResponse} from '../helpers/HandleResponse';
 export const kpiPersonalService = {
     getAllKPIPersonalOfUnit,
-    getAllKPIPersonal,
+    getAllKPIPersonalByMember,
+    getAllKPIPersonalOfTask,
     getKPIMemberByMonth,
     getCurrentKPIPersonal,
     getKPIPersonalById,
@@ -26,12 +27,20 @@ function getAllKPIPersonalOfUnit(infosearch) {
     return fetch(`/kpipersonals/all-member/${infosearch.role}/${infosearch.user}/${infosearch.status}/${infosearch.starttime}/${infosearch.endtime}`, requestOptions).then(handleResponse);
 }
 // Lấy tất cả kpi cá nhân
-function getAllKPIPersonal(id) {
+function getAllKPIPersonalByMember(member) {
     const requestOptions = {
         method: 'GET',
     };
 
-    return fetch(`/kpipersonals/user/${id}`, requestOptions).then(handleResponse);
+    return fetch(`/kpipersonals/user/${member}`, requestOptions).then(handleResponse);
+}
+// Lấy tất cả kpi cá nhân
+function getAllKPIPersonalOfTask(member) {
+    const requestOptions = {
+        method: 'GET',
+    };
+
+    return fetch(`/kpipersonals/task/${member}`, requestOptions).then(handleResponse);
 }
 // Lấy KPI cá nhân của nhân vien theo id
 function getKPIPersonalById(id) {
@@ -78,13 +87,13 @@ function editKPIPersonal(id, newTarget) {
     return fetch(`/kpipersonals/${id}`, requestOptions).then(handleResponse);
 }
 // chỉnh sửa trạng thái của kpi cá nhân
-function editStatusKPIPersonal(id, status) {
+function editStatusKPIPersonal(id) {
     const requestOptions = {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' }
     };
 
-    return fetch(`/kpipersonals/status/${id}/${status}`, requestOptions).then(handleResponse);
+    return fetch(`/kpipersonals/status/${id}`, requestOptions).then(handleResponse);
 }
 // Phê duyệt kpi cá nhân
 function approveKPIPersonal(id) {
@@ -124,13 +133,13 @@ function editTargetKPIPersonal(id, newTarget) {
     return fetch(`/kpipersonals/target/${id}`, requestOptions).then(handleResponse);
 }
 // chỉnh sửa trạng thái của kpi cá nhân
-function editStatusTarget(id) {
+function editStatusTarget(id, status) {
     const requestOptions = {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' }
     };
 
-    return fetch(`/kpipersonals/status-target/${id}`, requestOptions).then(handleResponse);
+    return fetch(`/kpipersonals/status-target/${id}/${status}`, requestOptions).then(handleResponse);
 }
 // Đánh giá mục tiêu KPI cá nhân
 function evaluateTarget(id, result) {

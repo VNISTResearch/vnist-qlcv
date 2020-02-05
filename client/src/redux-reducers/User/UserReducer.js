@@ -22,18 +22,32 @@ export function user(state = {}, action) {
                 ...state,
                 roledepartments: action.roleDepartment.data
             };
+        case userConstants.GETALLUSER_OFDEPARTMENT_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                userdepartments: null
+            };
         case userConstants.GETALLUSER_OFDEPARTMENT_SUCCESS:
             return {
                 ...state,
-                userdepartments: action.users
+                loading: false,
+                userdepartments: action.users.data
             };
         case userConstants.GETALLUSER_OFDEPARTMENT_FAILURE:
             return {
                 error: action.error
             };
+        case userConstants.GETALLUSER_SAMEDEPARTMENT_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                userdepartments: null
+            };
         case userConstants.GETALLUSER_SAMEDEPARTMENT_SUCCESS:
             return {
                 ...state,
+                loading: false,
                 userdepartments: action.users.data
             };
         case userConstants.GETALLUSER_SAMEDEPARTMENT_FAILURE:

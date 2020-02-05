@@ -47,7 +47,6 @@ class ModalCopyKPIUnit extends Component {
             }
         })
         var { kpiunit } = this.state;
-        console.log(kpiunit);
         if (kpiunit.unit && kpiunit.time && kpiunit.creater) {
             Swal.fire({
                 title: "Hãy nhớ thay đổi liên kết đến mục tiêu cha để được tính KPI mới!",

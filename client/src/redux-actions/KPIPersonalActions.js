@@ -2,7 +2,8 @@ import { kpiPersonalConstants } from "../redux-constants/CombineConstants";
 import { kpiPersonalService } from "../service/CombineService";
 export const kpiPersonalActions = {
     getAllKPIPersonalOfUnit,
-    getAllKPIPersonal,
+    getAllKPIPersonalByMember,
+    getAllKPIPersonalOfResponsible,
     getCurrentKPIPersonal,
     getKPIMemberByMonth,
     getKPIPersonalById,
@@ -35,20 +36,36 @@ function getAllKPIPersonalOfUnit(infosearch) {
     function failure(error) { return { type: kpiPersonalConstants.GETALL_KPIPERSONAL_OfUNIT_FAILURE, error } }
 }
 // Lấy tất cả KPI cá nhân
-function getAllKPIPersonal(id) {
+function getAllKPIPersonalByMember(member) {
     return dispatch => {
-        dispatch(request(id));
+        dispatch(request(member));
 
-        kpiPersonalService.getAllKPIPersonal(id)
+        kpiPersonalService.getAllKPIPersonalByMember(member)
             .then(
                 kpipersonals => dispatch(success(kpipersonals)),
                 error => dispatch(failure(error.toString()))
             );
     };
 
-    function request(id) { return { type: kpiPersonalConstants.GETALL_KPIPERSONAL_REQUEST, id } }
+    function request(member) { return { type: kpiPersonalConstants.GETALL_KPIPERSONAL_REQUEST, member } }
     function success(kpipersonals) { return { type: kpiPersonalConstants.GETALL_KPIPERSONAL_SUCCESS, kpipersonals } }
     function failure(error) { return { type: kpiPersonalConstants.GETALL_KPIPERSONAL_FAILURE, error } }
+}
+// Lấy tất cả KPI cá nhân
+function getAllKPIPersonalOfResponsible(member) {
+    return dispatch => {
+        dispatch(request(member));
+
+        kpiPersonalService.getAllKPIPersonalOfTask(member)
+            .then(
+                kpipersonals => dispatch(success(kpipersonals)),
+                error => dispatch(failure(error.toString()))
+            );
+    };
+
+    function request(member) { return { type: kpiPersonalConstants.GETALL_KPIPERSONAL_OFTASK_REQUEST, member } }
+    function success(kpipersonals) { return { type: kpiPersonalConstants.GETALL_KPIPERSONAL_OFTASK_SUCCESS, kpipersonals } }
+    function failure(error) { return { type: kpiPersonalConstants.GETALL_KPIPERSONAL_OFTASK_FAILURE, error } }
 }
 
 // Lấy KPI cá nhân theo id
@@ -247,11 +264,11 @@ function editTargetKPIPersonal(id, newTarget) {
 }
 
 // Chỉnh sửa trạng thái mục tiêu KPI cá nhân
-function editStatusTarget(id) {
+function editStatusTarget(id, status) {
     return dispatch => {
         dispatch(request(id));
 
-        kpiPersonalService.editStatusTarget(id)
+        kpiPersonalService.editStatusTarget(id, status)
             .then(
                 newTarget => { 
                     dispatch(success(newTarget));
@@ -263,7 +280,7 @@ function editStatusTarget(id) {
     };
 
     function request(id) { return { type: kpiPersonalConstants.EDITSTATUS_TARGET_KPIPERSONAL_REQUEST, id } }
-    function success(newTarget) { return { type: kpiPersonalConstants.EDITSTATUS_TARGET_KPIPERSONAL_SUCCESS, newTarget } }
+    function success(newKPI) { return { type: kpiPersonalConstants.EDITSTATUS_TARGET_KPIPERSONAL_SUCCESS, newKPI } }
     function failure(error) { return { type: kpiPersonalConstants.EDITSTATUS_TARGET_KPIPERSONAL_FAILURE, error } }
 }
 

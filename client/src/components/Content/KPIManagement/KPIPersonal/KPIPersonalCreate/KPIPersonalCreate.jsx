@@ -79,7 +79,7 @@ class KPIPersonalCreate extends Component {
             }).then((res) => {
                 if (res.value) {
                     // Xóa KPI
-                    // this.props.deleteKPIPersonal(id);
+                    this.props.deleteKPIPersonal(id);
                 }
             });
         } else if(status === 1){
@@ -159,7 +159,7 @@ class KPIPersonalCreate extends Component {
         return [month, year].join('-');
     }
     deleteTargetKPIKPIPersonal = (statusTarget, status, id, kpipersonal) => {
-        if (status === 0) {
+        if (statusTarget === 0) {
             Swal.fire({
                 title: "Bạn chắc chắn muốn xóa mục tiêu KPI này?",
                 type: 'success',

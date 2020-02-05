@@ -23,7 +23,7 @@ var upload = multer({
 });
 const PerformTaskController = require("../../controllers/PerformTaskController");
 
-router.get('/log-timer/:task/:user', auth, PerformTaskController.getLogTimer);
+router.get('/log-timer/:task', PerformTaskController.getLogTimer);
 router.get('/log-timer/currentTimer/:task/:user', auth, PerformTaskController.getTimerStatus);
 router.post('/log-timer/start-timer', PerformTaskController.startTimer);
 router.put('/log-timer/pause-timer/:id', PerformTaskController.pauseTimer);
@@ -35,4 +35,9 @@ router.post('/comment-task/create',upload.single('file'), PerformTaskController.
 router.put('/comment-task/:id', PerformTaskController.editCommentTask);
 router.delete('/comment-task/:id', PerformTaskController.deleteCommentTask);
 
+router.post('/add-result/create', PerformTaskController.createResultInfoTask);
+router.post('/information-task-template/create', PerformTaskController.createResultInformationTask);
+router.put('/information-task-template', PerformTaskController.editResultInformationTask);
+router.post('/result-task/create', PerformTaskController.createResultTask);
+router.put('/result-task', PerformTaskController.editResultTask);
 module.exports = router;
